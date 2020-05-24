@@ -6,15 +6,22 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.ConnectivityManagerCompat.*
-import kotlin.math.log
+import com.example.datasaverexampleapp.inDefInterfaces.Constants
+import com.example.datasaverexampleapp.inDefInterfaces.Shape
+import java.math.BigInteger
 
 @RequiresApi(Build.VERSION_CODES.N)
 class MainActivity : AppCompatActivity() {
+
+    // It delay invoking an expression until its value is needed and caches the value to avoid repeated evaluation
+    val lazyValue by lazy(LazyThreadSafetyMode.PUBLICATION) {
+        BigInteger.valueOf(2).modPow(BigInteger.valueOf(7),BigInteger.valueOf(20))
+    }
 
     private var dataSaverBroadcastReceiver:BroadcastReceiver? = null
 
@@ -81,5 +88,21 @@ class MainActivity : AppCompatActivity() {
         // Unregister data saver broadcast receiver
         if (dataSaverBroadcastReceiver != null)
             unregisterReceiver(dataSaverBroadcastReceiver)
+    }
+
+
+    //An alternative for memory efficiency for enumerations.
+    // Since enums consume a lof of resources since it has to it create an object for each enum option.
+    // To make matters worse, the enumeration needs to replicate itself in every process the app is using it.
+    // Such operation cost a lot of memory resource in a multiprocess application.
+
+    fun setShape(@Shape mode: Int) { // Shape interface class
+
+        when(mode){
+            Constants.RECTANGLE -> println("Rectangle")
+            Constants.TRIANGLE -> println("Triangle")
+            Constants.CIRCLE -> println("Circle")
+            Constants.SQUARE -> println("Square")
+        }
     }
 }
