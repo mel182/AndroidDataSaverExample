@@ -8,11 +8,13 @@ import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.ConnectivityManagerCompat.*
 import com.example.datasaverexampleapp.inDefInterfaces.Constants
 import com.example.datasaverexampleapp.inDefInterfaces.Shape
+import kotlinx.android.synthetic.main.activity_main.*
 import java.math.BigInteger
 
 @RequiresApi(Build.VERSION_CODES.N)
@@ -30,6 +32,31 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         checkActiveNetwork()
         registerBackGroundRestrictedChangeBroadcastReceiver()
+
+
+        private_mode_button.setOnClickListener {
+
+            val filename = "private_mode_file"
+            val name = "Private mode file"
+
+            val fileOutputStream = openFileOutput(filename, Context.MODE_PRIVATE)
+            fileOutputStream.write(name.toByteArray())
+            fileOutputStream.close()
+
+            Toast.makeText(this,"File saved in private mode",Toast.LENGTH_SHORT).show()
+        }
+
+        append_mode_button.setOnClickListener {
+
+            val filename = "append_mode_file"
+            val name = "Append mode file"
+
+            val fileOutputStream = openFileOutput(filename, Context.MODE_APPEND)
+            fileOutputStream.write(name.toByteArray())
+            fileOutputStream.close()
+
+            Toast.makeText(this,"File saved in append mode",Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun registerBackGroundRestrictedChangeBroadcastReceiver()
