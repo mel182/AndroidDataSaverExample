@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
 
         battery_state_button.setOnClickListener {
 
-            Battery.registerBatteryStatus(this)
+//            Battery.registerBatteryStatus(this)
         }
     }
 
