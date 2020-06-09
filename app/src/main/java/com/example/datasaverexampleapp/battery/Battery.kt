@@ -24,6 +24,7 @@ object Battery {
 
             if (isCharging)
             {
+                // In case the device is charging you should maximize all the operations to be performed
                 if (isUSBCharging)
                 {
                     Toast.makeText(context,"Charging, battery level $level%, usb charging", Toast.LENGTH_SHORT).show()
