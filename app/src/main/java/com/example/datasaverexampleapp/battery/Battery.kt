@@ -1,5 +1,7 @@
 package com.example.datasaverexampleapp.battery
 
+import android.R.attr.x
+import android.R.attr.y
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -7,13 +9,17 @@ import android.content.IntentFilter
 import android.os.BatteryManager
 import android.widget.Toast
 
+
 object Battery {
 
     private lateinit var context: Context
 
     private val mBatInfoReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(ctxt: Context, intent: Intent) {
-            val level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0)
+            val level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1)
+            val scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1)
+
+            val percentage = ((level.toFloat() / scale.toFloat()) * 100).toInt()
 
             val status = intent.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
             val isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING || status == BatteryManager.BATTERY_STATUS_FULL
@@ -27,14 +33,14 @@ object Battery {
                 // In case the device is charging you should maximize all the operations to be performed
                 if (isUSBCharging)
                 {
-                    Toast.makeText(context,"Charging, battery level $level%, usb charging", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context,"Charging, battery level $percentage%, usb charging", Toast.LENGTH_SHORT).show()
                 } else if (isACCharging){
-                    Toast.makeText(context,"Charging, battery level $level%, ac charging", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context,"Charging, battery level $percentage%, ac charging", Toast.LENGTH_SHORT).show()
                 }
 
             } else
             {
-                Toast.makeText(context,"Not charging, battery level $level%", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,"Not charging, battery level $percentage%", Toast.LENGTH_SHORT).show()
             }
         }
     }
