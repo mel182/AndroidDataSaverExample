@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
+import android.os.BatteryManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -12,10 +13,12 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.ConnectivityManagerCompat.*
+import com.example.datasaverexampleapp.battery.Battery
 import com.example.datasaverexampleapp.inDefInterfaces.Constants
 import com.example.datasaverexampleapp.inDefInterfaces.Shape
 import kotlinx.android.synthetic.main.activity_main.*
 import java.math.BigInteger
+
 
 @RequiresApi(Build.VERSION_CODES.N)
 class MainActivity : AppCompatActivity() {
@@ -56,6 +59,11 @@ class MainActivity : AppCompatActivity() {
             fileOutputStream.close()
 
             Toast.makeText(this,"File saved in append mode",Toast.LENGTH_SHORT).show()
+        }
+
+        battery_state_button.setOnClickListener {
+
+            Battery.registerBatteryStatus(this)
         }
     }
 
