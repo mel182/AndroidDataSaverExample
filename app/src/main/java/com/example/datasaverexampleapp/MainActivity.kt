@@ -111,11 +111,27 @@ class MainActivity : AppCompatActivity() {
                 val isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting
 
                 activeNetwork?.let {
-                    val isWifi = it.type == ConnectivityManager.TYPE_WIFI
 
-                    if (isWifi && isConnected)
+                    if (isConnected)
                     {
-                        wifi_info_txt.text = "Wifi connected!"
+                        val wifi = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
+                        val mobile = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)
+
+
+                        if (wifi.isAvailable)
+                        {
+                            wifi_info_txt.text = "Wifi connected!"
+                        } else if (mobile.isAvailable)
+                        {
+                            wifi_info_txt.text = "Mobile connected!"
+                        }
+
+                        if (wifi.isAvailable || mobile.isAvailable)
+                        {
+                            // Perform task
+                        }
+                    } else {
+                        wifi_info_txt.text = "Not Connected!"
                     }
                 }
             }
