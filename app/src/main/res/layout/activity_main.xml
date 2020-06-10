@@ -30,7 +30,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/append_mode_button"/>
 
+    <Button
+        android:id="@+id/wifi_check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Wifi check"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/battery_state_button"/>
+
     <TextView
+        android:id="@+id/wifi_info_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hello World!"

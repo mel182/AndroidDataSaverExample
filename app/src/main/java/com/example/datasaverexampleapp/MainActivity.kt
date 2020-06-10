@@ -5,6 +5,10 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkCapabilities
+import android.net.NetworkInfo
+import android.net.wifi.WifiManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -62,6 +66,59 @@ class MainActivity : AppCompatActivity() {
 
         battery_state_button.setOnClickListener {
             Battery.registerBatteryStatus(this)
+        }
+
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+
+
+        wifi_check.setOnClickListener {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            {
+                val networkCapabilities = connectivityManager.activeNetwork
+                val activeNetwork = connectivityManager.getNetworkCapabilities(networkCapabilities)
+
+                activeNetwork?.let { networkCapability ->
+
+                    when
+                    {
+                        networkCapability.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> {
+
+                            val wifiInfo = wifiManager.connectionInfo
+                            val speedMbps = wifiInfo.linkSpeed
+
+                            wifi_info_txt.text = "Wifi connected\nSpeed info (Mbps): $speedMbps"
+
+                        }
+
+                        networkCapability.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> {
+                            wifi_info_txt.text = "Cellular transport connected!"
+                        }
+
+                        networkCapability.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> {
+                            wifi_info_txt.text = "Transport ethernet connected!"
+                        }
+
+                        networkCapability.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH) -> {
+                            wifi_info_txt.text = "Transport bluetooth connected!"
+                        }
+                    }
+                }
+
+            } else {
+                val activeNetwork = connectivityManager.activeNetworkInfo
+                val isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting
+
+                activeNetwork?.let {
+                    val isWifi = it.type == ConnectivityManager.TYPE_WIFI
+
+                    if (isWifi && isConnected)
+                    {
+                        wifi_info_txt.text = "Wifi connected!"
+                    }
+                }
+            }
         }
     }
 
