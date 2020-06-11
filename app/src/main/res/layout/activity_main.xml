@@ -38,6 +38,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/battery_state_button"/>
 
+    <Switch
+        android:id="@+id/broadcast_toggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Broadcast enabled"
+        tools:layout_editor_absoluteX="24dp"
+        tools:layout_editor_absoluteY="287dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/wifi_check"/>
+
+
     <TextView
         android:id="@+id/wifi_info_txt"
         android:layout_width="wrap_content"
@@ -47,5 +58,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

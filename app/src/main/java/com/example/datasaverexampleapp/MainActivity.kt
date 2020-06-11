@@ -1,9 +1,7 @@
 package com.example.datasaverexampleapp
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
+import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
@@ -17,6 +15,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.ConnectivityManagerCompat.*
 import com.example.datasaverexampleapp.battery.Battery
+import com.example.datasaverexampleapp.battery.PowerConnectionReceiver
 import com.example.datasaverexampleapp.inDefInterfaces.Constants
 import com.example.datasaverexampleapp.inDefInterfaces.Shape
 import kotlinx.android.synthetic.main.activity_main.*
@@ -136,6 +135,31 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
+        val receiver = ComponentName(applicationContext, PowerConnectionReceiver::class.java)
+
+        val packageManager = packageManager
+
+        // Does not work with devices with Android N and above since the broadcast need to be registered in the manifest
+        broadcast_toggle.setOnClickListener {
+
+            if (it.isActivated)
+            {
+                packageManager.setComponentEnabledSetting(receiver,
+                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                    PackageManager.DONT_KILL_APP)
+
+                broadcast_toggle.text = "Broadcast disabled"
+
+            } else {
+                packageManager.setComponentEnabledSetting(receiver,
+                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                    PackageManager.DONT_KILL_APP)
+
+                broadcast_toggle.text = "Broadcast enabled"
+            }
+        }
+
     }
 
     private fun registerBackGroundRestrictedChangeBroadcastReceiver()
