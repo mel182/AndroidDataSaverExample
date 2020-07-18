@@ -18,6 +18,9 @@ import com.example.datasaverexampleapp.battery.Battery
 import com.example.datasaverexampleapp.battery.PowerConnectionReceiver
 import com.example.datasaverexampleapp.inDefInterfaces.Constants
 import com.example.datasaverexampleapp.inDefInterfaces.Shape
+import com.example.datasaverexampleapp.type_alias.Layout
+import com.example.datasaverexampleapp.type_alias.Triple
+import com.example.datasaverexampleapp.type_alias.User
 import kotlinx.android.synthetic.main.activity_main.*
 import java.math.BigInteger
 
@@ -34,7 +37,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(Layout.activity_main)
         checkActiveNetwork()
         registerBackGroundRestrictedChangeBroadcastReceiver()
 
@@ -160,7 +163,16 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        Log.i("TAG","Type alias example ${fetchUser()}")
+
     }
+
+
+    // Type alias example
+    private fun fetchUser(): User{
+        return Triple("Firstname","Lastname",32)
+    }
+    // Type alias example
 
     private fun registerBackGroundRestrictedChangeBroadcastReceiver()
     {
