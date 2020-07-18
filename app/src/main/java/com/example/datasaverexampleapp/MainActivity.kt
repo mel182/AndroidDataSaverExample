@@ -25,7 +25,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import java.math.BigInteger
 
 
-@RequiresApi(Build.VERSION_CODES.N)
+
 class MainActivity : AppCompatActivity() {
 
     // It delay invoking an expression until its value is needed and caches the value to avoid repeated evaluation
@@ -165,6 +165,11 @@ class MainActivity : AppCompatActivity() {
 
         Log.i("TAG","Type alias example ${fetchUser()}")
 
+        scroll_view_test.setOnClickListener {
+            val scrollViewTestIntent = Intent(this, ScrollViewActivity::class.java)
+            startActivity(scrollViewTestIntent)
+        }
+
     }
 
 
@@ -195,12 +200,14 @@ class MainActivity : AppCompatActivity() {
         // Check if the active network is metered and determine the restrictions on this app by the user.
         val connectionManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
-        val status = connectionManager.restrictBackgroundStatus
-
-        Log.i("TAG","Get restricted background status: $status")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+        {
+            val status = connectionManager.restrictBackgroundStatus
+            Log.i("TAG","Get restricted background status: $status")
+        }
 
         //Check if the active network is metered one
-        if (connectionManager.isActiveNetworkMetered)
+        if (connectionManager.isActiveNetworkMetered && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
         {
             Log.i("TAG","Active network is metered")
             // Checks user's Data saver preference
@@ -218,6 +225,7 @@ class MainActivity : AppCompatActivity() {
                     Log.i("TAG","Restricted background status disabled")
                 }
             }
+
         } else {
             // Active network is not metered so any network request can be done
             Log.i("TAG","The active network is not metered")
