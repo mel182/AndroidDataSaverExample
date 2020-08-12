@@ -1,11 +1,11 @@
 package com.example.datasaverexampleapp
 
+import android.app.ActivityManager
+import android.app.ActivityManager.RunningAppProcessInfo
 import android.content.*
 import android.content.pm.PackageManager
 import android.net.ConnectivityManager
-import android.net.Network
 import android.net.NetworkCapabilities
-import android.net.NetworkInfo
 import android.net.wifi.WifiManager
 import android.os.Build
 import android.os.Bundle
@@ -162,6 +162,18 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        val myProcess = RunningAppProcessInfo()
+        ActivityManager.getMyMemoryState(myProcess)
+
+        Log.i("TAG","last trim level: ${myProcess.lastTrimLevel}") // To get time level
+        Log.i("TAG","Process importance: ${myProcess.importance}")
+
+        // For API level support for 14 and lower, use the 'onLowMemory' handler as a fallback that's roughly equivalent to the TRIM_MEMORY_COMPLETE level.
+    }
+
     private fun registerBackGroundRestrictedChangeBroadcastReceiver()
     {
         // Broadcast receiver for detecting background Data Saver restrictions change
@@ -233,6 +245,40 @@ class MainActivity : AppCompatActivity() {
             Constants.TRIANGLE -> println("Triangle")
             Constants.CIRCLE -> println("Circle")
             Constants.SQUARE -> println("Square")
+        }
+    }
+
+    override fun onTrimMemory(level: Int) {
+        super.onTrimMemory(level)
+
+        // Application is a candidate for termination
+        if (level >= ComponentCallbacks2.TRIM_MEMORY_COMPLETE)
+        {
+            // Release all possible resource to avoid immediate termination
+        } else if (level >= ComponentCallbacks2.TRIM_MEMORY_MODERATE)
+        {
+            // Releasing resources now will and make your app less likely
+            // to be terminated
+        } else if (level >= ComponentCallbacks2.TRIM_MEMORY_BACKGROUND)
+        {
+            // Release resources that are easy to recover
+            // Application is no longer visible
+        } else if (level >= ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN)
+        {
+            // Your application no longer has any visible UI. Free any resources
+            // associated with maintaining your UI.
+            // Application is running and not a candidate for termination
+        } else if (level >= ComponentCallbacks2.TRIM_MEMORY_RUNNING_CRITICAL)
+        {
+            // The system will now begin killing background processes
+            // Release non-critical resources now to prevent performance degradation
+            // and reduce the chance of other apps being terminated
+        } else if (level >= ComponentCallbacks2.TRIM_MEMORY_MODERATE)
+        {
+            // Release resources here to alleviate system memory pressure and improve overall system performance
+        } else if (level >= ComponentCallbacks2.TRIM_MEMORY_RUNNING_LOW)
+        {
+            // The system is beginning to feel memory pressure.
         }
     }
 }
