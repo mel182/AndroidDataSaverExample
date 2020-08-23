@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">DataSaverExampleApp</string>
+    <string name="html_bold_styling"><![CDATA[Html <b>bold</b> styling]]></string>
+    <string name="html_bold_styling_format"><![CDATA[Html &lt;b>bold&lt;/b>. styling]]> %1$s</string>
+
+    <plurals name="item_count">
+        <item quantity="one">%d item</item>
+        <item quantity="other">%d items</item>
+    </plurals>
 </resources>

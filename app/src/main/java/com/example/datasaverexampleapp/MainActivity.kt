@@ -18,6 +18,7 @@ import com.example.datasaverexampleapp.battery.Battery
 import com.example.datasaverexampleapp.battery.PowerConnectionReceiver
 import com.example.datasaverexampleapp.inDefInterfaces.Constants
 import com.example.datasaverexampleapp.inDefInterfaces.Shape
+import com.example.datasaverexampleapp.resourceTest.ResourceActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import java.math.BigInteger
 
@@ -158,6 +159,11 @@ class MainActivity : AppCompatActivity() {
 
                 broadcast_toggle.text = "Broadcast enabled"
             }
+        }
+
+        resource_test?.setOnClickListener {
+            val resourceTestActivityIntent = Intent(this,ResourceActivity::class.java)
+            startActivity(resourceTestActivityIntent)
         }
 
     }
