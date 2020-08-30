@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.ConnectivityManagerCompat.*
 import com.example.datasaverexampleapp.battery.Battery
 import com.example.datasaverexampleapp.battery.PowerConnectionReceiver
+import com.example.datasaverexampleapp.earth_quake_example.EarthQuakeActivity
 import com.example.datasaverexampleapp.inDefInterfaces.Constants
 import com.example.datasaverexampleapp.inDefInterfaces.Shape
 import com.example.datasaverexampleapp.resourceTest.ResourceActivity
@@ -159,6 +160,11 @@ class MainActivity : AppCompatActivity() {
 
                 broadcast_toggle.text = "Broadcast enabled"
             }
+        }
+
+        earth_quake.setOnClickListener {
+            val intent = Intent(this,EarthQuakeActivity::class.java)
+            startActivity(intent)
         }
 
         resource_test?.setOnClickListener {

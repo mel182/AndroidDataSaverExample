@@ -15,6 +15,8 @@
         android:theme="@style/AppTheme">
         <activity android:name=".resourceTest.ResourceActivity"></activity>
         <activity android:name=".ScrollViewActivity" />
+        <activity android:name=".earth_quake_example.EarthQuakeActivity"></activity>
+        <activity android:name=".ScrollViewActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
