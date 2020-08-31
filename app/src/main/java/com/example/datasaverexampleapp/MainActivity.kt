@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.ConnectivityManagerCompat.*
+import com.example.datasaverexampleapp.animation.AnimationExampleActivity
 import com.example.datasaverexampleapp.battery.Battery
 import com.example.datasaverexampleapp.battery.PowerConnectionReceiver
 import com.example.datasaverexampleapp.earth_quake_example.EarthQuakeActivity
@@ -170,6 +171,11 @@ class MainActivity : AppCompatActivity() {
         resource_test?.setOnClickListener {
             val resourceTestActivityIntent = Intent(this,ResourceActivity::class.java)
             startActivity(resourceTestActivityIntent)
+        }
+
+        animation_test?.setOnClickListener {
+            val intent = Intent(this, AnimationExampleActivity::class.java)
+            startActivity(intent)
         }
 
     }

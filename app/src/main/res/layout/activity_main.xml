@@ -57,6 +57,14 @@
         app:layout_constraintTop_toBottomOf="@+id/broadcast_toggle"/>
 
     <Button
+        android:id="@+id/earth_quake"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Earth quack test"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/broadcast_toggle"/>
+
+    <Button
         android:id="@+id/resource_test"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -64,14 +72,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scroll_view_test"/>
 
-
     <Button
-        android:id="@+id/earth_quake"
+        android:id="@+id/animation_test"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Earth quack test"
+        android:text="Animation test"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/broadcast_toggle"/>
+        app:layout_constraintTop_toBottomOf="@+id/resource_test"/>
 
     <com.example.datasaverexampleapp.customTextview.FontTextView
         android:id="@+id/wifi_info_txt"

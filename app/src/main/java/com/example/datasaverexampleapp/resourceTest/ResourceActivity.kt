@@ -50,6 +50,6 @@ class ResourceActivity : AppCompatActivity() {
     private fun pluralTextInitializeState()
     {
         plural_switch?.setTextColor(Color.GRAY)
-        plural_result?.text = resources.getQuantityString(R.plurals.item_count, 1, 1)
+        plural_result?.text = resources.getQuantityString(R.plurals.item_count, 2, 2)
     }
 }
