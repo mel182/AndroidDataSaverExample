@@ -7,8 +7,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AnimationUtils
+import android.widget.Toast
 import com.example.datasaverexampleapp.R
 import kotlinx.android.synthetic.main.activity_animation_example.*
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
 class AnimationExampleActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,5 +37,19 @@ class AnimationExampleActivity : AppCompatActivity() {
             val animationDrawable = background as AnimationDrawable
             animationDrawable.start()
         }
+
+
+        GlobalScope.launch {
+
+           val job: Job = launch(Dispatchers.IO){
+
+                launch(Dispatchers.Main){
+
+                    Toast.makeText(this@AnimationExampleActivity, "dispatcher main", Toast.LENGTH_SHORT).show()
+                    delay(100)
+                }
+           }
+        }
+
     }
 }
