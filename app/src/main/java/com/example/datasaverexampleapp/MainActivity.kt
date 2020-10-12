@@ -17,6 +17,7 @@ import androidx.core.net.ConnectivityManagerCompat.*
 import com.example.datasaverexampleapp.animation.AnimationExampleActivity
 import com.example.datasaverexampleapp.battery.Battery
 import com.example.datasaverexampleapp.battery.PowerConnectionReceiver
+import com.example.datasaverexampleapp.data_binding.DataBindingTestActivity
 import com.example.datasaverexampleapp.earth_quake_example.EarthQuakeActivity
 import com.example.datasaverexampleapp.inDefInterfaces.Constants
 import com.example.datasaverexampleapp.inDefInterfaces.Shape
@@ -176,6 +177,11 @@ class MainActivity : AppCompatActivity() {
 
         animation_test?.setOnClickListener {
             val intent = Intent(this, AnimationExampleActivity::class.java)
+            startActivity(intent)
+        }
+
+        data_binding_test?.setOnClickListener {
+            val intent = Intent(this, DataBindingTestActivity::class.java)
             startActivity(intent)
         }
 

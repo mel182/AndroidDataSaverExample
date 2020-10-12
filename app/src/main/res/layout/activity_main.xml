@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -79,6 +80,14 @@
         android:text="Animation test"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/resource_test"/>
+
+    <Button
+        android:id="@+id/data_binding_test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Data binding test"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/animation_test"/>
 
     <com.example.datasaverexampleapp.customTextview.FontTextView
         android:id="@+id/wifi_info_txt"
