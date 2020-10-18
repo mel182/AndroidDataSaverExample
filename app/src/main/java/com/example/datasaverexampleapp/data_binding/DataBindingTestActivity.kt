@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.datasaverexampleapp.R
 import com.example.datasaverexampleapp.databinding.ActivityDataBindingTestBinding
+import kotlinx.android.synthetic.main.activity_data_binding_test.*
 
 class DataBindingTestActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,6 +26,11 @@ class DataBindingTestActivity : AppCompatActivity() {
         mainViewModel.editTextContent.observe(this, Observer {
             Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
         })
+
+        data_binding_activity_main_view?.setOnClickListener {
+            Toast.makeText(this, "View clicked!", Toast.LENGTH_SHORT).show()
+        }
+
 
     }
 }
