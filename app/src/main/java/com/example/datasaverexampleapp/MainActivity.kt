@@ -18,6 +18,7 @@ import com.example.datasaverexampleapp.animation.AnimationExampleActivity
 import com.example.datasaverexampleapp.battery.Battery
 import com.example.datasaverexampleapp.battery.PowerConnectionReceiver
 import com.example.datasaverexampleapp.data_binding.DataBindingTestActivity
+import com.example.datasaverexampleapp.data_binding.earthQuakeExample.EarthQuakeDataBindingExampleActivity
 import com.example.datasaverexampleapp.earth_quake_example.EarthQuakeActivity
 import com.example.datasaverexampleapp.inDefInterfaces.Constants
 import com.example.datasaverexampleapp.inDefInterfaces.Shape
@@ -182,6 +183,11 @@ class MainActivity : AppCompatActivity() {
 
         data_binding_test?.setOnClickListener {
             val intent = Intent(this, DataBindingTestActivity::class.java)
+            startActivity(intent)
+        }
+
+        data_binding_list_example?.setOnClickListener {
+            val intent = Intent(this, EarthQuakeDataBindingExampleActivity::class.java)
             startActivity(intent)
         }
 

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="earthQuake"
+            type="com.example.datasaverexampleapp.earth_quake_example.model.Earthquake" />
+    </data>
+
+    <TextView
+        android:id="@+id/list_item_earthquake_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_margin"
+        android:text="@{earthQuake.details}"
+        android:textAppearance="?attr/textAppearanceListItem"/>
+
+</layout>

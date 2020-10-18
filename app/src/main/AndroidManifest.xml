@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".data_binding.DataBindingTestActivity"></activity>
+        <activity android:name=".data_binding.earthQuakeExample.EarthQuakeDataBindingExampleActivity"></activity>
+        <activity android:name=".data_binding.DataBindingTestActivity" />
         <activity android:name=".animation.AnimationExampleActivity" />
         <activity android:name=".resourceTest.ResourceActivity" />
         <activity android:name=".ScrollViewActivity" />

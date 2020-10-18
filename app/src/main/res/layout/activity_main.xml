@@ -89,6 +89,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/animation_test"/>
 
+    <Button
+        android:id="@+id/data_binding_list_example"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Data binding list example"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/data_binding_test"/>
+
     <com.example.datasaverexampleapp.customTextview.FontTextView
         android:id="@+id/wifi_info_txt"
         android:layout_width="wrap_content"
