@@ -17,6 +17,7 @@ import androidx.core.net.ConnectivityManagerCompat.*
 import com.example.datasaverexampleapp.animation.AnimationExampleActivity
 import com.example.datasaverexampleapp.battery.Battery
 import com.example.datasaverexampleapp.battery.PowerConnectionReceiver
+import com.example.datasaverexampleapp.custom_view.CustomViewActivity
 import com.example.datasaverexampleapp.data_binding.DataBindingTestActivity
 import com.example.datasaverexampleapp.data_binding.earthQuakeExample.EarthQuakeDataBindingExampleActivity
 import com.example.datasaverexampleapp.earth_quake_example.EarthQuakeActivity
@@ -188,6 +189,11 @@ class MainActivity : AppCompatActivity() {
 
         data_binding_list_example?.setOnClickListener {
             val intent = Intent(this, EarthQuakeDataBindingExampleActivity::class.java)
+            startActivity(intent)
+        }
+
+        custom_view_example?.setOnClickListener {
+            val intent = Intent(this, CustomViewActivity::class.java)
             startActivity(intent)
         }
 

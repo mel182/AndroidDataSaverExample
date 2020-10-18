@@ -7,106 +7,98 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/append_mode_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="storage append mode"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/private_mode_button" />
-
-    <Button
-        android:id="@+id/private_mode_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="storage private mode"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/battery_state_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Battery state"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/append_mode_button"/>
-
-    <Button
-        android:id="@+id/wifi_check"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Wifi check"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/battery_state_button"/>
-
-    <Switch
-        android:id="@+id/broadcast_toggle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Broadcast enabled"
-        tools:layout_editor_absoluteX="24dp"
-        tools:layout_editor_absoluteY="287dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/wifi_check"/>
-
-    <Button
-        android:id="@+id/scroll_view_test"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Scroll view test"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/broadcast_toggle"/>
-
-    <Button
-        android:id="@+id/earth_quake"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Earth quack test"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/broadcast_toggle"/>
-
-    <Button
-        android:id="@+id/resource_test"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Resource test"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scroll_view_test"/>
-
-    <Button
-        android:id="@+id/animation_test"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Animation test"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/resource_test"/>
-
-    <Button
-        android:id="@+id/data_binding_test"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Data binding test"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/animation_test"/>
-
-    <Button
-        android:id="@+id/data_binding_list_example"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Data binding list example"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/data_binding_test"/>
-
-    <com.example.datasaverexampleapp.customTextview.FontTextView
-        android:id="@+id/wifi_info_txt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/custom_view_example"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Custom view" />
+
+            <Button
+                android:id="@+id/resource_test"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Resource test" />
+
+            <Button
+                android:id="@+id/earth_quake"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Earth quack test" />
+
+            <Button
+                android:id="@+id/data_binding_test"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Data binding test" />
+
+            <Button
+                android:id="@+id/data_binding_list_example"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Data binding list example" />
+
+            <Button
+                android:id="@+id/private_mode_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="storage private mode" />
+
+            <Switch
+                android:id="@+id/broadcast_toggle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Broadcast enabled" />
+
+            <Button
+                android:id="@+id/animation_test"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Animation test" />
+
+            <com.example.datasaverexampleapp.customTextview.FontTextView
+                android:id="@+id/wifi_info_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hello World!" />
+
+            <Button
+                android:id="@+id/append_mode_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="storage append mode" />
+
+            <Button
+                android:id="@+id/wifi_check"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Wifi check" />
+
+            <Button
+                android:id="@+id/battery_state_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Battery state" />
+
+            <Button
+                android:id="@+id/scroll_view_test"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Scroll view test" />
+        </LinearLayout>
+    </ScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

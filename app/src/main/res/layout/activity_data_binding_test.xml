@@ -12,9 +12,9 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/data_binding_activity_main_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/data_binding_activity_main_view"
         tools:context=".data_binding.DataBindingTestActivity">
 
         <TextView
@@ -45,6 +45,7 @@
             android:layout_marginRight="150dp"
             android:onClick="@{ () -> viewmodel.onChangeRandomFruitClick()}"
             android:text="Change Fruit"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/main_title" />
@@ -91,11 +92,11 @@
             android:layout_marginRight="34dp"
             android:gravity="center"
             android:text="@{viewmodel.displayedEditTextContent}"
-            tools:text="Content of EditText"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button2" />
+            app:layout_constraintTop_toBottomOf="@+id/button2"
+            tools:text="Content of EditText" />
 
         <Button
             android:id="@+id/button3"
@@ -106,8 +107,8 @@
             android:layout_marginTop="34dp"
             android:layout_marginEnd="34dp"
             android:layout_marginRight="34dp"
-            android:text="Select random fruit for EditText"
             android:onClick="@{ () -> viewmodel.onSelectRandomEditTextFruit()}"
+            android:text="Select random fruit for EditText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView8" />
