@@ -13,4 +13,8 @@
         android:layout_height="wrap_content"
         app:price="1999.99"/>
 
+    <com.example.datasaverexampleapp.custom_view.CustomCompoundControl
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
 </LinearLayout>

@@ -11,7 +11,13 @@ import java.text.NumberFormat
 class CustomTextView : AppCompatTextView
 {
     var price:Float? = null
-        private set
+        private set(value) {
+
+            text = value?.let {
+                "${it}"
+            }?:""
+            field = value
+        }
 
     constructor(context: Context) : this(context,null)
 
