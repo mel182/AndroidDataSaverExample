@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.datasaverexampleapp.handlers.entity.PermissionEntity
 import com.example.datasaverexampleapp.handlers.entity.PhoneCallPermission
+import com.example.datasaverexampleapp.handlers.entity.ReadContactPermission
 import com.example.datasaverexampleapp.handlers.extensions.isPermissionGranted
 import com.example.datasaverexampleapp.handlers.interfaces.RequestPermissionCallback
 import com.example.datasaverexampleapp.handlers.permissions.Permission
@@ -23,6 +24,10 @@ class PermissionRequestHandler(private val activity:Activity)
         {
             Permission.CALL_PHONE -> {
                 requestPermission(PhoneCallPermission())
+            }
+
+            Permission.READ_CONTACT -> {
+                requestPermission(ReadContactPermission())
             }
         }
     }
