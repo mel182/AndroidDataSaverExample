@@ -18,14 +18,15 @@ import com.example.datasaverexampleapp.animation.AnimationExampleActivity
 import com.example.datasaverexampleapp.battery.Battery
 import com.example.datasaverexampleapp.battery.PowerConnectionReceiver
 import com.example.datasaverexampleapp.custom_view.CustomViewActivity
+import com.example.datasaverexampleapp.custom_view.CustomViewExampleActivity
 import com.example.datasaverexampleapp.data_binding.DataBindingTestActivity
 import com.example.datasaverexampleapp.data_binding.earthQuakeExample.EarthQuakeDataBindingExampleActivity
 import com.example.datasaverexampleapp.earth_quake_example.EarthQuakeActivity
 import com.example.datasaverexampleapp.inDefInterfaces.Constants
 import com.example.datasaverexampleapp.inDefInterfaces.Shape
+import com.example.datasaverexampleapp.intent_example.IntentActivity
 import com.example.datasaverexampleapp.resourceTest.ResourceActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import java.lang.Exception
 import java.math.BigInteger
 
 
@@ -192,8 +193,18 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        custom_view_example?.setOnClickListener {
+        compound_view_control_example?.setOnClickListener {
             val intent = Intent(this, CustomViewActivity::class.java)
+            startActivity(intent)
+        }
+
+        custom_view_example?.setOnClickListener {
+            val intent = Intent(this, CustomViewExampleActivity::class.java)
+            startActivity(intent)
+        }
+
+        intent_test?.setOnClickListener {
+            val intent = Intent(this, IntentActivity::class.java)
             startActivity(intent)
         }
 

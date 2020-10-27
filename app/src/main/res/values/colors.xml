@@ -3,4 +3,7 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+    <color name="compass_background">#F555</color>
+    <color name="compass_marker_color">#AFFF</color>
+    <color name="compass_text_color">#AFFF</color>
 </resources>

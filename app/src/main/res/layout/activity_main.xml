@@ -27,6 +27,12 @@
                 android:text="Custom view" />
 
             <Button
+                android:id="@+id/compound_view_control_example"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Compound control view" />
+
+            <Button
                 android:id="@+id/resource_test"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -97,6 +103,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Scroll view test" />
+
+            <Button
+                android:id="@+id/intent_test"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Intent test" />
         </LinearLayout>
     </ScrollView>
 

@@ -5,4 +5,8 @@
         <attr name="price" format="reference|float"/>
     </declare-styleable>
 
+    <declare-styleable name="CompassCustomView">
+        <attr name="bearing" format="reference|float"/>
+    </declare-styleable>
+
 </resources>
