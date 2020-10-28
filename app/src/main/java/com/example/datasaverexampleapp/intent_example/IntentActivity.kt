@@ -3,14 +3,14 @@ package com.example.datasaverexampleapp.intent_example
 import android.content.ContentUris
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.widget.Toast
 import com.example.datasaverexampleapp.R
-import com.example.datasaverexampleapp.handlers.PermissionRequestHandler
-import com.example.datasaverexampleapp.handlers.interfaces.RequestPermissionCallback
-import com.example.datasaverexampleapp.handlers.permissions.Permission
+import com.example.datasaverexampleapp.handlers.activity_result_handler.constant.ActivityIntent
+import com.example.datasaverexampleapp.handlers.activity_result_handler.interfaces.OnActivityResultCallback
+import com.example.datasaverexampleapp.handlers.permission.interfaces.RequestPermissionCallback
+import com.example.datasaverexampleapp.handlers.permission.permissions.Permission
 import kotlinx.android.synthetic.main.activity_intent.*
 
 class IntentActivity : IntentBaseActivity() {
@@ -101,8 +101,45 @@ class IntentActivity : IntentBaseActivity() {
                     Toast.makeText(this@IntentActivity, "Read contact permission denied", Toast.LENGTH_SHORT).show()
                 }
             })
+        }
 
+        pick_contact_button?.setOnClickListener {
 
+            activityForResult(ActivityIntent.PICK_CONTACT, object : OnActivityResultCallback {
+
+                override fun onActivityResult(resultCode: Int, data: Intent?) {
+
+                    if (resultCode == RESULT_OK) {
+                        // Get the URI and query the content provider for the phone number
+                        val contactUri = data?.data
+                        val projection = arrayOf(ContactsContract.CommonDataKinds.Phone.NUMBER)
+
+                        contactUri?.let { contact_uri ->
+                            val cursor = applicationContext.contentResolver.query(
+                                contact_uri,
+                                projection,
+                                null,
+                                null,
+                                null
+                            )
+
+                            // If the cursor returned is valid, get the phone number
+                            cursor?.let { contactCursor ->
+
+                                if (contactCursor.moveToFirst()) {
+                                    val numberIndex =
+                                        contactCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)
+                                    val number = contactCursor.getString(numberIndex)
+
+                                    Toast.makeText(this@IntentActivity, "Number: ${number}", Toast.LENGTH_SHORT).show()
+                                }
+
+                                contactCursor.close()
+                            }
+                        }
+                    }
+                }
+            })
         }
     }
 }

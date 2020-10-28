@@ -1,15 +1,15 @@
-package com.example.datasaverexampleapp.handlers
+package com.example.datasaverexampleapp.handlers.permission
 
 import android.app.Activity
 import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.example.datasaverexampleapp.handlers.entity.PermissionEntity
-import com.example.datasaverexampleapp.handlers.entity.PhoneCallPermission
-import com.example.datasaverexampleapp.handlers.entity.ReadContactPermission
-import com.example.datasaverexampleapp.handlers.extensions.isPermissionGranted
-import com.example.datasaverexampleapp.handlers.interfaces.RequestPermissionCallback
-import com.example.datasaverexampleapp.handlers.permissions.Permission
+import com.example.datasaverexampleapp.handlers.permission.entity.PermissionEntity
+import com.example.datasaverexampleapp.handlers.permission.entity.PhoneCallPermission
+import com.example.datasaverexampleapp.handlers.permission.entity.ReadContactPermission
+import com.example.datasaverexampleapp.handlers.permission.extensions.isPermissionGranted
+import com.example.datasaverexampleapp.handlers.permission.interfaces.RequestPermissionCallback
+import com.example.datasaverexampleapp.handlers.permission.permissions.Permission
 
 class PermissionRequestHandler(private val activity:Activity)
 {

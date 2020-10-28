@@ -1,4 +1,4 @@
-package com.example.datasaverexampleapp.handlers.entity
+package com.example.datasaverexampleapp.handlers.permission.entity
 
 import android.Manifest
 import android.os.Build

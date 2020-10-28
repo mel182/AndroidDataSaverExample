@@ -1,4 +1,4 @@
-package com.example.datasaverexampleapp.handlers.interfaces
+package com.example.datasaverexampleapp.handlers.permission.interfaces
 
 interface RequestPermissionCallback {
     fun onPermissionGranted()

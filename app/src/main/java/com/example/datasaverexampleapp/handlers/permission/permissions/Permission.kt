@@ -1,4 +1,4 @@
-package com.example.datasaverexampleapp.handlers.permissions
+package com.example.datasaverexampleapp.handlers.permission.permissions
 
 class Permission {
 

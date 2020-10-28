@@ -1,12 +1,16 @@
 package com.example.datasaverexampleapp.intent_example
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
-import com.example.datasaverexampleapp.handlers.PermissionRequestHandler
-import com.example.datasaverexampleapp.handlers.interfaces.RequestPermissionCallback
+import com.example.datasaverexampleapp.handlers.activity_result_handler.ActivityForResultHandler
+import com.example.datasaverexampleapp.handlers.activity_result_handler.interfaces.OnActivityResultCallback
+import com.example.datasaverexampleapp.handlers.permission.PermissionRequestHandler
+import com.example.datasaverexampleapp.handlers.permission.interfaces.RequestPermissionCallback
 
 abstract class IntentBaseActivity : AppCompatActivity()
 {
-    var permissionRequestHandler:PermissionRequestHandler? = null
+    private var permissionRequestHandler: PermissionRequestHandler? = null
+    private var activityForResultHandler: ActivityForResultHandler? = null
 
     fun requestPermission(type:String,permissionRequestCallback: RequestPermissionCallback)
     {
@@ -28,6 +32,18 @@ abstract class IntentBaseActivity : AppCompatActivity()
         }
     }
 
+    fun activityForResult(type:String,callback: OnActivityResultCallback)
+    {
+        activityForResultHandler = ActivityForResultHandler(this)
+        activityForResultHandler?.startActivityForResult(type,object : OnActivityResultCallback {
+
+            override fun onActivityResult(resultCode: Int, data: Intent?) {
+                callback.onActivityResult(resultCode,data)
+                activityForResultHandler = null
+            }
+        })
+    }
+
     private fun releasePermissionRequestHandler()
     {
         permissionRequestHandler = null
@@ -36,5 +52,10 @@ abstract class IntentBaseActivity : AppCompatActivity()
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray)
     {
         permissionRequestHandler?.handlePermissionsResult(requestCode,grantResults)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        activityForResultHandler?.onActivityResult(requestCode,resultCode,data)
     }
 }

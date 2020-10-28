@@ -1,4 +1,4 @@
-package com.example.datasaverexampleapp.handlers.extensions
+package com.example.datasaverexampleapp.handlers.permission.extensions
 
 import android.content.pm.PackageManager
 
