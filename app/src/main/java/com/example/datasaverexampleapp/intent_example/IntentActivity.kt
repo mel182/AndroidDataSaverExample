@@ -1,5 +1,6 @@
 package com.example.datasaverexampleapp.intent_example
 
+import android.app.SearchManager
 import android.content.ContentUris
 import android.content.Intent
 import android.net.Uri
@@ -12,6 +13,8 @@ import com.example.datasaverexampleapp.handlers.activity_result_handler.interfac
 import com.example.datasaverexampleapp.handlers.permission.interfaces.RequestPermissionCallback
 import com.example.datasaverexampleapp.handlers.permission.permissions.Permission
 import kotlinx.android.synthetic.main.activity_intent.*
+import java.util.*
+
 
 class IntentActivity : IntentBaseActivity() {
 
@@ -175,6 +178,24 @@ class IntentActivity : IntentBaseActivity() {
 
             val shareIntent = Intent.createChooser(sendIntent, null)
             startActivity(shareIntent)
+        }
+
+        open_browser?.setOnClickListener {
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"))
+            startActivity(browserIntent)
+        }
+
+        open_google_map?.setOnClickListener {
+            val uri: String = String.format(Locale.ENGLISH, "geo:%f,%f", 52.3676, 4.9041)
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+            startActivity(intent)
+        }
+
+        web_query_example?.setOnClickListener {
+            val query = "google"
+            val intent = Intent(Intent.ACTION_WEB_SEARCH)
+            intent.putExtra(SearchManager.QUERY, query)
+            startActivity(intent)
         }
 
     }
