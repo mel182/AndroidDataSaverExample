@@ -78,6 +78,30 @@
                 android:layout_marginRight="30dp"
                 android:layout_marginBottom="10dp"
                 android:text="Pick contact button" />
+
+            <Button
+                android:id="@+id/send_email_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="10dp"
+                android:text="Send email example" />
+
+            <Button
+                android:id="@+id/action_send"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="10dp"
+                android:text="Action send example" />
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

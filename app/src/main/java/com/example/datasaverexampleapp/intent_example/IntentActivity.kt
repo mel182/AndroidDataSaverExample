@@ -23,7 +23,7 @@ class IntentActivity : IntentBaseActivity() {
 
             val phoneNumber = "0631564996"
             val callUri = Uri.parse("tel:${phoneNumber}")
-            val callIntent = Intent(Intent.ACTION_DIAL,callUri)
+            val callIntent = Intent(Intent.ACTION_DIAL, callUri)
             startActivity(callIntent)
         }
 
@@ -31,7 +31,7 @@ class IntentActivity : IntentBaseActivity() {
             // Remember add:
             // <uses-permission android:name="android.permission.CALL_PHONE"></uses-permission>
 
-            requestPermission(Permission.CALL_PHONE, object : RequestPermissionCallback{
+            requestPermission(Permission.CALL_PHONE, object : RequestPermissionCallback {
 
                 override fun onPermissionGranted() {
                     val phoneNumber = "0631564996"
@@ -41,7 +41,8 @@ class IntentActivity : IntentBaseActivity() {
                 }
 
                 override fun onPermissionDenied() {
-                    Toast.makeText(this@IntentActivity, "Permission denied", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@IntentActivity, "Permission denied", Toast.LENGTH_SHORT)
+                        .show()
                 }
             })
         }
@@ -54,7 +55,7 @@ class IntentActivity : IntentBaseActivity() {
 
             val intent = Intent(Intent.ACTION_INSERT_OR_EDIT).apply {
                 type = ContactsContract.Contacts.CONTENT_ITEM_TYPE
-                putExtra(ContactsContract.Intents.Insert.EMAIL,"vrol0004@gmail.com")
+                putExtra(ContactsContract.Intents.Insert.EMAIL, "vrol0004@gmail.com")
             }
             startActivity(intent)
         }
@@ -98,7 +99,11 @@ class IntentActivity : IntentBaseActivity() {
                 }
 
                 override fun onPermissionDenied() {
-                    Toast.makeText(this@IntentActivity, "Read contact permission denied", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@IntentActivity,
+                        "Read contact permission denied",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             })
         }
@@ -131,7 +136,11 @@ class IntentActivity : IntentBaseActivity() {
                                         contactCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)
                                     val number = contactCursor.getString(numberIndex)
 
-                                    Toast.makeText(this@IntentActivity, "Number: ${number}", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(
+                                        this@IntentActivity,
+                                        "Number: ${number}",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
 
                                 contactCursor.close()
@@ -141,5 +150,32 @@ class IntentActivity : IntentBaseActivity() {
                 }
             })
         }
+
+        send_email_button?.setOnClickListener {
+
+            // This is a send email example
+            val uriText = "mailto:vrol0004@gmail.com" +
+                    "?subject=" + Uri.encode("Android Intent Example") +
+                    "&body=" + Uri.encode("This is the test body text")
+
+            val uri = Uri.parse(uriText)
+
+            val sendIntent = Intent(Intent.ACTION_SENDTO)
+            sendIntent.data = uri
+            startActivity(Intent.createChooser(sendIntent, "Send email"))
+        }
+
+        action_send?.setOnClickListener {
+
+            val sendIntent: Intent = Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_TEXT, "This is my text to send.")
+                type = "text/plain"
+            }
+
+            val shareIntent = Intent.createChooser(sendIntent, null)
+            startActivity(shareIntent)
+        }
+
     }
 }
