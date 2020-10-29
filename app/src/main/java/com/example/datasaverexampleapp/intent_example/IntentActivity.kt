@@ -12,6 +12,7 @@ import com.example.datasaverexampleapp.handlers.activity_result_handler.constant
 import com.example.datasaverexampleapp.handlers.activity_result_handler.interfaces.OnActivityResultCallback
 import com.example.datasaverexampleapp.handlers.permission.interfaces.RequestPermissionCallback
 import com.example.datasaverexampleapp.handlers.permission.permissions.Permission
+import com.example.datasaverexampleapp.intent_example.starSignPicker.StarSignPickerActivity
 import kotlinx.android.synthetic.main.activity_intent.*
 import java.util.*
 
@@ -196,6 +197,21 @@ class IntentActivity : IntentBaseActivity() {
             val intent = Intent(Intent.ACTION_WEB_SEARCH)
             intent.putExtra(SearchManager.QUERY, query)
             startActivity(intent)
+        }
+
+        star_sign_picker_example?.setOnClickListener {
+
+            activityForResult(ActivityIntent.PICK_STAR_SIGN, object : OnActivityResultCallback {
+
+                override fun onActivityResult(resultCode: Int, data: Intent?) {
+
+                    if (resultCode == RESULT_OK) {
+                        // Get selected sign data string
+                        val selectedSign = data?.getStringExtra(StarSignPickerActivity.EXTRA_SIGN_NAME)
+                        Toast.makeText(this@IntentActivity, "Selected sign: ${selectedSign}", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            })
         }
 
     }

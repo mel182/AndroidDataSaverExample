@@ -16,6 +16,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".intent_example.starSignPicker.StarSignPickerActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.PICK"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="starsigns"/>
+            </intent-filter>
+        </activity>
         <activity android:name=".intent_example.IntentActivity" />
         <activity android:name=".custom_view.CustomViewExampleActivity" />
         <activity android:name=".custom_view.CustomViewActivity" />

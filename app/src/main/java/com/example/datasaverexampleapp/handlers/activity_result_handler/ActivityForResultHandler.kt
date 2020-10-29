@@ -5,6 +5,7 @@ import android.content.Intent
 import com.example.datasaverexampleapp.handlers.activity_result_handler.constant.ActivityIntent
 import com.example.datasaverexampleapp.handlers.activity_result_handler.interfaces.ActivityResultEntity
 import com.example.datasaverexampleapp.handlers.activity_result_handler.entities.PickContentIntent
+import com.example.datasaverexampleapp.handlers.activity_result_handler.entities.StarSignIntent
 import com.example.datasaverexampleapp.handlers.activity_result_handler.interfaces.OnActivityResultCallback
 
 class ActivityForResultHandler(private val activity:Activity)
@@ -20,6 +21,10 @@ class ActivityForResultHandler(private val activity:Activity)
         {
             ActivityIntent.PICK_CONTACT -> {
                 startActivityForResult(PickContentIntent())
+            }
+
+            ActivityIntent.PICK_STAR_SIGN -> {
+                startActivityForResult(StarSignIntent())
             }
         }
     }
