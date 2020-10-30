@@ -23,6 +23,8 @@ class IntentActivity : IntentBaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_intent)
 
+        title = "Intent Activity"
+
         intent_action_dial_button?.setOnClickListener {
 
             val phoneNumber = "0631564996"

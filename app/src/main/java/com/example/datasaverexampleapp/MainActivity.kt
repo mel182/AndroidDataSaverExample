@@ -6,6 +6,7 @@ import android.content.*
 import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.net.Uri
 import android.net.wifi.WifiManager
 import android.os.Build
 import android.os.Bundle
@@ -43,10 +44,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         checkActiveNetwork()
         registerBackGroundRestrictedChangeBroadcastReceiver()
-
-
         private_mode_button.setOnClickListener {
 
             val filename = "private_mode_file"
@@ -207,6 +207,21 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, IntentActivity::class.java)
             startActivity(intent)
         }
+
+        // ------------------------ Check for intent for deep link -----------------------------------
+        intent?.let {
+            val data = it.data
+            data?.let { dataUri ->
+                Toast.makeText(this, "data: ${dataUri}", Toast.LENGTH_SHORT).show()
+
+                if (dataUri.toString() == "http://example.com")
+                {
+                    val intent = Intent(this, IntentActivity::class.java)
+                    startActivity(intent)
+                }
+            }
+        }
+        // -------------------------------------------------------------------------------------------
 
     }
 
