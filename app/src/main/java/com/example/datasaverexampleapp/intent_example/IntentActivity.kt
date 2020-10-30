@@ -25,6 +25,7 @@ class IntentActivity : IntentBaseActivity() {
 
         title = "Intent Activity"
 
+        // Intent to open the phone dialer
         intent_action_dial_button?.setOnClickListener {
 
             val phoneNumber = "0631564996"
@@ -33,13 +34,16 @@ class IntentActivity : IntentBaseActivity() {
             startActivity(callIntent)
         }
 
+        // Intent to make a phone call
         intent_action_call_button?.setOnClickListener {
             // Remember add:
             // <uses-permission android:name="android.permission.CALL_PHONE"></uses-permission>
 
+            // Check for call phone permission through the permission handler
             requestPermission(Permission.CALL_PHONE, object : RequestPermissionCallback {
 
                 override fun onPermissionGranted() {
+                    // Make phone call by the number provided
                     val phoneNumber = "0631564996"
                     val callUri = Uri.parse("tel:${phoneNumber}")
                     val callIntent = Intent(Intent.ACTION_CALL, callUri)
@@ -70,9 +74,11 @@ class IntentActivity : IntentBaseActivity() {
 
             // The below code read contact from the phone and let you edit them
 
+            // Check for permission to read/write contact, ones read or write contact is granted, you are able to get and edit contact from the contact list
             requestPermission(Permission.READ_CONTACT, object : RequestPermissionCallback {
                 override fun onPermissionGranted() {
 
+                    // Get contact from the contact list
                     val uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI
                     val cursor = applicationContext.contentResolver.query(
                         uri,
@@ -116,6 +122,7 @@ class IntentActivity : IntentBaseActivity() {
 
         pick_contact_button?.setOnClickListener {
 
+            // Activity for result for picking content
             activityForResult(ActivityIntent.PICK_CONTACT, object : OnActivityResultCallback {
 
                 override fun onActivityResult(resultCode: Int, data: Intent?) {
@@ -173,6 +180,7 @@ class IntentActivity : IntentBaseActivity() {
 
         action_send?.setOnClickListener {
 
+            // Intent for sending a test message
             val sendIntent: Intent = Intent().apply {
                 action = Intent.ACTION_SEND
                 putExtra(Intent.EXTRA_TEXT, "This is my text to send.")
@@ -183,17 +191,20 @@ class IntentActivity : IntentBaseActivity() {
             startActivity(shareIntent)
         }
 
+        // Open browser intent to www.google.com
         open_browser?.setOnClickListener {
             val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"))
             startActivity(browserIntent)
         }
 
+        // Open google maps with coordinate lat,long intent
         open_google_map?.setOnClickListener {
             val uri: String = String.format(Locale.ENGLISH, "geo:%f,%f", 52.3676, 4.9041)
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
             startActivity(intent)
         }
 
+        // Web query intent
         web_query_example?.setOnClickListener {
             val query = "google"
             val intent = Intent(Intent.ACTION_WEB_SEARCH)
@@ -201,6 +212,7 @@ class IntentActivity : IntentBaseActivity() {
             startActivity(intent)
         }
 
+        // Star sign example on which activity for is used as an example
         star_sign_picker_example?.setOnClickListener {
 
             activityForResult(ActivityIntent.PICK_STAR_SIGN, object : OnActivityResultCallback {
@@ -215,6 +227,5 @@ class IntentActivity : IntentBaseActivity() {
                 }
             })
         }
-
     }
 }
