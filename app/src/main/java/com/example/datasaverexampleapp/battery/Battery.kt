@@ -1,14 +1,11 @@
 package com.example.datasaverexampleapp.battery
 
-import android.R.attr.x
-import android.R.attr.y
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.BatteryManager
 import android.widget.Toast
-
 
 object Battery {
 
