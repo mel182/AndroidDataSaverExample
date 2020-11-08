@@ -10,6 +10,7 @@ import android.net.Uri
 import android.net.wifi.WifiManager
 import android.os.Build
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -18,6 +19,7 @@ import androidx.core.net.ConnectivityManagerCompat.*
 import com.example.datasaverexampleapp.animation.AnimationExampleActivity
 import com.example.datasaverexampleapp.battery.Battery
 import com.example.datasaverexampleapp.battery.PowerConnectionReceiver
+import com.example.datasaverexampleapp.concurrency.FlowExampleActivity
 import com.example.datasaverexampleapp.custom_view.CustomViewActivity
 import com.example.datasaverexampleapp.custom_view.CustomViewExampleActivity
 import com.example.datasaverexampleapp.data_binding.DataBindingTestActivity
@@ -44,6 +46,16 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+//        val displayMetrics = DisplayMetrics()
+//        windowManager.defaultDisplay.getMetrics(displayMetrics)
+//
+//        var width = displayMetrics.widthPixels
+//        var height = displayMetrics.heightPixels
+//
+//        Log.i("TAG","Width: ${width}")
+//        Log.i("TAG","Height: ${height}")
+//        Log.i("TAG","Height 2: ${height/2}")
 
         checkActiveNetwork()
         registerBackGroundRestrictedChangeBroadcastReceiver()
@@ -222,6 +234,11 @@ class MainActivity : AppCompatActivity() {
             }
         }
         // -------------------------------------------------------------------------------------------
+
+        flow_example.setOnClickListener {
+            val intent = Intent(this, FlowExampleActivity::class.java)
+            startActivity(intent)
+        }
 
     }
 

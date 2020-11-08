@@ -16,16 +16,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".concurrency.FlowExampleActivity"></activity>
         <activity android:name=".intent_example.starSignPicker.StarSignPickerActivity">
             <intent-filter>
-                <action android:name="android.intent.action.PICK"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:scheme="starsigns"/>
+                <action android:name="android.intent.action.PICK" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="starsigns" />
             </intent-filter>
         </activity>
-        <activity android:name=".intent_example.IntentActivity">
-
-        </activity>
+        <activity android:name=".intent_example.IntentActivity"></activity>
         <activity android:name=".custom_view.CustomViewExampleActivity" />
         <activity android:name=".custom_view.CustomViewActivity" />
         <activity android:name=".data_binding.earthQuakeExample.EarthQuakeDataBindingExampleActivity" />
@@ -40,12 +41,14 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
 
-                    <action android:name="android.intent.action.VIEW"/>
-                    <category android:name="android.intent.category.DEFAULT"/>
-                    <category android:name="android.intent.category.BROWSABLE"/>
-                    <data android:scheme="http" android:host="example.com"/>
+                <action android:name="android.intent.action.VIEW" />
 
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
+                <data
+                    android:host="example.com"
+                    android:scheme="http" />
             </intent-filter>
         </activity>
 
