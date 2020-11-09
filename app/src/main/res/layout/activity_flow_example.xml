@@ -68,6 +68,18 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:text="Channel flow" />
+
+            <Button
+                android:id="@+id/zip_normal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Zip normal" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/flow_zip_result_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp" />
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

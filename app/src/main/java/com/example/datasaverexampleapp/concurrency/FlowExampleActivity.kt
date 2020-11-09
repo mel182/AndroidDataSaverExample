@@ -3,13 +3,11 @@ package com.example.datasaverexampleapp.concurrency
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.datasaverexampleapp.R
 import kotlinx.android.synthetic.main.activity_flow_example.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 
 class FlowExampleActivity : AppCompatActivity() {
 
@@ -87,6 +85,27 @@ class FlowExampleActivity : AppCompatActivity() {
                 channel_flow_textView.text = buttonText
             }
         }
+
+
+        zip_normal.setOnClickListener {
+
+            val customAdapter = FlowZipNormalListAdapter()
+
+            flow_zip_result_list?.apply {
+                layoutManager = LinearLayoutManager(this@FlowExampleActivity)
+                adapter = customAdapter
+            }
+
+            val numbers = (1..3).asFlow()
+            val str = flowOf("one","two","three")
+
+            runBlocking {
+                numbers.zip(str) { a,b -> "$a -> $b"}.collect {
+                    customAdapter.updateList(it)
+                }
+            }
+        }
+
 
     }
 
