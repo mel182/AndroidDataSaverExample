@@ -80,6 +80,42 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp" />
+
+            <Button
+                android:id="@+id/zip_when_one_completes_before_one"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Zip when one completes before one" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/flow_zip_before_one_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp" />
+
+            <Button
+                android:id="@+id/zip_when_one_emits_after_some_delay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Zip when one emits after some delay" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/zip_when_one_emits_after_some_delay_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp" />
+
+            <Button
+                android:id="@+id/combine_when_one_emits_after_some_delay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Combine when one emits after some delay" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/combine_when_one_emits_after_some_delay_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp" />
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

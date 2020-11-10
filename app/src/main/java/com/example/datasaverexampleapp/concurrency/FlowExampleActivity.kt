@@ -86,7 +86,6 @@ class FlowExampleActivity : AppCompatActivity() {
             }
         }
 
-
         zip_normal.setOnClickListener {
 
             val customAdapter = FlowZipNormalListAdapter()
@@ -106,7 +105,64 @@ class FlowExampleActivity : AppCompatActivity() {
             }
         }
 
+        zip_when_one_completes_before_one.setOnClickListener {
 
+            val customAdapter = FlowZipNormalListAdapter()
+
+            flow_zip_before_one_list?.apply {
+                layoutManager = LinearLayoutManager(this@FlowExampleActivity)
+                adapter = customAdapter
+            }
+
+            val numbers = (1..3).asFlow()
+            val stringValue = flowOf("one","two","three","four")
+
+            runBlocking {
+                numbers.zip(stringValue) { a,b -> "$a -> $b" }.collect {
+                    customAdapter.updateList(it)
+                }
+            }
+        }
+
+        zip_when_one_emits_after_some_delay.setOnClickListener {
+
+            val customAdapter = FlowZipNormalListAdapter()
+
+            zip_when_one_emits_after_some_delay_list?.apply {
+                layoutManager = LinearLayoutManager(this@FlowExampleActivity)
+                adapter = customAdapter
+            }
+
+            val number = (1..3).asFlow().onEach { delay(300) }
+            val values = flowOf("one","two","three").onEach { delay(400) }
+
+            runBlocking {
+
+                number.zip(values){ a,b -> "$a -> $b" }
+                    .collect {
+                        customAdapter.updateList(it)
+                    }
+            }
+        }
+
+        combine_when_one_emits_after_some_delay.setOnClickListener {
+
+            val customAdapter = FlowZipNormalListAdapter()
+
+            combine_when_one_emits_after_some_delay_list?.apply {
+                layoutManager = LinearLayoutManager(this@FlowExampleActivity)
+                adapter = customAdapter
+            }
+
+            val numbers = (1..3).asFlow().onEach { delay(300) }
+            val values = flowOf ("one","two","three").onEach { delay(400) }
+
+            CoroutineScope(Dispatchers.Main).launch {
+                numbers.combine(values){ a,b -> "$a -> $b" }.collect {
+                    customAdapter.updateList(it)
+                }
+            }
+        }
     }
 
     private fun setupFixedFlow()
