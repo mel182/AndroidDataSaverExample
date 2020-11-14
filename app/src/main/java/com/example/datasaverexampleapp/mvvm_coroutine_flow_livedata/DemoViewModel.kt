@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class DemoViewModel:ViewModel() {
@@ -30,14 +31,16 @@ class DemoViewModel:ViewModel() {
         return demoResponse
     }
 
-//    fun getAsyncDemo(amount:Int): LiveData<DemoModelSummary>
-//    {
-//        CoroutineScope(Dispatchers.Main).launch{
-//            demoAsyncResponse.value = DemoRepository.getDemoAsync()
-//        }
-//
-//        return demoAsyncResponse
-//    }
+    fun getAsyncDemo(amount:Int): LiveData<DemoModelSummary>
+    {
+        CoroutineScope(Dispatchers.Main).launch{
+            DemoRepository.getDemoAsync().let {
+                demoAsyncResponse.value = it.first()
+            }
+        }
+
+        return demoAsyncResponse
+    }
 
     suspend fun getAsyncDemo(): LiveData<DemoModelSummary> = DemoRepository.getDemoAsync().asLiveData()
 }
