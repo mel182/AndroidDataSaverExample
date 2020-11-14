@@ -16,7 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".concurrency.FlowExampleActivity"></activity>
+        <activity android:name=".mvvm_coroutine_flow_livedata.MvvMCoroutinesActivity"></activity>
+        <activity android:name=".concurrency.FlowExampleActivity" />
         <activity android:name=".intent_example.starSignPicker.StarSignPickerActivity">
             <intent-filter>
                 <action android:name="android.intent.action.PICK" />
@@ -26,7 +27,7 @@
                 <data android:scheme="starsigns" />
             </intent-filter>
         </activity>
-        <activity android:name=".intent_example.IntentActivity"></activity>
+        <activity android:name=".intent_example.IntentActivity" />
         <activity android:name=".custom_view.CustomViewExampleActivity" />
         <activity android:name=".custom_view.CustomViewActivity" />
         <activity android:name=".data_binding.earthQuakeExample.EarthQuakeDataBindingExampleActivity" />

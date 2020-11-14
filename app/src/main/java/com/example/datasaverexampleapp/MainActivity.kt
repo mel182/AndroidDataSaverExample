@@ -28,6 +28,7 @@ import com.example.datasaverexampleapp.earth_quake_example.EarthQuakeActivity
 import com.example.datasaverexampleapp.inDefInterfaces.Constants
 import com.example.datasaverexampleapp.inDefInterfaces.Shape
 import com.example.datasaverexampleapp.intent_example.IntentActivity
+import com.example.datasaverexampleapp.mvvm_coroutine_flow_livedata.MvvMCoroutinesActivity
 import com.example.datasaverexampleapp.resourceTest.ResourceActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import java.math.BigInteger
@@ -237,6 +238,11 @@ class MainActivity : AppCompatActivity() {
 
         flow_example.setOnClickListener {
             val intent = Intent(this, FlowExampleActivity::class.java)
+            startActivity(intent)
+        }
+
+        mvvm_coroutines_flow?.setOnClickListener {
+            val intent = Intent(this, MvvMCoroutinesActivity::class.java)
             startActivity(intent)
         }
 

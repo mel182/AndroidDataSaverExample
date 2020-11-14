@@ -115,6 +115,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Concurrency flow example" />
+
+            <Button
+                android:id="@+id/mvvm_coroutines_flow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MVVM Coroutines Flow example" />
         </LinearLayout>
     </ScrollView>
 

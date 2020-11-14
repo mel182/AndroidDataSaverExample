@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".mvvm_coroutine_flow_livedata.MvvMCoroutinesActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="User ID:"
+                android:textColor="@android:color/black"
+                android:layout_weight=".5"/>
+
+            <TextView
+                android:id="@+id/user_id"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:text="user id"
+                android:layout_weight=".5"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="ID:"
+                android:textColor="@android:color/black"
+                android:layout_weight=".5"/>
+
+            <TextView
+                android:id="@+id/id"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:text="id"
+                android:layout_weight=".5"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Title:"
+                android:textColor="@android:color/black"
+                android:layout_weight=".5"/>
+
+            <TextView
+                android:id="@+id/user_title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:text="title"
+                android:layout_weight=".5"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Completed:"
+                android:textColor="@android:color/black"
+                android:layout_weight=".5"/>
+
+            <TextView
+                android:id="@+id/completed"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:text="completed"
+                android:layout_weight=".5"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="User ID:"
+                android:textColor="@android:color/black"
+                android:layout_weight=".5"/>
+
+            <TextView
+                android:id="@+id/user_id2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:text="user id2"
+                android:layout_weight=".5"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="ID:"
+                android:textColor="@android:color/black"
+                android:layout_weight=".5"/>
+
+            <TextView
+                android:id="@+id/id2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:text="id2"
+                android:layout_weight=".5"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Title:"
+                android:textColor="@android:color/black"
+                android:layout_weight=".5"/>
+
+            <TextView
+                android:id="@+id/user_title2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:text="title2"
+                android:layout_weight=".5"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Completed:"
+                android:textColor="@android:color/black"
+                android:layout_weight=".5"/>
+
+            <TextView
+                android:id="@+id/completed2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:text="completed2"
+                android:layout_weight=".5"/>
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+</LinearLayout>
