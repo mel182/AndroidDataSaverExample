@@ -25,44 +25,9 @@ object DemoRepository {
     suspend fun getDemoAsync(): Flow<DemoModelSummary>
     {
         return flow {
-
             coroutineScope {
-
                 val requestModelResponse1 = async { getSingleDemoAsync(1) }
                 val requestModelResponse2 = async { getSingleDemoAsync(2) }
-
-
-//            val model1 = async {
-//
-//                var modelResponse = DemoModel()
-//
-//                try {
-//                    val rawresponse = demoEndpoint.getAsyncDemo(1)
-//                    modelResponse = rawresponse
-//                }catch (requestError:Exception)
-//                {
-//                    modelResponse.errorMessage = requestError.parseError()
-//                }
-//
-//                modelResponse
-//            }
-//
-//            // -- Model 2
-//            val model2 = async {
-//
-//                var modelResponse = DemoModel()
-//
-//                try {
-//                    val rawresponse = demoEndpoint.getAsyncDemo(2)
-//                    modelResponse = rawresponse
-//                }catch (requestError:Exception)
-//                {
-//                    modelResponse.errorMessage = requestError.parseError()
-//                }
-//
-//                modelResponse
-//            }
-
                 emit(DemoModelSummary(model1 = requestModelResponse1.await(),model2 = requestModelResponse2.await()))
             }
         }

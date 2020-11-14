@@ -12,7 +12,6 @@ import kotlinx.coroutines.launch
 class DemoViewModel:ViewModel() {
 
     private var demoResponse:MutableLiveData<DemoModel> = MutableLiveData()
-    private var demoModelSequenceResponse:MutableLiveData<DemoModel> = MutableLiveData()
     private var demoAsyncResponse:MutableLiveData<DemoModelSummary> = MutableLiveData()
 
     fun getDemo(amount:Int): LiveData<DemoModel>
