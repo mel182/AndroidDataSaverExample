@@ -121,6 +121,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="MVVM Coroutines Flow example" />
+
+            <Button
+                android:id="@+id/storage_manager_example"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Storage manager example" />
         </LinearLayout>
     </ScrollView>
 

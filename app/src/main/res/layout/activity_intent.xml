@@ -140,7 +140,7 @@
                 android:text="Web Query Example" />
 
             <Button
-                android:id="@+id/star_sign_picker_example"
+                android:id="@+id/custom_activity_for_result_example"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
@@ -150,6 +150,18 @@
                 android:layout_marginRight="30dp"
                 android:layout_marginBottom="10dp"
                 android:text="Star sign picker Example" />
+
+            <Button
+                android:id="@+id/open_document_tree_example"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="10dp"
+                android:text="Open directory Example" />
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

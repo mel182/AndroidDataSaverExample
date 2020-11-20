@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".intent_example.starSignPicker.StarSignPickerActivity">
+    tools:context=".intent_example.starSignPicker.ActivityForResultActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/star_list"
+        android:id="@+id/demo_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"

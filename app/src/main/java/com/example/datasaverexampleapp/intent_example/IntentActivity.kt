@@ -6,13 +6,14 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.ContactsContract
+import android.util.Log
 import android.widget.Toast
 import com.example.datasaverexampleapp.R
 import com.example.datasaverexampleapp.handlers.activity_result_handler.constant.ActivityIntent
 import com.example.datasaverexampleapp.handlers.activity_result_handler.interfaces.OnActivityResultCallback
 import com.example.datasaverexampleapp.handlers.permission.interfaces.RequestPermissionCallback
 import com.example.datasaverexampleapp.handlers.permission.permissions.Permission
-import com.example.datasaverexampleapp.intent_example.starSignPicker.StarSignPickerActivity
+import com.example.datasaverexampleapp.intent_example.starSignPicker.ActivityForResultActivity
 import kotlinx.android.synthetic.main.activity_intent.*
 import java.util.*
 
@@ -213,7 +214,7 @@ class IntentActivity : IntentBaseActivity() {
         }
 
         // Star sign example on which activity for is used as an example
-        star_sign_picker_example?.setOnClickListener {
+        custom_activity_for_result_example?.setOnClickListener {
 
             activityForResult(ActivityIntent.PICK_STAR_SIGN, object : OnActivityResultCallback {
 
@@ -221,8 +222,35 @@ class IntentActivity : IntentBaseActivity() {
 
                     if (resultCode == RESULT_OK) {
                         // Get selected sign data string
-                        val selectedSign = data?.getStringExtra(StarSignPickerActivity.EXTRA_SIGN_NAME)
+                        val selectedSign = data?.getStringExtra(ActivityForResultActivity.EXTRA_ACTIVITY_FOR_RESULT_EXAMPLE)
                         Toast.makeText(this@IntentActivity, "Selected sign: ${selectedSign}", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this@IntentActivity, "Result cancelled", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            })
+        }
+
+        open_document_tree_example?.setOnClickListener {
+
+            /*
+            Allow the user to pick a directory subtree.
+            When invoked, the system will display the various DocumentsProvider instances installed on the device,
+            letting the user navigate through them.
+            Apps can fully manage documents within the returned directory.
+            */
+            activityForResult(ActivityIntent.PICK_OPEN_DIRECTORY, object : OnActivityResultCallback {
+
+                override fun onActivityResult(resultCode: Int, data: Intent?) {
+
+                    if (resultCode == RESULT_OK) {
+                        data?.let {
+                            Toast.makeText(this@IntentActivity, "document tree: ${it.data}", Toast.LENGTH_SHORT).show()
+                            Log.i("TAG","Data content uri: ${it.data}")
+                        }
+                    } else if (resultCode == RESULT_CANCELED)
+                    {
+                        Log.i("TAG","Result cancelled")
                     }
                 }
             })

@@ -16,9 +16,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".mvvm_coroutine_flow_livedata.MvvMCoroutinesActivity"></activity>
+        <activity android:name=".storage_manager.StorageManagerExampleActivity"/>
+        <activity android:name=".mvvm_coroutine_flow_livedata.MvvMCoroutinesActivity" />
         <activity android:name=".concurrency.FlowExampleActivity" />
-        <activity android:name=".intent_example.starSignPicker.StarSignPickerActivity">
+        <activity android:name=".intent_example.starSignPicker.ActivityForResultActivity">
             <intent-filter>
                 <action android:name="android.intent.action.PICK" />
 
@@ -59,6 +60,17 @@
                 <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
             </intent-filter>
         </receiver>
+
+        <provider
+            android:authorities="${applicationId}.files"
+            android:name="androidx.core.content.FileProvider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths"/>
+        </provider>
+
     </application>
 
 </manifest>
