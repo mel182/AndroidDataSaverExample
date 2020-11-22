@@ -96,42 +96,33 @@ class StorageManagerExampleActivity : IntentBaseActivity() {
         }
 
         temporary_file_access_example?.setOnClickListener {
-//            val intent = Intent(Intent.ACTION_GET_CONTENT)
-//            intent.type = "image/*"
-//            intent.addCategory(Intent.CATEGORY_OPENABLE)
-//            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true)
-//            startActivityForResult(intent, 1234)
 
+            activityForResult(
+                ActivityIntent.PICK_IMAGE_FILE_INTENT,
+                object : OnActivityResultCallback {
 
-            val intent = Intent(Intent.ACTION_GET_CONTENT)
-            intent.type = "image/*"
-            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-//            intent.action = Intent.ACTION_GET_CONTENT
-            startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1)
+                    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+                    override fun onActivityResult(resultCode: Int, data: Intent?) {
 
+                        if (resultCode == RESULT_OK) {
+                            data?.let {
+                                Toast.makeText(
+                                    this@StorageManagerExampleActivity,
+                                    "image file data: ${it.data}",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                Log.i("TAG", "Data content uri: ${it.data}")
+                            }
+                        } else if (resultCode == RESULT_CANCELED) {
+                            Log.i("TAG", "Image file result cancelled")
+                        }
+                    }
+                }
+            )
         }
 
     }
 
-    /*
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-    try {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_IMAGE_REQUEST_GALLERY);
-    }catch(Exception e){
-        Intent photoPickerIntent = new Intent(this, XYZ.class);
-        startActivityForResult(photoPickerIntent, SELECT_IMAGE_REQUEST);
-    }
-} else {
-    Intent photoPickerIntent = new Intent(this, XYZ.class);
-    startActivityForResult(photoPickerIntent, SELECT_IMAGE_REQUEST);
-}
-    */
-
-*/
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun handleDocumentTreeUri(documentTreeUri: Uri)
     {
