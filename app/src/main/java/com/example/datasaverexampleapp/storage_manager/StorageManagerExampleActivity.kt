@@ -112,6 +112,17 @@ class StorageManagerExampleActivity : IntentBaseActivity() {
                                     Toast.LENGTH_SHORT
                                 ).show()
                                 Log.i("TAG", "Data content uri: ${it.data}")
+
+                                it.data?.let {
+
+                                    val sendIntent = Intent()
+                                    sendIntent.action = Intent.ACTION_VIEW
+                                    sendIntent.type = "image/png"
+                                    sendIntent.data = it
+                                    sendIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                                    startActivity(sendIntent)
+
+                                }
                             }
                         } else if (resultCode == RESULT_CANCELED) {
                             Log.i("TAG", "Image file result cancelled")
