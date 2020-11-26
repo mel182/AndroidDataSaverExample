@@ -24,7 +24,6 @@ class RoomDBActivity : AppCompatActivity() {
             adapter = dataListAdapter
         }
 
-
         DatabaseAccessor.dataAccessObject?.apply {
 
             CoroutineScope(Dispatchers.IO).launch{
@@ -35,9 +34,8 @@ class RoomDBActivity : AppCompatActivity() {
                 val allUsers = loadAllUsers()
 
                 CoroutineScope(Dispatchers.Main).launch {
-                    allUsers.forEach {
-                        Log.i("TAG","User entity: id ${it.id} name: ${it.name} last name: ${it.lastname} age: ${it.age}")
-                        dataListAdapter.add(it)
+                    allUsers.forEach { user ->
+                        dataListAdapter.add(user)
                     }
                 }
             }
