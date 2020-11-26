@@ -9,10 +9,11 @@ import com.example.datasaverexampleapp.handlers.activity_result_handler.constant
 import com.example.datasaverexampleapp.handlers.activity_result_handler.interfaces.ActivityResultEntity
 import com.example.datasaverexampleapp.handlers.activity_result_handler.entities.PickContentIntent
 import com.example.datasaverexampleapp.handlers.activity_result_handler.entities.PickDirectoryIntent
+import com.example.datasaverexampleapp.handlers.activity_result_handler.entities.PickImageFileIntent
 import com.example.datasaverexampleapp.handlers.activity_result_handler.entities.StarSignIntent
 import com.example.datasaverexampleapp.handlers.activity_result_handler.interfaces.OnActivityResultCallback
 
-class ActivityForResultHandler(private val activity:Activity)
+class ActivityForResultHandler(private val activity:Activity, private val chooserTitle:String = "")
 {
     private val requestCode = 145
     private var callback: OnActivityResultCallback? = null
@@ -40,6 +41,14 @@ class ActivityForResultHandler(private val activity:Activity)
                 }
             }
 
+            ActivityIntent.PICK_IMAGE_FILE_INTENT -> {
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                    startActivityForResult(PickImageFileIntent(chooserTitle))
+                } else {
+                    callback.onActivityResult(AppCompatActivity.RESULT_CANCELED,null)
+                }
+            }
         }
     }
 
