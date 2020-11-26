@@ -8,6 +8,7 @@ typealias User = Triple<String,String,Int>
 
 // For drawable and layout example
 typealias Layout = R.layout
+typealias ViewByID = R.id
 typealias Drawable = R.drawable
 
 typealias CustomTextView = com.example.datasaverexampleapp.customTextview.FontTextView

@@ -127,6 +127,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Storage manager example" />
+
+            <Button
+                android:id="@+id/room_database_example"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Room database example" />
         </LinearLayout>
     </ScrollView>
 

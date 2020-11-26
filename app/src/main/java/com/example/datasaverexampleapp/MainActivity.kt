@@ -30,6 +30,7 @@ import com.example.datasaverexampleapp.inDefInterfaces.Shape
 import com.example.datasaverexampleapp.intent_example.IntentActivity
 import com.example.datasaverexampleapp.mvvm_coroutine_flow_livedata.MvvMCoroutinesActivity
 import com.example.datasaverexampleapp.resourceTest.ResourceActivity
+import com.example.datasaverexampleapp.room_db.RoomDBActivity
 import com.example.datasaverexampleapp.storage_manager.StorageManagerExampleActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import java.math.BigInteger
@@ -249,6 +250,11 @@ class MainActivity : AppCompatActivity() {
 
         storage_manager_example?.setOnClickListener {
             val intent = Intent(this, StorageManagerExampleActivity::class.java)
+            startActivity(intent)
+        }
+
+        room_database_example?.setOnClickListener {
+            val intent = Intent(this, RoomDBActivity::class.java)
             startActivity(intent)
         }
 

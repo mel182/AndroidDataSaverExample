@@ -15,8 +15,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:name=".application.AppContext"
         android:theme="@style/AppTheme">
-        <activity android:name=".storage_manager.StorageManagerExampleActivity"/>
+        <activity android:name=".room_db.RoomDBActivity"/>
+        <activity android:name=".storage_manager.StorageManagerExampleActivity" />
         <activity android:name=".mvvm_coroutine_flow_livedata.MvvMCoroutinesActivity" />
         <activity android:name=".concurrency.FlowExampleActivity" />
         <activity android:name=".intent_example.starSignPicker.ActivityForResultActivity">
@@ -62,15 +64,14 @@
         </receiver>
 
         <provider
-            android:authorities="${applicationId}.files"
             android:name="androidx.core.content.FileProvider"
-            android:grantUriPermissions="true"
-            android:exported="false">
+            android:authorities="${applicationId}.files"
+            android:exported="false"
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/filepaths"/>
+                android:resource="@xml/filepaths" />
         </provider>
-
     </application>
 
 </manifest>
