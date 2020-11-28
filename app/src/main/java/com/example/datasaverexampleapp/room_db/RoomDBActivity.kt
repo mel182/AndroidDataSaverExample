@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.datasaverexampleapp.R
 import kotlinx.android.synthetic.main.activity_room_d_b.*
 import kotlinx.coroutines.CoroutineScope
@@ -14,27 +12,28 @@ import kotlinx.coroutines.launch
 
 class RoomDBActivity : AppCompatActivity() {
 
-    private var dataListAdapter = DatabaseListAdapter()
-    private lateinit var roomDBViewModel: RoomDBViewModel
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_room_d_b)
 
-        roomDBViewModel = ViewModelProviders.of(this).get(RoomDBViewModel::class.java)
+        container1?.apply {
+            val content = DbObserverFragment().setTitle("Container 1")
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.add(this.id,content)
+            transaction.commit()
+        }
 
-        user_recycler_view?.apply {
-            layoutManager = LinearLayoutManager(this@RoomDBActivity)
-            adapter = dataListAdapter
+        container2?.apply {
+            val content = DbObserverFragment().setTitle("Container 2")
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.add(this.id,content)
+            transaction.commit()
         }
 
         CoroutineScope(Dispatchers.IO).launch {
             DatabaseAccessor.dataAccessObject?.deleteAllUsers()
         }
 
-        roomDBViewModel.getAllUsers().observe(this, {
-            dataListAdapter.addUsers(it)
-        })
         startLoadingData()
     }
 
@@ -42,11 +41,8 @@ class RoomDBActivity : AppCompatActivity() {
 
     private fun startLoadingData()
     {
-
-        if (userEntityID == 6)
+        if (userEntityID != 6)
         {
-            dataListAdapter.remove()
-        } else {
             userEntityID++
 
             object : CountDownTimer(3000, 1000) {
