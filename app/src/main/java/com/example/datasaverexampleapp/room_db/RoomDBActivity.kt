@@ -12,7 +12,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-
 class RoomDBActivity : AppCompatActivity() {
 
     private var dataListAdapter = DatabaseListAdapter()
@@ -22,10 +21,7 @@ class RoomDBActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_room_d_b)
 
-//        roomDBViewModel = RoomDBViewModel()
-
         roomDBViewModel = ViewModelProviders.of(this).get(RoomDBViewModel::class.java)
-
 
         user_recycler_view?.apply {
             layoutManager = LinearLayoutManager(this@RoomDBActivity)
@@ -37,23 +33,8 @@ class RoomDBActivity : AppCompatActivity() {
         }
 
         roomDBViewModel.getAllUsers().observe(this, {
-
-            Log.i("TAG","Get all user received")
-
             dataListAdapter.addUsers(it)
-
-//            it.forEach { user ->
-//
-//                Log.i("TAG","User added")
-//                dataListAdapter.add(user)
-//            }
         })
-
-//        CoroutineScope(Dispatchers.IO).launch {
-//            DatabaseAccessor.dataAccessObject?.insertUser(UserEntity(name = "Firstname 1", lastname = "Lastname 1", age = 23))
-//        }
-
-//        roomDBViewModel.loadMore()
         startLoadingData()
     }
 
@@ -64,7 +45,6 @@ class RoomDBActivity : AppCompatActivity() {
 
         if (userEntityID == 6)
         {
-//            dataListAdapter.remove(UserEntity(name = "FirstnameTest ${userEntityID}", lastname = "LastnameTest ${userEntityID}", age = 23))
             dataListAdapter.remove()
         } else {
             userEntityID++
@@ -75,41 +55,10 @@ class RoomDBActivity : AppCompatActivity() {
                 }
 
                 override fun onFinish() {
-
-
                     DatabaseAccessor.insertUser(UserEntity(name = "FirstnameTest ${userEntityID}", lastname = "LastnameTest ${userEntityID}", age = 23))
                     startLoadingData()
-
-//                DatabaseAccessor.dataAccessObject?.apply {
-//
-//                    CoroutineScope(Dispatchers.IO).launch{
-//
-//                        insertUser(UserEntity(name = "Firstname ${userEntityID}", lastname = "Lastname ${userEntityID}", age = 23))
-//
-//                        CoroutineScope(Dispatchers.Main).launch {
-//
-////                            RoomDBViewModel().getAllUsers()
-//
-////                            RoomDBViewModel().loadMore()
-//                            if (this@RoomDBActivity::roomDBViewModel.isInitialized)
-//                           {
-//
-//                               roomDBViewModel.loadMore()
-//                               startLoadingData()
-//                           } else {
-//                               Log.i("TAG","Room DB view model is not initialized")
-//                           }
-//                        }
-//                    }
-//                }
-
                 }
             }.start()
         }
-
-
-
     }
-
-
 }

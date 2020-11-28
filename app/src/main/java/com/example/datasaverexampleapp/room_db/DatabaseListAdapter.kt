@@ -1,12 +1,10 @@
 package com.example.datasaverexampleapp.room_db
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.datasaverexampleapp.R
 import com.example.datasaverexampleapp.type_alias.Layout
 import com.example.datasaverexampleapp.type_alias.ViewByID
 
@@ -55,18 +53,6 @@ class DatabaseListAdapter : RecyclerView.Adapter<DatabaseListAdapter.DBViewHolde
     {
         userEntityList.removeAt(userEntityList.size -1)
         notifyItemRemoved(userEntityList.size -1)
-
-
-//        val userIndex = userEntityList.indexOf(user)
-//
-//        Log.i("TAG","Remove user index: ${userIndex}")
-//
-//        if (userIndex >= 0 && userIndex <= userEntityList.size -1)
-//        {
-//            notifyItemRemoved(userIndex)
-//            userEntityList.remove(user)
-////            notifyDataSetChanged()
-//        }
     }
 
     fun clearData()
