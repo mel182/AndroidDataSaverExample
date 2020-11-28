@@ -1,5 +1,6 @@
 package com.example.datasaverexampleapp.room_db
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.datasaverexampleapp.type_alias.User
 
@@ -28,7 +29,7 @@ interface UserDAO
     fun deleteUser(userList: UserEntity)
 
     @Query("SELECT * FROM user")
-    fun loadAllUsers():List<UserEntity>
+    fun loadAllUsers(): List<UserEntity>
 
     @Query("SELECT * FROM user WHERE name = :name")
     fun loadAllUserByName(name:String):UserEntity

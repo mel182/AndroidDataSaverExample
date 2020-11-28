@@ -1,44 +1,115 @@
 package com.example.datasaverexampleapp.room_db
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.datasaverexampleapp.R
 import kotlinx.android.synthetic.main.activity_room_d_b.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+
 
 class RoomDBActivity : AppCompatActivity() {
 
     private var dataListAdapter = DatabaseListAdapter()
+    private lateinit var roomDBViewModel: RoomDBViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_room_d_b)
+
+//        roomDBViewModel = RoomDBViewModel()
+
+        roomDBViewModel = ViewModelProviders.of(this).get(RoomDBViewModel::class.java)
+
 
         user_recycler_view?.apply {
             layoutManager = LinearLayoutManager(this@RoomDBActivity)
             adapter = dataListAdapter
         }
 
-        DatabaseAccessor.dataAccessObject?.apply {
-
-            CoroutineScope(Dispatchers.IO).launch{
-
-                insertUser(UserEntity(name = "Firstname 1", lastname = "Lastname 1", age = 23))
-                insertUser(UserEntity(name = "Firstname 2",lastname = "Lastname 2",age = 24))
-
-                val allUsers = loadAllUsers()
-
-                CoroutineScope(Dispatchers.Main).launch {
-                    allUsers.forEach { user ->
-                        dataListAdapter.add(user)
-                    }
-                }
-            }
+        CoroutineScope(Dispatchers.IO).launch {
+            DatabaseAccessor.dataAccessObject?.deleteAllUsers()
         }
+
+        roomDBViewModel.getAllUsers().observe(this, {
+
+            Log.i("TAG","Get all user received")
+
+            dataListAdapter.addUsers(it)
+
+//            it.forEach { user ->
+//
+//                Log.i("TAG","User added")
+//                dataListAdapter.add(user)
+//            }
+        })
+
+//        CoroutineScope(Dispatchers.IO).launch {
+//            DatabaseAccessor.dataAccessObject?.insertUser(UserEntity(name = "Firstname 1", lastname = "Lastname 1", age = 23))
+//        }
+
+//        roomDBViewModel.loadMore()
+        startLoadingData()
     }
+
+    private var userEntityID = 0
+
+    private fun startLoadingData()
+    {
+
+        if (userEntityID == 6)
+        {
+//            dataListAdapter.remove(UserEntity(name = "FirstnameTest ${userEntityID}", lastname = "LastnameTest ${userEntityID}", age = 23))
+            dataListAdapter.remove()
+        } else {
+            userEntityID++
+
+            object : CountDownTimer(3000, 1000) {
+                override fun onTick(millisUntilFinished: Long) {
+                    Log.i("TAG","seconds remaining: " + millisUntilFinished / 1000)
+                }
+
+                override fun onFinish() {
+
+
+                    DatabaseAccessor.insertUser(UserEntity(name = "FirstnameTest ${userEntityID}", lastname = "LastnameTest ${userEntityID}", age = 23))
+                    startLoadingData()
+
+//                DatabaseAccessor.dataAccessObject?.apply {
+//
+//                    CoroutineScope(Dispatchers.IO).launch{
+//
+//                        insertUser(UserEntity(name = "Firstname ${userEntityID}", lastname = "Lastname ${userEntityID}", age = 23))
+//
+//                        CoroutineScope(Dispatchers.Main).launch {
+//
+////                            RoomDBViewModel().getAllUsers()
+//
+////                            RoomDBViewModel().loadMore()
+//                            if (this@RoomDBActivity::roomDBViewModel.isInitialized)
+//                           {
+//
+//                               roomDBViewModel.loadMore()
+//                               startLoadingData()
+//                           } else {
+//                               Log.i("TAG","Room DB view model is not initialized")
+//                           }
+//                        }
+//                    }
+//                }
+
+                }
+            }.start()
+        }
+
+
+
+    }
+
+
 }

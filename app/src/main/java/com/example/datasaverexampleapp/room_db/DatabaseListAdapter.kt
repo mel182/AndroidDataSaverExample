@@ -1,5 +1,6 @@
 package com.example.datasaverexampleapp.room_db
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,16 +28,45 @@ class DatabaseListAdapter : RecyclerView.Adapter<DatabaseListAdapter.DBViewHolde
         return userEntityList.size
     }
 
-    fun add(user:UserEntity)
+    fun addUsers(users:List<UserEntity>)
     {
-        userEntityList.add(user)
-        notifyDataSetChanged()
+        users.forEach { user ->
+
+            if (!userEntityList.contains(user))
+            {
+                userEntityList.add(user)
+                val newUserIndex = userEntityList.indexOf(user)
+                notifyItemInserted(newUserIndex)
+            }
+        }
     }
 
-    fun remove(user:UserEntity)
+
+    fun add(user:UserEntity)
     {
-        userEntityList.remove(user)
-        notifyDataSetChanged()
+        if (!userEntityList.contains(user))
+        {
+            userEntityList.add(user)
+            notifyDataSetChanged()
+        }
+    }
+
+    fun remove()
+    {
+        userEntityList.removeAt(userEntityList.size -1)
+        notifyItemRemoved(userEntityList.size -1)
+
+
+//        val userIndex = userEntityList.indexOf(user)
+//
+//        Log.i("TAG","Remove user index: ${userIndex}")
+//
+//        if (userIndex >= 0 && userIndex <= userEntityList.size -1)
+//        {
+//            notifyItemRemoved(userIndex)
+//            userEntityList.remove(user)
+////            notifyDataSetChanged()
+//        }
     }
 
     fun clearData()
