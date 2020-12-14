@@ -25,6 +25,7 @@ import com.example.datasaverexampleapp.custom_view.CustomViewExampleActivity
 import com.example.datasaverexampleapp.data_binding.DataBindingTestActivity
 import com.example.datasaverexampleapp.data_binding.earthQuakeExample.EarthQuakeDataBindingExampleActivity
 import com.example.datasaverexampleapp.earth_quake_example.EarthQuakeActivity
+import com.example.datasaverexampleapp.firebase_real_time.FireBaseRealTimeActivity
 import com.example.datasaverexampleapp.inDefInterfaces.Constants
 import com.example.datasaverexampleapp.inDefInterfaces.Shape
 import com.example.datasaverexampleapp.intent_example.IntentActivity
@@ -255,6 +256,11 @@ class MainActivity : AppCompatActivity() {
 
         room_database_example?.setOnClickListener {
             val intent = Intent(this, RoomDBActivity::class.java)
+            startActivity(intent)
+        }
+
+        firebase_real_time_database_example?.setOnClickListener {
+            val intent = Intent(this, FireBaseRealTimeActivity::class.java)
             startActivity(intent)
         }
 
