@@ -5,21 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".room_db.RoomDBActivity">
+    tools:context=".room_db.DbObserverFragment">
 
-    <FrameLayout
-        android:id="@+id/container1"
+    <TextView
+        android:id="@+id/title"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight=".5">
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        tools:text="Title" />
 
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/container2"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/user_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight=".5">
+        android:layout_height="match_parent" />
 
-    </FrameLayout>
 </LinearLayout>

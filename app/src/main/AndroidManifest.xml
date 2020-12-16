@@ -17,8 +17,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".protocol_oriented_programming_kotlin.ProtocolOrientedActivity"></activity>
+        <activity android:name=".firebase_real_time.FireBaseRealTimeActivity"></activity>
         <activity android:name=".room_db.RoomDBActivity" />
+        <activity android:name=".protocol_oriented_programming_kotlin.ProtocolOrientedActivity"></activity>
         <activity android:name=".storage_manager.StorageManagerExampleActivity" />
         <activity android:name=".mvvm_coroutine_flow_livedata.MvvMCoroutinesActivity" />
         <activity android:name=".concurrency.FlowExampleActivity" />

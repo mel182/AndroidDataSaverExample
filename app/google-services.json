@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "915722092326",
+    "firebase_url": "https://datasaverexampleapp-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "datasaverexampleapp",
+    "storage_bucket": "datasaverexampleapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:915722092326:android:c37cfe9784633d7a51cbe7",
+        "android_client_info": {
+          "package_name": "com.example.datasaverexampleapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "915722092326-2c3s9nlvsmne7gvnd3qab7ilofm3h5ri.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAln-jaAXPbp_nhJryRHJaJjg899HWp0Z0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "915722092326-2c3s9nlvsmne7gvnd3qab7ilofm3h5ri.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
