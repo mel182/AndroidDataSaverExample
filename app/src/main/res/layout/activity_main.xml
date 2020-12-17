@@ -135,6 +135,12 @@
                 android:text="Room database example" />
 
             <Button
+                android:id="@+id/protocol_oriented_example"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Protocol Oriented Example" />
+
+            <Button
                 android:id="@+id/firebase_real_time_database_example"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

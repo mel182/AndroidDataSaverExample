@@ -30,6 +30,7 @@ import com.example.datasaverexampleapp.inDefInterfaces.Constants
 import com.example.datasaverexampleapp.inDefInterfaces.Shape
 import com.example.datasaverexampleapp.intent_example.IntentActivity
 import com.example.datasaverexampleapp.mvvm_coroutine_flow_livedata.MvvMCoroutinesActivity
+import com.example.datasaverexampleapp.protocol_oriented_programming_kotlin.ProtocolOrientedActivity
 import com.example.datasaverexampleapp.resourceTest.ResourceActivity
 import com.example.datasaverexampleapp.room_db.RoomDBActivity
 import com.example.datasaverexampleapp.storage_manager.StorageManagerExampleActivity
@@ -256,6 +257,11 @@ class MainActivity : AppCompatActivity() {
 
         room_database_example?.setOnClickListener {
             val intent = Intent(this, RoomDBActivity::class.java)
+            startActivity(intent)
+        }
+
+        protocol_oriented_example?.setOnClickListener {
+            val intent = Intent(this, ProtocolOrientedActivity::class.java)
             startActivity(intent)
         }
 
