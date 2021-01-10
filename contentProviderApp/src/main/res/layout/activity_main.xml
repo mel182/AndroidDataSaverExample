@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".MainActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/launch_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Get all user"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/user_id_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:ems="10"
+                android:textColor="@color/black"
+                android:hint="Enter user id"
+                android:inputType="textPersonName"
+                tools:text="Name" />
+
+            <Button
+                android:id="@+id/get_user_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Get user" />
+
+            <EditText
+                android:id="@+id/deleteUserIdInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:ems="10"
+                android:textColor="@color/black"
+                android:hint="Enter user id"
+                android:inputType="textPersonName"
+                tools:text="Name" />
+
+            <Button
+                android:id="@+id/deleteUserButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delete user" />
+
+            <EditText
+                android:id="@+id/userNameInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:ems="10"
+                android:textColor="@color/black"
+                android:hint="Enter user name"
+                android:textColorHint="@android:color/darker_gray"
+                android:inputType="textPersonName"
+                tools:text="Name" />
+
+            <EditText
+                android:id="@+id/userLastNameInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:ems="10"
+                android:textColor="@color/black"
+                android:hint="Enter last name"
+                android:textColorHint="@android:color/darker_gray"
+                android:inputType="textPersonName"
+                tools:text="Last name" />
+
+            <EditText
+                android:id="@+id/userAgeInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:ems="10"
+                android:textColor="@color/black"
+                android:hint="Enter user age"
+                android:textColorHint="@android:color/darker_gray"
+                android:inputType="textPersonName"
+                tools:text="User age" />
+
+            <Button
+                android:id="@+id/insertUserButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add user" />
+
+            <EditText
+                android:id="@+id/updateUserNameInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:ems="10"
+                android:textColor="@color/black"
+                android:hint="Enter updated user name"
+                android:textColorHint="@android:color/darker_gray"
+                android:inputType="textPersonName"
+                tools:text="Updated name" />
+
+            <EditText
+                android:id="@+id/updateUserLastNameInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:ems="10"
+                android:textColor="@color/black"
+                android:hint="Enter updated last name"
+                android:textColorHint="@android:color/darker_gray"
+                android:inputType="textPersonName"
+                tools:text="Updated Last name" />
+
+            <EditText
+                android:id="@+id/updateUserAgeInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:ems="10"
+                android:textColor="@color/black"
+                android:hint="Enter updated age"
+                android:textColorHint="@android:color/darker_gray"
+                android:inputType="textPersonName"
+                tools:text="Updated age" />
+
+            <Button
+                android:id="@+id/updateUserButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Update user" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
