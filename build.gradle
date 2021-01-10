@@ -2,7 +2,7 @@
 
 buildscript {
     ext{
-        kotlin_version = '1.4.10'
+        kotlin_version = '1.4.21'
         compiler_version = '1.4.10'
         lifecycle_version = '2.2.0'
         room_version = '2.2.5'

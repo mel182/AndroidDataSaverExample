@@ -20,6 +20,7 @@ import com.example.datasaverexampleapp.animation.AnimationExampleActivity
 import com.example.datasaverexampleapp.battery.Battery
 import com.example.datasaverexampleapp.battery.PowerConnectionReceiver
 import com.example.datasaverexampleapp.concurrency.FlowExampleActivity
+import com.example.datasaverexampleapp.content_provider.ContentProviderActivity
 import com.example.datasaverexampleapp.custom_view.CustomViewActivity
 import com.example.datasaverexampleapp.custom_view.CustomViewExampleActivity
 import com.example.datasaverexampleapp.data_binding.DataBindingTestActivity
@@ -267,6 +268,11 @@ class MainActivity : AppCompatActivity() {
 
         firebase_real_time_database_example?.setOnClickListener {
             val intent = Intent(this, FireBaseRealTimeActivity::class.java)
+            startActivity(intent)
+        }
+
+        content_provider_example.setOnClickListener {
+            val intent = Intent(this, ContentProviderActivity::class.java)
             startActivity(intent)
         }
 

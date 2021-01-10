@@ -1,5 +1,6 @@
 package com.example.datasaverexampleapp.room_db
 
+import android.database.Cursor
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.datasaverexampleapp.type_alias.User
@@ -31,19 +32,31 @@ interface UserDAO
     @Query("SELECT * FROM user")
     fun loadAllUsers(): List<UserEntity>
 
+    @Query("SELECT * FROM user")
+    fun loadAllUsersCursor(): Cursor
+
     @Query("SELECT * FROM user WHERE name = :name")
     fun loadAllUserByName(name:String):UserEntity
 
     @Query("DELETE FROM user")
     fun deleteAllUsers()
 
+    @Query("DELETE FROM user WHERE id = :userID")
+    fun deleteUsersByID(userID: Int)
+
     @Query("SELECT * FROM user WHERE name IN (:name)")
     fun loadAllUserByName(name: Array<String>):List<UserEntity>
+
+    @Query("SELECT * FROM user WHERE name IN (:name)")
+    fun loadAllUserByNameCursor(name: Array<String>):Cursor
 
     @Query("SELECT name,age FROM user WHERE id = :userID")
     fun getNameAgeByID(userID: Int): List<NameAgeUserEntity>
 
     @Query("SELECT age FROM user WHERE id = :userID")
     fun getAgeByID(userID: Int):Int
+
+    @Query("SELECT * FROM user WHERE id = :userID")
+    fun getUserByID(userID: Int): Cursor
 
 }

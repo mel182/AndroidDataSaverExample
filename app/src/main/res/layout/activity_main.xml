@@ -145,6 +145,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Firebase RealTime database example" />
+
+            <Button
+                android:id="@+id/content_provider_example"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Content provider example" />
         </LinearLayout>
     </ScrollView>
 

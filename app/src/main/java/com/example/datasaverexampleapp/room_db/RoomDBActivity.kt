@@ -12,6 +12,8 @@ import kotlinx.coroutines.launch
 
 class RoomDBActivity : AppCompatActivity() {
 
+    private var countDownTimer:CountDownTimer? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_room_d_b)
@@ -45,16 +47,22 @@ class RoomDBActivity : AppCompatActivity() {
         {
             userEntityID++
 
-            object : CountDownTimer(3000, 1000) {
+            countDownTimer = object : CountDownTimer(3000, 1000) {
                 override fun onTick(millisUntilFinished: Long) {
                     Log.i("TAG","seconds remaining: " + millisUntilFinished / 1000)
                 }
 
                 override fun onFinish() {
                     DatabaseAccessor.insertUser(UserEntity(name = "FirstnameTest ${userEntityID}", lastname = "LastnameTest ${userEntityID}", age = 23))
+                    countDownTimer = null
                     startLoadingData()
                 }
             }.start()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        countDownTimer?.cancel()
     }
 }

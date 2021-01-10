@@ -48,4 +48,25 @@ object DatabaseAccessor {
        }
     }
 
+    fun getAllUserFromDB() : List<UserEntity>
+    {
+        val allUserResult: ArrayList<UserEntity> = ArrayList()
+
+        CoroutineScope(Dispatchers.IO).launch {
+
+            val result = dataAccessObject?.loadAllUsers()
+
+            result?.let { updatedList ->
+
+                withContext(Dispatchers.Main){
+
+                    Log.i("TAG","Load all users in database accessor")
+                    allUserResult.addAll(updatedList)
+                }
+            }
+        }
+
+        return allUserResult
+    }
+
 }
