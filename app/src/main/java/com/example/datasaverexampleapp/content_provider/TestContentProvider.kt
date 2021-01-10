@@ -5,15 +5,8 @@ import android.content.ContentValues
 import android.content.UriMatcher
 import android.database.Cursor
 import android.net.Uri
-import android.util.Log
-import androidx.core.os.CancellationSignal
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.example.datasaverexampleapp.room_db.DatabaseAccessor
-import com.example.datasaverexampleapp.room_db.RoomDBViewModel
-import com.example.datasaverexampleapp.room_db.UserDAO
-import com.example.datasaverexampleapp.room_db.UserDatabase
+import com.example.datasaverexampleapp.room_db.UserEntity
 
 class TestContentProvider : ContentProvider()
 {
@@ -21,7 +14,6 @@ class TestContentProvider : ContentProvider()
         private val AUTHORITY = "com.test.provider.datasaverexampleapp"
         private val ALLROWS = 1
         private val SINGLE_ROW = 2
-        private val DELETE_ROW = 3
         private val uriMatcher:UriMatcher
 
         init {
@@ -99,6 +91,25 @@ class TestContentProvider : ContentProvider()
 
     override fun insert(uri: Uri, values: ContentValues?): Uri? {
         // Insert the content values and return a URI to the record
+
+        values?.let {
+
+            if (it.get("name") is String && it.get("lastname") is String && it.get("age") is Int)
+            {
+                val name = it.getAsString("name")
+                val lastName = it.getAsString("lastname")
+                val age = it.getAsInteger("age")
+
+                DatabaseAccessor.dataAccessObject?.insertUser(UserEntity(name = name, lastname = lastName, age = age))
+
+                val result = DatabaseAccessor.dataAccessObject?.loadAllUserByName(name)
+
+                result?.let {
+                    return Uri.parse("$uri/${it.id}")
+                }
+            }
+        }
+
         return null
     }
 
@@ -126,7 +137,27 @@ class TestContentProvider : ContentProvider()
         selectionArgs: Array<out String>?
     ): Int {
         // Update the matching records with the provided content values, returning the number of records updated
-        return 0
+        if (selection != null && selection.isNotBlank() && values != null && values.size() != 0)
+        {
+            val user = DatabaseAccessor.dataAccessObject?.loadAllUserByName(selection)
+
+            user?.let {
+
+                val lastNameUpdate = values.get("lastname")
+                val ageUpdate = values.get("age")
+
+                var updatedLastNameValue:String? = null
+                var updatedAgeValue:Int? = null
+
+                updatedLastNameValue = if (lastNameUpdate != null && lastNameUpdate is String) lastNameUpdate else it.lastname
+                updatedAgeValue = if (ageUpdate != null && ageUpdate is Int) ageUpdate.toInt() else it.age
+
+                DatabaseAccessor.dataAccessObject?.updateUser( UserEntity(id = it.id, name = selection, lastname = updatedLastNameValue, age = updatedAgeValue))
+
+                return it.id
+            }
+        }
+        return -1
     }
 }
 
