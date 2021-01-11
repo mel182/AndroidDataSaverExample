@@ -4,6 +4,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.work.Data
 import androidx.work.Worker
@@ -25,7 +26,8 @@ class MyWorker(context: Context, workerParams: WorkerParameters) : Worker(contex
         val task = inputData.getString(WorkManagerActivity.TASK_KEY)?:""
         val description = inputData.getString(WorkManagerActivity.DESCRIPTION_KEY)?:""
 
-        displayNotification(task,description) // Task to execute
+//        displayNotification(task,description) // Task to execute
+        performTask()
 
         // Create output data
         val outputData = Data.Builder()
@@ -34,6 +36,11 @@ class MyWorker(context: Context, workerParams: WorkerParameters) : Worker(contex
             .build()
 
         return Result.success(outputData)
+    }
+
+    private fun performTask()
+    {
+        Log.i("TAG","Task Perform")
     }
 
     private fun displayNotification(task:String, description:String)
