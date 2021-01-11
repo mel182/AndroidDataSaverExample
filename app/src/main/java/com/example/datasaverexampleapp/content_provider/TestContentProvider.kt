@@ -1,6 +1,7 @@
 package com.example.datasaverexampleapp.content_provider
 
 import android.content.ContentProvider
+import android.content.ContentUris
 import android.content.ContentValues
 import android.content.UriMatcher
 import android.database.Cursor
@@ -105,7 +106,15 @@ class TestContentProvider : ContentProvider()
                 val result = DatabaseAccessor.dataAccessObject?.loadAllUserByName(name)
 
                 result?.let {
-                    return Uri.parse("$uri/${it.id}")
+
+                    // Notify any observer of the change in the data set
+                    context?.contentResolver?.notifyChange(uri,null)
+
+                    // Return the URI of the newly inserted row.
+
+                    // Note: When working with content URIs, the contentUris class includes the 'withAppendedId'
+                    // convenience method to easily append a specific row ID to the content uri of a Content Providers.
+                    return ContentUris.withAppendedId(uri,(it.id).toLong())
                 }
             }
         }
@@ -120,6 +129,10 @@ class TestContentProvider : ContentProvider()
             try {
                 val id = it[0].toInt()
                 DatabaseAccessor.dataAccessObject?.deleteUsersByID(id)
+
+                // Notify any observer of the change in the data set
+                context?.contentResolver?.notifyChange(uri,null)
+
                 return id
             }catch (e:Exception)
             {
@@ -153,6 +166,9 @@ class TestContentProvider : ContentProvider()
                 updatedAgeValue = if (ageUpdate != null && ageUpdate is Int) ageUpdate.toInt() else it.age
 
                 DatabaseAccessor.dataAccessObject?.updateUser( UserEntity(id = it.id, name = selection, lastname = updatedLastNameValue, age = updatedAgeValue))
+
+                // Notify any observer of the change in the data set
+                context?.contentResolver?.notifyChange(uri,null)
 
                 return it.id
             }

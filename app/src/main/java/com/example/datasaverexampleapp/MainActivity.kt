@@ -17,6 +17,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.ConnectivityManagerCompat.*
 import com.example.datasaverexampleapp.animation.AnimationExampleActivity
+import com.example.datasaverexampleapp.background_task.WorkManagerActivity
 import com.example.datasaverexampleapp.battery.Battery
 import com.example.datasaverexampleapp.battery.PowerConnectionReceiver
 import com.example.datasaverexampleapp.concurrency.FlowExampleActivity
@@ -276,6 +277,10 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        background_task_example.setOnClickListener {
+            val intent = Intent(this, WorkManagerActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onResume() {

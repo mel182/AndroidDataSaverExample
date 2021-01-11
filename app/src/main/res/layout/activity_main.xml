@@ -151,6 +151,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Content provider example" />
+
+            <Button
+                android:id="@+id/background_task_example"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Background task example" />
         </LinearLayout>
     </ScrollView>
 

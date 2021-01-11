@@ -62,4 +62,15 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:26.1.1')
     implementation 'com.google.firebase:firebase-database-ktx'
     kapt "com.android.databinding:compiler:$compiler_version"
+
+    // ---- work manager dependency ---- \\
+    def work_version = "2.4.0"
+    // Kotlin + coroutines
+    implementation "androidx.work:work-runtime-ktx:$work_version"
+    // optional - GCMNetworkManager support
+    implementation "androidx.work:work-gcm:$work_version"
+    // optional - Test helpers
+//    androidTestImplementation "androidx.work:work-testing:$work_version"
+    // ---- work manager dependency ---- \\
+
 }

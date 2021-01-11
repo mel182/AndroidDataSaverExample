@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
 
-    <permission android:name="com.example.datasaverexampleapp.provider.ACCESS_PERMISSION"/>
+    <permission android:name="com.example.datasaverexampleapp.provider.ACCESS_PERMISSION" />
 
     <application
         android:name=".application.AppContext"
@@ -21,11 +21,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
+        <activity android:name=".background_task.WorkManagerActivity"/>
         <activity android:name=".content_provider.ContentProviderActivity">
             <intent-filter>
-                <action android:name="android.intent.action.PICK"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:mimeType="text/plain"/>
+                <action android:name="android.intent.action.PICK" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
         <activity android:name=".firebase_real_time.FireBaseRealTimeActivity" />
@@ -55,8 +58,11 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
+
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
@@ -85,10 +91,10 @@
         <provider
             android:name=".content_provider.TestContentProvider"
             android:authorities="com.test.provider.datasaverexampleapp"
-            android:writePermission="com.example.datasaverexampleapp.provider.ACCESS_PERMISSION"
-            android:readPermission="com.example.datasaverexampleapp.provider.ACCESS_PERMISSION"
+            android:exported="true"
             android:grantUriPermissions="true"
-            android:exported="true"/>
+            android:readPermission="com.example.datasaverexampleapp.provider.ACCESS_PERMISSION"
+            android:writePermission="com.example.datasaverexampleapp.provider.ACCESS_PERMISSION" />
     </application>
 
 </manifest>
