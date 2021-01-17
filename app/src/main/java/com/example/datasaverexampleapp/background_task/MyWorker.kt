@@ -22,13 +22,14 @@ class MyWorker(context: Context, workerParams: WorkerParameters) : Worker(contex
 
     override fun doWork(): Result {
 
+        Log.i("TAG","Do work My worker class called!")
+
         val inputData = inputData // Retrieving input data from the request
         val task = inputData.getString(WorkManagerActivity.TASK_KEY)?:""
         val description = inputData.getString(WorkManagerActivity.DESCRIPTION_KEY)?:""
 
-//        displayNotification(task,description) // Task to execute
-        performTask()
-
+        displayNotification(task,description) // Task to execute
+        
         // Create output data
         val outputData = Data.Builder()
             .putString(WorkManagerActivity.TASK_KEY,task)
@@ -36,11 +37,6 @@ class MyWorker(context: Context, workerParams: WorkerParameters) : Worker(contex
             .build()
 
         return Result.success(outputData)
-    }
-
-    private fun performTask()
-    {
-        Log.i("TAG","Task Perform")
     }
 
     private fun displayNotification(task:String, description:String)

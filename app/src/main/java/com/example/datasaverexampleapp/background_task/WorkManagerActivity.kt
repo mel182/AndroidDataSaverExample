@@ -56,7 +56,7 @@ class WorkManagerActivity : AppCompatActivity() {
             .setInputData(inputData)
 //            .setConstraints(constraints)
             // Setting a backoff on case the work needs to retry
-            .setBackoffCriteria(BackoffPolicy.LINEAR, PeriodicWorkRequest.MIN_BACKOFF_MILLIS, TimeUnit.MILLISECONDS)
+//            .setBackoffCriteria(BackoffPolicy.LINEAR, PeriodicWorkRequest.MIN_BACKOFF_MILLIS, TimeUnit.MILLISECONDS)
             .build()
 
         // Periodic work request
