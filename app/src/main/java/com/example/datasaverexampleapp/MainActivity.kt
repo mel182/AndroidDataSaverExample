@@ -20,6 +20,7 @@ import com.example.datasaverexampleapp.animation.AnimationExampleActivity
 import com.example.datasaverexampleapp.background_task.WorkManagerActivity
 import com.example.datasaverexampleapp.battery.Battery
 import com.example.datasaverexampleapp.battery.PowerConnectionReceiver
+import com.example.datasaverexampleapp.concurrency.CoroutineExampleActivity
 import com.example.datasaverexampleapp.concurrency.FlowExampleActivity
 import com.example.datasaverexampleapp.content_provider.ContentProviderActivity
 import com.example.datasaverexampleapp.custom_view.CustomViewActivity
@@ -241,6 +242,11 @@ class MainActivity : AppCompatActivity() {
             }
         }
         // -------------------------------------------------------------------------------------------
+
+        coroutine_example?.setOnClickListener {
+            val intent = Intent(this, CoroutineExampleActivity::class.java)
+            startActivity(intent)
+        }
 
         flow_example.setOnClickListener {
             val intent = Intent(this, FlowExampleActivity::class.java)

@@ -111,6 +111,12 @@
                 android:text="Intent test" />
 
             <Button
+                android:id="@+id/coroutine_example"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Coroutine example" />
+
+            <Button
                 android:id="@+id/flow_example"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
