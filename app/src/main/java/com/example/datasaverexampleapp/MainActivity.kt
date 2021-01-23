@@ -33,6 +33,7 @@ import com.example.datasaverexampleapp.inDefInterfaces.Constants
 import com.example.datasaverexampleapp.inDefInterfaces.Shape
 import com.example.datasaverexampleapp.intent_example.IntentActivity
 import com.example.datasaverexampleapp.mvvm_coroutine_flow_livedata.MvvMCoroutinesActivity
+import com.example.datasaverexampleapp.notification.NotificationActivity
 import com.example.datasaverexampleapp.protocol_oriented_programming_kotlin.ProtocolOrientedActivity
 import com.example.datasaverexampleapp.resourceTest.ResourceActivity
 import com.example.datasaverexampleapp.room_db.RoomDBActivity
@@ -285,6 +286,11 @@ class MainActivity : AppCompatActivity() {
 
         background_task_example.setOnClickListener {
             val intent = Intent(this, WorkManagerActivity::class.java)
+            startActivity(intent)
+        }
+
+        notification_example.setOnClickListener {
+            val intent = Intent(this, NotificationActivity::class.java)
             startActivity(intent)
         }
     }

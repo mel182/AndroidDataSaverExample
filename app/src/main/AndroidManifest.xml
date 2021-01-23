@@ -21,7 +21,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".concurrency.CoroutineExampleActivity"></activity>
+        <activity android:name=".notification.NotificationActivity"></activity>
+        <activity android:name=".concurrency.CoroutineExampleActivity" />
         <activity android:name=".background_task.WorkManagerActivity" />
         <activity android:name=".content_provider.ContentProviderActivity">
             <intent-filter>

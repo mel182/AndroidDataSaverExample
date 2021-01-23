@@ -163,6 +163,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Background task example" />
+
+            <Button
+                android:id="@+id/notification_example"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Notification example" />
         </LinearLayout>
     </ScrollView>
 
