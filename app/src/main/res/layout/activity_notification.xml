@@ -67,6 +67,28 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:text="Notification with big picture style" />
+
+            <Button
+                android:id="@+id/notification_messaging_style_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Notification with messaging style" />
+
+            <Button
+                android:id="@+id/notification_with_category_sender_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Notification with category and sender" />
+
+            <Button
+                android:id="@+id/notification_group_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Notification group example" />
+
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

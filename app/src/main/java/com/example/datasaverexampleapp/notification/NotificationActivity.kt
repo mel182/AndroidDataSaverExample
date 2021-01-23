@@ -18,6 +18,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.app.Person
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import com.example.datasaverexampleapp.R
@@ -232,10 +233,103 @@ class NotificationActivity : AppCompatActivity() {
 
 
             notificationManager?.notify(NEW_MESSAGE_ID, builder.build())
-
-
         }
 
+        notification_messaging_style_button?.setOnClickListener {
+
+            val NEW_MESSAGE_ID = 2
+            val builder = NotificationCompat.Builder(applicationContext, MESSAGE_CHANNEL)
+
+            val title = "Notification Messaging"
+            val content = "This is a messaging notification"
+
+            val launchIntent =  Intent(this,NotificationActivity::class.java)
+            val contentIntent = TaskStackBuilder.create(applicationContext)
+                .addNextIntentWithParentStack(launchIntent)
+                .getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT)
+
+            val person1 = Person.Builder().setName("User 1").build()
+            val person2 = Person.Builder().setName("User 2").build()
+            val person3 = Person.Builder().setName("User 3").build()
+
+            builder.setSmallIcon(Drawable.ic_notification)
+                .setContentTitle(title)
+                .setContentText(content)
+                .setContentIntent(contentIntent) // Set your content intent to the notification which will be executed on tap
+                .setAutoCancel(true) // To dismiss notification when tap
+                .setShowWhen(true) // Show the time the notification was posted
+                .setLargeIcon(getBitmapFromVectorDrawable(Drawable.ic_notification))
+                    //mUser = new Person.Builder().setName(userDisplayName).build();
+                .setStyle(NotificationCompat.MessagingStyle(
+                    Person.Builder().setName("User display name").build())
+                    .addMessage("Message 1",System.currentTimeMillis(),person1)
+                    .addMessage("Message 2",System.currentTimeMillis(),person2)
+                    .addMessage("Message 3",System.currentTimeMillis(),person3)) // Set messaging style to the notification
+                .color = ContextCompat.getColor(applicationContext, R.color.colorPrimary) // set background color
+
+
+            notificationManager?.notify(NEW_MESSAGE_ID, builder.build())
+        }
+
+        notification_with_category_sender_button?.setOnClickListener {
+
+            val NEW_MESSAGE_ID = 2
+            val builder = NotificationCompat.Builder(applicationContext, MESSAGE_CHANNEL)
+
+            val title = "Notification category & sender"
+            val content = "This is a notification with category and sender"
+
+            val launchIntent =  Intent(this,NotificationActivity::class.java)
+            val contentIntent = TaskStackBuilder.create(applicationContext)
+                .addNextIntentWithParentStack(launchIntent)
+                .getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT)
+
+            builder.setSmallIcon(Drawable.ic_notification)
+                .setContentTitle(title)
+                .setContentText(content)
+                .setContentIntent(contentIntent) // Set your content intent to the notification which will be executed on tap
+                .setAutoCancel(true) // To dismiss notification when tap
+                .setLargeIcon(getBitmapFromVectorDrawable(Drawable.ic_notification))
+                .setCategory(NotificationCompat.CATEGORY_CALL)
+                .addPerson("tel: +31631564996") // Add people when notification is ONLY allowed by the user
+                .color = ContextCompat.getColor(applicationContext, R.color.colorPrimary) // set background color
+
+
+            notificationManager?.notify(NEW_MESSAGE_ID, builder.build())
+        }
+
+        notification_group_button?.setOnClickListener {
+
+            val NEW_MESSAGE_ID = 2
+            val builder = NotificationCompat.Builder(applicationContext, MESSAGE_CHANNEL)
+
+            val title = "Notification group example"
+            val content = "This is a notification group example"
+
+            val launchIntent =  Intent(this,NotificationActivity::class.java)
+            val contentIntent = TaskStackBuilder.create(applicationContext)
+                .addNextIntentWithParentStack(launchIntent)
+                .getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT)
+
+            // This the notification inbox style property
+            val inboxStyle = NotificationCompat.InboxStyle()
+            inboxStyle.addLine("Email subject 1")
+            inboxStyle.addLine("Email subject 2")
+            inboxStyle.addLine("Email subject 3")
+            inboxStyle.addLine("Email subject 4")
+
+            builder.setSmallIcon(Drawable.ic_notification)
+                .setContentTitle(title)
+                .setContentText(content)
+                .setContentIntent(contentIntent) // Set your content intent to the notification which will be executed on tap
+                .setAutoCancel(true) // To dismiss notification when tap
+                .setGroup("test@example.com")
+                .setGroupSummary(true)
+                .setStyle(inboxStyle)
+                .color = ContextCompat.getColor(applicationContext, R.color.colorPrimary) // set background color
+
+            notificationManager?.notify(NEW_MESSAGE_ID, builder.build())
+        }
     }
 
     override fun onNewIntent(intent: Intent?) {
