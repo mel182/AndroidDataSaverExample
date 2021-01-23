@@ -2,12 +2,19 @@ package com.example.datasaverexampleapp.notification
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
+import android.app.TaskStackBuilder
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -22,6 +29,7 @@ class NotificationActivity : AppCompatActivity() {
 
     private val MESSAGE_CHANNEL = "messages"
     private var notificationManager:NotificationManagerCompat? = null
+    private var receiver:BroadcastReceiver? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -107,8 +115,132 @@ class NotificationActivity : AppCompatActivity() {
             notificationManager?.notify(NEW_MESSAGE_ID, builder.build())
         }
 
+        notification_with_intent_button?.setOnClickListener {
+
+            createMessageNotificationChannel()
+            val NEW_MESSAGE_ID = 1
+            val builder = NotificationCompat.Builder(applicationContext, MESSAGE_CHANNEL)
+
+            val title = "Notification with intent"
+            val content = "This is a notification with intent"
+
+            val launchIntent =  Intent(this,NotificationActivity::class.java)
+            val contentIntent = TaskStackBuilder.create(applicationContext)
+                .addNextIntentWithParentStack(launchIntent)
+                .getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT)
+
+            builder.setSmallIcon(Drawable.ic_notification)
+                .setContentTitle(title)
+                .setContentText(content)
+                .setContentIntent(contentIntent) // Set your content intent to the notification which will be executed on tap
+                .setAutoCancel(true) // To dismiss notification when tap
+                .setLargeIcon(getBitmapFromVectorDrawable(Drawable.ic_notification))
+                .color = ContextCompat.getColor(applicationContext, R.color.colorPrimary) // set background color
+
+            notificationManager?.notify(NEW_MESSAGE_ID, builder.build())
+        }
+
+        val filter = IntentFilter()
+        filter.addAction("notification_cancelled")
+
+        receiver = object: BroadcastReceiver(){
+
+            override fun onReceive(context: Context?, intent: Intent?) {
+                Log.i("TAG","Action: ${intent?.action}")
+            }
+        }
+        registerReceiver(receiver, filter)
+
+        notification_with_delete_intent_button?.setOnClickListener {
+
+            createMessageNotificationChannel()
+            val NEW_MESSAGE_ID = 1
+            val builder = NotificationCompat.Builder(applicationContext, MESSAGE_CHANNEL)
+
+            val title = "Notification with intent"
+            val content = "This is a notification with intent"
+
+            val launchIntent =  Intent(this,NotificationActivity::class.java)
+            val contentIntent = TaskStackBuilder.create(applicationContext)
+                .addNextIntentWithParentStack(launchIntent)
+                .getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT)
+
+            // PendingIntent.getActivity(this, 0, deleteIntent, 0)
+
+            builder.setSmallIcon(Drawable.ic_notification)
+                .setContentTitle(title)
+                .setContentText(content)
+                .setContentIntent(contentIntent) // Set your content intent to the notification which will be executed on tap
+                .setDeleteIntent(getDeleteIntent()) // This is the delete intent that will be launch when notificationis dismissed
+                .setAutoCancel(true) // To dismiss notification when tap
+                .setLargeIcon(getBitmapFromVectorDrawable(Drawable.ic_notification))
+                .color = ContextCompat.getColor(applicationContext, R.color.colorPrimary) // set background color
+
+            notificationManager?.notify(NEW_MESSAGE_ID, builder.build())
+        }
 
 
+        notification_big_text_button?.setOnClickListener {
+
+            val NEW_MESSAGE_ID = 2
+            val builder = NotificationCompat.Builder(applicationContext, MESSAGE_CHANNEL)
+
+            val title = "Notification Big text"
+            val content = "This is a notification with big text is a notification with big text is a notification with big text is a notification with big text"
+
+            val launchIntent =  Intent(this,NotificationActivity::class.java)
+            val contentIntent = TaskStackBuilder.create(applicationContext)
+                .addNextIntentWithParentStack(launchIntent)
+                .getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT)
+
+            // PendingIntent.getActivity(this, 0, deleteIntent, 0)
+
+            builder.setSmallIcon(Drawable.ic_notification)
+                .setContentTitle(title)
+                .setContentText(content)
+                .setContentIntent(contentIntent) // Set your content intent to the notification which will be executed on tap
+                .setAutoCancel(true) // To dismiss notification when tap
+                .setLargeIcon(getBitmapFromVectorDrawable(Drawable.ic_notification))
+                .setStyle(NotificationCompat.BigTextStyle().bigText(content)) // Set big text style to the notification
+                .color = ContextCompat.getColor(applicationContext, R.color.colorPrimary) // set background color
+
+
+            notificationManager?.notify(NEW_MESSAGE_ID, builder.build())
+        }
+
+        notification_big_picture_button?.setOnClickListener {
+
+            val NEW_MESSAGE_ID = 2
+            val builder = NotificationCompat.Builder(applicationContext, MESSAGE_CHANNEL)
+
+            val title = "Notification Big picture"
+            val content = "This is a notification with big picture"
+
+            val launchIntent =  Intent(this,NotificationActivity::class.java)
+            val contentIntent = TaskStackBuilder.create(applicationContext)
+                .addNextIntentWithParentStack(launchIntent)
+                .getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT)
+
+            builder.setSmallIcon(Drawable.ic_notification)
+                .setContentTitle(title)
+                .setContentText(content)
+                .setContentIntent(contentIntent) // Set your content intent to the notification which will be executed on tap
+                .setAutoCancel(true) // To dismiss notification when tap
+                .setLargeIcon(getBitmapFromVectorDrawable(Drawable.ic_notification))
+                .setStyle(NotificationCompat.BigPictureStyle().bigPicture(getBitmapFromVectorDrawable(Drawable.ic_notification))) // Set big picture style to the notification
+                .color = ContextCompat.getColor(applicationContext, R.color.colorPrimary) // set background color
+
+
+            notificationManager?.notify(NEW_MESSAGE_ID, builder.build())
+
+
+        }
+
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        Toast.makeText(this, "Notification deleted!", Toast.LENGTH_LONG).show();
     }
 
     private fun createMessageNotificationChannel()
@@ -124,7 +256,6 @@ class NotificationActivity : AppCompatActivity() {
             notificationManager?.createNotificationChannel(channel)
         }
     }
-
 
     fun getBitmapFromVectorDrawable(drawableId: Int): Bitmap? {
         var drawable = ContextCompat.getDrawable(applicationContext, drawableId)
@@ -143,6 +274,13 @@ class NotificationActivity : AppCompatActivity() {
             convertedDrawable.draw(canvas)
             return bitmap
         }
+    }
+
+    private fun getDeleteIntent(): PendingIntent
+    {
+        val intent = Intent(this,NotificationActivity::class.java)
+        intent.action = "notification_cancelled"
+        return PendingIntent.getBroadcast(this,0,intent, PendingIntent.FLAG_CANCEL_CURRENT)
     }
 
 }

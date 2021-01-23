@@ -39,6 +39,34 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:text="Notification with large icon" />
+
+            <Button
+                android:id="@+id/notification_with_intent_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Notification with intent" />
+
+            <Button
+                android:id="@+id/notification_with_delete_intent_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Notification with delete intent" />
+
+            <Button
+                android:id="@+id/notification_big_text_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Notification with big text style" />
+
+            <Button
+                android:id="@+id/notification_big_picture_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Notification with big picture style" />
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
