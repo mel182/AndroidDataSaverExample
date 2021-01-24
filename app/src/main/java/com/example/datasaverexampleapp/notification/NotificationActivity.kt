@@ -1,9 +1,6 @@
 package com.example.datasaverexampleapp.notification
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.app.TaskStackBuilder
+import android.app.*
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -23,6 +20,10 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import com.example.datasaverexampleapp.R
 import com.example.datasaverexampleapp.type_alias.Drawable
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.ktx.messaging
 import kotlinx.android.synthetic.main.activity_notification.*
 
 
@@ -329,6 +330,39 @@ class NotificationActivity : AppCompatActivity() {
                 .color = ContextCompat.getColor(applicationContext, R.color.colorPrimary) // set background color
 
             notificationManager?.notify(NEW_MESSAGE_ID, builder.build())
+        }
+
+        // Firebase properties
+
+//        Firebase.messaging.isAutoInitEnabled = true
+//
+//        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+//            if (!task.isSuccessful) {
+//                Log.i("TAG", "Fetching FCM registration token failed", task.exception)
+//                return@OnCompleteListener
+//            }
+//
+//            // Get new FCM registration token
+//            val token = task.result
+//
+//            // Log and toast
+////            val msg = getString(R.string.msg_token_fmt, token)
+//            Log.i("TAG", "Token: ${token}")
+//            Toast.makeText(baseContext, "Token created!", Toast.LENGTH_SHORT).show()
+//        })
+
+        // Firebase properties
+
+//        FirebaseMessaging.getInstance().isAutoInitEnabled = true
+
+        firebase_messaging_subscribe?.setOnClickListener {
+
+            FirebaseMessaging.getInstance().subscribeToTopic("test")
+            Toast.makeText(this,"Subscribe to 'test' topic",Toast.LENGTH_SHORT).show()
+        }
+
+        firebase_messaging_unsubscribe?.setOnClickListener {
+
         }
     }
 

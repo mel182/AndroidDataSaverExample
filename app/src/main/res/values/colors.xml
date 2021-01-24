@@ -6,4 +6,5 @@
     <color name="compass_background">#F555</color>
     <color name="compass_marker_color">#AFFF</color>
     <color name="compass_text_color">#AFFF</color>
+    <color name="red">#FF0000</color>
 </resources>

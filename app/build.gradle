@@ -17,7 +17,7 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
-
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -44,6 +44,11 @@ dependencies {
     implementation 'android.arch.lifecycle:extensions:1.1.1'
     implementation 'android.arch.persistence.room:runtime:1.1.1'
     implementation 'com.google.firebase:firebase-database:19.5.1'
+
+    implementation platform('com.google.firebase:firebase-bom:26.3.0')
+    implementation 'com.google.firebase:firebase-messaging-ktx'
+
+//    implementation 'com.google.firebase:firebase-messaging:20.0.1'
     kapt 'android.arch.persistence.room:compiler:1.1.1'
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
@@ -62,6 +67,11 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:26.1.1')
     implementation 'com.google.firebase:firebase-database-ktx'
     kapt "com.android.databinding:compiler:$compiler_version"
+
+    def multidex_version = "2.0.1"
+    implementation "androidx.multidex:multidex:$multidex_version"
+
+    implementation "androidx.multidex:multidex:2.0.1"
 
     // ---- work manager dependency ---- \\
     def work_version = "2.4.0"

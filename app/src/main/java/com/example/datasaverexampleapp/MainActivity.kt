@@ -38,6 +38,8 @@ import com.example.datasaverexampleapp.protocol_oriented_programming_kotlin.Prot
 import com.example.datasaverexampleapp.resourceTest.ResourceActivity
 import com.example.datasaverexampleapp.room_db.RoomDBActivity
 import com.example.datasaverexampleapp.storage_manager.StorageManagerExampleActivity
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.activity_main.*
 import java.math.BigInteger
 
@@ -65,6 +67,21 @@ class MainActivity : AppCompatActivity() {
 //        Log.i("TAG","Width: ${width}")
 //        Log.i("TAG","Height: ${height}")
 //        Log.i("TAG","Height 2: ${height/2}")
+
+//        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+//            if (!task.isSuccessful) {
+//                Log.i("TAG", "Fetching FCM registration token failed", task.exception)
+//                return@OnCompleteListener
+//            }
+//
+//            // Get new FCM registration token
+//            val token = task.result
+//
+//            // Log and toast
+////            val msg = getString(R.string.msg_token_fmt, token)
+//            Log.i("TAG", "Token: ${token}")
+//            Toast.makeText(baseContext, "Token created!", Toast.LENGTH_SHORT).show()
+//        })
 
         checkActiveNetwork()
         registerBackGroundRestrictedChangeBroadcastReceiver()
