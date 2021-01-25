@@ -1,19 +1,19 @@
 package com.example.datasaverexampleapp.animation
 
 import android.animation.AnimatorInflater
-import android.animation.AnimatorSet
 import android.graphics.drawable.AnimationDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat.*
 import com.example.datasaverexampleapp.R
+import com.example.datasaverexampleapp.type_alias.Drawable
 import kotlinx.android.synthetic.main.activity_animation_example.*
 import kotlinx.coroutines.*
-import kotlin.coroutines.CoroutineContext
 
 class AnimationExampleActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_animation_example)
@@ -51,5 +51,10 @@ class AnimationExampleActivity : AppCompatActivity() {
            }
         }
 
+        start_vector_animate_button?.setOnClickListener {
+            val animationDrawable = androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat.create(this,Drawable.vector_animation)
+            animate_imageView.setImageDrawable(animationDrawable)
+            animationDrawable?.start()
+        }
     }
 }
