@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:appt="http://schemas.android.com/aapt"
+    tools:targetApi="lollipop">
+    <appt:attr name="android:drawable">
+        <vector
+            android:height="256dp"
+            android:width="256dp"
+            android:viewportWidth="32"
+            android:viewportHeight="32">
+            <path android:name="heart"
+                android:fillColor="#8f00"
+                android:pathData="M1,9l2,2c4.97,-4.97 13.03,-4.97 18,0l2,-2C16.93,2.93 7.08,2.93 1,9zM9,17l3,3 3,-3c-1.65,-1.66 -4.34,-1.66 -6,0zM5,13l2,2c2.76,-2.76 7.24,-2.76 10,0l2,-2C15.14,9.14 8.87,9.14 5,13z"/>
+        </vector>
+    </appt:attr>
+
+    <target android:name="heart">
+        <appt:attr name="android:animation">
+            <objectAnimator
+                android:duration="1000"
+                android:propertyName="fillColor"
+                android:valueFrom="#8f00"
+                android:valueTo="#ffc0cb"
+                android:interpolator="@android:interpolator/fast_out_slow_in"/>
+        </appt:attr>
+    </target>
+</animated-vector>
