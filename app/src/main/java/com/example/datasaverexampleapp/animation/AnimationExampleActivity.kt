@@ -2,6 +2,7 @@ package com.example.datasaverexampleapp.animation
 
 import android.animation.Animator
 import android.animation.AnimatorInflater
+import android.content.Intent
 import android.graphics.drawable.AnimationDrawable
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +12,7 @@ import android.view.ViewAnimationUtils
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import com.example.datasaverexampleapp.R
+import com.example.datasaverexampleapp.animation.activity_transition.ActivityTransition1
 import kotlinx.android.synthetic.main.activity_animation_example.*
 import kotlinx.coroutines.*
 import kotlin.math.hypot
@@ -95,6 +97,11 @@ class AnimationExampleActivity : AppCompatActivity() {
                     })
                 }
             }
+        }
+
+        activity_transition_animation_button?.setOnClickListener {
+            val intent = Intent(this,ActivityTransition1::class.java)
+            startActivity(intent)
         }
 
     }

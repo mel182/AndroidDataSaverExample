@@ -91,6 +91,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Circular reveal button" />
+
+                <Button
+                    android:id="@+id/activity_transition_animation_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Activity transition button" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
