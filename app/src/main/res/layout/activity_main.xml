@@ -169,6 +169,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Notification example" />
+
+            <Button
+                android:id="@+id/app_bar_example"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Appbar example" />
         </LinearLayout>
     </ScrollView>
 

@@ -17,6 +17,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.ConnectivityManagerCompat.*
 import com.example.datasaverexampleapp.animation.AnimationExampleActivity
+import com.example.datasaverexampleapp.appbar.AppBarActivity
 import com.example.datasaverexampleapp.background_task.WorkManagerActivity
 import com.example.datasaverexampleapp.battery.Battery
 import com.example.datasaverexampleapp.battery.PowerConnectionReceiver
@@ -308,6 +309,11 @@ class MainActivity : AppCompatActivity() {
 
         notification_example.setOnClickListener {
             val intent = Intent(this, NotificationActivity::class.java)
+            startActivity(intent)
+        }
+
+        app_bar_example.setOnClickListener {
+            val intent = Intent(this, AppBarActivity::class.java)
             startActivity(intent)
         }
     }
