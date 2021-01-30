@@ -175,6 +175,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Appbar example" />
+
+            <Button
+                android:id="@+id/card_view_example"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Card View example" />
         </LinearLayout>
     </ScrollView>
 

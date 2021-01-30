@@ -21,14 +21,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".appbar.AppBarActivity2"
-            android:parentActivityName=".appbar.AppBarActivity1"/>
+        <activity android:name=".cardview.CardViewActivity"></activity>
+        <activity
+            android:name=".appbar.AppBarActivity2"
+            android:parentActivityName=".appbar.AppBarActivity1" />
         <activity
             android:name=".appbar.AppBarActivity1"
-            android:parentActivityName=".appbar.AppBarActivity"/>
-        <activity android:name=".appbar.AppBarActivity"
-            android:parentActivityName=".MainActivity"/>
-
+            android:parentActivityName=".appbar.AppBarActivity" />
+        <activity
+            android:name=".appbar.AppBarActivity"
+            android:parentActivityName=".MainActivity" />
         <activity android:name=".animation.activity_transition.ActivityTransition2" />
         <activity android:name=".animation.activity_transition.ActivityTransition1" />
         <activity android:name=".notification.NotificationActivity" />

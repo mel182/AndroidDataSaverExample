@@ -21,6 +21,7 @@ import com.example.datasaverexampleapp.appbar.AppBarActivity
 import com.example.datasaverexampleapp.background_task.WorkManagerActivity
 import com.example.datasaverexampleapp.battery.Battery
 import com.example.datasaverexampleapp.battery.PowerConnectionReceiver
+import com.example.datasaverexampleapp.cardview.CardViewActivity
 import com.example.datasaverexampleapp.concurrency.CoroutineExampleActivity
 import com.example.datasaverexampleapp.concurrency.FlowExampleActivity
 import com.example.datasaverexampleapp.content_provider.ContentProviderActivity
@@ -314,6 +315,11 @@ class MainActivity : AppCompatActivity() {
 
         app_bar_example.setOnClickListener {
             val intent = Intent(this, AppBarActivity::class.java)
+            startActivity(intent)
+        }
+
+        card_view_example?.setOnClickListener {
+            val intent = Intent(this, CardViewActivity::class.java)
             startActivity(intent)
         }
     }
