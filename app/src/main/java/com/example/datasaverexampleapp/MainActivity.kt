@@ -18,6 +18,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.ConnectivityManagerCompat.*
 import com.example.datasaverexampleapp.animation.AnimationExampleActivity
 import com.example.datasaverexampleapp.appbar.AppBarActivity
+import com.example.datasaverexampleapp.appbar.menu.AppBarMenuExampleActivity
+import com.example.datasaverexampleapp.appcompatexample.AppCompatExampleActivity
 import com.example.datasaverexampleapp.background_task.WorkManagerActivity
 import com.example.datasaverexampleapp.battery.Battery
 import com.example.datasaverexampleapp.battery.PowerConnectionReceiver
@@ -320,6 +322,16 @@ class MainActivity : AppCompatActivity() {
 
         card_view_example?.setOnClickListener {
             val intent = Intent(this, CardViewActivity::class.java)
+            startActivity(intent)
+        }
+
+        appcompat_example?.setOnClickListener {
+            val intent = Intent(this, AppCompatExampleActivity::class.java)
+            startActivity(intent)
+        }
+
+        app_bar_menu_example?.setOnClickListener {
+            val intent = Intent(this, AppBarMenuExampleActivity::class.java)
             startActivity(intent)
         }
     }
