@@ -22,4 +22,9 @@
         <item name="colorControlActivated">@android:color/holo_green_dark</item>
     </style>
 
+    <style name="AppTheme.Custom.NoActionBar" parent="AppTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
 </resources>

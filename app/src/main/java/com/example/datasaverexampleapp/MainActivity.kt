@@ -6,11 +6,9 @@ import android.content.*
 import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.net.Uri
 import android.net.wifi.WifiManager
 import android.os.Build
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -19,6 +17,10 @@ import androidx.core.net.ConnectivityManagerCompat.*
 import com.example.datasaverexampleapp.animation.AnimationExampleActivity
 import com.example.datasaverexampleapp.appbar.AppBarActivity
 import com.example.datasaverexampleapp.appbar.menu.AppBarMenuExampleActivity
+import com.example.datasaverexampleapp.appbar.scrolling_techniques.AppBarCollapsingToolbarExampleActivity
+import com.example.datasaverexampleapp.appbar.scrolling_techniques.AppBarCollapsingToolbarWithImageExampleActivity
+import com.example.datasaverexampleapp.appbar.scrolling_techniques.AppBarToolbarOffscreenActivity
+import com.example.datasaverexampleapp.appbar.searchview.SearchViewActivity
 import com.example.datasaverexampleapp.appcompatexample.AppCompatExampleActivity
 import com.example.datasaverexampleapp.background_task.WorkManagerActivity
 import com.example.datasaverexampleapp.battery.Battery
@@ -42,8 +44,6 @@ import com.example.datasaverexampleapp.protocol_oriented_programming_kotlin.Prot
 import com.example.datasaverexampleapp.resourceTest.ResourceActivity
 import com.example.datasaverexampleapp.room_db.RoomDBActivity
 import com.example.datasaverexampleapp.storage_manager.StorageManagerExampleActivity
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.activity_main.*
 import java.math.BigInteger
 
@@ -334,6 +334,27 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, AppBarMenuExampleActivity::class.java)
             startActivity(intent)
         }
+
+        searchview_example?.setOnClickListener {
+            val intent = Intent(this, SearchViewActivity::class.java)
+            startActivity(intent)
+        }
+
+        toolbar_offscreen_example?.setOnClickListener {
+            val intent = Intent(this, AppBarToolbarOffscreenActivity::class.java)
+            startActivity(intent)
+        }
+
+        collapse_toolbar_example?.setOnClickListener {
+            val intent = Intent(this, AppBarCollapsingToolbarExampleActivity::class.java)
+            startActivity(intent)
+        }
+
+        collapse_toolbar_with_image_example?.setOnClickListener {
+            val intent = Intent(this, AppBarCollapsingToolbarWithImageExampleActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
     override fun onResume() {

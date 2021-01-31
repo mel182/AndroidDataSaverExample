@@ -193,6 +193,30 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="App bar menu Example" />
+
+            <Button
+                android:id="@+id/searchview_example"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Search view Example" />
+
+            <Button
+                android:id="@+id/toolbar_offscreen_example"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Toolbar offscreen Example" />
+
+            <Button
+                android:id="@+id/collapse_toolbar_example"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Collapse toolbar Example" />
+
+            <Button
+                android:id="@+id/collapse_toolbar_with_image_example"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Collapse toolbar with image Example" />
         </LinearLayout>
     </ScrollView>
 

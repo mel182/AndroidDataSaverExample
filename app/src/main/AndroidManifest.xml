@@ -21,7 +21,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".appbar.menu.AppBarMenuExampleActivity"></activity>
+        <activity
+            android:name=".appbar.scrolling_techniques.AppBarCollapsingToolbarWithImageExampleActivity"
+            android:theme="@style/AppTheme.Custom.NoActionBar"/>
+        <activity
+            android:name=".appbar.scrolling_techniques.AppBarCollapsingToolbarExampleActivity"
+            android:theme="@style/AppTheme.Custom.NoActionBar" />
+        <activity
+            android:name=".appbar.scrolling_techniques.AppBarToolbarOffscreenActivity"
+            android:theme="@style/AppTheme.Custom.NoActionBar" />
+        <activity android:name=".appbar.searchview.SearchViewActivity" />
+        <activity android:name=".appbar.menu.AppBarMenuExampleActivity" />
         <activity
             android:name=".appcompatexample.AppCompatExampleActivity"
             android:theme="@style/AppTheme.Custom" />
