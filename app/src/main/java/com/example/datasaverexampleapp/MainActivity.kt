@@ -21,7 +21,6 @@ import com.example.datasaverexampleapp.appbar.scrolling_techniques.AppBarCollaps
 import com.example.datasaverexampleapp.appbar.scrolling_techniques.AppBarCollapsingToolbarWithImageExampleActivity
 import com.example.datasaverexampleapp.appbar.scrolling_techniques.AppBarToolbarOffscreenActivity
 import com.example.datasaverexampleapp.appbar.searchview.SearchViewActivity
-import com.example.datasaverexampleapp.appcompatexample.AppCompatExampleActivity
 import com.example.datasaverexampleapp.background_task.WorkManagerActivity
 import com.example.datasaverexampleapp.battery.Battery
 import com.example.datasaverexampleapp.battery.PowerConnectionReceiver
@@ -322,11 +321,6 @@ class MainActivity : AppCompatActivity() {
 
         card_view_example?.setOnClickListener {
             val intent = Intent(this, CardViewActivity::class.java)
-            startActivity(intent)
-        }
-
-        appcompat_example?.setOnClickListener {
-            val intent = Intent(this, AppCompatExampleActivity::class.java)
             startActivity(intent)
         }
 

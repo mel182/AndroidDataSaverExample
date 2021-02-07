@@ -6,10 +6,12 @@ import android.content.Context
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
-import androidx.work.Data
-import androidx.work.Worker
-import androidx.work.WorkerParameters
+import androidx.work.*
 import com.example.datasaverexampleapp.R
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 /**
  * WorkManager is an API that makes it easy to schedule deferrable, asynchronous
@@ -19,6 +21,8 @@ import com.example.datasaverexampleapp.R
  * and Job Scheduler.
  */
 class MyWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
+
+    private var counter = 0
 
     override fun doWork(): Result {
 
@@ -35,6 +39,44 @@ class MyWorker(context: Context, workerParams: WorkerParameters) : Worker(contex
             .putString(WorkManagerActivity.TASK_KEY,task)
             .putString(WorkManagerActivity.DESCRIPTION_KEY,"Task Finished Successfully")
             .build()
+
+        // -------------
+
+        // Create input data for processing
+        val message = Data.Builder()
+            .putString(WorkManagerActivity.TASK_KEY,"Work Manager")
+            .putString(WorkManagerActivity.DESCRIPTION_KEY,"Work is finished")
+            .build()
+
+        // Create constraints which contain the conditions on
+        // which the task must be executed
+        val constraints = Constraints.Builder()
+            .setRequiresCharging(true)
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
+
+        // Create one time request
+        val oneTimeWorkRequest = OneTimeWorkRequest.Builder(MyWorker::class.java)
+            .setInputData(message)
+            .setConstraints(constraints)
+            .build()
+
+        if (counter != 5)
+        {
+            counter ++
+            CoroutineScope(Dispatchers.IO).launch {
+
+                delay(10000)
+
+                CoroutineScope(Dispatchers.Main).launch {
+
+                    WorkManager.getInstance(applicationContext).enqueue(oneTimeWorkRequest)
+                }
+            }
+        } else {
+            counter = 0
+        }
+        // -----------------
 
         return Result.success(outputData)
     }
