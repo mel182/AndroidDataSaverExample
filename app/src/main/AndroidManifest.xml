@@ -22,8 +22,11 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
         <activity
-            android:name=".appbar.scrolling_techniques.AppBarCollapsingToolbarWithImageExampleActivity"
+            android:name=".appbar.tabs.AppBarTabsActivity"
             android:theme="@style/AppTheme.Custom.NoActionBar"/>
+        <activity
+            android:name=".appbar.scrolling_techniques.AppBarCollapsingToolbarWithImageExampleActivity"
+            android:theme="@style/AppTheme.Custom.NoActionBar" />
         <activity
             android:name=".appbar.scrolling_techniques.AppBarCollapsingToolbarExampleActivity"
             android:theme="@style/AppTheme.Custom.NoActionBar" />
@@ -32,9 +35,6 @@
             android:theme="@style/AppTheme.Custom.NoActionBar" />
         <activity android:name=".appbar.searchview.SearchViewActivity" />
         <activity android:name=".appbar.menu.AppBarMenuExampleActivity" />
-        <activity
-            android:name=".appcompatexample.AppCompatExampleActivity"
-            android:theme="@style/AppTheme.Custom" />
         <activity android:name=".cardview.CardViewActivity" />
         <activity
             android:name=".appbar.AppBarActivity2"

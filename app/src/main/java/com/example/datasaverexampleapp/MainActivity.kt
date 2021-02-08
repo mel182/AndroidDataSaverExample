@@ -21,6 +21,7 @@ import com.example.datasaverexampleapp.appbar.scrolling_techniques.AppBarCollaps
 import com.example.datasaverexampleapp.appbar.scrolling_techniques.AppBarCollapsingToolbarWithImageExampleActivity
 import com.example.datasaverexampleapp.appbar.scrolling_techniques.AppBarToolbarOffscreenActivity
 import com.example.datasaverexampleapp.appbar.searchview.SearchViewActivity
+import com.example.datasaverexampleapp.appbar.tabs.AppBarTabsActivity
 import com.example.datasaverexampleapp.background_task.WorkManagerActivity
 import com.example.datasaverexampleapp.battery.Battery
 import com.example.datasaverexampleapp.battery.PowerConnectionReceiver
@@ -346,6 +347,11 @@ class MainActivity : AppCompatActivity() {
 
         collapse_toolbar_with_image_example?.setOnClickListener {
             val intent = Intent(this, AppBarCollapsingToolbarWithImageExampleActivity::class.java)
+            startActivity(intent)
+        }
+
+        app_bar_with_tabs?.setOnClickListener {
+            val intent = Intent(this, AppBarTabsActivity::class.java)
             startActivity(intent)
         }
 
