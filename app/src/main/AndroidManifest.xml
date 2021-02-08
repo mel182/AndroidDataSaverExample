@@ -21,9 +21,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
+        <activity android:name=".appbar.app_bar_bottom_navigation.AppBarBottomNavigationActivity"></activity>
         <activity
             android:name=".appbar.tabs.AppBarTabsActivity"
-            android:theme="@style/AppTheme.Custom.NoActionBar"/>
+            android:theme="@style/AppTheme.Custom.NoActionBar" />
         <activity
             android:name=".appbar.scrolling_techniques.AppBarCollapsingToolbarWithImageExampleActivity"
             android:theme="@style/AppTheme.Custom.NoActionBar" />

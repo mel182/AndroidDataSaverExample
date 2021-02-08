@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.ConnectivityManagerCompat.*
 import com.example.datasaverexampleapp.animation.AnimationExampleActivity
 import com.example.datasaverexampleapp.appbar.AppBarActivity
+import com.example.datasaverexampleapp.appbar.app_bar_bottom_navigation.AppBarBottomNavigationActivity
 import com.example.datasaverexampleapp.appbar.menu.AppBarMenuExampleActivity
 import com.example.datasaverexampleapp.appbar.scrolling_techniques.AppBarCollapsingToolbarExampleActivity
 import com.example.datasaverexampleapp.appbar.scrolling_techniques.AppBarCollapsingToolbarWithImageExampleActivity
@@ -352,6 +353,12 @@ class MainActivity : AppCompatActivity() {
 
         app_bar_with_tabs?.setOnClickListener {
             val intent = Intent(this, AppBarTabsActivity::class.java)
+            startActivity(intent)
+        }
+
+
+        app_bar_bottom_navigation?.setOnClickListener {
+            val intent = Intent(this, AppBarBottomNavigationActivity::class.java)
             startActivity(intent)
         }
 
