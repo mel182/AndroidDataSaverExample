@@ -3,11 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".appbar.app_bar_bottom_navigation.ContentFragment2">
+    tools:context=".appbar.drawer_menu.AccountFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/item_list"
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textSize="24sp"
+        android:text="Account fragment" />
 
 </FrameLayout>

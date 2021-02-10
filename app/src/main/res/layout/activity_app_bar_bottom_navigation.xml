@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".appbar.app_bar_bottom_navigation.AppBarBottomNavigationActivity">
 
-
     <fragment
         android:id="@+id/fragment3"
         android:name="androidx.navigation.fragment.NavHostFragment"
@@ -17,6 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/app_bar_bottom_navigation"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:navGraph="@navigation/nav_graph" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

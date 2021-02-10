@@ -3,13 +3,16 @@
 
     <item
         android:id="@+id/contentFragment1"
+        android:icon="@drawable/ic_baseline_crop_free"
         android:title="Home" />
 
     <item
         android:id="@+id/contentFragment2"
+        android:icon="@drawable/ic_baseline_crop_free"
         android:title="Profile" />
 
     <item
         android:id="@+id/contentFragment3"
+        android:icon="@drawable/ic_baseline_crop_free"
         android:title="Notification" />
 </menu>

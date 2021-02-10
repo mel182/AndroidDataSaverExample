@@ -5,10 +5,9 @@
     android:layout_height="match_parent"
     tools:context=".appbar.app_bar_bottom_navigation.ContentFragment1">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/item_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Content 1" />
+        android:layout_height="match_parent" />
 
 </FrameLayout>

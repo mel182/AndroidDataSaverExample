@@ -230,6 +230,12 @@
                 android:layout_height="wrap_content"
                 android:text="App bar with bottom navigation" />
 
+            <Button
+                android:id="@+id/drawer_menu_example"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Drawer menu example" />
+
         </LinearLayout>
     </ScrollView>
 
