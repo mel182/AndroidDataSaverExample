@@ -236,6 +236,18 @@
                 android:layout_height="wrap_content"
                 android:text="Drawer menu example" />
 
+            <Button
+                android:id="@+id/dialog_example"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dialog example" />
+
+            <Button
+                android:id="@+id/snack_bar_example"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Snackbar example" />
+
         </LinearLayout>
     </ScrollView>
 

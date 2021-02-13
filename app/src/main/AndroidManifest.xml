@@ -21,7 +21,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".appbar.drawer_menu.DrawerMenuActivity"></activity>
+        <activity android:name=".snackbar.SnackBarActivity"></activity>
+        <activity android:name=".dialog.DialogExampleActivity" />
+        <activity android:name=".appbar.drawer_menu.DrawerMenuActivity" />
         <activity android:name=".appbar.app_bar_bottom_navigation.AppBarBottomNavigationActivity" />
         <activity
             android:name=".appbar.tabs.AppBarTabsActivity"

@@ -35,6 +35,7 @@ import com.example.datasaverexampleapp.custom_view.CustomViewActivity
 import com.example.datasaverexampleapp.custom_view.CustomViewExampleActivity
 import com.example.datasaverexampleapp.data_binding.DataBindingTestActivity
 import com.example.datasaverexampleapp.data_binding.earthQuakeExample.EarthQuakeDataBindingExampleActivity
+import com.example.datasaverexampleapp.dialog.DialogExampleActivity
 import com.example.datasaverexampleapp.earth_quake_example.EarthQuakeActivity
 import com.example.datasaverexampleapp.firebase_real_time.FireBaseRealTimeActivity
 import com.example.datasaverexampleapp.inDefInterfaces.Constants
@@ -45,6 +46,7 @@ import com.example.datasaverexampleapp.notification.NotificationActivity
 import com.example.datasaverexampleapp.protocol_oriented_programming_kotlin.ProtocolOrientedActivity
 import com.example.datasaverexampleapp.resourceTest.ResourceActivity
 import com.example.datasaverexampleapp.room_db.RoomDBActivity
+import com.example.datasaverexampleapp.snackbar.SnackBarActivity
 import com.example.datasaverexampleapp.storage_manager.StorageManagerExampleActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import java.math.BigInteger
@@ -365,6 +367,16 @@ class MainActivity : AppCompatActivity() {
 
         drawer_menu_example?.setOnClickListener {
             val intent = Intent(this, DrawerMenuActivity::class.java)
+            startActivity(intent)
+        }
+
+        dialog_example?.setOnClickListener {
+            val intent = Intent(this, DialogExampleActivity::class.java)
+            startActivity(intent)
+        }
+
+        snack_bar_example?.setOnClickListener {
+            val intent = Intent(this, SnackBarActivity::class.java)
             startActivity(intent)
         }
     }
