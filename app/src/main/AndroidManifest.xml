@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <permission android:name="com.example.datasaverexampleapp.provider.ACCESS_PERMISSION" />
 
@@ -21,7 +22,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".snackbar.SnackBarActivity"></activity>
+        <activity android:name=".speech_recognition_example.SpeechRecognitionActivity"></activity>
+        <activity android:name=".text_to_speech_example.TextToSpeechActivity" />
+        <activity android:name=".snackbar.SnackBarActivity" />
         <activity android:name=".dialog.DialogExampleActivity" />
         <activity android:name=".appbar.drawer_menu.DrawerMenuActivity" />
         <activity android:name=".appbar.app_bar_bottom_navigation.AppBarBottomNavigationActivity" />

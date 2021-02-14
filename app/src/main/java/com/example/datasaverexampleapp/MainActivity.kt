@@ -47,7 +47,9 @@ import com.example.datasaverexampleapp.protocol_oriented_programming_kotlin.Prot
 import com.example.datasaverexampleapp.resourceTest.ResourceActivity
 import com.example.datasaverexampleapp.room_db.RoomDBActivity
 import com.example.datasaverexampleapp.snackbar.SnackBarActivity
+import com.example.datasaverexampleapp.speech_recognition_example.SpeechRecognitionActivity
 import com.example.datasaverexampleapp.storage_manager.StorageManagerExampleActivity
+import com.example.datasaverexampleapp.text_to_speech_example.TextToSpeechActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import java.math.BigInteger
 
@@ -379,6 +381,17 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, SnackBarActivity::class.java)
             startActivity(intent)
         }
+
+        text_to_speech_example?.setOnClickListener {
+            val intent = Intent(this, TextToSpeechActivity::class.java)
+            startActivity(intent)
+        }
+
+        speech_recognition_example?.setOnClickListener {
+            val intent = Intent(this, SpeechRecognitionActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
     override fun onResume() {

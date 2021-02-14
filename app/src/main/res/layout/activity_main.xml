@@ -248,6 +248,18 @@
                 android:layout_height="wrap_content"
                 android:text="Snackbar example" />
 
+            <Button
+                android:id="@+id/text_to_speech_example"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Text to speech example" />
+
+            <Button
+                android:id="@+id/speech_recognition_example"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Speech recognition example" />
+
         </LinearLayout>
     </ScrollView>
 
