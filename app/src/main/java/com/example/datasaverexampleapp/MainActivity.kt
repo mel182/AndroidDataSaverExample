@@ -15,6 +15,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.ConnectivityManagerCompat.*
 import com.example.datasaverexampleapp.animation.AnimationExampleActivity
+import com.example.datasaverexampleapp.animation.property.PropertyAnimationActivity
 import com.example.datasaverexampleapp.appbar.AppBarActivity
 import com.example.datasaverexampleapp.appbar.app_bar_bottom_navigation.AppBarBottomNavigationActivity
 import com.example.datasaverexampleapp.appbar.drawer_menu.DrawerMenuActivity
@@ -401,6 +402,11 @@ class MainActivity : AppCompatActivity() {
 
         full_screen_example?.setOnClickListener {
             val intent = Intent(this, FullScreenExampleActivity::class.java)
+            startActivity(intent)
+        }
+
+        property_animation_example?.setOnClickListener {
+            val intent = Intent(this, PropertyAnimationActivity::class.java)
             startActivity(intent)
         }
     }

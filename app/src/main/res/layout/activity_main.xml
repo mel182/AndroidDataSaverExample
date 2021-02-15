@@ -272,6 +272,12 @@
                 android:layout_height="wrap_content"
                 android:text="Full screen example" />
 
+            <Button
+                android:id="@+id/property_animation_example"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Property Animation example" />
+
         </LinearLayout>
     </ScrollView>
 
