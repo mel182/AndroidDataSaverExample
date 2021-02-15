@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <permission android:name="com.example.datasaverexampleapp.provider.ACCESS_PERMISSION" />
 
@@ -22,7 +23,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".speech_recognition_example.SpeechRecognitionActivity"></activity>
+        <activity android:name=".vibration.VibrationExampleActivity"/>
+        <activity android:name=".speech_recognition_example.SpeechRecognitionActivity" />
         <activity android:name=".text_to_speech_example.TextToSpeechActivity" />
         <activity android:name=".snackbar.SnackBarActivity" />
         <activity android:name=".dialog.DialogExampleActivity" />

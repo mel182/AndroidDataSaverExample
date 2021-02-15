@@ -50,6 +50,7 @@ import com.example.datasaverexampleapp.snackbar.SnackBarActivity
 import com.example.datasaverexampleapp.speech_recognition_example.SpeechRecognitionActivity
 import com.example.datasaverexampleapp.storage_manager.StorageManagerExampleActivity
 import com.example.datasaverexampleapp.text_to_speech_example.TextToSpeechActivity
+import com.example.datasaverexampleapp.vibration.VibrationExampleActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import java.math.BigInteger
 
@@ -392,6 +393,10 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        vibration_example?.setOnClickListener {
+            val intent = Intent(this, VibrationExampleActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onResume() {
