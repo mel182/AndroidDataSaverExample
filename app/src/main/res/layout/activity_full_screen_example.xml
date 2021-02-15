@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".fullscreen_example.FullScreenExampleActivity">
+
+    <Button
+        android:id="@+id/hide_system_ui_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Hide system UI" />
+
+    <Button
+        android:id="@+id/hide_system_ui_immersive_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Hide system UI Immersive (Api 19+)" />
+
+    <Button
+        android:id="@+id/hide_system_ui_immersive_sticky_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Hide system UI Immersive Sticky (Api 19+)" />
+
+    <Button
+        android:id="@+id/show_system_ui_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Show system UI" />
+
+</LinearLayout>

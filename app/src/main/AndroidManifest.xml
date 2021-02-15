@@ -23,7 +23,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".vibration.VibrationExampleActivity"/>
+        <activity android:name=".fullscreen_example.FullScreenExampleActivity"></activity>
+        <activity android:name=".vibration.VibrationExampleActivity" />
         <activity android:name=".speech_recognition_example.SpeechRecognitionActivity" />
         <activity android:name=".text_to_speech_example.TextToSpeechActivity" />
         <activity android:name=".snackbar.SnackBarActivity" />

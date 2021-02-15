@@ -38,6 +38,7 @@ import com.example.datasaverexampleapp.data_binding.earthQuakeExample.EarthQuake
 import com.example.datasaverexampleapp.dialog.DialogExampleActivity
 import com.example.datasaverexampleapp.earth_quake_example.EarthQuakeActivity
 import com.example.datasaverexampleapp.firebase_real_time.FireBaseRealTimeActivity
+import com.example.datasaverexampleapp.fullscreen_example.FullScreenExampleActivity
 import com.example.datasaverexampleapp.inDefInterfaces.Constants
 import com.example.datasaverexampleapp.inDefInterfaces.Shape
 import com.example.datasaverexampleapp.intent_example.IntentActivity
@@ -395,6 +396,11 @@ class MainActivity : AppCompatActivity() {
 
         vibration_example?.setOnClickListener {
             val intent = Intent(this, VibrationExampleActivity::class.java)
+            startActivity(intent)
+        }
+
+        full_screen_example?.setOnClickListener {
+            val intent = Intent(this, FullScreenExampleActivity::class.java)
             startActivity(intent)
         }
     }
