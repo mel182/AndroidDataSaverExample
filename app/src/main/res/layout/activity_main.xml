@@ -278,6 +278,12 @@
                 android:layout_height="wrap_content"
                 android:text="Property Animation example" />
 
+            <Button
+                android:id="@+id/animator_set_example"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Animator set example example" />
+
         </LinearLayout>
     </ScrollView>
 

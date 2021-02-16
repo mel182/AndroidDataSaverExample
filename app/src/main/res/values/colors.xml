@@ -7,4 +7,5 @@
     <color name="compass_marker_color">#AFFF</color>
     <color name="compass_text_color">#AFFF</color>
     <color name="red">#FF0000</color>
+    <color name="yellow">#FFFF00</color>
 </resources>

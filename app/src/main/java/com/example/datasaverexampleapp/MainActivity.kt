@@ -15,6 +15,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.ConnectivityManagerCompat.*
 import com.example.datasaverexampleapp.animation.AnimationExampleActivity
+import com.example.datasaverexampleapp.animation.animator_set.AnimatorSetActivity
 import com.example.datasaverexampleapp.animation.property.PropertyAnimationActivity
 import com.example.datasaverexampleapp.appbar.AppBarActivity
 import com.example.datasaverexampleapp.appbar.app_bar_bottom_navigation.AppBarBottomNavigationActivity
@@ -407,6 +408,11 @@ class MainActivity : AppCompatActivity() {
 
         property_animation_example?.setOnClickListener {
             val intent = Intent(this, PropertyAnimationActivity::class.java)
+            startActivity(intent)
+        }
+
+        animator_set_example?.setOnClickListener {
+            val intent = Intent(this, AnimatorSetActivity::class.java)
             startActivity(intent)
         }
     }
