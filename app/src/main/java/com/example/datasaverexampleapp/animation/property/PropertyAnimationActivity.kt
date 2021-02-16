@@ -1,9 +1,6 @@
 package com.example.datasaverexampleapp.animation.property
 
-import android.animation.Animator
-import android.animation.ArgbEvaluator
-import android.animation.ObjectAnimator
-import android.animation.RectEvaluator
+import android.animation.*
 import android.graphics.Color
 import android.graphics.Matrix
 import android.graphics.Rect
@@ -11,6 +8,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.view.animation.*
 import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import com.example.datasaverexampleapp.R
@@ -136,5 +134,100 @@ class PropertyAnimationActivity : AppCompatActivity() {
                 start()
             }
         }
+
+        object_animator_xml_overshoot_interpolator_example_button?.setOnClickListener {
+
+            AnimatorInflater.loadAnimator(applicationContext, R.animator.object_animator_xml_example).apply {
+                setTarget(xml_animation_view)
+                interpolator = OvershootInterpolator()
+                start()
+            }
+        }
+
+        object_animator_xml_accelerate_decelerate_interpolator_example_button?.setOnClickListener {
+
+            AnimatorInflater.loadAnimator(applicationContext, R.animator.object_animator_xml_example).apply {
+                setTarget(xml_animation_view)
+                interpolator = AccelerateDecelerateInterpolator() // The rate of change starts and ends slowly but accelerates through the middle
+                start()
+            }
+        }
+
+        object_animator_xml_anticipate_interpolator_example_button?.setOnClickListener {
+
+            AnimatorInflater.loadAnimator(applicationContext, R.animator.object_animator_xml_example).apply {
+                setTarget(xml_animation_view)
+                interpolator = AnticipateInterpolator() // The rate of change starts slowly but accelerates through the middle
+                start()
+            }
+        }
+
+        object_animator_xml_anticipate_overshoot_interpolator_example_button?.setOnClickListener {
+
+            AnimatorInflater.loadAnimator(applicationContext, R.animator.object_animator_xml_example).apply {
+                setTarget(xml_animation_view)
+                interpolator = AnticipateOvershootInterpolator() // The change start backward, flings forward, overshoots the target value, and finally goes back to the final value
+                start()
+            }
+        }
+
+        object_animator_xml_bounce_interpolator_example_button?.setOnClickListener {
+
+            AnimatorInflater.loadAnimator(applicationContext, R.animator.object_animator_xml_example).apply {
+                setTarget(xml_animation_view)
+                interpolator = BounceInterpolator() // The change bounces at the end
+                start()
+            }
+        }
+
+        object_animator_xml_cycle_interpolator_example_button?.setOnClickListener {
+
+            AnimatorInflater.loadAnimator(applicationContext, R.animator.object_animator_xml_example).apply {
+                setTarget(xml_animation_view)
+                interpolator = CycleInterpolator(1.0f) // The change is repeated following a sinusoidal pattern
+                start()
+            }
+        }
+
+        object_animator_xml_decelerate_interpolator_example_button?.setOnClickListener {
+
+            AnimatorInflater.loadAnimator(applicationContext, R.animator.object_animator_xml_example).apply {
+                setTarget(xml_animation_view)
+                interpolator = DecelerateInterpolator() // The rate of change starts out quickly and then decelerates
+                start()
+            }
+        }
+
+        object_animator_xml_linear_interpolator_example_button?.setOnClickListener {
+
+            AnimatorInflater.loadAnimator(applicationContext, R.animator.object_animator_xml_example).apply {
+                setTarget(xml_animation_view)
+                interpolator = LinearInterpolator() // The rate of change is constant
+                start()
+            }
+        }
+
+        object_animator_xml_overshoot_interpolator_example_button2?.setOnClickListener {
+
+            AnimatorInflater.loadAnimator(applicationContext, R.animator.object_animator_xml_example).apply {
+                setTarget(xml_animation_view)
+                interpolator = OvershootInterpolator() // The change flings forward, overshoots the last value, and then comes back
+                start()
+            }
+        }
+
+        object_animator_xml_path_interpolator_example_button?.setOnClickListener {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+                AnimatorInflater.loadAnimator(applicationContext, R.animator.object_animator_xml_example).apply {
+                    setTarget(xml_animation_view)
+                    interpolator = PathInterpolator(0.0f,1.0f) // The change follows a path object that extends from Point (0,0)
+                                                                                // to (1,0).
+                    start()
+                }
+            }
+        }
+
     }
 }

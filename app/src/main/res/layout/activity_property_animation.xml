@@ -86,6 +86,83 @@
                 android:layout_margin="10dp"
                 android:text="Hsv Evaluator" />
 
+            <LinearLayout
+                android:id="@+id/xml_animation_view"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@color/red"
+                android:orientation="horizontal"/>
+
+            <Button
+                android:id="@+id/object_animator_xml_overshoot_interpolator_example_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Object animator from xml OvershootInterpolator" />
+
+            <Button
+                android:id="@+id/object_animator_xml_accelerate_decelerate_interpolator_example_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Object animator from xml AccelerateDecelerateInterpolator" />
+
+            <Button
+                android:id="@+id/object_animator_xml_anticipate_interpolator_example_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Object animator from xml Anticipate interpolator" />
+
+            <Button
+                android:id="@+id/object_animator_xml_anticipate_overshoot_interpolator_example_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Object animator from xml Anticipate overshoot interpolator" />
+
+            <Button
+                android:id="@+id/object_animator_xml_bounce_interpolator_example_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Object animator from xml bounce interpolator" />
+
+            <Button
+                android:id="@+id/object_animator_xml_cycle_interpolator_example_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Object animator from xml cycle interpolator" />
+
+            <Button
+                android:id="@+id/object_animator_xml_decelerate_interpolator_example_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Object animator from xml decelerate interpolator" />
+
+            <Button
+                android:id="@+id/object_animator_xml_linear_interpolator_example_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Object animator from xml linear interpolator" />
+
+            <Button
+                android:id="@+id/object_animator_xml_overshoot_interpolator_example_button2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Object animator from xml overshoot interpolator 2" />
+
+            <Button
+                android:id="@+id/object_animator_xml_path_interpolator_example_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Object animator from xml path interpolator" />
+
         </LinearLayout>
     </ScrollView>
 
