@@ -23,7 +23,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".animation.floating_action_menu.FloatingActionMenuAnimationActivity"/>
+        <activity android:name=".DrawExampleActivity"></activity>
+        <activity android:name=".animation.floating_action_menu.FloatingActionMenuAnimationActivity" />
         <activity android:name=".animation.animator_set.AnimatorSetActivity" />
         <activity android:name=".animation.property.PropertyAnimationActivity" />
         <activity android:name=".fullscreen_example.FullScreenExampleActivity" />

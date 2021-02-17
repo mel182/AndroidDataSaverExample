@@ -76,6 +76,7 @@
                 android:layout_margin="20dp"
                 android:text="Floating action menu animation" />
 
+
         </LinearLayout>
     </ScrollView>
 

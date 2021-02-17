@@ -415,6 +415,12 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, AnimatorSetActivity::class.java)
             startActivity(intent)
         }
+
+        draw_examples?.setOnClickListener {
+            val intent = Intent(this, DrawExampleActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
     override fun onResume() {
