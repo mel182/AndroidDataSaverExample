@@ -23,7 +23,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".DrawExampleActivity"></activity>
+        <activity android:name=".copy_paste_example.CopyPasteExampleActivity"></activity>
+        <activity android:name=".drawing.CompositeDrawableActivity" />
+        <activity android:name=".drawing.CompassExampleFinalActivity" />
+        <activity android:name=".drawing.DrawExampleActivity" />
         <activity android:name=".animation.floating_action_menu.FloatingActionMenuAnimationActivity" />
         <activity android:name=".animation.animator_set.AnimatorSetActivity" />
         <activity android:name=".animation.property.PropertyAnimationActivity" />

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_pressed="true"
+        android:drawable="@drawable/ic_focus_state"/>
+    <item android:state_focused="true"
+        android:drawable="@drawable/ic_focus_state"/>
+    <item android:state_window_focused="false"
+        android:drawable="@drawable/ic_focus_state"/>
+    <item android:drawable="@drawable/ic_pressed_state"/>
+
+<!--    android:state_pressed: Pressed or not pressed -->
+<!--    android:state_focused: Has focus or does not have focus -->
+<!--    android:state_hovered: Introduced in API Level 11, the cursor is hovering over the view or is not hovering -->
+<!--    android:state_selected: Selected or not selected -->
+<!--    android:state_checkable: Can or can't be checked -->
+<!--    android:state_checked: Can or can't be checked -->
+<!--    android:state_enabled: Enabled or disabled -->
+<!--    android:state_activated: Activated or not activated -->
+<!--    android:state_window_focused: The parent window has focus or does not have focus -->
+
+</selector>

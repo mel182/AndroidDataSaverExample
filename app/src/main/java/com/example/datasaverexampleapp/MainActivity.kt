@@ -33,11 +33,13 @@ import com.example.datasaverexampleapp.cardview.CardViewActivity
 import com.example.datasaverexampleapp.concurrency.CoroutineExampleActivity
 import com.example.datasaverexampleapp.concurrency.FlowExampleActivity
 import com.example.datasaverexampleapp.content_provider.ContentProviderActivity
+import com.example.datasaverexampleapp.copy_paste_example.CopyPasteExampleActivity
 import com.example.datasaverexampleapp.custom_view.CustomViewActivity
 import com.example.datasaverexampleapp.custom_view.CustomViewExampleActivity
 import com.example.datasaverexampleapp.data_binding.DataBindingTestActivity
 import com.example.datasaverexampleapp.data_binding.earthQuakeExample.EarthQuakeDataBindingExampleActivity
 import com.example.datasaverexampleapp.dialog.DialogExampleActivity
+import com.example.datasaverexampleapp.drawing.DrawExampleActivity
 import com.example.datasaverexampleapp.earth_quake_example.EarthQuakeActivity
 import com.example.datasaverexampleapp.firebase_real_time.FireBaseRealTimeActivity
 import com.example.datasaverexampleapp.fullscreen_example.FullScreenExampleActivity
@@ -418,6 +420,11 @@ class MainActivity : AppCompatActivity() {
 
         draw_examples?.setOnClickListener {
             val intent = Intent(this, DrawExampleActivity::class.java)
+            startActivity(intent)
+        }
+
+        copy_paste_examples?.setOnClickListener {
+            val intent = Intent(this, CopyPasteExampleActivity::class.java)
             startActivity(intent)
         }
 

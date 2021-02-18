@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DrawExampleActivity">
+    tools:context=".drawing.DrawExampleActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -87,10 +87,34 @@
                         android:layout_marginTop="5dp"
                         android:text="Test"
                         tools:ignore="HardcodedText" />
-
                 </LinearLayout>
 
             </LinearLayout>
+
+
+            <Button
+                android:id="@+id/compass_example_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:text="Compass view example"
+                tools:ignore="HardcodedText" />
+
+            <Button
+                android:id="@+id/composite_drawable_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:text="Composite Drawable example"
+                tools:ignore="HardcodedText" />
+
+
+
+
 
         </LinearLayout>
     </ScrollView>

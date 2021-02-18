@@ -1,11 +1,11 @@
-package com.example.datasaverexampleapp
+package com.example.datasaverexampleapp.drawing
 
 import android.app.AlertDialog
-import android.graphics.Color
-import android.graphics.Paint
+import android.content.Intent
+import android.graphics.*
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.graphics.alpha
+import com.example.datasaverexampleapp.R
 import kotlinx.android.synthetic.main.activity_draw_example.*
 
 class DrawExampleActivity : AppCompatActivity() {
@@ -50,6 +50,16 @@ class DrawExampleActivity : AppCompatActivity() {
                 paint.alpha = 127
                 setBackgroundColor(paint.color)
             }
+        }
+
+        compass_example_button?.setOnClickListener {
+            val intent = Intent(this, CompassExampleFinalActivity::class.java)
+            startActivity(intent)
+        }
+
+        composite_drawable_button?.setOnClickListener {
+            val intent = Intent(this, CompositeDrawableActivity::class.java)
+            startActivity(intent)
         }
     }
 }
