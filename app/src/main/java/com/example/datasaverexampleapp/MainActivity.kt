@@ -46,6 +46,7 @@ import com.example.datasaverexampleapp.fullscreen_example.FullScreenExampleActiv
 import com.example.datasaverexampleapp.inDefInterfaces.Constants
 import com.example.datasaverexampleapp.inDefInterfaces.Shape
 import com.example.datasaverexampleapp.intent_example.IntentActivity
+import com.example.datasaverexampleapp.maps.GoogleMapActivity
 import com.example.datasaverexampleapp.mvvm_coroutine_flow_livedata.MvvMCoroutinesActivity
 import com.example.datasaverexampleapp.notification.NotificationActivity
 import com.example.datasaverexampleapp.protocol_oriented_programming_kotlin.ProtocolOrientedActivity
@@ -425,6 +426,11 @@ class MainActivity : AppCompatActivity() {
 
         copy_paste_examples?.setOnClickListener {
             val intent = Intent(this, CopyPasteExampleActivity::class.java)
+            startActivity(intent)
+        }
+
+        google_map_examples?.setOnClickListener {
+            val intent = Intent(this, GoogleMapActivity::class.java)
             startActivity(intent)
         }
 

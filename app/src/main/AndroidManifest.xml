@@ -23,7 +23,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".copy_paste_example.CopyPasteExampleActivity"></activity>
+        <activity android:name=".maps.GoogleMapActivity"></activity>
+        <activity android:name=".copy_paste_example.CopyPasteExampleActivity" />
         <activity android:name=".drawing.CompositeDrawableActivity" />
         <activity android:name=".drawing.CompassExampleFinalActivity" />
         <activity android:name=".drawing.DrawExampleActivity" />
