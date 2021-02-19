@@ -43,6 +43,7 @@ import com.example.datasaverexampleapp.drawing.DrawExampleActivity
 import com.example.datasaverexampleapp.earth_quake_example.EarthQuakeActivity
 import com.example.datasaverexampleapp.firebase_real_time.FireBaseRealTimeActivity
 import com.example.datasaverexampleapp.fullscreen_example.FullScreenExampleActivity
+import com.example.datasaverexampleapp.implicit_delegation_example.ImplicitDelegationActivity
 import com.example.datasaverexampleapp.inDefInterfaces.Constants
 import com.example.datasaverexampleapp.inDefInterfaces.Shape
 import com.example.datasaverexampleapp.intent_example.IntentActivity
@@ -425,6 +426,11 @@ class MainActivity : AppCompatActivity() {
 
         copy_paste_examples?.setOnClickListener {
             val intent = Intent(this, CopyPasteExampleActivity::class.java)
+            startActivity(intent)
+        }
+
+        onclick_delegation_examples?.setOnClickListener {
+            val intent = Intent(this, ImplicitDelegationActivity::class.java)
             startActivity(intent)
         }
 
