@@ -1,15 +1,19 @@
-package com.example.datasaverexampleapp.maps
+package com.example.datasaverexampleapp.location
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.PendingIntent
+import android.content.Intent
 import android.content.IntentSender
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.datasaverexampleapp.base_classes.BaseActivity
+import com.example.datasaverexampleapp.location.geocoder.GeoCoderExampleActivity
 import com.example.datasaverexampleapp.type_alias.Layout
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
@@ -17,20 +21,26 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
-import kotlinx.android.synthetic.main.activity_google_map.*
+import kotlinx.android.synthetic.main.activity_location_example.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class GoogleMapActivity : BaseActivity(Layout.activity_google_map) {
+class LocationMapActivity : BaseActivity(Layout.activity_location_example) {
 
     private var locationCallback:LocationCallback? = null
     private var locationClient:FusedLocationProviderClient? = null
+    private var geofencingClient:GeofencingClient? = null
+    private var geofencePendingIntent:PendingIntent? = null
 
+    companion object {
+        @JvmStatic
+        val TAG = "LOCATION_EXAMPLE"
+    }
 
     @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        title = "Google maps Example"
+        title = "Location Example"
         checkIfGooglePlayAPIiSAvailable()
 
         // Obtaining the current device location requires one of the two 'uses-permission' tags in your manifest,
@@ -115,7 +125,7 @@ class GoogleMapActivity : BaseActivity(Layout.activity_google_map) {
                             override fun onLocationResult(result: LocationResult) {
                                 super.onLocationResult(result)
 
-                                Log.i("GOOGLE_MAP","onLocationResult: ${result.locations}")
+                                Log.i(TAG,"onLocationResult: ${result.locations}")
 
                                 for (location in result.locations)
                                 {
@@ -129,7 +139,7 @@ class GoogleMapActivity : BaseActivity(Layout.activity_google_map) {
                                         time_textview?.text = timeString
                                     }catch (e:Exception)
                                     {
-                                        Log.i("GOOGLE_MAP","Error formatting time, reason: ${e.message}")
+                                        Log.i(TAG,"Error formatting time, reason: ${e.message}")
                                         time_textview?.text = "-"
                                     }
                                 }
@@ -146,18 +156,18 @@ class GoogleMapActivity : BaseActivity(Layout.activity_google_map) {
                         val builder = LocationSettingsRequest.Builder().addLocationRequest(locationRequest)
 
                         // Get the settings client
-                        val settingsClient = LocationServices.getSettingsClient(this@GoogleMapActivity)
+                        val settingsClient = LocationServices.getSettingsClient(this@LocationMapActivity)
 
                         // Check if the location settings satisfy our requirement
                         settingsClient.checkLocationSettings(builder.build()).apply {
 
-                            addOnSuccessListener(this@GoogleMapActivity){
+                            addOnSuccessListener(this@LocationMapActivity){
                                 // Location settings satisfy the requirements of the location Request.
                                 // Request location updates.
                                 startUpdateLocation(locationRequest)
                             }
 
-                            addOnFailureListener(this@GoogleMapActivity){ exception ->
+                            addOnFailureListener(this@LocationMapActivity){ exception ->
 
                                 // Extract the status code for the failure from within the Exception
                                 if (exception is ApiException)
@@ -186,7 +196,7 @@ class GoogleMapActivity : BaseActivity(Layout.activity_google_map) {
                                                                 Activity.RESULT_CANCELED -> {
 
                                                                     // Request changes were not made
-                                                                    Log.i("GOOGLE_MAP","Requested settings changes declined by user")
+                                                                    Log.i(TAG,"Requested settings changes declined by user")
 
                                                                     // Check if any location services are available, and if so request location updates
                                                                     states?.let { state ->
@@ -195,7 +205,7 @@ class GoogleMapActivity : BaseActivity(Layout.activity_google_map) {
                                                                         {
                                                                             startUpdateLocation(locationRequest)
                                                                         } else {
-                                                                            Log.i("GOOGLE_MAP","No location services available")
+                                                                            Log.i(TAG,"No location services available")
                                                                         }
                                                                     }
                                                                 }
@@ -205,7 +215,7 @@ class GoogleMapActivity : BaseActivity(Layout.activity_google_map) {
 
                                                 }catch (exception: IntentSender.SendIntentException)
                                                 {
-                                                    Log.i("GOOGLE_MAP","Intent sender failed due to: ${exception.message}")
+                                                    Log.i(TAG,"Intent sender failed due to: ${exception.message}")
                                                 }
                                             }
                                         }
@@ -214,7 +224,7 @@ class GoogleMapActivity : BaseActivity(Layout.activity_google_map) {
 
                                             // Location settings issues can't be resolved by user.
                                             // Request location update anyway
-                                            Log.i("GOOGLE_MAP","Location settings can't be resolved")
+                                            Log.i(TAG,"Location settings can't be resolved")
                                             startUpdateLocation(locationRequest)
                                         }
                                     }
@@ -230,6 +240,116 @@ class GoogleMapActivity : BaseActivity(Layout.activity_google_map) {
                     stopUpdatingLocation()
                     locationCallback = null
                     this.text = "Start update location"
+                }
+            }
+        }
+
+        geofence_button?.apply {
+
+            setOnClickListener {
+
+                if (text == "Add geofence")
+                {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+                    {
+                        requestPermissions(arrayOf(android.Manifest.permission.ACCESS_BACKGROUND_LOCATION, ACCESS_FINE_LOCATION)){ granted ->
+
+                            if (granted)
+                                addGeofence()
+                        }
+
+                    } else {
+
+                        requestFineLocationPermission { granted ->
+
+                            if (granted)
+                                addGeofence()
+                        }
+                    }
+                } else if (text == "Remove geofence")
+                {
+                    removeGeofence()
+                }
+            }
+        }
+
+        geocoder_example_button?.setOnClickListener {
+            val intent = Intent(this, GeoCoderExampleActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    private fun removeGeofence()
+    {
+        geofencingClient?.removeGeofences(geofencePendingIntent)
+        geofence_status?.text = "Geofence"
+        geofence_button?.text = "Add geofence"
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun addGeofence()
+    {
+        geofencingClient = LocationServices.getGeofencingClient(this@LocationMapActivity)
+        val newGeoFence = Geofence.Builder()
+            .setRequestId(TAG)
+            .setCircularRegion(51.4462131,
+                3.57172,
+                30F) // 30 meter radius
+            .setExpirationDuration(Geofence.NEVER_EXPIRE) // Time in millisecond or never expire
+            .setLoiteringDelay(10*100) // dwell after 10 seconds
+            .setNotificationResponsiveness(10*100) // notify within 10 second. In case you want improve battery consumption,
+            // set the notification responsiveness to as slow a value as possible, and increase the size of your Geofence radius to at least 150 meters
+            // reducing the need to for the device to check its location
+            .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_DWELL)
+            .build()
+
+        val geofenceRequest = GeofencingRequest.Builder()
+            .addGeofence(newGeoFence)
+            .setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_DWELL)
+            .build()
+
+        val intent = Intent(this@LocationMapActivity, GeofencingReceiver::class.java)
+        geofencePendingIntent = PendingIntent.getBroadcast(this@LocationMapActivity, 0,intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        geofencingClient?.addGeofences(geofenceRequest, geofencePendingIntent)?.run {
+
+            addOnSuccessListener {
+                geofence_status?.text = "Geofence added!"
+                geofence_button?.text = "Remove geofence"
+            }
+
+            addOnFailureListener {
+
+                it.message?.let {
+
+                    when(it.trim().replace(":",""))
+                    {
+                        GeofenceStatusCodes.GEOFENCE_INSUFFICIENT_LOCATION_PERMISSION.toString() -> {
+                            geofence_status?.text = "Insufficient location permission to perform geofencing operations"
+                        }
+
+                        GeofenceStatusCodes.GEOFENCE_NOT_AVAILABLE.toString() -> {
+                            geofence_status?.text = "Geofence service is not available now"
+                        }
+
+                        GeofenceStatusCodes.GEOFENCE_REQUEST_TOO_FREQUENT.toString() -> {
+                            geofence_status?.text = "Your app has been adding Geofences too frequently."
+                        }
+
+                        GeofenceStatusCodes.GEOFENCE_TOO_MANY_GEOFENCES.toString() -> {
+                            geofence_status?.text = "Your app has registered more than 100 geofences."
+                        }
+
+                        GeofenceStatusCodes.GEOFENCE_TOO_MANY_PENDING_INTENTS.toString() -> {
+                            geofence_status?.text = "You have provided more than 5 different PendingIntents to the addGeofences call"
+                        }
+                    }
+
+                    Log.i(TAG,"Failed adding geofence, reason: $it")
+
+                }?: kotlin.run {
+                    geofence_status?.text = "Adding geofence failed"
+                    Log.i(TAG,"Failed adding geofence, reason: ${it.message} ${it.cause}")
                 }
             }
         }
@@ -260,7 +380,7 @@ class GoogleMapActivity : BaseActivity(Layout.activity_google_map) {
                                 time_textview?.text = timeString
                             }catch (e:Exception)
                             {
-                                Log.i("GOOGLE_MAP","Error formatting time, reason: ${e.message}")
+                                Log.i(TAG,"Error formatting time, reason: ${e.message}")
                                 time_textview?.text = "-"
                             }
                         }?: kotlin.run {
@@ -271,7 +391,7 @@ class GoogleMapActivity : BaseActivity(Layout.activity_google_map) {
                         }
                     }.addOnFailureListener{ exception ->
 
-                        Toast.makeText(this@GoogleMapActivity,"Failed to retrieve location, reason: $exception",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@LocationMapActivity,"Failed to retrieve location, reason: $exception",Toast.LENGTH_SHORT).show()
                         longitude_textview?.text = "-"
                         latitude_textview?.text = "-"
                         altitude_textview?.text = "-"
@@ -322,12 +442,12 @@ class GoogleMapActivity : BaseActivity(Layout.activity_google_map) {
         {
             if (!googleApiAvailability.isUserResolvableError(result)) // Determines whether an error can be resolved via user action.
             {
-                Log.i("GOOGLE_MAP","Google play services api is not available")
+                Log.i(TAG,"Google play services api is not available")
             } else {
-                Log.i("GOOGLE_MAP","Google play services api is available")
+                Log.i(TAG,"Google play services api is available")
             }
         } else if (result == ConnectionResult.SUCCESS){
-            Log.i("GOOGLE_MAP","Google play API connection result success")
+            Log.i(TAG,"Google play API connection result success")
         }
     }
 }

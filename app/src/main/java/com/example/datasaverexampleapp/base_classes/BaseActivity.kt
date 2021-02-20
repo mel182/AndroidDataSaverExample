@@ -35,8 +35,28 @@ abstract class BaseActivity(contentView:Int) : AppCompatActivity(contentView)
         return ActivityCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
     }
 
+    private fun isPermissionsGranted(permissions:Array<String>) : Boolean
+    {
+        var permissionGranted = true
+
+        for (permission in permissions)
+        {
+            if (!isPermissionGranted(permission))
+                permissionGranted = false
+        }
+
+        return permissionGranted
+    }
+
+
     protected open fun requestPermissions(permissions:Array<String>, activityResult:(Boolean) -> Unit)
     {
+        if (isPermissionsGranted(permissions))
+        {
+            activityResult(true)
+            return
+        }
+
         activityResultHandler?.requestPermission(permissions, object: OnPermissionResult{
 
             override fun onPermissionResults(result: Map<String, Boolean>) {

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.datasaverexampleapp.R
+import com.example.datasaverexampleapp.global_adapter.DataAdapter
 import kotlinx.android.synthetic.main.activity_app_bar_advance_scrolling.*
 import kotlinx.android.synthetic.main.activity_app_bar_collapsing_toolbar_example.*
 import kotlinx.android.synthetic.main.activity_app_bar_collapsing_toolbar_example.data_list

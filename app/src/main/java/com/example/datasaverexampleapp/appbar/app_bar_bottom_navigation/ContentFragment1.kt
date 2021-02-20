@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.datasaverexampleapp.R
-import com.example.datasaverexampleapp.appbar.scrolling_techniques.DataAdapter
+import com.example.datasaverexampleapp.global_adapter.DataAdapter
 import kotlinx.android.synthetic.main.fragment_content1.*
 
 /**

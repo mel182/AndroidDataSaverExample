@@ -303,10 +303,16 @@
                 android:text="OnClick delegation example" />
 
             <Button
-                android:id="@+id/google_map_examples"
+                android:id="@+id/location_examples"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Google map examples" />
+                android:text="Location examples" />
+
+            <Button
+                android:id="@+id/geofencing_examples"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Geofencing examples" />
 
         </LinearLayout>
     </ScrollView>

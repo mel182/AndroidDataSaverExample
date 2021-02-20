@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".maps.GoogleMapActivity">
+    tools:context=".location.LocationMapActivity">
 
     <Button
         android:id="@+id/fine_location_test_button"
@@ -122,6 +122,39 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Start update location" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/geofence_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Geofence"
+                android:textColor="@android:color/black"
+                android:layout_marginBottom="5dp"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/geofence_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Add geofence" />
+
+            <Button
+                android:id="@+id/geocoder_example_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Geocoder example" />
+
+        </LinearLayout>
+
+
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

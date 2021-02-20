@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.datasaverexampleapp.R
-import com.example.datasaverexampleapp.appbar.scrolling_techniques.DataAdapter
+import com.example.datasaverexampleapp.global_adapter.DataAdapter
 
 class ViewPager2Adapter(val itemList:ArrayList<String>) : RecyclerView.Adapter<ViewPager2Adapter.ViewHolder>()
 {

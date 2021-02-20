@@ -26,7 +26,7 @@ import com.example.datasaverexampleapp.appbar.scrolling_techniques.AppBarCollaps
 import com.example.datasaverexampleapp.appbar.scrolling_techniques.AppBarToolbarOffscreenActivity
 import com.example.datasaverexampleapp.appbar.searchview.SearchViewActivity
 import com.example.datasaverexampleapp.appbar.tabs.AppBarTabsActivity
-import com.example.datasaverexampleapp.background_task.WorkManagerActivity
+import com.example.datasaverexampleapp.work_manager.WorkManagerActivity
 import com.example.datasaverexampleapp.battery.Battery
 import com.example.datasaverexampleapp.battery.PowerConnectionReceiver
 import com.example.datasaverexampleapp.cardview.CardViewActivity
@@ -47,7 +47,7 @@ import com.example.datasaverexampleapp.implicit_delegation_example.ImplicitDeleg
 import com.example.datasaverexampleapp.inDefInterfaces.Constants
 import com.example.datasaverexampleapp.inDefInterfaces.Shape
 import com.example.datasaverexampleapp.intent_example.IntentActivity
-import com.example.datasaverexampleapp.maps.GoogleMapActivity
+import com.example.datasaverexampleapp.location.LocationMapActivity
 import com.example.datasaverexampleapp.mvvm_coroutine_flow_livedata.MvvMCoroutinesActivity
 import com.example.datasaverexampleapp.notification.NotificationActivity
 import com.example.datasaverexampleapp.protocol_oriented_programming_kotlin.ProtocolOrientedActivity
@@ -435,11 +435,10 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        google_map_examples?.setOnClickListener {
-            val intent = Intent(this, GoogleMapActivity::class.java)
+        location_examples?.setOnClickListener {
+            val intent = Intent(this, LocationMapActivity::class.java)
             startActivity(intent)
         }
-
     }
 
     override fun onResume() {
