@@ -1,20 +1,23 @@
 package com.example.datasaverexampleapp.maps
 
-import android.Manifest
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.annotation.SuppressLint
-import android.content.pm.PackageManager
+import android.app.Activity
+import android.content.IntentSender
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import com.example.datasaverexampleapp.base_classes.BaseActivity
 import com.example.datasaverexampleapp.type_alias.Layout
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.api.CommonStatusCodes
+import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import kotlinx.android.synthetic.main.activity_google_map.*
-import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -138,8 +141,85 @@ class GoogleMapActivity : BaseActivity(Layout.activity_google_map) {
                             .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                             .setInterval(5000) // Update every 5 seconds
 
-                        locationCallback?.let{
-                            locationClient?.requestLocationUpdates(locationRequest,it, null)
+
+                        // Check if location settings are compatible with our location request
+                        val builder = LocationSettingsRequest.Builder().addLocationRequest(locationRequest)
+
+                        // Get the settings client
+                        val settingsClient = LocationServices.getSettingsClient(this@GoogleMapActivity)
+
+                        // Check if the location settings satisfy our requirement
+                        settingsClient.checkLocationSettings(builder.build()).apply {
+
+                            addOnSuccessListener(this@GoogleMapActivity){
+                                // Location settings satisfy the requirements of the location Request.
+                                // Request location updates.
+                                startUpdateLocation(locationRequest)
+                            }
+
+                            addOnFailureListener(this@GoogleMapActivity){ exception ->
+
+                                // Extract the status code for the failure from within the Exception
+                                if (exception is ApiException)
+                                {
+                                    when(exception.statusCode)
+                                    {
+                                        CommonStatusCodes.RESOLUTION_REQUIRED -> {
+
+                                            if (exception is ResolvableApiException)
+                                            {
+                                                try {
+                                                    // Display a user dialog to resolve the location settings issue
+                                                    registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()){ result ->
+
+                                                        result.data?.let { data ->
+
+                                                            val states = LocationSettingsStates.fromIntent(data)
+
+                                                            when(result.resultCode)
+                                                            {
+                                                                Activity.RESULT_OK -> {
+                                                                    // Requested changes made, request location updates
+                                                                    startUpdateLocation(locationRequest)
+                                                                }
+
+                                                                Activity.RESULT_CANCELED -> {
+
+                                                                    // Request changes were not made
+                                                                    Log.i("GOOGLE_MAP","Requested settings changes declined by user")
+
+                                                                    // Check if any location services are available, and if so request location updates
+                                                                    states?.let { state ->
+
+                                                                        if (state.isLocationUsable)
+                                                                        {
+                                                                            startUpdateLocation(locationRequest)
+                                                                        } else {
+                                                                            Log.i("GOOGLE_MAP","No location services available")
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }.launch(IntentSenderRequest.Builder(exception.resolution).build())
+
+                                                }catch (exception: IntentSender.SendIntentException)
+                                                {
+                                                    Log.i("GOOGLE_MAP","Intent sender failed due to: ${exception.message}")
+                                                }
+                                            }
+                                        }
+
+                                        LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE -> {
+
+                                            // Location settings issues can't be resolved by user.
+                                            // Request location update anyway
+                                            Log.i("GOOGLE_MAP","Location settings can't be resolved")
+                                            startUpdateLocation(locationRequest)
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
 
@@ -147,9 +227,7 @@ class GoogleMapActivity : BaseActivity(Layout.activity_google_map) {
 
                 } else if (this.text == "Stop update location") {
 
-                    locationCallback?.let{
-                        locationClient?.removeLocationUpdates(it)
-                    }
+                    stopUpdatingLocation()
                     locationCallback = null
                     this.text = "Start update location"
                 }
@@ -204,11 +282,27 @@ class GoogleMapActivity : BaseActivity(Layout.activity_google_map) {
         }
     }
 
-    override fun onStop() {
-        super.onStop()
+    @SuppressLint("MissingPermission")
+    private fun startUpdateLocation(locationRequest:LocationRequest)
+    {
+        if (isPermissionGranted(ACCESS_FINE_LOCATION))
+        {
+            locationCallback?.let{
+                locationClient?.requestLocationUpdates(locationRequest,it, null)
+            }
+        }
+    }
+
+    private fun stopUpdatingLocation()
+    {
         locationCallback?.let{
             locationClient?.removeLocationUpdates(it)
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        stopUpdatingLocation()
     }
 
     private fun requestFineLocationPermission(callback:(Boolean) -> Unit)

@@ -1,7 +1,9 @@
 package com.example.datasaverexampleapp.base_classes
 
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import com.example.datasaverexampleapp.activityRequestHandler.ActivityResultHandler
 import com.example.datasaverexampleapp.speech_recognition_example.OnPermissionResult
 
@@ -26,6 +28,11 @@ abstract class BaseActivity(contentView:Int) : AppCompatActivity(contentView)
                 activityResult(result)
             }
         })
+    }
+
+    protected open fun isPermissionGranted(permission:String) : Boolean
+    {
+        return ActivityCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
     }
 
     protected open fun requestPermissions(permissions:Array<String>, activityResult:(Boolean) -> Unit)
