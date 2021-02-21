@@ -20,6 +20,7 @@ class GeoCoderExampleActivity : AppCompatActivity() {
 
     private lateinit var geocoder: Geocoder
     private var reverseGeoCoderAdapter:DataAdapter? = null
+    private var forwardGeoCoderAdapter:DataAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +59,19 @@ class GeoCoderExampleActivity : AppCompatActivity() {
             geocoding_lat_lng?.text = "Lat: ${location.latitude} - long: ${location.longitude}"
             reverseGeoCoding(location)
         }
+
+        // Forward geocoding
+        forward_geocoder_result_list?.apply {
+            layoutManager = LinearLayoutManager(this@GeoCoderExampleActivity)
+            forwardGeoCoderAdapter = DataAdapter()
+            adapter = forwardGeoCoderAdapter
+        }
+
+        forward_geocoding_button?.setOnClickListener {
+            val address = "Hobeinstraat 10, 4381PD Vlissingen, Netherlands"
+            forward_geocoder_address?.text = address
+            forwardGeoCoding(address)
+        }
     }
 
     private fun reverseGeoCoding(location:LatLng)
@@ -78,6 +92,9 @@ class GeoCoderExampleActivity : AppCompatActivity() {
                         for (addressLineFound in 0..addressLineIndex)
                         {
                             val addressLine = addressFound.getAddressLine(addressLineFound)
+                            // The accuracy and granularity of reverse lookup are entirely dependent on the quality
+                            // of data in the geocoding database; as a result, the quality of the results may vary widely
+                            // between different countries and locales.
                             dataList.add(addressLine)
                         }
                     }
@@ -91,6 +108,41 @@ class GeoCoderExampleActivity : AppCompatActivity() {
         {
             no_result_text?.text = "Error executing reverse geocoding, reason: ${e.message}"
             no_address_found_view?.visibility = View.VISIBLE
+        }
+    }
+
+    private fun forwardGeoCoding(address:String)
+    {
+        forward_geocoder_no_address_found_view?.visibility = View.GONE
+
+        try {
+            val result = geocoder.getFromLocationName(address, 10)
+
+            if (result != null && result.isNotEmpty())
+            {
+                val dataList:ArrayList<String> = ArrayList()
+                for (addressFound in result)
+                {
+                    val addressLineIndex = addressFound.maxAddressLineIndex
+
+                    if (addressLineIndex != -1)
+                    {
+                        for (addressLineFound in 0..addressLineIndex)
+                        {
+                            val addressLine = addressFound.getAddressLine(addressLineFound)
+                            dataList.add(addressLine)
+                        }
+                    }
+                }
+                forwardGeoCoderAdapter?.update(dataList)
+            } else {
+                forward_geocoder_no_result_text?.text = "No location found"
+                forward_geocoder_no_address_found_view?.visibility = View.VISIBLE
+            }
+        }catch (e:IOException)
+        {
+            forward_geocoder_no_result_text?.text = "Error executing forward geocoding, reason: ${e.message}"
+            forward_geocoder_no_address_found_view?.visibility = View.VISIBLE
         }
     }
 }
