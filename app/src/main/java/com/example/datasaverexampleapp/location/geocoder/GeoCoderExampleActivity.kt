@@ -130,6 +130,7 @@ class GeoCoderExampleActivity : AppCompatActivity() {
                         for (addressLineFound in 0..addressLineIndex)
                         {
                             val addressLine = addressFound.getAddressLine(addressLineFound)
+                            // This overload is particularly useful when working with a map, letting you restrict the search to the visible area.
                             dataList.add(addressLine)
                         }
                     }
