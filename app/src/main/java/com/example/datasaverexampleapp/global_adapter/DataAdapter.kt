@@ -1,4 +1,4 @@
-package com.example.datasaverexampleapp.appbar.scrolling_techniques
+package com.example.datasaverexampleapp.global_adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,9 +6,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.datasaverexampleapp.R
-import kotlinx.android.synthetic.main.item_custom_cell.view.*
 
-class DataAdapter(val data:ArrayList<String>) : RecyclerView.Adapter<DataAdapter.ViewHolder>()
+class DataAdapter(val data:ArrayList<String> = ArrayList()) : RecyclerView.Adapter<DataAdapter.ViewHolder>()
 {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder
     {
@@ -22,6 +21,13 @@ class DataAdapter(val data:ArrayList<String>) : RecyclerView.Adapter<DataAdapter
     }
 
     override fun getItemCount() = data.size
+
+    fun update(newData:ArrayList<String>)
+    {
+        data.clear()
+        data.addAll(newData)
+        notifyDataSetChanged()
+    }
 
     class ViewHolder(view:View) : RecyclerView.ViewHolder(view)
     {

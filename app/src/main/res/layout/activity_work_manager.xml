@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".background_task.WorkManagerActivity">
+    tools:context=".work_manager.WorkManagerActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

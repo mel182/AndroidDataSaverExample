@@ -12,6 +12,7 @@ import androidx.activity.result.ActivityResult
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.datasaverexampleapp.R
+import com.example.datasaverexampleapp.activityRequestHandler.ActivityResultHandler
 import kotlinx.android.synthetic.main.activity_speech_recognition.*
 import java.util.*
 
