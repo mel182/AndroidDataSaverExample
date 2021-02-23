@@ -26,7 +26,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".location.geocoder.GeoCoderExampleActivity"></activity>
+        <activity android:name=".location.maps.GoogleMapsActivity"></activity>
+        <activity android:name=".location.geocoder.GeoCoderExampleActivity" />
         <activity android:name=".implicit_delegation_example.ImplicitDelegationActivity" />
         <activity android:name=".location.LocationMapActivity" />
         <activity android:name=".copy_paste_example.CopyPasteExampleActivity" />
@@ -176,6 +177,10 @@
             android:grantUriPermissions="true"
             android:readPermission="com.example.datasaverexampleapp.provider.ACCESS_PERMISSION"
             android:writePermission="com.example.datasaverexampleapp.provider.ACCESS_PERMISSION" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCmjmzDm0X0HJw1NmXoZsv8arcnCkanI6c" />
     </application>
 
 </manifest>

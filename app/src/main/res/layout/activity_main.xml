@@ -309,10 +309,10 @@
                 android:text="Location examples" />
 
             <Button
-                android:id="@+id/geofencing_examples"
+                android:id="@+id/google_maps_examples"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Geofencing examples" />
+                android:text="Google maps examples" />
 
         </LinearLayout>
     </ScrollView>

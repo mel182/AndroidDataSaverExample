@@ -48,6 +48,7 @@ import com.example.datasaverexampleapp.inDefInterfaces.Constants
 import com.example.datasaverexampleapp.inDefInterfaces.Shape
 import com.example.datasaverexampleapp.intent_example.IntentActivity
 import com.example.datasaverexampleapp.location.LocationMapActivity
+import com.example.datasaverexampleapp.location.maps.GoogleMapsActivity
 import com.example.datasaverexampleapp.mvvm_coroutine_flow_livedata.MvvMCoroutinesActivity
 import com.example.datasaverexampleapp.notification.NotificationActivity
 import com.example.datasaverexampleapp.protocol_oriented_programming_kotlin.ProtocolOrientedActivity
@@ -439,6 +440,12 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, LocationMapActivity::class.java)
             startActivity(intent)
         }
+
+        google_maps_examples?.setOnClickListener {
+            val intent = Intent(this, GoogleMapsActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
     override fun onResume() {

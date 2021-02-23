@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/building_enabled"
+        android:title="Building"
+        android:checked="true"
+        android:checkable="true"/>
+
+    <item
+        android:id="@+id/indoor_enabled"
+        android:title="Indoor"
+        android:checked="true"
+        android:checkable="true"/>
+
+    <item
+        android:id="@+id/traffic_enabled"
+        android:title="Traffic"
+        android:checkable="true"/>
+
+    <item
+        android:id="@+id/my_location_enabled"
+        android:title="My location"
+        android:checkable="true"/>
+
+    <item
+        android:id="@+id/compass_enabled"
+        android:title="Compass"
+        android:checkable="true"/>
+
+    <item
+        android:id="@+id/all_gesture_enabled"
+        android:title="All gesture"
+        android:checked="true"
+        android:checkable="true"/>
+
+    <item
+        android:id="@+id/indoor_level_picker_enabled"
+        android:title="Indoor level"
+        android:checked="true"
+        android:checkable="true"/>
+
+    <item
+        android:id="@+id/map_toolbar"
+        android:title="Map toolbar"
+        android:checked="true"
+        android:checkable="true"/>
+
+    <item
+        android:id="@+id/rotate_gesture_enabled"
+        android:title="Rotate gesture"
+        android:checked="true"
+        android:checkable="true"/>
+
+    <item
+        android:id="@+id/scroll_gesture_enabled"
+        android:title="Scroll gesture"
+        android:checked="true"
+        android:checkable="true"/>
+
+    <item
+        android:id="@+id/tilt_gesture_enabled"
+        android:title="Tilt gesture"
+        android:checked="true"
+        android:checkable="true"/>
+
+    <item
+        android:id="@+id/zoom_control_enabled"
+        android:title="Zoom control"
+        android:checkable="true"/>
+
+    <item
+        android:id="@+id/zoom_gesture_enabled"
+        android:title="Zoom gesture"
+        android:checked="true"
+        android:checkable="true"/>
+
+</menu>
