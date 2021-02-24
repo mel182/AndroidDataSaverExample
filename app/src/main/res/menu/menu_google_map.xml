@@ -76,4 +76,57 @@
         android:checked="true"
         android:checkable="true"/>
 
+    <item
+        android:id="@+id/location_zoom"
+        android:title="Location zoom" />
+
+    <item
+        android:id="@+id/location_bound"
+        android:title="Location bound" />
+
+    <item
+        android:id="@+id/location_tilt_bearing"
+        android:title="Location tilt/bearing" />
+
+    <item
+        android:id="@+id/add_marker"
+        android:title="Add markers" />
+
+    <item
+        android:id="@+id/add_marker_with_alpha"
+        android:title="Add markers (alpha)" />
+
+    <item
+        android:id="@+id/add_flat_marker"
+        android:title="Add flat marker" />
+
+    <item
+        android:id="@+id/add_marker_anchor"
+        android:title="Add marker with anchor" />
+
+    <item
+        android:id="@+id/remove_marker"
+        android:title="Remove markers"
+        android:enabled="false"/>
+
+    <item
+        android:id="@+id/circle"
+        android:title="Add circle"/>
+
+    <item
+        android:id="@+id/polygon"
+        android:title="Add polygon"/>
+
+    <item
+        android:id="@+id/polygon_with_geodesic"
+        android:title="Add polygon with geodesic"/>
+
+    <item
+        android:id="@+id/polygon_with_holes"
+        android:title="Add polygon with holes"/>
+
+    <item
+        android:id="@+id/polyline"
+        android:title="Add polyline"/>
+
 </menu>
