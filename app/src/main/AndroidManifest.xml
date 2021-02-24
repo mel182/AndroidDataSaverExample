@@ -180,7 +180,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCmjmzDm0X0HJw1NmXoZsv8arcnCkanI6c" />
+            android:value="[Google KEY]" />
     </application>
 
 </manifest>
