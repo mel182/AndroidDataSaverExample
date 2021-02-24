@@ -129,4 +129,8 @@
         android:id="@+id/polyline"
         android:title="Add polyline"/>
 
+    <item
+        android:id="@+id/add_image_ground_overlay"
+        android:title="Add image ground overlay"/>
+
 </menu>

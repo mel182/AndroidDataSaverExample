@@ -29,12 +29,15 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import kotlinx.android.synthetic.main.activity_google_maps.*
 
-class GoogleMapsActivity : BaseActivity(Layout.activity_google_maps), OnMapReadyCallback, GoogleMap.OnMarkerClickListener , CompoundButton.OnCheckedChangeListener
+class GoogleMapsActivity : BaseActivity(Layout.activity_google_maps), OnMapReadyCallback, GoogleMap.OnMarkerClickListener , CompoundButton.OnCheckedChangeListener, GoogleMap.OnCircleClickListener, GoogleMap.OnPolygonClickListener, GoogleMap.OnPolylineClickListener
 {
     private var map:GoogleMap? = null
     private var menu:Menu? = null
     private var circle: Circle? = null
     private var polygon: Polygon? = null
+    private var polyline: Polyline? = null
+    private var groundOverlay: GroundOverlay? = null
+    private var marker : Marker? = null
     private val TAG = "GOOGLE_MAPS"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -150,7 +153,7 @@ class GoogleMapsActivity : BaseActivity(Layout.activity_google_maps), OnMapReady
                 true
             }
 
-            R.id.all_gesture_enabled -> {
+            ViewByID.all_gesture_enabled -> {
 
                 item.isChecked = if (item.isChecked)
                 {
@@ -165,7 +168,7 @@ class GoogleMapsActivity : BaseActivity(Layout.activity_google_maps), OnMapReady
                 true
             }
 
-            R.id.indoor_level_picker_enabled -> {
+            ViewByID.indoor_level_picker_enabled -> {
 
                 item.isChecked = if (item.isChecked)
                 {
@@ -178,7 +181,7 @@ class GoogleMapsActivity : BaseActivity(Layout.activity_google_maps), OnMapReady
                 true
             }
 
-            R.id.map_toolbar -> {
+            ViewByID.map_toolbar -> {
 
                 item.isChecked = if (item.isChecked)
                 {
@@ -191,7 +194,7 @@ class GoogleMapsActivity : BaseActivity(Layout.activity_google_maps), OnMapReady
                 true
             }
 
-            R.id.rotate_gesture_enabled -> {
+            ViewByID.rotate_gesture_enabled -> {
 
                 item.isChecked = if (item.isChecked)
                 {
@@ -204,7 +207,7 @@ class GoogleMapsActivity : BaseActivity(Layout.activity_google_maps), OnMapReady
                 true
             }
 
-            R.id.scroll_gesture_enabled -> {
+            ViewByID.scroll_gesture_enabled -> {
 
                 item.isChecked = if (item.isChecked)
                 {
@@ -217,7 +220,7 @@ class GoogleMapsActivity : BaseActivity(Layout.activity_google_maps), OnMapReady
                 true
             }
 
-            R.id.tilt_gesture_enabled -> {
+            ViewByID.tilt_gesture_enabled -> {
 
                 item.isChecked = if (item.isChecked)
                 {
@@ -230,7 +233,7 @@ class GoogleMapsActivity : BaseActivity(Layout.activity_google_maps), OnMapReady
                 true
             }
 
-            R.id.zoom_control_enabled -> {
+            ViewByID.zoom_control_enabled -> {
 
                 item.isChecked = if (item.isChecked)
                 {
@@ -243,7 +246,7 @@ class GoogleMapsActivity : BaseActivity(Layout.activity_google_maps), OnMapReady
                 true
             }
 
-            R.id.zoom_gesture_enabled -> {
+            ViewByID.zoom_gesture_enabled -> {
 
                 item.isChecked = if (item.isChecked)
                 {
@@ -256,22 +259,22 @@ class GoogleMapsActivity : BaseActivity(Layout.activity_google_maps), OnMapReady
                 true
             }
 
-            R.id.location_zoom -> {
+            ViewByID.location_zoom -> {
                 animateLocationZoom()
                 true
             }
 
-            R.id.location_bound -> {
+            ViewByID.location_bound -> {
                 animateLocationBound()
                 true
             }
 
-            R.id.location_tilt_bearing -> {
+            ViewByID.location_tilt_bearing -> {
                 animateLocationBearingTilt()
                 true
             }
 
-            R.id.add_marker -> {
+            ViewByID.add_marker -> {
                 addMarkers()
                 this@GoogleMapsActivity.menu?.findItem(ViewByID.remove_marker)?.also {
                     it.isEnabled = true
@@ -289,7 +292,7 @@ class GoogleMapsActivity : BaseActivity(Layout.activity_google_maps), OnMapReady
                 true
             }
 
-            R.id.add_marker_with_alpha -> {
+            ViewByID.add_marker_with_alpha -> {
                 addMarkerWithAlpha(0.6f)
                 this@GoogleMapsActivity.menu?.findItem(ViewByID.remove_marker)?.also {
                     it.isEnabled = true
@@ -307,7 +310,7 @@ class GoogleMapsActivity : BaseActivity(Layout.activity_google_maps), OnMapReady
                 true
             }
 
-            R.id.add_flat_marker -> {
+            ViewByID.add_flat_marker -> {
                 addFlatMarker()
                 this@GoogleMapsActivity.menu?.findItem(ViewByID.remove_marker)?.also {
                     it.isEnabled = true
@@ -325,7 +328,7 @@ class GoogleMapsActivity : BaseActivity(Layout.activity_google_maps), OnMapReady
                 true
             }
 
-            R.id.add_marker_anchor -> {
+            ViewByID.add_marker_anchor -> {
                 addMarkerWithAnchor()
                 this@GoogleMapsActivity.menu?.findItem(ViewByID.remove_marker)?.also {
                     it.isEnabled = true
@@ -343,7 +346,7 @@ class GoogleMapsActivity : BaseActivity(Layout.activity_google_maps), OnMapReady
                 true
             }
 
-            R.id.remove_marker -> {
+            ViewByID.remove_marker -> {
                 removeMarkers()
 
                 this@GoogleMapsActivity.menu?.findItem(ViewByID.add_marker)?.also {
@@ -366,7 +369,7 @@ class GoogleMapsActivity : BaseActivity(Layout.activity_google_maps), OnMapReady
                 true
             }
 
-            R.id.circle -> {
+            ViewByID.circle -> {
 
                 if (item.title == "Add circle")
                 {
@@ -381,7 +384,7 @@ class GoogleMapsActivity : BaseActivity(Layout.activity_google_maps), OnMapReady
                 true
             }
 
-            R.id.polygon -> {
+            ViewByID.polygon -> {
 
                 if (item.title == "Add polygon")
                 {
@@ -401,7 +404,7 @@ class GoogleMapsActivity : BaseActivity(Layout.activity_google_maps), OnMapReady
                 true
             }
 
-            R.id.polygon_with_geodesic -> {
+            ViewByID.polygon_with_geodesic -> {
 
                 if (item.title == "Add polygon geodesic")
                 {
@@ -422,7 +425,7 @@ class GoogleMapsActivity : BaseActivity(Layout.activity_google_maps), OnMapReady
                 true
             }
 
-            R.id.polygon_with_holes -> {
+            ViewByID.polygon_with_holes -> {
 
                 if (item.title == "Add polygon with holes")
                 {
@@ -438,6 +441,38 @@ class GoogleMapsActivity : BaseActivity(Layout.activity_google_maps), OnMapReady
                         findItem(ViewByID.polygon_with_geodesic)?.isEnabled = true
                     }
                     item.title = "Add polygon with holes"
+                }
+                true
+            }
+
+            ViewByID.polyline -> {
+
+                if (item.title == "Add polyline")
+                {
+                    // Add polyline
+                    drawPolyline()
+                    item.title = "Remove polyline"
+                } else {
+                    // Remove polyline
+                    polyline?.remove()
+                    polyline = null
+                    item.title = "Add polyline"
+                }
+                true
+            }
+
+            ViewByID.add_image_ground_overlay -> {
+
+                if (item.title == "Add image ground overlay")
+                {
+                    // Add image ground overlay
+                    addImageOverlay()
+                    item.title = "Remove image ground overlay"
+                } else {
+                    // Remove image ground overlay
+                    groundOverlay?.remove()
+                    groundOverlay = null
+                    item.title = "Add image ground overlay"
                 }
                 true
             }
@@ -545,8 +580,6 @@ class GoogleMapsActivity : BaseActivity(Layout.activity_google_maps), OnMapReady
         val positionUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition)
         this.map?.animateCamera(positionUpdate)
     }
-
-    private var marker : Marker? = null
 
     @SuppressLint("NewApi")
     private fun addMarkers()
@@ -689,6 +722,16 @@ class GoogleMapsActivity : BaseActivity(Layout.activity_google_maps), OnMapReady
                     return view?:windowInfoLayout
                 }
             })
+
+            // The click handlers for each Listener receive an instance of the Shape that was clicked!
+            // Note: If multiple shapes or Markers overlap at the touch point, the click event is sent first
+            //       to the markers, then to each shape (in z-index order) until a marker or shape with a click
+            //       handler is found.
+            //       AT MOST ONE HANDLER WILL BE TRIGGERED
+            setOnCircleClickListener(this@GoogleMapsActivity)
+            setOnPolygonClickListener(this@GoogleMapsActivity)
+            setOnPolylineClickListener(this@GoogleMapsActivity)
+
             this@GoogleMapsActivity.map = this
         }
     }
@@ -748,7 +791,10 @@ class GoogleMapsActivity : BaseActivity(Layout.activity_google_maps), OnMapReady
 
         // Pass the circle Options into the Google Map's 'addCircle' method. Note that it will return
         // a mutable 'Circle' object that can modified at run time.
-        circle = this.map?.addCircle(circleOption)
+        this.map?.addCircle(circleOption)?.also { circle ->
+            circle.isClickable = true
+            this.circle = circle
+        }
     }
 
     private fun drawPolygon()
@@ -769,14 +815,15 @@ class GoogleMapsActivity : BaseActivity(Layout.activity_google_maps), OnMapReady
                  LatLng(51.445164803755326,3.5735028331244156),
                  LatLng(51.444097641243566,3.5720449223313966),
                  LatLng(51.44332114491954,3.5728530193023365),
-                 LatLng(51.44181008729837,3.5744523777480106),
-                 LatLng(51.44695167623209,3.5794861482673306))
+                 LatLng(51.44181008729837,3.5744523777480106))
             .fillColor(Color.argb(50,255,0,0))
 
         // Note that the polygon will automatically join the last point to the first, so there's no need to close it
         // yourself. You can also use the polygon Options 'addAll' method to supply a List of 'LatLng' objects.
-        polygon = this.map?.addPolygon(polygonOptions)
-
+        this.map?.addPolygon(polygonOptions)?.also { polygon ->
+            polygon.isClickable = true
+            this.polygon = polygon
+        }
         this.menu?.apply {
             findItem(ViewByID.polygon_with_geodesic)?.isEnabled = false
             findItem(ViewByID.polygon_with_holes)?.isEnabled = false
@@ -801,12 +848,14 @@ class GoogleMapsActivity : BaseActivity(Layout.activity_google_maps), OnMapReady
                 LatLng(51.445164803755326,3.5735028331244156),
                 LatLng(51.444097641243566,3.5720449223313966),
                 LatLng(51.44332114491954,3.5728530193023365),
-                LatLng(51.44181008729837,3.5744523777480106),
-                LatLng(51.44695167623209,3.5794861482673306))
+                LatLng(51.44181008729837,3.5744523777480106))
             .fillColor(Color.argb(50,255,0,0))
             .geodesic(true) // Request geodesic option
 
-        polygon = this.map?.addPolygon(polygonOptions)
+        this.map?.addPolygon(polygonOptions)?.also { polygon ->
+            polygon.isClickable = true
+            this.polygon = polygon
+        }
         this.menu?.apply {
             findItem(ViewByID.polygon)?.isEnabled = false
             findItem(ViewByID.polygon_with_holes)?.isEnabled = false
@@ -833,14 +882,16 @@ class GoogleMapsActivity : BaseActivity(Layout.activity_google_maps), OnMapReady
                 LatLng(51.445164803755326,3.5735028331244156),
                 LatLng(51.444097641243566,3.5720449223313966),
                 LatLng(51.44332114491954,3.5728530193023365),
-                LatLng(51.44181008729837,3.5744523777480106),
-                LatLng(51.44695167623209,3.5794861482673306))
+                LatLng(51.44181008729837,3.5744523777480106))
             .fillColor(Color.argb(50,255,0,0))
             .addHole(holes)
 
         // Note that the polygon will automatically join the last point to the first, so there's no need to close it
         // yourself. You can also use the polygon Options 'addAll' method to supply a List of 'LatLng' objects.
-        polygon = this.map?.addPolygon(polygonOptions)
+        this.map?.addPolygon(polygonOptions)?.also { polygon ->
+            polygon.isClickable = true
+            this.polygon = polygon
+        }
 
         this.menu?.apply {
             findItem(ViewByID.polygon)?.isEnabled = false
@@ -848,6 +899,66 @@ class GoogleMapsActivity : BaseActivity(Layout.activity_google_maps), OnMapReady
         }
     }
 
+    private fun drawPolyline()
+    {
+        if (polyline != null)
+            return
 
+        // A polyline is defined in much the same way as a Polygon; however, the ends won't be connected and
+        // the shape can't be filled. Create a new 'PolyLineOptions' object, specifying the point individually,
+        // or as a List, using the 'add' method as described for Polygons.
+        val polylineOptions = PolylineOptions()
+            .add(LatLng(51.44621138025606,3.565902060762918),
+                LatLng(51.44709618556605,3.568722739497014),
+                LatLng(51.44802754105433,3.5689282194047958),
+                LatLng(51.447980973731106,3.5736729372753935),
+                LatLng(51.446036745603166,3.5736168973005444),
+                LatLng(51.445164803755326,3.5735028331244156),
+                LatLng(51.444097641243566,3.5720449223313966),
+                LatLng(51.44332114491954,3.5728530193023365),
+                LatLng(51.44181008729837,3.5744523777480106))
+            .geodesic(true)
 
+        // Polyline segments can be geodesic, and you define the color and style of the stroke, the joint
+        // types and end caps. Once defined, use the 'addPolyline' method to add the Polyline Options to your
+        // Google Map.
+        this.map?.addPolyline(polylineOptions)?.also { polyline ->
+            polyline.isClickable = true
+            this.polyline = polyline
+        }
+    }
+
+    @SuppressLint("NewApi")
+    private fun addImageOverlay()
+    {
+        if (groundOverlay != null)
+            return
+
+        // In addition to Markers and shapes, it's also possible to create a 'GroundOverlay', which will place
+        // an image tied to latitude/longitude coordinates over section of the map.
+        val icon = getBitmap(resources.getDrawable(Drawable.ic_marker,null) as VectorDrawable)
+        val rottnest = LatLng(51.44621138025606,3.565902060762918)
+
+        // To add a Ground Overlay, create a new GroundOverlayOptions, specifying the image to overlay as
+        // a 'BitmapDescriptor' as well as the position at which to place the image. The image position can
+        // specified as either a 'LatLng' anchor at the south West point with a width (and optionally height), or
+        // as a 'LatLngBound' that contains both the South West and North East anchors.
+        val rottnestOverlay = GroundOverlayOptions().image(icon).position(rottnest,200f,200f)
+        groundOverlay = this.map?.addGroundOverlay(rottnestOverlay)
+
+        // Note: The length and width of Ground Overlay must be powers of two. If your source image doesn't conform
+        //       to this requirement, it will be adjusted.
+    }
+
+    override fun onCircleClick(circle: Circle?) {
+        Toast.makeText(this,"Circle clicked!",Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onPolygonClick(polygon: Polygon?) {
+        Toast.makeText(this,"Polygon clicked!",Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onPolylineClick(polyline: Polyline?) {
+        Toast.makeText(this,"Polyline clicked!",Toast.LENGTH_SHORT).show()
+    }
 }
