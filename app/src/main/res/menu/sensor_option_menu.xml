@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/dynamic_sensor"
+        android:title="Dynamic sensor"
+        android:checkable="true"/>
+
+    <item
+        android:id="@+id/accelerometer_sensor"
+        android:title="Accelerometer sensor"
+        android:checkable="true"/>
+
+    <item
+        android:id="@+id/gyroscope_sensor"
+        android:title="Gyroscope sensor"
+        android:checkable="true"/>
+
+    <item
+        android:id="@+id/gyroscope_uncalibrated"
+        android:title="Gyroscope uncalibrated"
+        android:checkable="true"/>
+
+    <item
+        android:id="@+id/linear_acceleration"
+        android:title="Linear acceleration"
+        android:checkable="true"/>
+
+    <item
+        android:id="@+id/rotation_vector"
+        android:title="Rotation vector"
+        android:checkable="true"/>
+
+    <item
+        android:id="@+id/geomagnetic_rotation_vector"
+        android:title="Geomagnetic Rotation vector"
+        android:checkable="true"/>
+
+    <item
+        android:id="@+id/pose_6d0F"
+        android:title="Pose 6d0F"
+        android:checkable="true"/>
+
+    <item
+        android:id="@+id/motion_detection_sensor"
+        android:title="Motion detection sensor"
+        android:checkable="true"/>
+
+    <item
+        android:id="@+id/stationary_detection"
+        android:title="Stationary detection sensor"
+        android:checkable="true"/>
+
+    <item
+        android:id="@+id/significant_motion"
+        android:title="Significant motion"
+        android:checkable="true"/>
+
+    <item
+        android:id="@+id/heart_beat"
+        android:title="Heart Beat"
+        android:checkable="true"/>
+
+    <item
+        android:id="@+id/heart_rate"
+        android:title="Heart Rate"
+        android:checkable="true"/>
+
+    <item
+        android:id="@+id/low_latency_offbody_detect"
+        android:title="Low latency offbody"
+        android:checkable="true"/>
+
+    <item
+        android:id="@+id/step_counter"
+        android:title="Step counter"
+        android:checkable="true"/>
+
+    <item
+        android:id="@+id/magnetic_field"
+        android:title="Magnetic field"
+        android:checkable="true"/>
+
+    <item
+        android:id="@+id/pressure_sensor"
+        android:title="Pressure"
+        android:checkable="true"/>
+
+    <item
+        android:id="@+id/magnetic_field_uncalibrated"
+        android:title="Magnetic field uncalibrated"
+        android:checkable="true"/>
+
+    <item
+        android:id="@+id/step_detector"
+        android:title="Step detector"
+        android:checkable="true"/>
+
+    <item
+        android:id="@+id/game_rotation_vector"
+        android:title="Game rotation vector"
+        android:checkable="true"/>
+
+    <item
+        android:id="@+id/light_sensor"
+        android:title="Light"
+        android:checkable="true"/>
+
+    <item
+        android:id="@+id/proximity_sensor"
+        android:title="Proximity"
+        android:checkable="true"/>
+
+    <item
+        android:id="@+id/gravity_sensor"
+        android:title="Gravity"
+        android:checkable="true"/>
+
+    <item
+        android:id="@+id/orientation_sensor"
+        android:title="Orientation"
+        android:checkable="true"/>
+
+    <item
+        android:id="@+id/custom_sensor"
+        android:title="Custom sensor"
+        android:checkable="true"/>
+
+</menu>

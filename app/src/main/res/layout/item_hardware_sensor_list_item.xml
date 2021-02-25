@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:id="@+id/main_view"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/sensor_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:gravity="center"
+        android:text="Sensor name"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:layout_weight="1"
+        android:drawableRight="@drawable/ic_sensor_icon"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/sensor_wake_up"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@android:color/black"
+        android:text="wake up sensor"
+        android:textSize="10sp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="@dimen/sensor_cell_width"
+            android:layout_height="wrap_content"
+            android:text="Vendor" />
+
+        <TextView
+            android:id="@+id/vendor_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="-" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="@dimen/sensor_cell_width"
+            android:layout_height="wrap_content"
+            android:text="Version" />
+
+        <TextView
+            android:id="@+id/version"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="-" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="@dimen/sensor_cell_width"
+            android:layout_height="wrap_content"
+            android:text="Type" />
+
+        <TextView
+            android:id="@+id/type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="-" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="@dimen/sensor_cell_width"
+            android:layout_height="wrap_content"
+            android:text="Max range" />
+
+        <TextView
+            android:id="@+id/max_range"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="-" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="@dimen/sensor_cell_width"
+            android:layout_height="wrap_content"
+            android:text="Resolution" />
+
+        <TextView
+            android:id="@+id/resolution"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="-" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="@dimen/sensor_cell_width"
+            android:layout_height="wrap_content"
+            android:text="Power" />
+
+        <TextView
+            android:id="@+id/power"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="-" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="@dimen/sensor_cell_width"
+            android:layout_height="wrap_content"
+            android:text="Min. delay" />
+
+        <TextView
+            android:id="@+id/min_delay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="-" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="@dimen/sensor_cell_width"
+            android:layout_height="wrap_content"
+            android:text="Max. delay" />
+
+        <TextView
+            android:id="@+id/max_delay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="-" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/reporting_mode_section"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+        android:visibility="gone"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="@dimen/sensor_cell_width"
+            android:layout_height="wrap_content"
+            android:text="Reporting mode" />
+
+        <TextView
+            android:id="@+id/reporting_mode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="-" />
+    </LinearLayout>
+
+</LinearLayout>

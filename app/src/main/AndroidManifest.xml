@@ -26,7 +26,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".location.maps.GoogleMapsActivity"></activity>
+        <activity android:name=".hardware_sensor.HardwareSensorActivity"/>
+        <activity android:name=".location.maps.GoogleMapsActivity" />
         <activity android:name=".location.geocoder.GeoCoderExampleActivity" />
         <activity android:name=".implicit_delegation_example.ImplicitDelegationActivity" />
         <activity android:name=".location.LocationMapActivity" />
