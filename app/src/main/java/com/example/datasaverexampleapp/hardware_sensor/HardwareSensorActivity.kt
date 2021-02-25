@@ -49,16 +49,14 @@ class HardwareSensorActivity : AppCompatActivity(Layout.activity_hardware_sensor
         return true
     }
 
-    private fun disableUnsupportedMenuItems()
-    {
+    private fun disableUnsupportedMenuItems() {
         this.menu?.also { menuItem ->
 
             // ---- JELLY BEAN MR2 ---- \\
             val significantMotion = menuItem.findItem(ViewByID.significant_motion)
             val magneticFieldUncalibrated = menuItem.findItem(ViewByID.magnetic_field_uncalibrated)
             val gameRotationVector = menuItem.findItem(ViewByID.game_rotation_vector)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2)
-            {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
                 setMenuItemState(significantMotion)
                 setMenuItemState(magneticFieldUncalibrated)
                 setMenuItemState(gameRotationVector)
@@ -73,8 +71,7 @@ class HardwareSensorActivity : AppCompatActivity(Layout.activity_hardware_sensor
             val geomagneticRotationVector = menuItem.findItem(ViewByID.geomagnetic_rotation_vector)
             val stepCounterSensor = menuItem.findItem(ViewByID.step_counter)
             val stepDetectorSensor = menuItem.findItem(ViewByID.step_detector)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
-            {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 setMenuItemState(geomagneticRotationVector)
                 setMenuItemState(stepCounterSensor)
                 setMenuItemState(stepDetectorSensor)
@@ -87,8 +84,7 @@ class HardwareSensorActivity : AppCompatActivity(Layout.activity_hardware_sensor
 
             // ---- KITKAT WATCH ---- \\
             val heartRateSensor = menuItem.findItem(ViewByID.heart_rate)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH)
-            {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
                 setMenuItemState(heartRateSensor)
             } else {
                 menuItem.removeItem(ViewByID.heart_rate)
@@ -101,8 +97,7 @@ class HardwareSensorActivity : AppCompatActivity(Layout.activity_hardware_sensor
             val motionDetectionSensor = menuItem.findItem(ViewByID.motion_detection_sensor)
             val stationaryDetection = menuItem.findItem(ViewByID.stationary_detection)
             val heartBeatenSensor = menuItem.findItem(ViewByID.heart_beat)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-            {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 setMenuItemState(dynamicSensor)
                 setMenuItemState(pose6D0F)
                 setMenuItemState(motionDetectionSensor)
@@ -118,10 +113,10 @@ class HardwareSensorActivity : AppCompatActivity(Layout.activity_hardware_sensor
             // ---- NOUGAT ---- \\
 
             // ---- OREO ---- \\
-            val lowLatencyOffbodyDetectSensor = menuItem.findItem(ViewByID.low_latency_offbody_detect)
+            val lowLatencyOffbodyDetectSensor =
+                menuItem.findItem(ViewByID.low_latency_offbody_detect)
             val gyroscopeUncalibrated = menuItem.findItem(ViewByID.gyroscope_uncalibrated)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 setMenuItemState(lowLatencyOffbodyDetectSensor)
                 setMenuItemState(gyroscopeUncalibrated)
             } else {
@@ -142,7 +137,7 @@ class HardwareSensorActivity : AppCompatActivity(Layout.activity_hardware_sensor
             ViewByID.dynamic_sensor -> {
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    setCheckState(item){ succeed ->
+                    setCheckState(item) { succeed ->
                         if (succeed)
                             showDynamicSensors()
                     }
@@ -152,7 +147,7 @@ class HardwareSensorActivity : AppCompatActivity(Layout.activity_hardware_sensor
 
             ViewByID.accelerometer_sensor -> {
 
-                setCheckState(item){ succeed ->
+                setCheckState(item) { succeed ->
                     if (succeed)
                         filterSensor(Sensor.TYPE_ACCELEROMETER)
                 }
@@ -161,7 +156,7 @@ class HardwareSensorActivity : AppCompatActivity(Layout.activity_hardware_sensor
 
             ViewByID.gyroscope_sensor -> {
 
-                setCheckState(item){ succeed ->
+                setCheckState(item) { succeed ->
                     if (succeed)
                         filterSensor(Sensor.TYPE_GYROSCOPE)
                 }
@@ -169,7 +164,7 @@ class HardwareSensorActivity : AppCompatActivity(Layout.activity_hardware_sensor
             }
 
             ViewByID.gyroscope_uncalibrated -> {
-                setCheckState(item){ succeed ->
+                setCheckState(item) { succeed ->
                     if (succeed)
                         filterSensor(Sensor.TYPE_GYROSCOPE_UNCALIBRATED)
                 }
@@ -178,7 +173,7 @@ class HardwareSensorActivity : AppCompatActivity(Layout.activity_hardware_sensor
 
             ViewByID.linear_acceleration -> {
 
-                setCheckState(item){ succeed ->
+                setCheckState(item) { succeed ->
                     if (succeed)
                         filterSensor(Sensor.TYPE_LINEAR_ACCELERATION)
                 }
@@ -187,7 +182,7 @@ class HardwareSensorActivity : AppCompatActivity(Layout.activity_hardware_sensor
 
             ViewByID.rotation_vector -> {
 
-                setCheckState(item){ succeed ->
+                setCheckState(item) { succeed ->
                     if (succeed)
                         filterSensor(Sensor.TYPE_ROTATION_VECTOR)
                 }
@@ -196,7 +191,7 @@ class HardwareSensorActivity : AppCompatActivity(Layout.activity_hardware_sensor
 
             ViewByID.geomagnetic_rotation_vector -> {
 
-                setCheckState(item){ succeed ->
+                setCheckState(item) { succeed ->
                     if (succeed)
                         filterSensor(Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR)
                 }
@@ -205,7 +200,7 @@ class HardwareSensorActivity : AppCompatActivity(Layout.activity_hardware_sensor
 
             ViewByID.pose_6d0F -> {
 
-                setCheckState(item){ succeed ->
+                setCheckState(item) { succeed ->
                     if (succeed)
                         filterSensor(Sensor.TYPE_POSE_6DOF)
                 }
@@ -214,7 +209,7 @@ class HardwareSensorActivity : AppCompatActivity(Layout.activity_hardware_sensor
 
             ViewByID.motion_detection_sensor -> {
 
-                setCheckState(item){ succeed ->
+                setCheckState(item) { succeed ->
                     if (succeed)
                         filterSensor(Sensor.TYPE_MOTION_DETECT)
                 }
@@ -223,7 +218,7 @@ class HardwareSensorActivity : AppCompatActivity(Layout.activity_hardware_sensor
 
             ViewByID.stationary_detection -> {
 
-                setCheckState(item){ succeed ->
+                setCheckState(item) { succeed ->
                     if (succeed)
                         filterSensor(Sensor.TYPE_STATIONARY_DETECT)
                 }
@@ -232,7 +227,7 @@ class HardwareSensorActivity : AppCompatActivity(Layout.activity_hardware_sensor
 
             ViewByID.significant_motion -> {
 
-                setCheckState(item){ succeed ->
+                setCheckState(item) { succeed ->
                     if (succeed)
                         filterSensor(Sensor.TYPE_SIGNIFICANT_MOTION)
                 }
@@ -241,7 +236,7 @@ class HardwareSensorActivity : AppCompatActivity(Layout.activity_hardware_sensor
 
             ViewByID.heart_beat -> {
 
-                setCheckState(item){ succeed ->
+                setCheckState(item) { succeed ->
                     if (succeed)
                         filterSensor(Sensor.TYPE_HEART_BEAT)
                 }
@@ -250,7 +245,7 @@ class HardwareSensorActivity : AppCompatActivity(Layout.activity_hardware_sensor
 
             ViewByID.heart_rate -> {
 
-                setCheckState(item){ succeed ->
+                setCheckState(item) { succeed ->
                     if (succeed)
                         filterSensor(Sensor.TYPE_HEART_RATE)
                 }
@@ -260,7 +255,7 @@ class HardwareSensorActivity : AppCompatActivity(Layout.activity_hardware_sensor
             ViewByID.low_latency_offbody_detect -> {
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    setCheckState(item){ succeed ->
+                    setCheckState(item) { succeed ->
                         if (succeed)
                             filterSensor(Sensor.TYPE_LOW_LATENCY_OFFBODY_DETECT)
                     }
@@ -270,7 +265,7 @@ class HardwareSensorActivity : AppCompatActivity(Layout.activity_hardware_sensor
 
             ViewByID.step_counter -> {
 
-                setCheckState(item){ succeed ->
+                setCheckState(item) { succeed ->
                     if (succeed)
                         filterSensor(Sensor.TYPE_STEP_COUNTER)
                 }
@@ -279,7 +274,7 @@ class HardwareSensorActivity : AppCompatActivity(Layout.activity_hardware_sensor
 
             ViewByID.step_detector -> {
 
-                setCheckState(item){ succeed ->
+                setCheckState(item) { succeed ->
                     if (succeed)
                         filterSensor(Sensor.TYPE_STEP_DETECTOR)
                 }
@@ -288,7 +283,7 @@ class HardwareSensorActivity : AppCompatActivity(Layout.activity_hardware_sensor
 
             ViewByID.magnetic_field_uncalibrated -> {
 
-                setCheckState(item){ succeed ->
+                setCheckState(item) { succeed ->
                     if (succeed)
                         filterSensor(Sensor.TYPE_MAGNETIC_FIELD_UNCALIBRATED)
                 }
@@ -297,7 +292,7 @@ class HardwareSensorActivity : AppCompatActivity(Layout.activity_hardware_sensor
 
             ViewByID.magnetic_field -> {
 
-                setCheckState(item){ succeed ->
+                setCheckState(item) { succeed ->
                     if (succeed)
                         filterSensor(Sensor.TYPE_MAGNETIC_FIELD)
                 }
@@ -306,7 +301,7 @@ class HardwareSensorActivity : AppCompatActivity(Layout.activity_hardware_sensor
 
             ViewByID.pressure_sensor -> {
 
-                setCheckState(item){ succeed ->
+                setCheckState(item) { succeed ->
                     if (succeed)
                         filterSensor(Sensor.TYPE_PRESSURE)
                 }
@@ -315,7 +310,7 @@ class HardwareSensorActivity : AppCompatActivity(Layout.activity_hardware_sensor
 
             ViewByID.game_rotation_vector -> {
 
-                setCheckState(item){ succeed ->
+                setCheckState(item) { succeed ->
                     if (succeed)
                         filterSensor(Sensor.TYPE_GAME_ROTATION_VECTOR)
                 }
@@ -324,7 +319,7 @@ class HardwareSensorActivity : AppCompatActivity(Layout.activity_hardware_sensor
 
             ViewByID.light_sensor -> {
 
-                setCheckState(item){ succeed ->
+                setCheckState(item) { succeed ->
                     if (succeed)
                         filterSensor(Sensor.TYPE_LIGHT)
                 }
@@ -333,7 +328,7 @@ class HardwareSensorActivity : AppCompatActivity(Layout.activity_hardware_sensor
 
             ViewByID.proximity_sensor -> {
 
-                setCheckState(item){ succeed ->
+                setCheckState(item) { succeed ->
                     if (succeed)
                         filterSensor(Sensor.TYPE_PROXIMITY)
                 }
@@ -342,7 +337,7 @@ class HardwareSensorActivity : AppCompatActivity(Layout.activity_hardware_sensor
 
             ViewByID.gravity_sensor -> {
 
-                setCheckState(item){ succeed ->
+                setCheckState(item) { succeed ->
                     if (succeed)
                         filterSensor(Sensor.TYPE_GRAVITY)
                 }
@@ -351,7 +346,7 @@ class HardwareSensorActivity : AppCompatActivity(Layout.activity_hardware_sensor
 
             ViewByID.orientation_sensor -> {
 
-                setCheckState(item){ succeed ->
+                setCheckState(item) { succeed ->
                     if (succeed)
                         filterSensor(Sensor.TYPE_ORIENTATION)
                 }
@@ -360,7 +355,7 @@ class HardwareSensorActivity : AppCompatActivity(Layout.activity_hardware_sensor
 
             ViewByID.custom_sensor -> {
 
-                setCheckState(item){ succeed ->
+                setCheckState(item) { succeed ->
                     if (succeed)
                         filterSensor(null)
                 }
@@ -371,10 +366,9 @@ class HardwareSensorActivity : AppCompatActivity(Layout.activity_hardware_sensor
         }
     }
 
-    private fun setCheckState(menuItem:MenuItem, callback:(Boolean) -> Unit)
-    {
+    private fun setCheckState(menuItem: MenuItem, callback: (Boolean) -> Unit) {
         if (!menuItem.isChecked) {
-            enableMenuItems(enable = false,menuItem)
+            enableMenuItems(enable = false, menuItem)
             menuItem.isChecked = true
         } else {
             menuItem.isChecked = false
@@ -384,8 +378,7 @@ class HardwareSensorActivity : AppCompatActivity(Layout.activity_hardware_sensor
         callback(menuItem.isChecked)
     }
 
-    private fun setMenuItemState(menuItem:MenuItem?)
-    {
+    private fun setMenuItemState(menuItem: MenuItem?) {
         menuItem?.isEnabled = if (selectedMenuItemID == menuItem?.itemId) true else itemsEnabled
     }
 
@@ -408,8 +401,7 @@ class HardwareSensorActivity : AppCompatActivity(Layout.activity_hardware_sensor
 
         val filterList = getAllSensors().asSequence().filter {
 
-            if (type == null)
-            {
+            if (type == null) {
                 it.type != Sensor.TYPE_STEP_DETECTOR && it.type != Sensor.TYPE_LOW_LATENCY_OFFBODY_DETECT
                         && it.type != Sensor.TYPE_HEART_RATE && it.type != Sensor.TYPE_HEART_BEAT
                         && it.type != Sensor.TYPE_SIGNIFICANT_MOTION && it.type != Sensor.TYPE_STATIONARY_DETECT
@@ -427,8 +419,7 @@ class HardwareSensorActivity : AppCompatActivity(Layout.activity_hardware_sensor
         }.map { it }.toList()
         sensorListAdapter?.updateList(filterList)
 
-        if (filterList.isEmpty())
-        {
+        if (filterList.isEmpty()) {
             this@HardwareSensorActivity.title =
                 " No sensor found"
             no_sensor_detected_view?.visibility = View.VISIBLE

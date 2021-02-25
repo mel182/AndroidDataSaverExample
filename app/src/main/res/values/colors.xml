@@ -10,6 +10,7 @@
     <color name="yellow">#FFFF00</color>
 
     <color name="shadow_color">#7AAA</color>
+    <color name="light_grey">#DCDCDC</color>
     <color name="outer_border">#FF444444</color>
     <color name="inner_border_one">#FF323232</color>
     <color name="inner_border_two">#FF414141</color>
