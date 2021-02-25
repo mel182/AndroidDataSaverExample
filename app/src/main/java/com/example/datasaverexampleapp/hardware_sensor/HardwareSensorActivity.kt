@@ -59,9 +59,9 @@ class HardwareSensorActivity : AppCompatActivity(Layout.activity_hardware_sensor
             val gameRotationVector = menuItem.findItem(ViewByID.game_rotation_vector)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2)
             {
-                significantMotion?.isEnabled = if (selectedMenuItemID == significantMotion?.itemId) true else itemsEnabled
-                magneticFieldUncalibrated?.isEnabled = if (selectedMenuItemID == magneticFieldUncalibrated?.itemId) true else itemsEnabled
-                gameRotationVector?.isEnabled = if (selectedMenuItemID == gameRotationVector?.itemId) true else itemsEnabled
+                setMenuItemState(significantMotion)
+                setMenuItemState(magneticFieldUncalibrated)
+                setMenuItemState(gameRotationVector)
             } else {
                 menuItem.removeItem(ViewByID.significant_motion)
                 menuItem.removeItem(ViewByID.magnetic_field_uncalibrated)
@@ -75,9 +75,9 @@ class HardwareSensorActivity : AppCompatActivity(Layout.activity_hardware_sensor
             val stepDetectorSensor = menuItem.findItem(ViewByID.step_detector)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
             {
-                geomagneticRotationVector?.isEnabled = if (selectedMenuItemID == geomagneticRotationVector?.itemId) true else itemsEnabled
-                stepCounterSensor?.isEnabled = if (selectedMenuItemID == stepCounterSensor?.itemId) true else itemsEnabled
-                stepDetectorSensor?.isEnabled = if (selectedMenuItemID == stepDetectorSensor?.itemId) true else itemsEnabled
+                setMenuItemState(geomagneticRotationVector)
+                setMenuItemState(stepCounterSensor)
+                setMenuItemState(stepDetectorSensor)
             } else {
                 menuItem.removeItem(ViewByID.geomagnetic_rotation_vector)
                 menuItem.removeItem(ViewByID.step_counter)
@@ -89,7 +89,7 @@ class HardwareSensorActivity : AppCompatActivity(Layout.activity_hardware_sensor
             val heartRateSensor = menuItem.findItem(ViewByID.heart_rate)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH)
             {
-                heartRateSensor?.isEnabled = itemsEnabled
+                setMenuItemState(heartRateSensor)
             } else {
                 menuItem.removeItem(ViewByID.heart_rate)
             }
@@ -103,11 +103,11 @@ class HardwareSensorActivity : AppCompatActivity(Layout.activity_hardware_sensor
             val heartBeatenSensor = menuItem.findItem(ViewByID.heart_beat)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
             {
-                dynamicSensor?.isEnabled = if (selectedMenuItemID == dynamicSensor?.itemId) true else itemsEnabled
-                pose6D0F?.isEnabled = if (selectedMenuItemID == pose6D0F?.itemId) true else itemsEnabled
-                motionDetectionSensor?.isEnabled = if (selectedMenuItemID == motionDetectionSensor?.itemId) true else itemsEnabled
-                stationaryDetection?.isEnabled = if (selectedMenuItemID == stationaryDetection?.itemId) true else itemsEnabled
-                heartBeatenSensor?.isEnabled = if (selectedMenuItemID == heartBeatenSensor?.itemId) true else itemsEnabled
+                setMenuItemState(dynamicSensor)
+                setMenuItemState(pose6D0F)
+                setMenuItemState(motionDetectionSensor)
+                setMenuItemState(stationaryDetection)
+                setMenuItemState(heartBeatenSensor)
             } else {
                 menuItem.removeItem(ViewByID.dynamic_sensor)
                 menuItem.removeItem(ViewByID.pose_6d0F)
@@ -122,8 +122,8 @@ class HardwareSensorActivity : AppCompatActivity(Layout.activity_hardware_sensor
             val gyroscopeUncalibrated = menuItem.findItem(ViewByID.gyroscope_uncalibrated)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             {
-                lowLatencyOffbodyDetectSensor?.isEnabled = if (selectedMenuItemID == lowLatencyOffbodyDetectSensor?.itemId) true else itemsEnabled
-                gyroscopeUncalibrated?.isEnabled = if (selectedMenuItemID == gyroscopeUncalibrated?.itemId) true else itemsEnabled
+                setMenuItemState(lowLatencyOffbodyDetectSensor)
+                setMenuItemState(gyroscopeUncalibrated)
             } else {
                 menuItem.removeItem(ViewByID.low_latency_offbody_detect)
                 menuItem.removeItem(ViewByID.gyroscope_uncalibrated)
@@ -382,6 +382,11 @@ class HardwareSensorActivity : AppCompatActivity(Layout.activity_hardware_sensor
         }
 
         callback(menuItem.isChecked)
+    }
+
+    private fun setMenuItemState(menuItem:MenuItem?)
+    {
+        menuItem?.isEnabled = if (selectedMenuItemID == menuItem?.itemId) true else itemsEnabled
     }
 
     private fun enableMenuItems(enable: Boolean = true, selectedMenuItem: MenuItem? = null) {
