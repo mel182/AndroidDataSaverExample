@@ -5,28 +5,33 @@ import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorManager
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.iterator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.datasaverexampleapp.R
+import com.example.datasaverexampleapp.base_classes.BaseActivity
 import com.example.datasaverexampleapp.type_alias.Layout
 import com.example.datasaverexampleapp.type_alias.ViewByID
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.activity_hardware_sensor.*
+import kotlinx.android.synthetic.main.item_bottom_sheet_layout.*
 
-class HardwareSensorActivity : AppCompatActivity(Layout.activity_hardware_sensor),
+
+class HardwareSensorActivity : BaseActivity(Layout.activity_hardware_sensor),
     OnSensorClickedCallback {
 
     private val TAG = "HARDWARE_SENSOR"
     private var sensorListAdapter: SensorListAdapter? = null
     private val sensorManager by lazy { getSystemService(Context.SENSOR_SERVICE) as SensorManager }
+    private var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>? = null
     private var menu: Menu? = null
     private var itemsEnabled = true
     private var selectedMenuItemID = 0
@@ -34,6 +39,45 @@ class HardwareSensorActivity : AppCompatActivity(Layout.activity_hardware_sensor
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         showAllSensor()
+
+        resources.displayMetrics?.also { displayMetrics ->
+
+            bottom_sheet?.let { bottomSheetView ->
+
+                val layoutParams = bottomSheetView.layoutParams
+                layoutParams.height = (displayMetrics.heightPixels * 0.5).toInt()
+                bottomSheetView.layoutParams = layoutParams
+
+                BottomSheetBehavior.from(bottom_sheet).apply {
+                    bottomSheetBehavior = this
+                    peekHeight = 0
+                    addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+                        override fun onStateChanged(bottomSheet: View, newState: Int) {
+
+                            when (newState) {
+                                BottomSheetBehavior.STATE_EXPANDED -> {
+                                    list_overlay?.setOnClickListener {
+                                        bottomSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
+                                    }
+                                }
+
+                                BottomSheetBehavior.STATE_COLLAPSED -> {
+                                    list_overlay?.apply {
+                                        visibility = View.GONE
+                                        alpha = 0f
+                                    }
+                                    removeReadingFragment()
+                                }
+                            }
+                        }
+
+                        override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                            list_overlay?.alpha = slideOffset
+                        }
+                    })
+                }
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -402,17 +446,20 @@ class HardwareSensorActivity : AppCompatActivity(Layout.activity_hardware_sensor
         val filterList = getAllSensors().asSequence().filter {
 
             if (type == null) {
-                it.type != Sensor.TYPE_STEP_DETECTOR && it.type != Sensor.TYPE_LOW_LATENCY_OFFBODY_DETECT
-                        && it.type != Sensor.TYPE_HEART_RATE && it.type != Sensor.TYPE_HEART_BEAT
-                        && it.type != Sensor.TYPE_SIGNIFICANT_MOTION && it.type != Sensor.TYPE_STATIONARY_DETECT
-                        && it.type != Sensor.TYPE_MOTION_DETECT && it.type != Sensor.TYPE_POSE_6DOF
-                        && it.type != Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR && it.type != Sensor.TYPE_ROTATION_VECTOR
-                        && it.type != Sensor.TYPE_LINEAR_ACCELERATION && it.type != Sensor.TYPE_GYROSCOPE
-                        && it.type != Sensor.TYPE_ACCELEROMETER && it.type != Sensor.TYPE_MAGNETIC_FIELD_UNCALIBRATED
-                        && it.type != Sensor.TYPE_MAGNETIC_FIELD && it.type != Sensor.TYPE_PRESSURE
-                        && it.type != Sensor.TYPE_GAME_ROTATION_VECTOR && it.type != Sensor.TYPE_STEP_COUNTER
-                        && it.type != Sensor.TYPE_LIGHT && it.type != Sensor.TYPE_PROXIMITY && it.type != Sensor.TYPE_GRAVITY
-                        && it.type != Sensor.TYPE_ORIENTATION && it.type != Sensor.TYPE_GYROSCOPE_UNCALIBRATED
+
+                it.type.isCustomSensor()
+
+//                it.type != Sensor.TYPE_STEP_DETECTOR && it.type != Sensor.TYPE_LOW_LATENCY_OFFBODY_DETECT
+//                        && it.type != Sensor.TYPE_HEART_RATE && it.type != Sensor.TYPE_HEART_BEAT
+//                        && it.type != Sensor.TYPE_SIGNIFICANT_MOTION && it.type != Sensor.TYPE_STATIONARY_DETECT
+//                        && it.type != Sensor.TYPE_MOTION_DETECT && it.type != Sensor.TYPE_POSE_6DOF
+//                        && it.type != Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR && it.type != Sensor.TYPE_ROTATION_VECTOR
+//                        && it.type != Sensor.TYPE_LINEAR_ACCELERATION && it.type != Sensor.TYPE_GYROSCOPE
+//                        && it.type != Sensor.TYPE_ACCELEROMETER && it.type != Sensor.TYPE_MAGNETIC_FIELD_UNCALIBRATED
+//                        && it.type != Sensor.TYPE_MAGNETIC_FIELD && it.type != Sensor.TYPE_PRESSURE
+//                        && it.type != Sensor.TYPE_GAME_ROTATION_VECTOR && it.type != Sensor.TYPE_STEP_COUNTER
+//                        && it.type != Sensor.TYPE_LIGHT && it.type != Sensor.TYPE_PROXIMITY && it.type != Sensor.TYPE_GRAVITY
+//                        && it.type != Sensor.TYPE_ORIENTATION && it.type != Sensor.TYPE_GYROSCOPE_UNCALIBRATED
             } else {
                 it.type == type
             }
@@ -433,16 +480,38 @@ class HardwareSensorActivity : AppCompatActivity(Layout.activity_hardware_sensor
         }
     }
 
-    override fun onSensorSelected(selectedSensor: Sensor) {
-        Toast.makeText(this, "Sensor selected: ${selectedSensor.name}", Toast.LENGTH_SHORT).show()
+    override fun onSensorSelected(selectedSensor: Sensor)
+    {
+        if (!selectedSensor.type.isCustomSensor()) {
+            setReadingFragment(selectedSensor)
+            list_overlay?.visibility = View.VISIBLE
+            bottomSheetBehavior?.state = BottomSheetBehavior.STATE_EXPANDED
+        } else {
+            Toast.makeText(this, "Unsupported sensor", Toast.LENGTH_SHORT).show()
+        }
+    }
 
-        sensorManager.getDefaultSensor(selectedSensor.type)?.let {
-            Toast.makeText(this, "Available", Toast.LENGTH_SHORT).show()
-        } ?: Toast.makeText(this, "Not available", Toast.LENGTH_SHORT).show()
+    private var sensorReadingFragment: SensorReadingFragment? = null
 
-        if (Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            val wakeUpSensor = sensorManager.getDefaultSensor(selectedSensor.type, true)
-            Log.i(TAG, "Wake up sensor: $wakeUpSensor")
+    private fun setReadingFragment(sensor: Sensor)
+    {
+        if (sensorReadingFragment != null)
+            return
+
+        bottom_sheet_title?.text = sensor.name
+        supportFragmentManager.beginTransaction().let { fragmentTransaction ->
+            sensorReadingFragment = SensorReadingFragment(sensor,sensorManager).apply {
+                fragmentTransaction.add(this@HardwareSensorActivity.bottom_sheet_content.id,this)
+                fragmentTransaction.commit()
+            }
+        }
+    }
+
+    private fun removeReadingFragment()
+    {
+        sensorReadingFragment?.apply {
+            this@HardwareSensorActivity.supportFragmentManager.beginTransaction().remove(this).commit()
+            sensorReadingFragment = null
         }
     }
 

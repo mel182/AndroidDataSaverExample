@@ -7,6 +7,7 @@
     <color name="compass_marker_color">#AFFF</color>
     <color name="compass_text_color">#AFFF</color>
     <color name="red">#FF0000</color>
+    <color name="alert_red">#FF6666</color>
     <color name="yellow">#FFFF00</color>
 
     <color name="shadow_color">#7AAA</color>
@@ -19,5 +20,7 @@
     <color name="horizon_sky_to">#FFFFC125</color>
     <color name="horizon_ground_from">#FF5F9EA0</color>
     <color name="horizon_ground_to">#FF00008B</color>
+    <color name="black_alpha_50">#80000000</color>
+    <color name="green">#00b300</color>
 
 </resources>

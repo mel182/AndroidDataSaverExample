@@ -14,6 +14,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.BODY_SENSORS" />
 
     <permission android:name="com.example.datasaverexampleapp.provider.ACCESS_PERMISSION" />
 
@@ -25,7 +26,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="AllowBackup">
+        tools:ignore="AllowBackup"
+        android:screenOrientation="portrait">
         <activity android:name=".hardware_sensor.HardwareSensorActivity"/>
         <activity android:name=".location.maps.GoogleMapsActivity" />
         <activity android:name=".location.geocoder.GeoCoderExampleActivity" />

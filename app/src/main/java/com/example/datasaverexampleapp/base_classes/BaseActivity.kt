@@ -21,7 +21,7 @@ abstract class BaseActivity(contentView:Int) : AppCompatActivity(contentView)
         activityResultHandler?.clear()
     }
 
-    protected open fun requestPermission(permission:String, activityResult:(Boolean) -> Unit)
+    open fun requestPermission(permission:String, activityResult:(Boolean) -> Unit)
     {
         activityResultHandler?.requestPermission(permission, object: OnPermissionResult{
             override fun onPermissionResult(result: Boolean) {
@@ -49,7 +49,7 @@ abstract class BaseActivity(contentView:Int) : AppCompatActivity(contentView)
     }
 
 
-    protected open fun requestPermissions(permissions:Array<String>, activityResult:(Boolean) -> Unit)
+    open fun requestPermissions(permissions:Array<String>, activityResult:(Boolean) -> Unit)
     {
         if (isPermissionsGranted(permissions))
         {

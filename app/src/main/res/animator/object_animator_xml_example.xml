@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:valueTo="0"
     android:propertyName="alpha"
-    android:duration="500"
+    android:duration="700"
     android:valueType="floatType"
     android:repeatCount="-1"
     android:repeatMode="reverse" />

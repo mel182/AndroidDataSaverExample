@@ -34,6 +34,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <LinearLayout
+        android:id="@+id/list_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black_alpha_50"
+        android:alpha="0"
+        android:orientation="vertical"
+        android:visibility="gone"/>
+
     <include layout="@layout/item_bottom_sheet_layout"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
