@@ -5,7 +5,6 @@ import android.animation.Animator
 import android.animation.AnimatorInflater
 import android.hardware.*
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import androidx.core.content.ContextCompat
@@ -19,13 +18,12 @@ import kotlinx.android.synthetic.main.fragment_sensor_reading.*
 import kotlinx.android.synthetic.main.item_bottom_sheet_layout.*
 import java.text.DecimalFormat
 
-
 /**
  * A simple [Fragment] subclass.
  * Use the [SensorReadingFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class SensorReadingFragment(val sensor: Sensor, val sensorManager: SensorManager) :
+class SensorReadingFragment(private var sensor: Sensor?, private var sensorManager: SensorManager?) :
     BaseFragment(Layout.fragment_sensor_reading), SensorEventListener {
 
     private val TAG = "SENSOR_READING"
@@ -37,7 +35,7 @@ class SensorReadingFragment(val sensor: Sensor, val sensorManager: SensorManager
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        sensorValueUnit = sensor.type.toString()
+        sensorValueUnit = sensor?.type.toString()
         animator = AnimatorInflater.loadAnimator(
             AppContext.appContext,
             R.animator.object_animator_xml_example
@@ -47,15 +45,15 @@ class SensorReadingFragment(val sensor: Sensor, val sensorManager: SensorManager
         }
         animator?.start()
 
-        max_range_text?.text = getSensorValueUnit(sensor.maximumRange)
-        resolution_text?.text = getSensorValueUnit(sensor.resolution)
-        min_delay_text?.text = "${sensor.minDelay} μs"
-        power_text?.text = "${sensor.power} mA"
+        max_range_text?.text = getSensorValueUnit(sensor?.maximumRange)
+        resolution_text?.text = getSensorValueUnit(sensor?.resolution)
+        min_delay_text?.text = "${sensor?.minDelay} μs"
+        power_text?.text = "${sensor?.power} mA"
 
-        if (sensor.type == Sensor.TYPE_STEP_DETECTOR)
+        if (sensor?.type == Sensor.TYPE_STEP_DETECTOR)
         {
             sensor_measurement?.text = "Step detector sensor"
-        } else if (sensor.type == Sensor.TYPE_SIGNIFICANT_MOTION)
+        } else if (sensor?.type == Sensor.TYPE_SIGNIFICANT_MOTION)
         {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
 
@@ -68,11 +66,11 @@ class SensorReadingFragment(val sensor: Sensor, val sensorManager: SensorManager
                     }
                 }
                 sensor_measurement?.text = "Trigger in special events...."
-                sensorManager.requestTriggerSensor(triggerEventListener,sensor)
+                sensorManager?.requestTriggerSensor(triggerEventListener,sensor)
             } else {
                 sensor_measurement?.text = "Unsupported"
             }
-        } else if (sensor.type == Sensor.TYPE_GAME_ROTATION_VECTOR)
+        } else if (sensor?.type == Sensor.TYPE_GAME_ROTATION_VECTOR)
         {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
 
@@ -108,40 +106,33 @@ class SensorReadingFragment(val sensor: Sensor, val sensorManager: SensorManager
                         power_text?.text = "${sensor?.power} mA"
                     }
                 }
-                sensorManager.registerListener(sensorEventCallback, sensor, SensorManager.SENSOR_DELAY_NORMAL)
+                sensorManager?.registerListener(sensorEventCallback, sensor, SensorManager.SENSOR_DELAY_NORMAL)
             } else {
                 sensor_measurement?.text = "Unsupported"
             }
-        } else if (sensor.type == Sensor.TYPE_HEART_RATE)
+        } else if (sensor?.type == Sensor.TYPE_HEART_RATE)
         {
             if (isPermissionGranted(BODY_SENSORS))
             {
-                sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL)
+                sensorManager?.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL)
             } else {
                 requestPermission(BODY_SENSORS){ granted ->
 
                     if (granted)
-                        sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL)
+                        sensorManager?.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL)
                 }
             }
 
         } else {
-            sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL)
+            sensorManager?.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL)
         }
-
-
-        //
-
-
-
-
     }
 
     override fun onSensorChanged(event: SensorEvent?) {
 
         event?.values?.apply {
 
-            when (sensor.type) {
+            when (sensor?.type) {
                 Sensor.TYPE_ACCELEROMETER, Sensor.TYPE_GRAVITY, Sensor.TYPE_LINEAR_ACCELERATION -> {
 
                     if (this.size == 3) {
@@ -393,8 +384,8 @@ class SensorReadingFragment(val sensor: Sensor, val sensorManager: SensorManager
         }
     }
 
-    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-        Log.i(TAG, "on accuracy changed, sensor: $sensor, accuracy: $accuracy")
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int)
+    {
         setAccuracy(accuracy)
         max_range_text?.text = getSensorValueUnit(sensor?.maximumRange)
         resolution_text?.text = getSensorValueUnit(sensor?.resolution)
@@ -454,20 +445,23 @@ class SensorReadingFragment(val sensor: Sensor, val sensorManager: SensorManager
         super.onDestroyView()
         animator?.end()
         animator = null
-        sensorManager.unregisterListener(this)
+        sensorManager?.unregisterListener(this)
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2)
         {
             triggerEventListener?.let { triggerEvent ->
-                sensorManager.cancelTriggerSensor(triggerEvent,sensor)
+                sensorManager?.cancelTriggerSensor(triggerEvent,sensor)
             }
         }
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
 
             sensorEventCallback?.let { sensorEventCallback ->
-                sensorManager.unregisterListener(sensorEventCallback)
+                sensorManager?.unregisterListener(sensorEventCallback)
             }
         }
+
+        sensor = null
+        sensorManager = null
     }
 }
