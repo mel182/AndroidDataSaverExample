@@ -142,7 +142,7 @@ class SensorReadingFragment(val sensor: Sensor, val sensorManager: SensorManager
         event?.values?.apply {
 
             when (sensor.type) {
-                Sensor.TYPE_ACCELEROMETER -> {
+                Sensor.TYPE_ACCELEROMETER, Sensor.TYPE_GRAVITY, Sensor.TYPE_LINEAR_ACCELERATION -> {
 
                     if (this.size == 3) {
                         val xAxisForce = this[0]
@@ -366,6 +366,27 @@ class SensorReadingFragment(val sensor: Sensor, val sensorManager: SensorManager
                                 distance
                             )
                         ).toString()
+                    }
+                }
+
+                Sensor.TYPE_ORIENTATION -> {
+
+                    if (this.isNotEmpty())
+                    {
+                        if (this.size == 3) {
+                            val xAxis = this[0]
+                            val yAxis = this[1]
+                            val zAxis = this[2]
+
+                            sensor_measurement?.text = StringBuilder()
+                                .append("x: ")
+                                .append(getSensorValueUnit(decimalFormat.format(xAxis)))
+                                .append("\ny: ")
+                                .append(getSensorValueUnit(decimalFormat.format(yAxis)))
+                                .append("\nz: ")
+                                .append(getSensorValueUnit(decimalFormat.format(zAxis))).toString()
+
+                        }
                     }
                 }
             }
