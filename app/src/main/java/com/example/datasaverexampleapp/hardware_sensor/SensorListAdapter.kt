@@ -62,10 +62,15 @@ class SensorListAdapter (sensorList:List<Sensor>, private val sensorClickCallbac
 
         private var sensorType by SensorTypeDelegate()
         private var sensorReportingType by SensorReportingDelegate()
+        private var minDelayValue by SensorDelayUnitDelegate()
+        private var maxDelayValue by SensorDelayUnitDelegate()
+        private var sensorPowerValue by SensorPowerUnitDelegate()
 
         fun bind(sensor:Sensor)
         {
             sensorType = sensor.type.toString()
+            minDelayValue = sensor.minDelay.toString()
+            sensorPowerValue = sensor.power.toString()
 
             sensorName.text = sensor.name
             vendorName.text = sensor.vendor
@@ -73,13 +78,15 @@ class SensorListAdapter (sensorList:List<Sensor>, private val sensorClickCallbac
             type.text = sensorType
             maxRange.text = sensor.maximumRange.toString()
             resolution.text = sensor.resolution.toString()
-            power.text = "${sensor.power}mA"
-            minDelay.text = "${sensor.minDelay}μs"
+            power.text = sensorPowerValue
+            minDelay.text = minDelayValue
 
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+
+                maxDelayValue = sensor.maxDelay.toString()
                 maxDelay.apply {
                     visibility = View.VISIBLE
-                    text = "${sensor.maxDelay}μs"
+                    text = maxDelayValue
                 }
                 sensorWakeUp.apply {
                     visibility = View.VISIBLE

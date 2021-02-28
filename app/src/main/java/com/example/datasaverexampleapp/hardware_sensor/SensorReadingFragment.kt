@@ -34,10 +34,18 @@ class SensorReadingFragment(private var sensor: Sensor?, private var sensorManag
     private var animator: Animator? = null
     private var triggerEventListener : TriggerEventListener? = null
     private var sensorEventCallback : SensorEventCallback? = null
+    private var minDelayValue by SensorDelayUnitDelegate()
+    private var sensorPowerValue by SensorPowerUnitDelegate()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        sensorValueUnit = sensor?.type.toString()
+
+        sensor?.apply {
+            sensorValueUnit = type.toString()
+            minDelayValue = minDelay.toString()
+            sensorPowerValue = power.toString()
+        }
+
         animator = AnimatorInflater.loadAnimator(
             AppContext.appContext,
             R.animator.object_animator_xml_example
@@ -501,8 +509,8 @@ class SensorReadingFragment(private var sensor: Sensor?, private var sensorManag
     {
         max_range_text?.text = getSensorValueUnit(sensor?.maximumRange)
         resolution_text?.text = getSensorValueUnit(sensor?.resolution)
-        min_delay_text?.text = StringBuilder().append(sensor?.minDelay).append(" μs").toString()
-        power_text?.text = StringBuilder().append(sensor?.power).append(" mA").toString()
+        min_delay_text?.text = minDelayValue
+        power_text?.text = sensorPowerValue
     }
 
     private fun getSensorValueUnit(value: Any?): String = StringBuilder().append(value).append(" ").append(
