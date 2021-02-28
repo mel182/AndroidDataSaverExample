@@ -120,8 +120,8 @@ class SensorReadingFragment(private var sensor: Sensor?, private var sensorManag
         }
     }
 
-    override fun onSensorChanged(event: SensorEvent?) {
-
+    override fun onSensorChanged(event: SensorEvent?)
+    {
         event?.values?.apply {
             updateMeasurementValue(this)
         }
@@ -501,8 +501,8 @@ class SensorReadingFragment(private var sensor: Sensor?, private var sensorManag
     {
         max_range_text?.text = getSensorValueUnit(sensor?.maximumRange)
         resolution_text?.text = getSensorValueUnit(sensor?.resolution)
-        min_delay_text?.text = "${sensor?.minDelay} μs"
-        power_text?.text = "${sensor?.power} mA"
+        min_delay_text?.text = StringBuilder().append(sensor?.minDelay).append(" μs").toString()
+        power_text?.text = StringBuilder().append(sensor?.power).append(" mA").toString()
     }
 
     private fun getSensorValueUnit(value: Any?): String = StringBuilder().append(value).append(" ").append(
