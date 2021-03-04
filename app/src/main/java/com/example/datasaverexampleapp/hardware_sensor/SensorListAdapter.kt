@@ -1,6 +1,8 @@
 package com.example.datasaverexampleapp.hardware_sensor
 
+import android.graphics.Color
 import android.hardware.Sensor
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

@@ -6,6 +6,7 @@ import android.hardware.Sensor
 import android.hardware.SensorManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -45,7 +46,7 @@ class HardwareSensorActivity : BaseActivity(Layout.activity_hardware_sensor),
             bottom_sheet?.let { bottomSheetView ->
 
                 val layoutParams = bottomSheetView.layoutParams
-                layoutParams.height = (displayMetrics.heightPixels * 0.5).toInt()
+                layoutParams.height = (displayMetrics.heightPixels * 0.7).toInt()
                 bottomSheetView.layoutParams = layoutParams
 
                 BottomSheetBehavior.from(bottom_sheet).apply {

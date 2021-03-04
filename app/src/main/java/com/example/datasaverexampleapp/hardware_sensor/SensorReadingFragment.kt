@@ -6,6 +6,7 @@ import android.animation.AnimatorInflater
 import android.hardware.*
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import androidx.annotation.RequiresApi
@@ -95,6 +96,7 @@ class SensorReadingFragment(private var sensor: Sensor?, private var sensorManag
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 
+                    Log.i(TAG,"Additional information: ${measureSensor.isAdditionalInfoSupported}")
                     if (measureSensor.isAdditionalInfoSupported) {
 
                         sensorEventCallback = object : SensorEventCallback() {
@@ -115,6 +117,13 @@ class SensorReadingFragment(private var sensor: Sensor?, private var sensorManag
                             override fun onSensorAdditionalInfo(info: SensorAdditionalInfo?) {
                                 super.onSensorAdditionalInfo(info)
                                 //TODO: Implement sensor additional info
+
+                                info?.let { data ->
+                                    Log.i(TAG,"Additional information payload float: ${data.floatValues}")
+                                    Log.i(TAG,"Additional information payload int: ${data.intValues}")
+                                    Log.i(TAG,"Additional information type: ${data.type}")
+                                    Log.i(TAG,"Additional information serial: ${data.serial}")
+                                }
                             }
                         }
                         requestSensorListener()
