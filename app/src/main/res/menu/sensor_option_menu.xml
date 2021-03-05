@@ -12,6 +12,16 @@
         android:checkable="true"/>
 
     <item
+        android:id="@+id/ambient_temperature_sensor"
+        android:title="Ambient Temperature"
+        android:checkable="true"/>
+
+    <item
+        android:id="@+id/relative_humidity_sensor"
+        android:title="Relative Humidity"
+        android:checkable="true"/>
+
+    <item
         android:id="@+id/gyroscope_sensor"
         android:title="Gyroscope sensor"
         android:checkable="true"/>

@@ -1,8 +1,6 @@
 package com.example.datasaverexampleapp.hardware_sensor
 
-import android.graphics.Color
 import android.hardware.Sensor
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -70,16 +68,16 @@ class SensorListAdapter (sensorList:List<Sensor>, private val sensorClickCallbac
 
         fun bind(sensor:Sensor)
         {
-            sensorType = sensor.type.toString()
-            minDelayValue = sensor.minDelay.toString()
-            sensorPowerValue = sensor.power.toString()
+            sensorType = sensor.type.toString() // generic type of this sensor
+            minDelayValue = sensor.minDelay.toString() // the minimum delay allowed between two events in microsecond
+            sensorPowerValue = sensor.power.toString() // the power in mA used by this sensor while in use
 
-            sensorName.text = sensor.name
-            vendorName.text = sensor.vendor
-            version.text = sensor.version.toString()
+            sensorName.text = sensor.name // name string of the sensor
+            vendorName.text = sensor.vendor // vendor string of this sensor
+            version.text = sensor.version.toString() // version of the sensor's module
             type.text = sensorType
-            maxRange.text = sensor.maximumRange.toString()
-            resolution.text = sensor.resolution.toString()
+            maxRange.text = sensor.maximumRange.toString() // maximum range of the sensor in the sensor's unit
+            resolution.text = sensor.resolution.toString() // resolution of the sensor in the sensor's unit
             power.text = sensorPowerValue
             minDelay.text = minDelayValue
 
@@ -92,7 +90,10 @@ class SensorListAdapter (sensorList:List<Sensor>, private val sensorClickCallbac
                 }
                 sensorWakeUp.apply {
                     visibility = View.VISIBLE
-                    text = if (sensor.isWakeUpSensor) "Wakeup sensor" else "Non-Wakeup sensor"
+                    text = if (sensor.isWakeUpSensor)
+                        "Wakeup sensor" // Force the processor to remain active
+                    else
+                        "Non-Wakeup sensor" // continue to consume power and generate events
                 }
 
                 reportingModeView.visibility = View.VISIBLE

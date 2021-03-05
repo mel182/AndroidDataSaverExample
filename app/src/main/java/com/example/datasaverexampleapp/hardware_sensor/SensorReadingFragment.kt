@@ -65,6 +65,11 @@ class SensorReadingFragment(private var sensor: Sensor?, private var sensorManag
         {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
 
+                // The 'TriggerEvent' parameter received by the 'onTrigger' handler includes the following properties
+                // to describe each Trigger Event:
+                // - Sensor: The sensor object that triggered the event
+                // - Values: A float array that contains the new value(s) observed.
+                // - Timestamp: The time (in nanoseconds) at which the Sensor Event occurred
                 triggerEventListener = object : TriggerEventListener() {
                     override fun onTrigger(event: TriggerEvent?) {
 
@@ -94,15 +99,22 @@ class SensorReadingFragment(private var sensor: Sensor?, private var sensorManag
 
             sensor?.let { measureSensor ->
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-
-                    Log.i(TAG,"Additional information: ${measureSensor.isAdditionalInfoSupported}")
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                {
                     if (measureSensor.isAdditionalInfoSupported) {
 
+                        // If a Sensor if capable of returning Sensor Additional Info, you can use
+                        // the new 'SensorEventCallback' an extension of the Sensor Event Listener
+                        // that includes additional callback handlers.
                         sensorEventCallback = object : SensorEventCallback() {
 
                             override fun onSensorChanged(event: SensorEvent?) {
                                 super.onSensorChanged(event)
+                                // ------ Event --------
+                                // - Sensor: The sensor object that triggered the event
+                                // - Accuracy: The accuracy of the Sensor when the event occured
+                                // - Values: A float array that contains the new value(s) observed
+                                // - timestamp: The time (in nanoseconds) at which the Sensor Event occurred
                                 event?.values?.apply {
                                     updateMeasurementValue(this)
                                 }
@@ -116,13 +128,52 @@ class SensorReadingFragment(private var sensor: Sensor?, private var sensorManag
 
                             override fun onSensorAdditionalInfo(info: SensorAdditionalInfo?) {
                                 super.onSensorAdditionalInfo(info)
-                                //TODO: Implement sensor additional info
 
                                 info?.let { data ->
-                                    Log.i(TAG,"Additional information payload float: ${data.floatValues}")
-                                    Log.i(TAG,"Additional information payload int: ${data.intValues}")
-                                    Log.i(TAG,"Additional information type: ${data.type}")
-                                    Log.i(TAG,"Additional information serial: ${data.serial}")
+
+                                    additional_info_section?.visibility = View.VISIBLE
+                                    additional_payload_type?.apply {
+
+                                        // Integer and float arrays that may contain payload
+                                        // value(s) for the Sensor, as described by the
+                                        // information type.
+                                        text = if (data.floatValues.isNotEmpty())
+                                        {
+                                            "float list size: ${data.floatValues.size}"
+                                        } else {
+                                            "int list size: ${data.floatValues.size}"
+                                        }
+                                    }
+                                    additional_frame_type_text?.text = when(data.type)
+                                    // Sensors can return multiple types of additional sensor information
+                                    {
+                                        // Mark the beginning and end of this frame of additional information
+                                        SensorAdditionalInfo.TYPE_FRAME_BEGIN -> "Frame begin"
+                                        // The internal Sensor temperature, returned in degrees Celsius as the first
+                                        // value in the 'floatValues' array.
+                                        SensorAdditionalInfo.TYPE_FRAME_END -> "Frame end"
+                                        // The raw period sampling period, in seconds, returned as the first value in
+                                        // the float array; and the estimated sample time-jitter returned as the standard
+                                        // deviation, available in the second value in the float array.
+                                        SensorAdditionalInfo.TYPE_SAMPLING -> "Sampling"
+                                        // The physical location and angle of the Sensor relative to the device's
+                                        // geometric Sensor. The values are returned as a homogeneous matrix in
+                                        // the first twelve values in the float array.
+                                        SensorAdditionalInfo.TYPE_SENSOR_PLACEMENT -> "Sensor placement"
+                                        // The delay to the sensor results introduced by data processing (such as filtering or smoothing)
+                                        // which have not been taken into account in the Sensor Event timestamps. The first float array value
+                                        // is the estimated delay, the second value is the estimated standard deviation in estimated delays.
+                                        SensorAdditionalInfo.TYPE_UNTRACKED_DELAY -> "Untracked delay"
+                                        // The vector calibration parameter, representing the calibration applied to a Sensor with
+                                        // three-element vector output. Returns a homogeneous matrix in the first 12 values in the
+                                        // float array describing ant linear transformation, including rotation, scaling, shear and shift.
+                                        SensorAdditionalInfo.TYPE_VEC3_CALIBRATION -> "VEC 3 Calibration"
+                                        else -> ""
+                                    }
+
+                                    // Each information type returned within a frame is numbered sequentially, with the serial value
+                                    // identifying the sequence number within the frame.
+                                    additional_serial_nr_text?.text = data.serial.toString()
                                 }
                             }
                         }
@@ -530,6 +581,8 @@ class SensorReadingFragment(private var sensor: Sensor?, private var sensorManag
         when (accuracy) {
             SensorManager.SENSOR_STATUS_NO_CONTACT -> {
                 accuracy_text?.apply {
+                    // Indicates that the Sensor data is unreliable because the Sensor
+                    // has lost contact with what it measures.
                     text = "No contact"
                     setTextColor(ContextCompat.getColor(AppContext.appContext, R.color.alert_red))
                 }
@@ -537,6 +590,8 @@ class SensorReadingFragment(private var sensor: Sensor?, private var sensorManag
 
             SensorManager.SENSOR_STATUS_UNRELIABLE -> {
                 accuracy_text?.apply {
+                    // Indicates that the Sensor data is unreliable, meaning that either calibration is
+                    // required or readings are not currently possible.
                     text = "Unreliable"
                     setTextColor(ContextCompat.getColor(AppContext.appContext, R.color.alert_red))
                 }
@@ -544,6 +599,7 @@ class SensorReadingFragment(private var sensor: Sensor?, private var sensorManag
 
             SensorManager.SENSOR_STATUS_ACCURACY_LOW -> {
                 accuracy_text?.apply {
+                    // Indicates that the Sensor is reporting with low accuracy and needs to be calibrated
                     text = "Low accuracy"
                     setTextColor(ContextCompat.getColor(AppContext.appContext, R.color.alert_red))
                 }
@@ -551,6 +607,8 @@ class SensorReadingFragment(private var sensor: Sensor?, private var sensorManag
 
             SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM -> {
                 accuracy_text?.apply {
+                    // Indicates that the Sensor data is of average accuracy and that calibration
+                    // might improve the accuracy of the reported results.
                     text = "Medium accuracy"
                     setTextColor(
                         ContextCompat.getColor(
@@ -563,6 +621,7 @@ class SensorReadingFragment(private var sensor: Sensor?, private var sensorManag
 
             SensorManager.SENSOR_STATUS_ACCURACY_HIGH -> {
                 accuracy_text?.apply {
+                    // Indicates that the Sensor is reporting with the highest possible accuracy
                     text = "High accuracy"
                     setTextColor(ContextCompat.getColor(AppContext.appContext, R.color.green))
                 }
@@ -588,11 +647,22 @@ class SensorReadingFragment(private var sensor: Sensor?, private var sensorManag
 
             if (sensorEventCallback != null)
             {
+
                 sensorManager?.registerListener(sensorEventCallback, sensor, SensorManager.SENSOR_DELAY_NORMAL)
             } else {
+                // Register your sensor event listener with the Sensor Manager. Specify the Sensor to observe
+                // and the minimum frequency at which you want to receive updates, either in microseconds or
+                // using one of the microseconds.
+                // Sampling periods options:
+                // - SENSOR_DELAY_FASTEST: get sensor data as fast as possible
+                // - SENSOR_DELAY_GAME: rate suitable for games
+                // - SENSOR_DELAY_UI: rate suitable for the user interface
+                // - SENSOR_DELAY_NORMAL: rate (default) suitable for screen orientation changes
                 sensorManager?.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL)
             }
         } else {
+            // For most Sensors- those that report results continuously, on change, or caused by a special
+            // trigger - you receive Sensor Events by implementing a 'SensorEventListener'.
             sensorManager?.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL)
         }
     }
@@ -606,6 +676,8 @@ class SensorReadingFragment(private var sensor: Sensor?, private var sensorManag
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2)
         {
             triggerEventListener?.let { triggerEvent ->
+                // If you have not received a Trigger Event and your application no longer
+                // needs to respond to it, you should cancel your Trigger Event Listeners manually.
                 sensorManager?.cancelTriggerSensor(triggerEvent,sensor)
             }
             triggerEventListener = null

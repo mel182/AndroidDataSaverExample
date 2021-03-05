@@ -25,17 +25,37 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.activity_hardware_sensor.*
 import kotlinx.android.synthetic.main.item_bottom_sheet_layout.*
 
-
+// NOTE: Where a sensor is required for your application to function, you can specify it as a required feature in the application's manifest.
+//
 class HardwareSensorActivity : BaseActivity(Layout.activity_hardware_sensor),
     OnSensorClickedCallback {
 
     private val TAG = "HARDWARE_SENSOR"
     private var sensorListAdapter: SensorListAdapter? = null
-    private val sensorManager by lazy { getSystemService(Context.SENSOR_SERVICE) as SensorManager }
+    private val sensorManager by lazy {
+        // The sensor manager is used to manage the sensor hardware available on Android devices. Use the 'getSystemService' to return a reference to the Sensor Manager Service.
+        getSystemService(Context.SENSOR_SERVICE) as SensorManager
+
+        // Rather than interact with the sensor hardware directly, you work with a series of 'Sensor' objects that represent that hardware. These 'sensor' object describe the properties
+        // of the hardware sensor they represent, including the 'type','name','manufacturer' and details on accuracy and range.
+        // The 'Sensor' class includes a set of constants that describe which type of hardware sensor is being represented by a particular 'Sensor' object. These constants take the form of
+        // 'Sensor.TYPE_ ' followed by the name of a supported Sensor.
+        //
+        // Sensor can generally be divided into two categories: physical hardware sensors and virtual sensors.
+        // Physical sensor e.g.: Light, Barometric etc.. (These typically work independently of each other, each reporting the results obtained from a particular piece of hardware and
+        //                                                generally don't apply any filtering or smoothing)
+        // Virtual Sensors e.g.: filtered combination of accelerometers , magnetic-field Sensors and gyroscope and orientation sensor. (represent a simplified, corrected, or composite
+        //                                                                                                                              sensor data in a way that makes them easier to use
+        //                                                                                                                              within some applications)
+    }
+
     private var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>? = null
     private var menu: Menu? = null
     private var itemsEnabled = true
     private var selectedMenuItemID = 0
+
+    val normalHeight = 0.5f
+    val adjustedHeight = 0.7f
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +66,7 @@ class HardwareSensorActivity : BaseActivity(Layout.activity_hardware_sensor),
             bottom_sheet?.let { bottomSheetView ->
 
                 val layoutParams = bottomSheetView.layoutParams
-                layoutParams.height = (displayMetrics.heightPixels * 0.7).toInt()
+                layoutParams.height = (displayMetrics.heightPixels * normalHeight).toInt()
                 bottomSheetView.layoutParams = layoutParams
 
                 BottomSheetBehavior.from(bottom_sheet).apply {
@@ -190,11 +210,33 @@ class HardwareSensorActivity : BaseActivity(Layout.activity_hardware_sensor),
                 true
             }
 
+            ViewByID.ambient_temperature_sensor -> {
+
+                setCheckState(item) { succeed ->
+                    if (succeed)
+                        filterSensor(Sensor.TYPE_AMBIENT_TEMPERATURE)
+                    // This is a thermometer that returns the ambient room temperature in degrees celsius (introduced in Android 4.0 API Level 14)
+                }
+                true
+            }
+
+            ViewByID.relative_humidity_sensor -> {
+
+                setCheckState(item) { succeed ->
+                    if (succeed)
+                        filterSensor(Sensor.TYPE_RELATIVE_HUMIDITY)
+                    // A relative humidity sensor that returns the relative humidity as a percentage. (API level 14)
+                }
+                true
+            }
+
             ViewByID.accelerometer_sensor -> {
 
                 setCheckState(item) { succeed ->
                     if (succeed)
                         filterSensor(Sensor.TYPE_ACCELEROMETER)
+                    // A three-axis accelerometer that returns the current acceleration along three in m/s2.
+                    // The accelerometer is explored is greater detail later in this chapter.
                 }
                 true
             }
@@ -204,6 +246,9 @@ class HardwareSensorActivity : BaseActivity(Layout.activity_hardware_sensor),
                 setCheckState(item) { succeed ->
                     if (succeed)
                         filterSensor(Sensor.TYPE_GYROSCOPE)
+                    // A three-axis gyroscope that returns the rate of device rotation along three axes in radians/second. You can integrate the rate of rotation over time
+                    // to determine the current orientation of the device; however, it generally is better practice to use this in combination with others sensors (typically
+                    // the accelerometers) to provide a smoothed and corrected orientation. You can more the gyroscope later in this chapter.
                 }
                 true
             }
@@ -221,6 +266,9 @@ class HardwareSensorActivity : BaseActivity(Layout.activity_hardware_sensor),
                 setCheckState(item) { succeed ->
                     if (succeed)
                         filterSensor(Sensor.TYPE_LINEAR_ACCELERATION)
+                    // A three-axis linear acceleration 'Sensor' that returns the acceleration, minus gravity, along three axes in m/s2.
+                    // Like the gravity sensor, the linear acceleration is typically implemented as virtual sensor using the accelerometer
+                    // output. In this case, to obtain the linear acceleration, a high-pass filter is applied to the accelerometer output.
                 }
                 true
             }
@@ -230,6 +278,9 @@ class HardwareSensorActivity : BaseActivity(Layout.activity_hardware_sensor),
                 setCheckState(item) { succeed ->
                     if (succeed)
                         filterSensor(Sensor.TYPE_ROTATION_VECTOR)
+                    // Returns the orientation of the device as a combination of an angle around an axis. It typically is used as an input to the 'getRotationMatrixFromVector'
+                    // method from the Sensor Manager to convert the returned rotation vector into a rotation matrix. The rotation vector is typically implemented as virtual sensor
+                    // that can combine and correct the results obtained from multiple sensors, such as the accelerometers and gyroscope, to provide a smoother rotation matrix.
                 }
                 true
             }
@@ -239,6 +290,8 @@ class HardwareSensorActivity : BaseActivity(Layout.activity_hardware_sensor),
                 setCheckState(item) { succeed ->
                     if (succeed)
                         filterSensor(Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR)
+                    // An alternative to the rotation vector, implemented as virtual Sensor using the magnetometer rather than gyroscope. As a result,
+                    // it uses lower power but is noisier and best used outdoors (Api Level 19).
                 }
                 true
             }
@@ -248,6 +301,8 @@ class HardwareSensorActivity : BaseActivity(Layout.activity_hardware_sensor),
                 setCheckState(item) { succeed ->
                     if (succeed)
                         filterSensor(Sensor.TYPE_POSE_6DOF)
+                    // A pose sensor with 6 degrees of freedom; similar to the rotation vector, but with an additional delta translation from an arbitrary
+                    // reference point. This is a high-power sensor that is expected to be more accurate than the rotation vector. (Api Level 24)
                 }
                 true
             }
@@ -257,6 +312,8 @@ class HardwareSensorActivity : BaseActivity(Layout.activity_hardware_sensor),
                 setCheckState(item) { succeed ->
                     if (succeed)
                         filterSensor(Sensor.TYPE_MOTION_DETECT)
+                    // A virtual Sensor that returns a value of 1.0 if it determines that the device has been in motion for at least 5 seconds, with a maximum
+                    // latency of another 5 seconds. (Api level 24)
                 }
                 true
             }
@@ -266,6 +323,8 @@ class HardwareSensorActivity : BaseActivity(Layout.activity_hardware_sensor),
                 setCheckState(item) { succeed ->
                     if (succeed)
                         filterSensor(Sensor.TYPE_STATIONARY_DETECT)
+
+                    // A virtual Sensor that returns a value of 1.0 if it determines that the device has been stationary for at least 5 seconds. (Api Level 24)
                 }
                 true
             }
@@ -275,6 +334,9 @@ class HardwareSensorActivity : BaseActivity(Layout.activity_hardware_sensor),
                 setCheckState(item) { succeed ->
                     if (succeed)
                         filterSensor(Sensor.TYPE_SIGNIFICANT_MOTION)
+                    // A one-shot Sensor that is triggered when a significant device movement is detected, and then automatically disables itself to prevent
+                    // further results. This is wakeup sensor, meaning that it will continue to monitor for changes while the device is asleep, and will wake
+                    // the device when motion is detected. (Api level 18)
                 }
                 true
             }
@@ -284,6 +346,8 @@ class HardwareSensorActivity : BaseActivity(Layout.activity_hardware_sensor),
                 setCheckState(item) { succeed ->
                     if (succeed)
                         filterSensor(Sensor.TYPE_HEART_BEAT)
+                    // A sensor that monitors heart-beats, returning a single value whenever a heart-beat is detected, corresponding to the positive peak in the QRS complex
+                    // of an ECG signal (APi level 24).
                 }
                 true
             }
@@ -293,6 +357,7 @@ class HardwareSensorActivity : BaseActivity(Layout.activity_hardware_sensor),
                 setCheckState(item) { succeed ->
                     if (succeed)
                         filterSensor(Sensor.TYPE_HEART_RATE)
+                    // A heart-rate monitor that returns a single value describing the user's heart rate in beats-per-minute (bpm) (API Level 26)
                 }
                 true
             }
@@ -303,6 +368,7 @@ class HardwareSensorActivity : BaseActivity(Layout.activity_hardware_sensor),
                     setCheckState(item) { succeed ->
                         if (succeed)
                             filterSensor(Sensor.TYPE_LOW_LATENCY_OFFBODY_DETECT)
+                        // Returns a single value whenever a wearable device transitions from being in contact/not in contact with a person's body. (Api Level 26)
                     }
                 }
                 true
@@ -313,6 +379,9 @@ class HardwareSensorActivity : BaseActivity(Layout.activity_hardware_sensor),
                 setCheckState(item) { succeed ->
                     if (succeed)
                         filterSensor(Sensor.TYPE_STEP_COUNTER)
+                    // Returns the cumulative numbers of steps detected while active since the last device reboot. This sensor is implemented as a low-power hardware Sensor
+                    // that can be used to continuously track steps over a long period of time. Unlike most of the Sensors described, you should not unregister this Sensor when
+                    // your Activity is stopped if you want to continue steps while your app is in the background. (Api level 19)
                 }
                 true
             }
@@ -322,6 +391,8 @@ class HardwareSensorActivity : BaseActivity(Layout.activity_hardware_sensor),
                 setCheckState(item) { succeed ->
                     if (succeed)
                         filterSensor(Sensor.TYPE_STEP_DETECTOR)
+                    // Returns a single value of 1.0 whenever a step is taken, corresponding with the foot touching the ground. If you want to track the number of steps, the steps
+                    // counter sensor is more appropriate. (Api Level 19).
                 }
                 true
             }
@@ -340,6 +411,8 @@ class HardwareSensorActivity : BaseActivity(Layout.activity_hardware_sensor),
                 setCheckState(item) { succeed ->
                     if (succeed)
                         filterSensor(Sensor.TYPE_MAGNETIC_FIELD)
+                    // A magnetometer that find the current magnetic field in
+                    // microteslas (μT) along three axes.
                 }
                 true
             }
@@ -349,6 +422,10 @@ class HardwareSensorActivity : BaseActivity(Layout.activity_hardware_sensor),
                 setCheckState(item) { succeed ->
                     if (succeed)
                         filterSensor(Sensor.TYPE_PRESSURE)
+                    // An atmospheric pressure sensor (barometer) that returns the current atmospheric pressure
+                    // in millibars (mbars) as a single value. The pressure sensor can be used to determine altitude using the 'getAltitude' method on the
+                    // Sensor Manager to compare the atmospheric pressure in two locations. Barometers can also be used in weather forecasting by measuring changes in atmospheric
+                    // pressure in the same location over time.
                 }
                 true
             }
@@ -367,6 +444,10 @@ class HardwareSensorActivity : BaseActivity(Layout.activity_hardware_sensor),
                 setCheckState(item) { succeed ->
                     if (succeed)
                         filterSensor(Sensor.TYPE_LIGHT)
+                    // An ambient light sensor that returns a single value
+                    // describing the ambient illumination in lux. A light
+                    // sensor is typically used by the system to alter the screen
+                    // brightness dynamically.
                 }
                 true
             }
@@ -376,6 +457,8 @@ class HardwareSensorActivity : BaseActivity(Layout.activity_hardware_sensor),
                 setCheckState(item) { succeed ->
                     if (succeed)
                         filterSensor(Sensor.TYPE_PROXIMITY)
+                    // A proximity sensor indicates the distance between the device and the target object in centimeters. How a target object is selected and the distance supported
+                    // will depend
                 }
                 true
             }
@@ -385,6 +468,10 @@ class HardwareSensorActivity : BaseActivity(Layout.activity_hardware_sensor),
                 setCheckState(item) { succeed ->
                     if (succeed)
                         filterSensor(Sensor.TYPE_GRAVITY)
+                    // A three-axis gravity sensor that returns the current direction and
+                    // magnitude of gravity along three axes in m/s2. The gravity sensor
+                    // typically is implemented as virtual sensor by applying a low-pass
+                    // filter to the accelerometer results.
                 }
                 true
             }
@@ -408,6 +495,31 @@ class HardwareSensorActivity : BaseActivity(Layout.activity_hardware_sensor),
             }
 
             else -> true
+        }
+    }
+
+    private fun adjustBottomSheetHeight(sensor:Sensor)
+    {
+        resources.displayMetrics?.also { displayMetrics ->
+
+            bottom_sheet?.let { bottomSheetView ->
+                val layoutParams = bottomSheetView.layoutParams
+                layoutParams.height = (displayMetrics.heightPixels * getHeight(sensor)).toInt()
+                bottomSheetView.layoutParams = layoutParams
+            }
+        }
+    }
+
+    private fun getHeight(sensor:Sensor) : Float
+    {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+        {
+            if (sensor.isAdditionalInfoSupported)
+                adjustedHeight
+            else
+                normalHeight
+        } else {
+            normalHeight
         }
     }
 
@@ -449,18 +561,6 @@ class HardwareSensorActivity : BaseActivity(Layout.activity_hardware_sensor),
             if (type == null) {
 
                 it.type.isCustomSensor()
-
-//                it.type != Sensor.TYPE_STEP_DETECTOR && it.type != Sensor.TYPE_LOW_LATENCY_OFFBODY_DETECT
-//                        && it.type != Sensor.TYPE_HEART_RATE && it.type != Sensor.TYPE_HEART_BEAT
-//                        && it.type != Sensor.TYPE_SIGNIFICANT_MOTION && it.type != Sensor.TYPE_STATIONARY_DETECT
-//                        && it.type != Sensor.TYPE_MOTION_DETECT && it.type != Sensor.TYPE_POSE_6DOF
-//                        && it.type != Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR && it.type != Sensor.TYPE_ROTATION_VECTOR
-//                        && it.type != Sensor.TYPE_LINEAR_ACCELERATION && it.type != Sensor.TYPE_GYROSCOPE
-//                        && it.type != Sensor.TYPE_ACCELEROMETER && it.type != Sensor.TYPE_MAGNETIC_FIELD_UNCALIBRATED
-//                        && it.type != Sensor.TYPE_MAGNETIC_FIELD && it.type != Sensor.TYPE_PRESSURE
-//                        && it.type != Sensor.TYPE_GAME_ROTATION_VECTOR && it.type != Sensor.TYPE_STEP_COUNTER
-//                        && it.type != Sensor.TYPE_LIGHT && it.type != Sensor.TYPE_PROXIMITY && it.type != Sensor.TYPE_GRAVITY
-//                        && it.type != Sensor.TYPE_ORIENTATION && it.type != Sensor.TYPE_GYROSCOPE_UNCALIBRATED
             } else {
                 it.type == type
             }
@@ -484,6 +584,7 @@ class HardwareSensorActivity : BaseActivity(Layout.activity_hardware_sensor),
     override fun onSensorSelected(selectedSensor: Sensor)
     {
         if (!selectedSensor.type.isCustomSensor()) {
+            adjustBottomSheetHeight(selectedSensor)
             setReadingFragment(selectedSensor)
             list_overlay?.visibility = View.VISIBLE
             bottomSheetBehavior?.state = BottomSheetBehavior.STATE_EXPANDED
@@ -518,6 +619,18 @@ class HardwareSensorActivity : BaseActivity(Layout.activity_hardware_sensor),
 
     private fun showAllSensor() {
         setNoSensorTitle()
+
+        // You can determine if a particular type of Sensor is available on the host device using Sensor Manager's
+        // 'getDefaultSensor' method, passing in the relevant Sensor.TYPE_ constant. If no Sensor of that type
+        // is available, 'null' will be returned; if one or more Sensors are available, the default implementation will be returned.
+        //
+        // The Sensor.TYPE_ALL to return a list of every Sensor.
+        //
+        // sensorManager.getSensorList(Sensor.TYPE_GYROSCOPE) : To find a list of all available Sensors of a particular type, use the Sensor constants
+        //                                                      to indicate the type of Sensor you require, this example returns all the available gyroscopes.
+        //
+        // sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY, TRUE): This overload implementation of 'getDefaultSensor' that takes both a Sensor type
+        //                                                              and a Boolean indicating if you specifically require a wakeup sensor.
         sensorManager.getSensorList(Sensor.TYPE_ALL)?.also { sensorList ->
 
             if (sensorList.isEmpty()) {
@@ -550,11 +663,15 @@ class HardwareSensorActivity : BaseActivity(Layout.activity_hardware_sensor),
 
     @RequiresApi(Build.VERSION_CODES.N)
     private fun showDynamicSensors() {
+        // Introduced the concept of 'dynamic' Sensors, primarily to support the Android Things platform.
+        // Dynamic Sensors behave like traditional Sensors but can be connected or disconnected at run time.
         setNoSensorTitle()
-
         this@HardwareSensorActivity.title = "Dynamic sensors"
 
         if (sensorManager.isDynamicSensorDiscoverySupported) {
+            // You can determine if dynamic Sensors are available on the current host platform using the Sensor
+            // Manager's 'isDynamicSensorDiscoverySupported' method. To determine if a specific Sensor is dynamic,
+            // call its 'isDynamicSensor' method.
             sensorManager.getDynamicSensorList(Sensor.TYPE_ALL)?.also { dynamicSensorList ->
 
                 if (dynamicSensorList.isEmpty()) {
