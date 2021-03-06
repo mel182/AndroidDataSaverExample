@@ -24,11 +24,14 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="AllowBackup"
-        android:screenOrientation="portrait">
-        <activity android:name=".hardware_sensor.HardwareSensorActivity"/>
+        tools:ignore="AllowBackup">
+        <activity android:name=".hardware_sensor.book_example.CompassFinalWithSensorActivity"></activity>
+        <activity android:name=".hardware_sensor.book_example.DeviceOrientationActivity" />
+        <activity android:name=".hardware_sensor.book_example.ForceMeterActivity" />
+        <activity android:name=".hardware_sensor.general.HardwareSensorActivity" />
         <activity android:name=".location.maps.GoogleMapsActivity" />
         <activity android:name=".location.geocoder.GeoCoderExampleActivity" />
         <activity android:name=".implicit_delegation_example.ImplicitDelegationActivity" />

@@ -1,4 +1,4 @@
-package com.example.datasaverexampleapp.hardware_sensor
+package com.example.datasaverexampleapp.hardware_sensor.general
 
 import android.Manifest.permission.BODY_SENSORS
 import android.animation.Animator
@@ -6,7 +6,6 @@ import android.animation.AnimatorInflater
 import android.hardware.*
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import androidx.annotation.RequiresApi

@@ -1,4 +1,4 @@
-package com.example.datasaverexampleapp.hardware_sensor
+package com.example.datasaverexampleapp.hardware_sensor.general
 
 import android.annotation.SuppressLint
 import android.hardware.Sensor

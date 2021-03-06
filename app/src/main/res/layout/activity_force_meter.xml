@@ -1,24 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".dialog.DialogExampleActivity">
+    android:gravity="center"
+    tools:context=".hardware_sensor.book_example.ForceMeterActivity">
 
-    <Button
-        android:id="@+id/appcompat_dialog_button"
+    <TextView
+        android:id="@+id/acceleration"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Current Acceleration"
         android:layout_margin="10dp"
-        android:text="App Compat Dialog Fragment" />
+        android:textStyle="bold"
+        android:textSize="32sp"/>
 
-    <Button
-        android:id="@+id/appcompat_dialog_with_custom_view_button"
+    <TextView
+        android:id="@+id/max_acceleration"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Maximum Acceleration"
         android:layout_margin="10dp"
-        android:text="App Compat Dialog with custom view Fragment" />
+        android:textSize="40sp" />
 </LinearLayout>

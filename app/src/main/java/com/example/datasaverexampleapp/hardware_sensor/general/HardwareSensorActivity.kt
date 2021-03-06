@@ -1,4 +1,4 @@
-package com.example.datasaverexampleapp.hardware_sensor
+package com.example.datasaverexampleapp.hardware_sensor.general
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -6,14 +6,12 @@ import android.hardware.Sensor
 import android.hardware.SensorManager
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.iterator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,6 +24,16 @@ import kotlinx.android.synthetic.main.activity_hardware_sensor.*
 import kotlinx.android.synthetic.main.item_bottom_sheet_layout.*
 
 // NOTE: Where a sensor is required for your application to function, you can specify it as a required feature in the application's manifest.
+//
+// BEST PRACTICES FOR WORKING WITH SENSOR
+// Using Sensors in your applications can be incredibly powerful; like al good things, their use comes at a price, primarily the cost of increased battery drain.
+// You should follow several best practices to ensure you make the most of the device Sensors, without having a negative overall impact on the user experience:
+// * ALWAYS VERIFY SENSORS EXIST BEFORE ATTEMPTING TO USE THEM
+// * PROVIDE ALTERNATIVES TO SENSOR INPUT
+// * DON'T USE DEPRECATED SENSOR TYPES
+// * BE CONSERVATIVE WHEN SELECTING SENSOR REPORTING FREQUENCIES
+// * DON'T BLOCK THE 'onSensorChanged' HANDLER
+// * UNREGISTER YOUR SENSOR EVENT LISTENERS
 //
 class HardwareSensorActivity : BaseActivity(Layout.activity_hardware_sensor),
     OnSensorClickedCallback {
@@ -237,6 +245,14 @@ class HardwareSensorActivity : BaseActivity(Layout.activity_hardware_sensor),
                         filterSensor(Sensor.TYPE_ACCELEROMETER)
                     // A three-axis accelerometer that returns the current acceleration along three in m/s2.
                     // The accelerometer is explored is greater detail later in this chapter.
+                    //
+                    // Note: Accelerometer are also known as gravity sensors because they measure acceleration caused both by movement and by gravity. As a result
+                    //       , an accelerometer detecting acceleration on an axis perpendicular to the earth's surface will read -9.8m/s2 when it's at rest.
+                    //
+                    // Note: It's important to note that that accelerometers do not measure velocity, so you can't measure speed directly based on single accelerometer
+                    //       reading.
+                    //       Instead, you need to integrate the acceleration over time to find the velocity. You can then integrate the velocity over time to determine
+                    //       the distance traveled.
                 }
                 true
             }

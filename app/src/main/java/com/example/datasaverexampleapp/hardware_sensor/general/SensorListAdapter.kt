@@ -1,4 +1,4 @@
-package com.example.datasaverexampleapp.hardware_sensor
+package com.example.datasaverexampleapp.hardware_sensor.general
 
 import android.hardware.Sensor
 import android.view.LayoutInflater
@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.datasaverexampleapp.type_alias.Layout
 import com.example.datasaverexampleapp.type_alias.ViewByID
 
-class SensorListAdapter (sensorList:List<Sensor>, private val sensorClickCallback:OnSensorClickedCallback) : RecyclerView.Adapter<SensorListAdapter.ViewHolder>() {
+class SensorListAdapter (sensorList:List<Sensor>, private val sensorClickCallback: OnSensorClickedCallback) : RecyclerView.Adapter<SensorListAdapter.ViewHolder>() {
 
     private val sensorList = ArrayList<Sensor>()
 

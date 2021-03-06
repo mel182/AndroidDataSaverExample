@@ -1,4 +1,4 @@
-package com.example.datasaverexampleapp.hardware_sensor
+package com.example.datasaverexampleapp.hardware_sensor.general
 
 import java.lang.NumberFormatException
 import kotlin.reflect.KProperty

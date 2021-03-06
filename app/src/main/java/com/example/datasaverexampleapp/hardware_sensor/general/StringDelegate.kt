@@ -1,4 +1,4 @@
-package com.example.datasaverexampleapp.hardware_sensor
+package com.example.datasaverexampleapp.hardware_sensor.general
 
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty

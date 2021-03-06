@@ -17,5 +17,14 @@ class DialogExampleActivity : AppCompatActivity()
             val dialogFragment = AppCompatDialogFragmentExample()
             dialogFragment.show(supportFragmentManager,null)
         }
+
+        appcompat_dialog_with_custom_view_button?.setOnClickListener {
+
+            DialogFragmentCustomView()
+                .setTitle("Custom view")
+                .setButtonTitle("Button title")
+                .show(supportFragmentManager,null)
+        }
+
     }
 }

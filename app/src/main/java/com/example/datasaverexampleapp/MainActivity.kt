@@ -43,7 +43,8 @@ import com.example.datasaverexampleapp.drawing.DrawExampleActivity
 import com.example.datasaverexampleapp.earth_quake_example.EarthQuakeActivity
 import com.example.datasaverexampleapp.firebase_real_time.FireBaseRealTimeActivity
 import com.example.datasaverexampleapp.fullscreen_example.FullScreenExampleActivity
-import com.example.datasaverexampleapp.hardware_sensor.HardwareSensorActivity
+import com.example.datasaverexampleapp.hardware_sensor.OptionDialogFragment
+import com.example.datasaverexampleapp.hardware_sensor.general.HardwareSensorActivity
 import com.example.datasaverexampleapp.implicit_delegation_example.ImplicitDelegationActivity
 import com.example.datasaverexampleapp.inDefInterfaces.Constants
 import com.example.datasaverexampleapp.inDefInterfaces.Shape
@@ -448,8 +449,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         hardware_sensor_examples?.setOnClickListener {
-            val intent = Intent(this, HardwareSensorActivity::class.java)
-            startActivity(intent)
+            OptionDialogFragment(this).show(supportFragmentManager,null)
         }
 
     }

@@ -3,6 +3,7 @@ package com.example.datasaverexampleapp.drawing
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.core.content.ContextCompat
@@ -12,7 +13,7 @@ import kotlin.math.min
 
 class CompassCustomViewFinal : View {
 
-    private var bearing:Float? = 1f
+    var bearing:Float? = 1f
         set(value) {
             field = value?:1f
             invalidate()
