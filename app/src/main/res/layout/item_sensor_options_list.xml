@@ -33,20 +33,6 @@
         android:text="Compass artificial horizon example" />
 
     <Button
-        android:id="@+id/barometer_sensor_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:text="Barometer sensor example" />
-
-    <Button
-        android:id="@+id/weather_station_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:text="Weather station example" />
-
-    <Button
         android:id="@+id/user_recognition_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
