@@ -25,6 +25,7 @@ class UserActivityBackgroundService : Service()
 
     override fun onCreate() {
         super.onCreate()
+        // To receive updates on the user's current activity, first get an instance of the 'ActivityRecognition.getClient' static method and passing in a Context.
         activityRecognitionClient = ActivityRecognitionClient(this)
         intentService = Intent(this,ActivitiesDetectionService::class.java).apply {
             pendingIntent = PendingIntent.getService(this@UserActivityBackgroundService,1,this,PendingIntent.FLAG_UPDATE_CURRENT)
@@ -45,6 +46,11 @@ class UserActivityBackgroundService : Service()
     {
         pendingIntent?.let { activityPendingIntent ->
 
+            // To request updates, use the 'requestActivityUpdates' method, passing in a preferred detection
+            // interval in millisecond and a Pending Intent that will be fired when a change in user activity
+            // is detected.
+            // Note: The returned Task can be used to check the success of the call, using the 'addSuccessListener' and
+            //       'addOnFailureListener' method to add add On and OnFailure Listener, respectively
             activityRecognitionClient?.requestActivityUpdates(1000L,activityPendingIntent)?.apply {
 
                 addOnSuccessListener {
@@ -67,6 +73,9 @@ class UserActivityBackgroundService : Service()
     private fun removeActivityUpdatesButtonHandler()
     {
         pendingIntent?.let { userActivityPendingIntent ->
+
+            // When you no longer need to receive activity change updates, call 'removeActivityUpdates', passing
+            // in the pending Intent used to request the update results.
             activityRecognitionClient?.removeActivityUpdates(userActivityPendingIntent)?.apply {
 
                 addOnSuccessListener {

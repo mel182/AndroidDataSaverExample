@@ -15,7 +15,15 @@ class ActivitiesDetectionService : IntentService(ActivitiesDetectionService::cla
     override fun onHandleIntent(intent: Intent?) {
 
         intent?.let { it ->
+
+            // To extract the Activity Recognition Result from the Intent fired when a new user activity has been detected, use the 'extractResult' method.
             ActivityRecognitionResult.extractResult(it)?.also { result ->
+
+                // The returned Activity Recognition Result includes the 'getMostProbableActivity' method that returns a 'DetectActivity'
+                // that describes the activity type for which it has the highest confidence that it's being performed.
+//                val detectedActivity = result.mostProbableActivity
+
+                // Alternately, you can use the 'getProbableActivities' method to return a list of all the likely activities
                 val detectedActivities = result.probableActivities.toTypedArray()
 
                 for (activityDetected in detectedActivities)

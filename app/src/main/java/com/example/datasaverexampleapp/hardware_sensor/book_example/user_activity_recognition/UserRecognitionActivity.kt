@@ -11,13 +11,19 @@ import com.example.datasaverexampleapp.type_alias.Drawable
 import com.example.datasaverexampleapp.type_alias.Layout
 import com.google.android.gms.location.DetectedActivity
 import kotlinx.android.synthetic.main.activity_user_recognization.*
-
+// Google Activity recognition API enabled you to understand what activity your users are performing
+// in the physical world. By periodically analyzing short burst of data received from device
+// Sensors, Activity Recognition attempts to detect what activities the user is performing, including
+// walking, driving, cycling and running.
 class UserRecognitionActivity : BaseActivity(Layout.activity_user_recognization) {
 
     private var broadcastReceiver : BroadcastReceiver? = null
     private var activityConfidence by ConfidenceDelegate()
 
     // You must include the ACTIVITY_RECOGNITION permission in your manifest
+    //
+    // dependencies
+    // implementation 'com.google.android.gms:play-services-location:11.8.0'
     //
     // <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
     //
@@ -76,6 +82,9 @@ class UserRecognitionActivity : BaseActivity(Layout.activity_user_recognization)
 
     private fun handleUserActivity(type:Int, confidence:Int)
     {
+
+        // For any Detected Activity, use the 'getType' and 'getConfidence' methods
+        // to find the type of activity detected and the percent confidence in that result
         activityConfidence = confidence.toString()
         user_activity_textView?.text = when(type)
         {
@@ -115,5 +124,4 @@ class UserRecognitionActivity : BaseActivity(Layout.activity_user_recognization)
         val intent = Intent(this@UserRecognitionActivity, UserActivityBackgroundService::class.java)
         stopService(intent)
     }
-
 }
