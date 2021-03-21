@@ -16,7 +16,9 @@
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.BODY_SENSORS" />
     <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
-    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION"/>
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <permission android:name="com.example.datasaverexampleapp.provider.ACCESS_PERMISSION" />
 
     <application
@@ -24,12 +26,16 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".hardware_sensor.book_example.user_activity_recognition.UserRecognitionActivity"/>
+        <activity android:name=".video_audio.ExoPlayerActivity"></activity>
+        <activity android:name=".video_audio.MediaPlayerVideoPlaybackActivity" />
+        <activity android:name=".video_audio.VideoAudioStreamingActivity" />
+        <activity android:name=".hardware_sensor.book_example.user_activity_recognition.UserRecognitionActivity" />
         <activity android:name=".hardware_sensor.book_example.CompassFinalWithSensorActivity" />
         <activity android:name=".hardware_sensor.book_example.DeviceOrientationActivity" />
         <activity android:name=".hardware_sensor.book_example.ForceMeterActivity" />
@@ -192,12 +198,9 @@
 
         <service
             android:name=".hardware_sensor.book_example.user_activity_recognition.UserActivityBackgroundService"
-            android:label="User activity background Service"
-            android:exported="false"/>
-
-        <service android:name=".hardware_sensor.book_example.user_activity_recognition.ActivitiesDetectionService"/>
-
-
+            android:exported="false"
+            android:label="User activity background Service" />
+        <service android:name=".hardware_sensor.book_example.user_activity_recognition.ActivitiesDetectionService" />
     </application>
 
 </manifest>
