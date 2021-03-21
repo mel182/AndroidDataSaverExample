@@ -110,4 +110,8 @@ dependencies {
     // newer versions of the SDK, you must update the dependency node accordingly
     implementation 'com.google.android.gms:play-services-location:18.0.0'
 
+    // ExoPlayer dependencies
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.8.2'
+    implementation 'com.google.android.exoplayer:exoplayer-ui:2.8.2'
+
 }

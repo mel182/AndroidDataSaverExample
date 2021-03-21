@@ -324,7 +324,7 @@
                 android:id="@+id/video_audio_streaming_examples"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Video/andio example" />
+                android:text="Video/audio example" />
 
         </LinearLayout>
     </ScrollView>

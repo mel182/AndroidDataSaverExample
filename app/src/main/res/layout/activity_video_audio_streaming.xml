@@ -24,4 +24,12 @@
         android:padding="15dp"
         android:text="Exo player example (api 16+)" />
 
+    <Button
+        android:id="@+id/audio_playback_example"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:padding="15dp"
+        android:text="Audio playback example" />
+
 </LinearLayout>
