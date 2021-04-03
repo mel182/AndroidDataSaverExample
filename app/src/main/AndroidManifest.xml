@@ -32,7 +32,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".video_audio.media_session.MediaSessionActivity"></activity>
+        <activity android:name=".video_audio.media_router_and_casting.MediaRouterAndCastingActivity"></activity>
+        <activity android:name=".video_audio.media_session.MediaSessionActivity" />
         <activity android:name=".video_audio.audio_playback_focus.AudioPlaybackFocusExampleActivity" />
         <activity android:name=".video_audio.exoplayer.ExoPlayerActivity" />
         <activity android:name=".video_audio.mediaplayer_video.MediaPlayerVideoPlaybackActivity" />

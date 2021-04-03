@@ -40,4 +40,12 @@
         android:padding="15dp"
         android:text="Media session example" />
 
+    <Button
+        android:id="@+id/media_router_and_casting_example"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:padding="15dp"
+        android:text="Media router and casting example" />
+
 </LinearLayout>

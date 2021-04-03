@@ -6,6 +6,7 @@ import android.os.Bundle
 import com.example.datasaverexampleapp.R
 import com.example.datasaverexampleapp.video_audio.audio_playback_focus.AudioPlaybackFocusExampleActivity
 import com.example.datasaverexampleapp.video_audio.exoplayer.ExoPlayerActivity
+import com.example.datasaverexampleapp.video_audio.media_router_and_casting.MediaRouterAndCastingActivity
 import com.example.datasaverexampleapp.video_audio.media_session.MediaSessionActivity
 import com.example.datasaverexampleapp.video_audio.mediaplayer_video.MediaPlayerVideoPlaybackActivity
 import kotlinx.android.synthetic.main.activity_video_audio_streaming.*
@@ -82,6 +83,11 @@ class VideoAudioStreamingActivity : AppCompatActivity() {
 
         media_session_example?.setOnClickListener {
             val intent = Intent(this, MediaSessionActivity::class.java)
+            startActivity(intent)
+        }
+
+        media_router_and_casting_example?.setOnClickListener {
+            val intent = Intent(this, MediaRouterAndCastingActivity::class.java)
             startActivity(intent)
         }
 
