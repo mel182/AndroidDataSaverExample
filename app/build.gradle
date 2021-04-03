@@ -114,4 +114,8 @@ dependencies {
     implementation 'com.google.android.exoplayer:exoplayer-core:2.8.2'
     implementation 'com.google.android.exoplayer:exoplayer-ui:2.8.2'
 
+    // router and media casting
+    implementation 'androidx.mediarouter:mediarouter:1.2.2'
+    implementation 'com.google.android.gms:play-services-cast-framework:19.0.0'
+
 }
