@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".video_audio.MediaPlayerVideoPlaybackActivity">
+    tools:context=".video_audio.mediaplayer_video.MediaPlayerVideoPlaybackActivity">
 
     <SurfaceView
         android:id="@+id/surface_view"

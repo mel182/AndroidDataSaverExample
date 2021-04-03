@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".video_audio.AudioPlaybackExampleActivity">
+    tools:context=".video_audio.audio_playback_focus.AudioPlaybackFocusExampleActivity">
 
     <TextView
         android:layout_width="match_parent"

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".video_audio.ExoPlayerActivity">
+    tools:context=".video_audio.exoplayer.ExoPlayerActivity">
 
     <com.google.android.exoplayer2.ui.PlayerView
         android:id="@+id/player_view"

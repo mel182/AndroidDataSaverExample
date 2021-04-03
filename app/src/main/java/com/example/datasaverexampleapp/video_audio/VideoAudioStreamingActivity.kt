@@ -4,6 +4,10 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.datasaverexampleapp.R
+import com.example.datasaverexampleapp.video_audio.audio_playback_focus.AudioPlaybackFocusExampleActivity
+import com.example.datasaverexampleapp.video_audio.exoplayer.ExoPlayerActivity
+import com.example.datasaverexampleapp.video_audio.media_session.MediaSessionActivity
+import com.example.datasaverexampleapp.video_audio.mediaplayer_video.MediaPlayerVideoPlaybackActivity
 import kotlinx.android.synthetic.main.activity_video_audio_streaming.*
 
 /**
@@ -72,7 +76,12 @@ class VideoAudioStreamingActivity : AppCompatActivity() {
         }
 
         audio_playback_example?.setOnClickListener {
-            val intent = Intent(this, AudioPlaybackExampleActivity::class.java)
+            val intent = Intent(this, AudioPlaybackFocusExampleActivity::class.java)
+            startActivity(intent)
+        }
+
+        media_session_example?.setOnClickListener {
+            val intent = Intent(this, MediaSessionActivity::class.java)
             startActivity(intent)
         }
 
