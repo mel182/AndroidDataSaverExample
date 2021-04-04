@@ -10,7 +10,7 @@ import com.example.datasaverexampleapp.R
 import com.example.datasaverexampleapp.databinding.ActivityDataBindingTestBinding
 import kotlinx.android.synthetic.main.activity_data_binding_test.*
 
-class DataBindingTestActivity : AppCompatActivity() {
+class DataBindingTestActivity : AppCompatActivity(R.layout.activity_data_binding_test) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_data_binding_test)
