@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.datasaverexampleapp.R
 import com.example.datasaverexampleapp.video_audio.audio_playback_focus.AudioPlaybackFocusExampleActivity
+import com.example.datasaverexampleapp.video_audio.background_audio.BackgroundAudioExampleActivity
 import com.example.datasaverexampleapp.video_audio.exoplayer.ExoPlayerActivity
 import com.example.datasaverexampleapp.video_audio.media_router_and_casting.MediaRouterAndCastingActivity
 import com.example.datasaverexampleapp.video_audio.media_session.MediaSessionActivity
@@ -91,5 +92,9 @@ class VideoAudioStreamingActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        background_audio_example?.setOnClickListener {
+            val intent = Intent(this, BackgroundAudioExampleActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
