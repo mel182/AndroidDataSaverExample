@@ -61,6 +61,7 @@ import com.example.datasaverexampleapp.speech_recognition_example.SpeechRecognit
 import com.example.datasaverexampleapp.storage_manager.StorageManagerExampleActivity
 import com.example.datasaverexampleapp.text_to_speech_example.TextToSpeechActivity
 import com.example.datasaverexampleapp.vibration.VibrationExampleActivity
+import com.example.datasaverexampleapp.video_audio.VideoAudioStreamingActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import java.math.BigInteger
 
@@ -450,6 +451,11 @@ class MainActivity : AppCompatActivity() {
 
         hardware_sensor_examples?.setOnClickListener {
             OptionDialogFragment(this).show(supportFragmentManager,null)
+        }
+
+        video_audio_streaming_examples?.setOnClickListener {
+            val intent = Intent(this, VideoAudioStreamingActivity::class.java)
+            startActivity(intent)
         }
 
     }
