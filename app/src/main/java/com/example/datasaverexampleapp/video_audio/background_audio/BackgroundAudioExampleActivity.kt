@@ -1,9 +1,6 @@
 package com.example.datasaverexampleapp.video_audio.background_audio
 
-import android.annotation.SuppressLint
 import android.content.*
-import android.media.AudioFocusRequest
-import android.media.AudioManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -16,10 +13,11 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import android.view.View
-import android.widget.Toast
-import com.example.datasaverexampleapp.R
 import com.example.datasaverexampleapp.type_alias.Layout
+import com.google.android.material.tabs.TabLayout
+import kotlinx.android.synthetic.main.activity_app_bar_tabs.*
 import kotlinx.android.synthetic.main.activity_audio_playback_example.*
+import kotlinx.android.synthetic.main.activity_background_audio_example.*
 
 /**
  * This is the background audio playback example Activity Example
@@ -39,17 +37,61 @@ class BackgroundAudioExampleActivity : AppCompatActivity()
     private var mediaController: MediaControllerCompat? = null
     private var mediaSession : MediaSessionCompat? = null
 
+    private lateinit var exoPlayerFragment: ExoPlayerFragment
+    private lateinit var mediaPlayerFragment: MediaPlayerFragment
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(Layout.activity_background_audio_example)
         title = "Background audio example"
+
+        exoPlayerFragment = ExoPlayerFragment()
+        mediaPlayerFragment = MediaPlayerFragment()
+
+        playerTabLayout?.apply {
+
+            supportFragmentManager.beginTransaction().apply {
+                fragmentContainer?.let { container ->
+                    add(container.id,exoPlayerFragment)
+                    commit()
+                }
+            }
+
+            addOnTabSelectedListener( object : TabLayout.OnTabSelectedListener {
+                override fun onTabSelected(tab: TabLayout.Tab?) {
+
+                    tab?.apply {
+
+                        val fragmentTransaction = supportFragmentManager.beginTransaction()
+
+                        fragmentContainer?.let {
+
+                            when(position)
+                            {
+                                0 -> fragmentTransaction.replace(it.id,exoPlayerFragment)
+                                else -> fragmentTransaction.replace(it.id,mediaPlayerFragment)
+                            }
+                        }
+
+                        fragmentTransaction.commit()
+//                        playerTabLayout?.visibility = View.GONE
+                    }
+                }
+
+                override fun onTabUnselected(tab: TabLayout.Tab?) {}
+
+                override fun onTabReselected(tab: TabLayout.Tab?) {}
+
+            })
+        }
+
 
         // While your activity no longer has direct access to underlying Media Player, your Activity can connect
         // to your Media Browser Service, and create a new Media Controller using the 'MediaBrowserCompat' API.
 
         // Create the MediaBrowserCompat
         mediaBrowser = MediaBrowserCompat(this,
-        ComponentName(this, MediaPlaybackService::class.java),
+        ComponentName(this, ExoPlayerMediaPlaybackService::class.java),
         object : MediaBrowserCompat.ConnectionCallback(){
 
             override fun onConnected() {
@@ -82,9 +124,9 @@ class BackgroundAudioExampleActivity : AppCompatActivity()
                             })
                         }
 
-                        mediaController?.sendCommand("play",null, object: ResultReceiver(Handler()) {
-
-                        })
+//                        mediaController?.sendCommand("play",null, object: ResultReceiver(Handler()) {
+//
+//                        })
 
 
                     }
@@ -117,4 +159,6 @@ class BackgroundAudioExampleActivity : AppCompatActivity()
         super.onDestroy()
         mediaBrowser?.disconnect()
     }
+
+    fun getPlayerTabLayout() : TabLayout? = playerTabLayout
 }

@@ -209,7 +209,7 @@
             android:label="User activity background Service" />
         <service android:name=".hardware_sensor.book_example.user_activity_recognition.ActivitiesDetectionService" />
 
-        <service android:name="com.example.datasaverexampleapp.video_audio.background_audio.MediaPlaybackService"
+        <service android:name="com.example.datasaverexampleapp.video_audio.background_audio.ExoPlayerMediaPlaybackService"
                    android:exported="true">
             <intent-filter>
                 <action android:name="android.media.browse.MediaBrowserService" />

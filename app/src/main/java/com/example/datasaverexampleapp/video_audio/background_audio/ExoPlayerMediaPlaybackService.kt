@@ -8,7 +8,6 @@ import android.content.IntentFilter
 import android.media.AudioManager
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import android.os.ResultReceiver
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.session.MediaSessionCompat
@@ -16,7 +15,6 @@ import android.util.Log
 import androidx.media.MediaBrowserServiceCompat
 import com.example.datasaverexampleapp.R
 import com.example.datasaverexampleapp.type_alias.AppString
-import com.example.datasaverexampleapp.type_alias.Layout
 import com.google.android.exoplayer2.DefaultRenderersFactory
 import com.google.android.exoplayer2.ExoPlayerFactory
 import com.google.android.exoplayer2.SimpleExoPlayer
@@ -46,7 +44,7 @@ import kotlinx.android.synthetic.main.activity_audio_playback_example.*
  *    </intent-filter>
  * </service>
  */
-class MediaPlaybackService : MediaBrowserServiceCompat(), AudioManager.OnAudioFocusChangeListener
+class ExoPlayerMediaPlaybackService : MediaBrowserServiceCompat(), AudioManager.OnAudioFocusChangeListener
 {
     private val TAG = javaClass.simpleName
     private var mediaSessionCompat:MediaSessionCompat? = null
@@ -101,14 +99,14 @@ class MediaPlaybackService : MediaBrowserServiceCompat(), AudioManager.OnAudioFo
                         if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED)
                         {
                             registerAudioBecomingNoisyReceiver()
-                            this@MediaPlaybackService.mediaSessionCompat?.isActive = true
+                            this@ExoPlayerMediaPlaybackService.mediaSessionCompat?.isActive = true
 
                             //http://38.96.148.28:11832/stream?type=.mp3
 
                             val userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:40.0) Gecko/20100101 Firefox/40.0"
                             val uri = Uri.parse("http://38.96.148.28:11832/stream?type=.mp3")
 
-                            val dataSourceFactory = DefaultDataSourceFactory(this@MediaPlaybackService, userAgent, DefaultBandwidthMeter())
+                            val dataSourceFactory = DefaultDataSourceFactory(this@ExoPlayerMediaPlaybackService, userAgent, DefaultBandwidthMeter())
 
 
 
@@ -133,7 +131,7 @@ class MediaPlaybackService : MediaBrowserServiceCompat(), AudioManager.OnAudioFo
                             player?.playWhenReady = true
 
 
-                            startService(Intent(this@MediaPlaybackService,MediaPlaybackService::class.java))
+                            startService(Intent(this@ExoPlayerMediaPlaybackService,ExoPlayerMediaPlaybackService::class.java))
                         }
                     }
                 }
@@ -143,7 +141,7 @@ class MediaPlaybackService : MediaBrowserServiceCompat(), AudioManager.OnAudioFo
                 super.onStop()
 
                 val audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
-                audioManager.abandonAudioFocus(this@MediaPlaybackService)
+                audioManager.abandonAudioFocus(this@ExoPlayerMediaPlaybackService)
 
                 mediaSessionCompat?.isActive = false
                 player?.stop()
@@ -170,17 +168,17 @@ class MediaPlaybackService : MediaBrowserServiceCompat(), AudioManager.OnAudioFo
                             if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED)
                             {
                                 registerAudioBecomingNoisyReceiver()
-                                this@MediaPlaybackService.mediaSessionCompat?.isActive = true
+                                this@ExoPlayerMediaPlaybackService.mediaSessionCompat?.isActive = true
 
                                 val userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:40.0) Gecko/20100101 Firefox/40.0"
 //                                val uri = Uri.parse("http://38.96.148.28:11832/stream?type=.mp3")
                                 val uri = Uri.parse("http://158.69.114.190:8072/;?1617555395334")
 //                                val uri = Uri.parse("https://stream.audioxi.com/SW")
 
-                                val dataSourceFactory = DefaultDataSourceFactory(this@MediaPlaybackService, userAgent, DefaultBandwidthMeter())
+                                val dataSourceFactory = DefaultDataSourceFactory(this@ExoPlayerMediaPlaybackService, userAgent, DefaultBandwidthMeter())
 
 
-                                val renderersFactory = DefaultRenderersFactory(this@MediaPlaybackService,
+                                val renderersFactory = DefaultRenderersFactory(this@ExoPlayerMediaPlaybackService,
                                     null,
                                     DefaultRenderersFactory.EXTENSION_RENDERER_MODE_OFF)
 
@@ -190,7 +188,7 @@ class MediaPlaybackService : MediaBrowserServiceCompat(), AudioManager.OnAudioFo
                                 player = ExoPlayerFactory.newSimpleInstance(renderersFactory,trackSelector)
 
                                 val mediaSource2 = ExtractorMediaSource(uri,
-                                    DefaultDataSourceFactory(this@MediaPlaybackService,userAgent),
+                                    DefaultDataSourceFactory(this@ExoPlayerMediaPlaybackService,userAgent),
                                     DefaultExtractorsFactory(),
                                     null,
                                     null)
@@ -214,7 +212,7 @@ class MediaPlaybackService : MediaBrowserServiceCompat(), AudioManager.OnAudioFo
                                 player?.playWhenReady = true
 
 
-                                startService(Intent(this@MediaPlaybackService,MediaPlaybackService::class.java))
+                                startService(Intent(this@ExoPlayerMediaPlaybackService,ExoPlayerMediaPlaybackService::class.java))
                             }
                         }
                     }
