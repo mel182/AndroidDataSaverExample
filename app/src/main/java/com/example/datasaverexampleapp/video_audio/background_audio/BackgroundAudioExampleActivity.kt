@@ -1,22 +1,9 @@
 package com.example.datasaverexampleapp.video_audio.background_audio
 
-import android.content.*
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.os.RemoteException
-import android.os.ResultReceiver
-import android.support.v4.media.MediaBrowserCompat
-import android.support.v4.media.MediaMetadataCompat
-import android.support.v4.media.session.MediaControllerCompat
-import android.support.v4.media.session.MediaSessionCompat
-import android.support.v4.media.session.PlaybackStateCompat
-import android.util.Log
-import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.example.datasaverexampleapp.type_alias.Layout
 import com.google.android.material.tabs.TabLayout
-import kotlinx.android.synthetic.main.activity_app_bar_tabs.*
-import kotlinx.android.synthetic.main.activity_audio_playback_example.*
 import kotlinx.android.synthetic.main.activity_background_audio_example.*
 
 /**
@@ -33,10 +20,6 @@ import kotlinx.android.synthetic.main.activity_background_audio_example.*
  */
 class BackgroundAudioExampleActivity : AppCompatActivity()
 {
-    private var mediaBrowser: MediaBrowserCompat? = null
-    private var mediaController: MediaControllerCompat? = null
-    private var mediaSession : MediaSessionCompat? = null
-
     private lateinit var exoPlayerFragment: ExoPlayerFragment
     private lateinit var mediaPlayerFragment: MediaPlayerFragment
 
@@ -74,7 +57,6 @@ class BackgroundAudioExampleActivity : AppCompatActivity()
                         }
 
                         fragmentTransaction.commit()
-//                        playerTabLayout?.visibility = View.GONE
                     }
                 }
 
@@ -84,80 +66,6 @@ class BackgroundAudioExampleActivity : AppCompatActivity()
 
             })
         }
-
-
-        // While your activity no longer has direct access to underlying Media Player, your Activity can connect
-        // to your Media Browser Service, and create a new Media Controller using the 'MediaBrowserCompat' API.
-
-        // Create the MediaBrowserCompat
-        mediaBrowser = MediaBrowserCompat(this,
-        ComponentName(this, ExoPlayerMediaPlaybackService::class.java),
-        object : MediaBrowserCompat.ConnectionCallback(){
-
-            override fun onConnected() {
-                super.onConnected()
-
-                Log.i("TAG","onConnected and media browser: ${mediaBrowser}")
-
-                try {
-                    // We can construct a media controller from the session's token
-                    mediaBrowser?.let {
-                        Log.i("TAG","Creating media controller!")
-
-                        mediaController = MediaControllerCompat(this@BackgroundAudioExampleActivity, it.sessionToken).apply {
-
-                            // To ensure your UI stays in sync with your Service, register a 'MediaControllerCompat.Callback' using the 'registerCallback'
-                            // method on the Media Controller. This will ensure you receive a callback whenever the metadata or playback state changes, allowing
-                            // you to keep your UI updated at all times.
-                            registerCallback(object : MediaControllerCompat.Callback(){
-
-                                override fun onPlaybackStateChanged(state: PlaybackStateCompat?) {
-                                    // Update the UI based on playback state change
-                                    Log.i("TAG","onPlaybackStateChanged: ${state}")
-
-                                }
-
-                                override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
-                                    // Update the UI based on Media Metadata change
-                                    Log.i("TAG","onMetadataChanged: ${metadata}")
-                                }
-                            })
-                        }
-
-//                        mediaController?.sendCommand("play",null, object: ResultReceiver(Handler()) {
-//
-//                        })
-
-
-                    }
-                }catch (e:RemoteException)
-                {
-                    Log.i("TAG","Error creating controller: ${e.message}")
-                }
-            }
-
-            override fun onConnectionSuspended() {
-                super.onConnectionSuspended()
-                // We were connected, but no longer are.
-                Log.i("TAG","onConnectionSuspended")
-            }
-
-            override fun onConnectionFailed() {
-                super.onConnectionFailed()
-                Log.i("TAG","onConnectionFailed")
-                // The attempt to connect failed completely.
-                // Check the ComponentName!
-            }
-        },null)
-
-        Log.i("TAG","media browser: ${mediaBrowser}")
-        mediaBrowser?.connect()
-
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        mediaBrowser?.disconnect()
     }
 
     fun getPlayerTabLayout() : TabLayout? = playerTabLayout
