@@ -5,12 +5,16 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.media.AudioAttributes
+import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.os.ResultReceiver
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.session.MediaSessionCompat
+import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import androidx.media.MediaBrowserServiceCompat
 import com.example.datasaverexampleapp.R
@@ -21,10 +25,12 @@ import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory
 import com.google.android.exoplayer2.source.ExtractorMediaSource
 import com.google.android.exoplayer2.source.MediaSource
+import com.google.android.exoplayer2.source.MediaSourceEventListener
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.upstream.*
 import com.google.android.exoplayer2.util.Util
 import kotlinx.android.synthetic.main.activity_audio_playback_example.*
+import java.io.IOException
 
 /**
  * This is the Media playback service, a subclass of [MediaBrowserServiceCompat]
@@ -44,32 +50,24 @@ import kotlinx.android.synthetic.main.activity_audio_playback_example.*
  *    </intent-filter>
  * </service>
  */
-class ExoPlayerMediaPlaybackService : MediaBrowserServiceCompat(), AudioManager.OnAudioFocusChangeListener
-{
+class ExoPlayerMediaPlaybackService : MediaBrowserServiceCompat(),
+    AudioManager.OnAudioFocusChangeListener {
     private val TAG = javaClass.simpleName
-    private var mediaSessionCompat:MediaSessionCompat? = null
+    private var mediaSessionCompat: MediaSessionCompat? = null
     private var player: SimpleExoPlayer? = null
+    private lateinit var audioManager: AudioManager
+    private var mediaSource: MediaSource? = null
+    private lateinit var renderersFactory : DefaultRenderersFactory
+    private lateinit var trackSelector : DefaultTrackSelector
+    private var isStreamingMedia = false
+
 
     override fun onCreate() {
         super.onCreate()
 
-        // Create a new Exo Player
-        player = ExoPlayerFactory.newSimpleInstance(this, DefaultTrackSelector())
-
-        //Build a DataSource.Factory capable of loading http and local content
-        val dataSourceFactory = DefaultDataSourceFactory(
-            this, Util.getUserAgent(
-                this,
-                getString(R.string.app_name)
-            )
-        )
-
-        // This is the MediaSource representing the media to be played.
-        val rawDirectoryResource: MediaSource = ExtractorMediaSource.Factory(dataSourceFactory)
-            .createMediaSource(RawResourceDataSource.buildRawResourceUri(R.raw.bon_vibe))
-
-        // Start loading the media source
-//        player?.prepare(rawDirectoryResource)
+        audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        renderersFactory = DefaultRenderersFactory(this@ExoPlayerMediaPlaybackService, DefaultRenderersFactory.EXTENSION_RENDERER_MODE_OFF)
+        trackSelector = DefaultTrackSelector()
 
         mediaSessionCompat = MediaSessionCompat(this, TAG)
 
@@ -80,59 +78,45 @@ class ExoPlayerMediaPlaybackService : MediaBrowserServiceCompat(), AudioManager.
         // described previously as we move control media playback to this service.
         sessionToken = mediaSessionCompat?.sessionToken
 
-
-        mediaSessionCompat?.setCallback(object : MediaSessionCompat.Callback(){
+        mediaSessionCompat?.setCallback(object : MediaSessionCompat.Callback() {
 
             override fun onPlay() {
                 super.onPlay()
 
-                getSystemService(Context.AUDIO_SERVICE).apply {
+                player = null
+                this@ExoPlayerMediaPlaybackService.mediaSource?.let { media_source ->
 
-                    val audioManager = this as AudioManager
-                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                        val result = audioManager.requestAudioFocus({
+                    // Create a new Exo Player
+                    player = if (isStreamingMedia) {
+                        ExoPlayerFactory.newSimpleInstance(renderersFactory, trackSelector)
+                    } else {
+                        ExoPlayerFactory.newSimpleInstance(this@ExoPlayerMediaPlaybackService, DefaultTrackSelector())
+                    }
 
-                            Log.i("TAG","on audio focus change: ${it}")
+                    // Start loading the media source
+                    player?.prepare(media_source)
 
-                        },AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN)
+                    val result = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O)
+                    {
+                        val audioAttributes = AudioAttributes.Builder().setLegacyStreamType(AudioManager.STREAM_MUSIC).build()
+                        val focusRequest = AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
+                            .setAudioAttributes(audioAttributes)
+                            .setOnAudioFocusChangeListener(this@ExoPlayerMediaPlaybackService)
+                            .build()
+                        audioManager.requestAudioFocus(focusRequest)
+                    } else {
+                        audioManager.requestAudioFocus(this@ExoPlayerMediaPlaybackService,AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN)
+                    }
 
-                        if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED)
-                        {
-                            registerAudioBecomingNoisyReceiver()
-                            this@ExoPlayerMediaPlaybackService.mediaSessionCompat?.isActive = true
+                    if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED)
+                    {
+                        registerAudioBecomingNoisyReceiver()
 
-                            //http://38.96.148.28:11832/stream?type=.mp3
+                        // Start playback automatically when ready
+                        player?.playWhenReady = true
 
-                            val userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:40.0) Gecko/20100101 Firefox/40.0"
-                            val uri = Uri.parse("http://38.96.148.28:11832/stream?type=.mp3")
-
-                            val dataSourceFactory = DefaultDataSourceFactory(this@ExoPlayerMediaPlaybackService, userAgent, DefaultBandwidthMeter())
-
-
-
-
-//                            val dataSourceFactory = DefaultHttpDataSourceFactory(
-//                                userAgent,
-//                                null,
-//                                DefaultHttpDataSource.DEFAULT_CONNECT_TIMEOUT_MILLIS,
-//                                DefaultHttpDataSource.DEFAULT_READ_TIMEOUT_MILLIS,
-//                                true)
-
-                            val mediaSource2 = ExtractorMediaSource.Factory(dataSourceFactory)
-                                .setExtractorsFactory(DefaultExtractorsFactory())
-                                .createMediaSource(uri)
-
-
-
-                            // Start loading the media source
-                            player?.prepare(mediaSource2)
-
-                            // Start playback automatically when ready
-                            player?.playWhenReady = true
-
-
-                            startService(Intent(this@ExoPlayerMediaPlaybackService,ExoPlayerMediaPlaybackService::class.java))
-                        }
+                        // Call startService to keep your service alive during playback
+                        startService(Intent(this@ExoPlayerMediaPlaybackService,ExoPlayerMediaPlaybackService::class.java))
                     }
                 }
             }
@@ -140,102 +124,138 @@ class ExoPlayerMediaPlaybackService : MediaBrowserServiceCompat(), AudioManager.
             override fun onStop() {
                 super.onStop()
 
-                val audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
-                audioManager.abandonAudioFocus(this@ExoPlayerMediaPlaybackService)
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+
+                    val audioAttributes = AudioAttributes.Builder().setLegacyStreamType(AudioManager.STREAM_MUSIC).build()
+                    val focusRequest = AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
+                        .setAudioAttributes(audioAttributes)
+                        .setOnAudioFocusChangeListener(this@ExoPlayerMediaPlaybackService)
+                        .build()
+
+                    audioManager.abandonAudioFocusRequest(focusRequest)
+                } else {
+                    audioManager.abandonAudioFocus(this@ExoPlayerMediaPlaybackService)
+                }
 
                 mediaSessionCompat?.isActive = false
                 player?.stop()
 
-
+                // Call stopSelf to allow your service to be destroyed now that playback has stopped
                 stopSelf()
             }
 
             override fun onCommand(command: String?, extras: Bundle?, cb: ResultReceiver?) {
-                Log.i("TAG","command: ${command}")
 
-                if(command == "play")
-                {
-                    getSystemService(Context.AUDIO_SERVICE).apply {
+                isStreamingMedia = false
+                mediaSource = null
 
-                        val audioManager = this as AudioManager
-                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                            val result = audioManager.requestAudioFocus({
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                    when (command) {
+                        ADD_MEDIA_SOURCE -> {
 
-                                Log.i(javaClass.simpleName,"on audio focus change: ${it}")
+                            extras?.let {
 
-                            },AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN)
+                                val mediaSource = it.get(MEDIA_SOURCE)
 
-                            if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED)
-                            {
-                                registerAudioBecomingNoisyReceiver()
-                                this@ExoPlayerMediaPlaybackService.mediaSessionCompat?.isActive = true
+                                when (mediaSource) {
+                                    is Int ->
+                                    {
+                                        if (mediaSource >= 0) {
 
-                                val userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:40.0) Gecko/20100101 Firefox/40.0"
-//                                val uri = Uri.parse("http://38.96.148.28:11832/stream?type=.mp3")
-                                val uri = Uri.parse("http://158.69.114.190:8072/;?1617555395334")
-//                                val uri = Uri.parse("https://stream.audioxi.com/SW")
+                                            //Build a DataSource.Factory capable of loading http and local content
+                                            val dataSourceFactory = DefaultDataSourceFactory(this@ExoPlayerMediaPlaybackService,
+                                                Util.getUserAgent(this@ExoPlayerMediaPlaybackService, getString(R.string.app_name)))
 
-                                val dataSourceFactory = DefaultDataSourceFactory(this@ExoPlayerMediaPlaybackService, userAgent, DefaultBandwidthMeter())
+                                            // This is the MediaSource representing the media to be played.
+                                            this@ExoPlayerMediaPlaybackService.mediaSource = ExtractorMediaSource
+                                                .Factory(dataSourceFactory)
+                                                .createMediaSource(RawResourceDataSource.buildRawResourceUri(mediaSource))
 
+                                            cb?.send(MEDIA_SOURCE_ADDED,null)
 
-                                val renderersFactory = DefaultRenderersFactory(this@ExoPlayerMediaPlaybackService,
-                                    null,
-                                    DefaultRenderersFactory.EXTENSION_RENDERER_MODE_OFF)
+                                        } else {
+                                            cb?.send(FAILED_ADDING_MEDIA_SOURCE,null)
+                                        }
+                                    }
 
-                                val trackSelector = DefaultTrackSelector()
-                                player = null
+                                    is String ->
+                                    {
+                                        isStreamingMedia = true
+                                        val userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:40.0) Gecko/20100101 Firefox/40.0"
+                                        val uri = Uri.parse(mediaSource)
+                                        this@ExoPlayerMediaPlaybackService.mediaSource = ExtractorMediaSource
+                                            .Factory(DefaultDataSourceFactory(this@ExoPlayerMediaPlaybackService, userAgent))
+                                            .setExtractorsFactory(DefaultExtractorsFactory())
+                                            .createMediaSource(uri)
 
-                                player = ExoPlayerFactory.newSimpleInstance(renderersFactory,trackSelector)
+                                        cb?.send(MEDIA_SOURCE_ADDED,null)
+                                    }
 
-                                val mediaSource2 = ExtractorMediaSource(uri,
-                                    DefaultDataSourceFactory(this@ExoPlayerMediaPlaybackService,userAgent),
-                                    DefaultExtractorsFactory(),
-                                    null,
-                                    null)
+                                    else -> cb?.send(FAILED_ADDING_MEDIA_SOURCE,null)
+                                }
 
-//                            val dataSourceFactory = DefaultHttpDataSourceFactory(
-//                                userAgent,
-//                                null,
-//                                DefaultHttpDataSource.DEFAULT_CONNECT_TIMEOUT_MILLIS,
-//                                DefaultHttpDataSource.DEFAULT_READ_TIMEOUT_MILLIS,
-//                                true)
-
-//                                val mediaSource2 = ExtractorMediaSource.Factory(dataSourceFactory)
-//                                    .setExtractorsFactory(DefaultExtractorsFactory())
-//                                    .createMediaSource(uri)
-
-
-                                // Start loading the media source
-                                player?.prepare(mediaSource2)
-
-                                // Start playback automatically when ready
-                                player?.playWhenReady = true
-
-
-                                startService(Intent(this@ExoPlayerMediaPlaybackService,ExoPlayerMediaPlaybackService::class.java))
-                            }
+                            }?:cb?.send(FAILED_ADDING_MEDIA_SOURCE,null)
                         }
                     }
+
+                    mediaSource?.apply {
+
+                       addEventListener(Handler(), object : MediaSourceEventListener {
+
+                               override fun onMediaPeriodCreated(windowIndex: Int, mediaPeriodId: MediaSource.MediaPeriodId?) { }
+
+                               override fun onMediaPeriodReleased(windowIndex: Int, mediaPeriodId: MediaSource.MediaPeriodId?) { }
+
+                               override fun onLoadStarted(windowIndex: Int, mediaPeriodId: MediaSource.MediaPeriodId?, loadEventInfo: MediaSourceEventListener.LoadEventInfo?, mediaLoadData: MediaSourceEventListener.MediaLoadData?)
+                               {
+                                   mediaSessionCompat?.setPlaybackState(
+
+                                       PlaybackStateCompat.Builder()
+                                           .setActions( if (isStreamingMedia) PlaybackStateCompat.ACTION_PLAY_FROM_URI else PlaybackStateCompat.ACTION_PLAY_PAUSE)
+                                           .setState(PlaybackStateCompat.STATE_PLAYING, 0L, 0.0f)
+                                           .build()
+                                   )
+                               }
+
+                               override fun onLoadCompleted(windowIndex: Int, mediaPeriodId: MediaSource.MediaPeriodId?, loadEventInfo: MediaSourceEventListener.LoadEventInfo?, mediaLoadData: MediaSourceEventListener.MediaLoadData?) { }
+
+                               override fun onLoadCanceled(windowIndex: Int, mediaPeriodId: MediaSource.MediaPeriodId?, loadEventInfo: MediaSourceEventListener.LoadEventInfo?, mediaLoadData: MediaSourceEventListener.MediaLoadData?)
+                               {
+                                   mediaSessionCompat?.setPlaybackState(
+                                       PlaybackStateCompat.Builder()
+                                           .setActions(PlaybackStateCompat.ACTION_STOP)
+                                           .setState(PlaybackStateCompat.STATE_STOPPED, 0L, 0.0f)
+                                           .build()
+                                   )
+                               }
+
+                               override fun onLoadError(windowIndex: Int, mediaPeriodId: MediaSource.MediaPeriodId?, loadEventInfo: MediaSourceEventListener.LoadEventInfo?, mediaLoadData: MediaSourceEventListener.MediaLoadData?, error: IOException?, wasCanceled: Boolean) { }
+
+                               override fun onReadingStarted(windowIndex: Int, mediaPeriodId: MediaSource.MediaPeriodId?) { }
+
+                               override fun onUpstreamDiscarded(windowIndex: Int, mediaPeriodId: MediaSource.MediaPeriodId?, mediaLoadData: MediaSourceEventListener.MediaLoadData?) { }
+
+                               override fun onDownstreamFormatChanged(windowIndex: Int, mediaPeriodId: MediaSource.MediaPeriodId?, mediaLoadData: MediaSourceEventListener.MediaLoadData?) { }
+                           }
+                       )
+                   }
+                } else {
+                    cb?.send(FAILED_ADDING_MEDIA_SOURCE,null)
                 }
-
             }
-
         })
     }
 
-    override fun onGetRoot(clientPackageName: String, clientUid: Int, rootHints: Bundle?): BrowserRoot? {
-
-        Log.i("TAG","onGetRoot")
-
+    override fun onGetRoot(clientPackageName: String, clientUid: Int, rootHints: Bundle?): BrowserRoot?
+    {
         // Returning null == no one can connect so we'll return something
         return BrowserRoot(
             getString(AppString.app_name), // Name visible in Android Auto
-            null) // Bundle of optional extras
+            null // Bundle of optional extras
+        )
     }
 
-    override fun onLoadChildren(parentId: String, result: Result<MutableList<MediaBrowserCompat.MediaItem>>)
-    {
-        Log.i("TAG","onLoadChildren")
+    override fun onLoadChildren(parentId: String, result: Result<MutableList<MediaBrowserCompat.MediaItem>>) {
         // If you want to allow users to browse media content your app returns on Android Auto or Wear OS, return those results here.
         result.sendResult(ArrayList())
     }
@@ -243,30 +263,36 @@ class ExoPlayerMediaPlaybackService : MediaBrowserServiceCompat(), AudioManager.
     private val audioBecomeNoisyReceiver = object : BroadcastReceiver() {
         @SuppressLint("SetTextI18n")
         override fun onReceive(context: Context?, intent: Intent?) {
-            intent?.let {  intentReceived ->
-                if (intentReceived.action == AudioManager.ACTION_AUDIO_BECOMING_NOISY)
-                {
-                    Log.i(javaClass.simpleName,"action audio becoming noisy!")
-                    //audio_noisy_textView?.text = "Audio becomes noisy!"
+            intent?.let { intentReceived ->
+                if (intentReceived.action == AudioManager.ACTION_AUDIO_BECOMING_NOISY) {
+                    Log.i(javaClass.simpleName, "action audio becoming noisy!")
                 }
             }
         }
     }
 
-    private fun registerAudioBecomingNoisyReceiver()
-    {
-        registerReceiver(audioBecomeNoisyReceiver, IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY))
+    private fun registerAudioBecomingNoisyReceiver() {
+        registerReceiver(
+            audioBecomeNoisyReceiver,
+            IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY)
+        )
     }
 
     override fun onDestroy() {
         player?.release()
         player = null
         super.onDestroy()
-        unregisterReceiver(audioBecomeNoisyReceiver)
+        audioBecomeNoisyReceiver?.let {
+            try {
+                unregisterReceiver(it)
+            }catch (e:IllegalArgumentException)
+            {
+                e.printStackTrace()
+            }
+        }
     }
 
     override fun onAudioFocusChange(focusChange: Int) {
-        Log.i(javaClass.simpleName,"focus change: ${focusChange}")
+        Log.i("TAG", "focus change: ${focusChange}")
     }
-
 }
