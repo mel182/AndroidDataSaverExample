@@ -7,6 +7,7 @@ import com.example.datasaverexampleapp.R
 import com.example.datasaverexampleapp.video_audio.audio_playback_focus.AudioPlaybackFocusExampleActivity
 import com.example.datasaverexampleapp.video_audio.background_audio.BackgroundAudioExampleActivity
 import com.example.datasaverexampleapp.video_audio.exoplayer.ExoPlayerActivity
+import com.example.datasaverexampleapp.video_audio.foreground_service.ForegroundServiceExampleActivity
 import com.example.datasaverexampleapp.video_audio.media_router_and_casting.MediaRouterAndCastingActivity
 import com.example.datasaverexampleapp.video_audio.media_session.MediaSessionActivity
 import com.example.datasaverexampleapp.video_audio.mediaplayer_video.MediaPlayerVideoPlaybackActivity
@@ -94,6 +95,11 @@ class VideoAudioStreamingActivity : AppCompatActivity() {
 
         background_audio_example?.setOnClickListener {
             val intent = Intent(this, BackgroundAudioExampleActivity::class.java)
+            startActivity(intent)
+        }
+
+        foreground_service_example?.setOnClickListener {
+            val intent = Intent(this, ForegroundServiceExampleActivity::class.java)
             startActivity(intent)
         }
     }

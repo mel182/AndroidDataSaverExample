@@ -2,6 +2,7 @@ package com.example.datasaverexampleapp
 
 import android.app.ActivityManager
 import android.app.ActivityManager.RunningAppProcessInfo
+import android.app.NotificationManager
 import android.content.*
 import android.content.pm.PackageManager
 import android.net.ConnectivityManager
@@ -62,6 +63,8 @@ import com.example.datasaverexampleapp.storage_manager.StorageManagerExampleActi
 import com.example.datasaverexampleapp.text_to_speech_example.TextToSpeechActivity
 import com.example.datasaverexampleapp.vibration.VibrationExampleActivity
 import com.example.datasaverexampleapp.video_audio.VideoAudioStreamingActivity
+import com.example.datasaverexampleapp.video_audio.foreground_service.ForegroundService
+import com.example.datasaverexampleapp.video_audio.media_notification.CustomMediaStyleNotification
 import kotlinx.android.synthetic.main.activity_main.*
 import java.math.BigInteger
 
@@ -458,6 +461,13 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        cancelNotificationIfNeeded(ForegroundService.NOTIFICATION_ID)
+    }
+
+    private fun cancelNotificationIfNeeded(notificationID:Int)
+    {
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.cancel(notificationID)
     }
 
     override fun onResume() {

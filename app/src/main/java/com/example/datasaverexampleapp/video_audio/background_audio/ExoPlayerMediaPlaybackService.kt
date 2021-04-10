@@ -88,7 +88,7 @@ class ExoPlayerMediaPlaybackService : MediaBrowserServiceCompat(),
 
                     // Create a new Exo Player
                     player = if (isStreamingMedia) {
-                        ExoPlayerFactory.newSimpleInstance(renderersFactory, trackSelector)
+                        ExoPlayerFactory.newSimpleInstance(this@ExoPlayerMediaPlaybackService, trackSelector)
                     } else {
                         ExoPlayerFactory.newSimpleInstance(this@ExoPlayerMediaPlaybackService, DefaultTrackSelector())
                     }

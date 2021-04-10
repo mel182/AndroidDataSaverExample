@@ -12,5 +12,6 @@ typealias Menu = R.menu
 typealias AppString = R.string
 typealias ViewByID = R.id
 typealias Drawable = R.drawable
+typealias AppColor = R.color
 
 typealias CustomTextView = com.example.datasaverexampleapp.customTextview.FontTextView
