@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.datasaverexampleapp.R
 import com.example.datasaverexampleapp.video_audio.audio_playback_focus.AudioPlaybackFocusExampleActivity
+import com.example.datasaverexampleapp.video_audio.audio_recording.AudioRecordingActivity
 import com.example.datasaverexampleapp.video_audio.background_audio.BackgroundAudioExampleActivity
 import com.example.datasaverexampleapp.video_audio.exoplayer.ExoPlayerActivity
 import com.example.datasaverexampleapp.video_audio.foreground_service.ForegroundServiceExampleActivity
@@ -100,6 +101,11 @@ class VideoAudioStreamingActivity : AppCompatActivity() {
 
         foreground_service_example?.setOnClickListener {
             val intent = Intent(this, ForegroundServiceExampleActivity::class.java)
+            startActivity(intent)
+        }
+
+        audio_recording_example?.setOnClickListener {
+            val intent = Intent(this, AudioRecordingActivity::class.java)
             startActivity(intent)
         }
     }

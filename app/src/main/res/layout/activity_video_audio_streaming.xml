@@ -64,4 +64,12 @@
         android:padding="15dp"
         android:text="Foreground service example" />
 
+    <Button
+        android:id="@+id/audio_recording_example"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:padding="15dp"
+        android:text="Audio Recording example" />
+
 </LinearLayout>

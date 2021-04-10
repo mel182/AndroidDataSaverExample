@@ -32,7 +32,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".video_audio.foreground_service.ForegroundServiceExampleActivity"/>
+        <activity android:name=".video_audio.audio_recording.AudioRecordingActivity"/>
+        <activity android:name=".video_audio.foreground_service.ForegroundServiceExampleActivity" />
         <activity android:name=".video_audio.background_audio.BackgroundAudioExampleActivity" />
         <activity android:name=".video_audio.media_router_and_casting.MediaRouterAndCastingActivity" />
         <activity android:name=".video_audio.media_session.MediaSessionActivity" />
@@ -211,8 +212,7 @@
         <service android:name=".hardware_sensor.book_example.user_activity_recognition.ActivitiesDetectionService" />
         <service
             android:name=".video_audio.background_audio.ExoPlayerMediaPlaybackService"
-            android:exported="true"/>
-
+            android:exported="true" />
         <service
             android:name=".video_audio.foreground_service.ForegroundService"
             android:exported="true">
@@ -226,8 +226,6 @@
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
         </receiver>
-
-
     </application>
 
 </manifest>
