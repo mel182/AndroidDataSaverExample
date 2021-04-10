@@ -143,8 +143,7 @@ class MediaPlayerVideoPlaybackActivity : AppCompatActivity(), SurfaceHolder.Call
     }
 
     override fun surfaceChanged(holder:SurfaceHolder, format:Int, width:Int, height:Int) { }
-
-    override fun surfaceDestroyed(holder: SurfaceHolder?) {
+    override fun surfaceDestroyed(p0: SurfaceHolder) {
         mediaplayer.release()
     }
 

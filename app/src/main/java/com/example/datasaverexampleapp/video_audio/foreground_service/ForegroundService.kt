@@ -10,6 +10,7 @@ import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.os.Bundle
 import android.os.Handler
+import android.os.Parcelable
 import android.os.ResultReceiver
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaMetadataCompat
@@ -17,6 +18,8 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import android.util.TypedValue
+import android.view.InputEvent
+import android.view.KeyEvent
 import androidx.media.MediaBrowserServiceCompat
 import androidx.media.session.MediaButtonReceiver
 import com.example.datasaverexampleapp.R
@@ -150,6 +153,8 @@ connector.setPlayer(player)
                                             this@ForegroundService
                                         )
                                     )
+
+                                    registerMediaButtonReceiver()
                                 }
                             }
                         }
@@ -161,7 +166,7 @@ connector.setPlayer(player)
                 super.onStop()
 
 
-                Log.i("TAG","on stop service")
+                Log.i("TAG", "on stop service")
 
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
 
@@ -361,9 +366,58 @@ connector.setPlayer(player)
 
             override fun onMediaButtonEvent(mediaButtonEvent: Intent?): Boolean {
 
-                Log.i("TAG","on media button event!")
+                mediaButtonEvent?.action?.let { action ->
 
-                return super.onMediaButtonEvent(mediaButtonEvent)
+                    if (action == Intent.ACTION_MEDIA_BUTTON) {
+                        Log.i("TAG", "on media button event!")
+
+                        mediaButtonEvent?.extras?.let {
+
+                            //Bundle[{android.intent.extra.KEY_EVENT=KeyEvent { action=ACTION_DOWN, keyCode=KEYCODE_MEDIA_PLAY_PAUSE, scanCode=0, metaState=0, flags=0x0, repeatCount=0, eventTime=0, downTime=0, deviceId=-1, source=0x0, displayId=0 }}]
+
+                            for (keyFound in it.keySet()) {
+                                Log.i("TAG","Key found: ${keyFound}")
+                            }
+
+                            //android.view.InputEvent
+
+                            //85
+                            val test = it.get("android.intent.extra.KEY_EVENT")
+                            Log.i("TAG", "test: ${test}")
+
+
+                            if (test is KeyEvent)
+                            {
+                                Log.i("TAG", "is key event")
+
+                                val inputEvent = test as KeyEvent
+
+                                if (inputEvent.keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE)
+                                {
+                                    Log.i("TAG", "pause button clicked!")
+                                } else if (inputEvent.keyCode == KeyEvent.KEYCODE_MEDIA_NEXT){
+                                    Log.i("TAG", "skip button clicked")
+                                }
+
+                            } else {
+                                Log.i("TAG", "is not key event")
+                            }
+
+                            val pause =
+                                it.getLong(PlaybackStateCompat.ACTION_PLAY_PAUSE.toString()) // 512
+                            val skip =
+                                it.getLong(PlaybackStateCompat.ACTION_SKIP_TO_NEXT.toString()) // 32
+
+                            Log.i("TAG", "Pause: ${pause}")
+                            Log.i("TAG", "Skip: ${skip}")
+                        }
+                    }
+                }
+
+
+
+
+                return true
             }
 
         })
@@ -379,7 +433,9 @@ connector.setPlayer(player)
     private val audioBecomeNoisyReceiver = object : BroadcastReceiver() {
         @SuppressLint("SetTextI18n")
         override fun onReceive(context: Context?, intent: Intent?) {
+
             intent?.let { intentReceived ->
+
                 if (intentReceived.action == AudioManager.ACTION_AUDIO_BECOMING_NOISY) {
                     Log.i(javaClass.simpleName, "action audio becoming noisy!")
                 }
@@ -391,6 +447,13 @@ connector.setPlayer(player)
         registerReceiver(
             audioBecomeNoisyReceiver,
             IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY)
+        )
+    }
+
+    private fun registerMediaButtonReceiver() {
+        registerReceiver(
+            audioBecomeNoisyReceiver,
+            IntentFilter(Intent.ACTION_MEDIA_BUTTON)
         )
     }
 

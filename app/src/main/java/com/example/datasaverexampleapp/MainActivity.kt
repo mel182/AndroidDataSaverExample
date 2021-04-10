@@ -187,19 +187,22 @@ class MainActivity : AppCompatActivity() {
                         val wifi = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
                         val mobile = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)
 
+                        if (wifi != null && mobile != null)
+                        {
+                            if (wifi.isAvailable)
+                            {
+                                wifi_info_txt.text = "Wifi connected!"
+                            } else if (mobile.isAvailable)
+                            {
+                                wifi_info_txt.text = "Mobile connected!"
+                            }
 
-                        if (wifi.isAvailable)
-                        {
-                            wifi_info_txt.text = "Wifi connected!"
-                        } else if (mobile.isAvailable)
-                        {
-                            wifi_info_txt.text = "Mobile connected!"
+                            if (wifi.isAvailable || mobile.isAvailable)
+                            {
+                                // Perform task
+                            }
                         }
 
-                        if (wifi.isAvailable || mobile.isAvailable)
-                        {
-                            // Perform task
-                        }
                     } else {
                         wifi_info_txt.text = "Not Connected!"
                     }

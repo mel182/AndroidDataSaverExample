@@ -120,6 +120,8 @@ class ForegroundServiceExampleActivity : AppCompatActivity()
                         override fun onPlaybackStateChanged(state: PlaybackStateCompat?) {
                             // Update the UI based on playback state change
 
+                            Log.i("TAG","onPlaybackStateChanged foreground activity line 123")
+
                             state?.let{
 
                                 if (it.actions == PlaybackStateCompat.ACTION_PLAY_PAUSE && it.state == PlaybackStateCompat.STATE_PLAYING)
@@ -140,6 +142,7 @@ class ForegroundServiceExampleActivity : AppCompatActivity()
 
                         override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
                             // Update the UI based on Media Metadata change
+                            Log.i("TAG","onMetadataChanged foreground activity line 123")
                         }
                     })
                 }
@@ -183,5 +186,10 @@ class ForegroundServiceExampleActivity : AppCompatActivity()
             playAudioButton?.isEnabled = true
             streamAudioButton?.isEnabled = true
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.i("TAG","onDestroy")
     }
 }
