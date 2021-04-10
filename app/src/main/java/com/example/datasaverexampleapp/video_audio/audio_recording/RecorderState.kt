@@ -5,5 +5,6 @@ enum class RecorderState {
     READY,
     RECORDING,
     PLAYING_AUDIO,
-    PERMISSION_DENIED
+    PERMISSION_DENIED,
+    NO_MIC_DETECTED
 }

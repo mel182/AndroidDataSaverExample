@@ -71,6 +71,8 @@ class AudioRecordingActivity : BaseActivity(R.layout.activity_audio_recording)
                     }?:startRecording()
                 }
             }
+        } else {
+            setState(RecorderState.NO_MIC_DETECTED)
         }
     }
 
@@ -182,6 +184,11 @@ class AudioRecordingActivity : BaseActivity(R.layout.activity_audio_recording)
             RecorderState.RECORDING -> {
                 recording_status?.text = "Recording... press recording icon to stop"
                 mic_icon?.setImageResource(Drawable.ic_recording)
+            }
+
+            RecorderState.NO_MIC_DETECTED -> {
+                recording_status?.text = "No microphone detected"
+                mic_icon?.setImageResource(Drawable.ic_microphone_disabled)
             }
         }
     }
