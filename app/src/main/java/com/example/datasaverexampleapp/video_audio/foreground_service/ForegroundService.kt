@@ -366,56 +366,23 @@ class ForegroundService :  MediaBrowserServiceCompat(), AudioManager.OnAudioFocu
 
                 mediaButtonEvent?.action?.let { action ->
 
-                    if (action == Intent.ACTION_MEDIA_BUTTON) {
-                        Log.i("TAG", "on media button event!")
+                    if (action == Intent.ACTION_MEDIA_BUTTON)
+                    {
+                        mediaButtonEvent.extras?.let {
 
-                        mediaButtonEvent?.extras?.let {
+                            val keyEventValue = it.get(Intent.EXTRA_KEY_EVENT)
 
-                            //Bundle[{android.intent.extra.KEY_EVENT=KeyEvent { action=ACTION_DOWN, keyCode=KEYCODE_MEDIA_PLAY_PAUSE, scanCode=0, metaState=0, flags=0x0, repeatCount=0, eventTime=0, downTime=0, deviceId=-1, source=0x0, displayId=0 }}]
-
-                            for (keyFound in it.keySet()) {
-                                Log.i("TAG","Key found: ${keyFound}")
-                            }
-
-                            //android.view.InputEvent
-
-                            //85
-                            val test = it.get("android.intent.extra.KEY_EVENT")
-                            Log.i("TAG", "test: ${test}")
-
-
-                            if (test is KeyEvent)
+                            if (keyEventValue is KeyEvent)
                             {
-                                Log.i("TAG", "is key event")
-
-                                val inputEvent = test as KeyEvent
-
-                                if (inputEvent.keyCode == KeyEvent.KEYCODE_MEDIA_PAUSE)
+                                when(keyEventValue.keyCode)
                                 {
-                                    Log.i("TAG", "pause button clicked!")
-                                    onPause()
-                                } else if (inputEvent.keyCode == KeyEvent.KEYCODE_MEDIA_STOP){
-                                    Log.i("TAG", "stop button clicked")
-                                    onStop()
+                                    KeyEvent.KEYCODE_MEDIA_PAUSE -> onPause()
+                                    KeyEvent.KEYCODE_MEDIA_STOP -> onStop()
                                 }
-
-                            } else {
-                                Log.i("TAG", "is not key event")
                             }
-
-                            val pause =
-                                it.getLong(PlaybackStateCompat.ACTION_PLAY_PAUSE.toString()) // 512
-                            val skip =
-                                it.getLong(PlaybackStateCompat.ACTION_SKIP_TO_NEXT.toString()) // 32
-
-                            Log.i("TAG", "Pause: ${pause}")
-                            Log.i("TAG", "Skip: ${skip}")
                         }
                     }
                 }
-
-
-
 
                 return true
             }
