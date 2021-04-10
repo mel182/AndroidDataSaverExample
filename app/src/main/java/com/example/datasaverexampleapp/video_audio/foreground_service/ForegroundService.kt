@@ -25,7 +25,9 @@ import androidx.core.app.NotificationCompat
 import androidx.media.MediaBrowserServiceCompat
 import androidx.media.session.MediaButtonReceiver
 import com.example.datasaverexampleapp.R
+import com.example.datasaverexampleapp.application.AppContext
 import com.example.datasaverexampleapp.type_alias.AppString
+import com.example.datasaverexampleapp.type_alias.Drawable
 import com.example.datasaverexampleapp.utils.refinePath
 import com.example.datasaverexampleapp.video_audio.background_audio.*
 import com.example.datasaverexampleapp.video_audio.media_notification.CustomMediaStyleNotification
@@ -82,14 +84,92 @@ class ForegroundService :  MediaBrowserServiceCompat(), AudioManager.OnAudioFocu
 
         mediaSessionCompat?.setCallback(object : MediaSessionCompat.Callback() {
 
+            @SuppressLint("RestrictedApi")
             override fun onPlay() {
                 super.onPlay()
 
                 player?.let {
-                    it.apply {
-                        playWhenReady = true
-                        playbackState
+
+                    it.playWhenReady = true
+                    it.playbackState
+
+                    notification?.apply {
+
+                        val service = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+                        mActions.removeAt(0)
+                        mActions.add(0,NotificationCompat.Action(Drawable.ic_pause_button, "pause", MediaButtonReceiver.buildMediaButtonPendingIntent(this@ForegroundService, PlaybackStateCompat.ACTION_PAUSE)))
+                        service.notify(NOTIFICATION_ID,this.build())
                     }
+
+
+//                    it.apply {
+//
+//                        if (this@ForegroundService.mediaSource != null)
+//                        {
+//                            // --------
+//                            val result =
+//                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+//                                    val audioAttributes = AudioAttributes.Builder().setLegacyStreamType(
+//                                        AudioManager.STREAM_MUSIC
+//                                    ).build()
+//                                    val focusRequest =
+//                                        AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
+//                                            .setAudioAttributes(audioAttributes)
+//                                            .setOnAudioFocusChangeListener(this@ForegroundService)
+//                                            .build()
+//                                    audioManager.requestAudioFocus(focusRequest)
+//                                } else {
+//                                    audioManager.requestAudioFocus(
+//                                        this@ForegroundService,
+//                                        AudioManager.STREAM_MUSIC,
+//                                        AudioManager.AUDIOFOCUS_GAIN
+//                                    )
+//                                }
+//
+//                            if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+//                                registerAudioBecomingNoisyReceiver()
+//
+//                                // Start playback automatically when ready
+////                                prepare(this@ForegroundService.mediaSource)
+//                                playWhenReady = true
+//                                playbackState
+//
+//
+////                                player?.playWhenReady = true
+//
+//                                // Construct a Media Style Notification and start the foreground service
+//                                mediaSessionCompat?.let { mediaSessionCompat ->
+//
+//                                    mediaResource?.let {
+//
+//                                        mediaSessionCompat.setMetadata(
+//                                            MediaMetadataCompat.Builder()
+//                                                .putString(
+//                                                    MediaMetadataCompat.METADATA_KEY_ARTIST,
+//                                                    it.refinePath()
+//                                                )
+//                                                .build()
+//                                        )
+//
+//                                        notification = CustomMediaStyleNotification.create(
+//                                            mediaSessionCompat,
+//                                            this@ForegroundService
+//                                        ).apply {
+//
+//                                            startForeground(NOTIFICATION_ID, build())
+//                                            registerMediaButtonReceiver()
+//                                            updateCurrentPosition()
+//                                        }
+//                                    }
+//                                }
+//                            }
+//
+//
+//
+//                            // ----------
+//                        }
+//                    }
 
                 } ?: kotlin.run {
 
@@ -144,12 +224,13 @@ class ForegroundService :  MediaBrowserServiceCompat(), AudioManager.OnAudioFocu
                                     )
 
                                     notification = CustomMediaStyleNotification.create(
-                                    mediaSessionCompat,
-                                    this@ForegroundService
+                                        mediaSessionCompat,
+                                        this@ForegroundService
                                     ).apply {
 
                                         startForeground(NOTIFICATION_ID, build())
                                         registerMediaButtonReceiver()
+                                        updateCurrentPosition()
                                     }
                                 }
                             }
@@ -160,9 +241,6 @@ class ForegroundService :  MediaBrowserServiceCompat(), AudioManager.OnAudioFocu
 
             override fun onStop() {
                 super.onStop()
-
-
-                Log.i("TAG", "on stop service")
 
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
 
@@ -191,11 +269,9 @@ class ForegroundService :  MediaBrowserServiceCompat(), AudioManager.OnAudioFocu
                 cancelNotification()
             }
 
+            @SuppressLint("RestrictedApi")
             override fun onPause() {
                 super.onPause()
-
-                Log.i("TAG", "on pause foreground service")
-
                 unregisterAudioNoisyReceiver()
 
                 player?.apply {
@@ -213,11 +289,37 @@ class ForegroundService :  MediaBrowserServiceCompat(), AudioManager.OnAudioFocu
 
                 // Stop being a foreground service and remove the notification
                 stopForeground(false)
+
+                notification?.apply {
+//                    addAction(NotificationCompat.Action(Drawable.ic_play_button,"play",MediaButtonReceiver.buildMediaButtonPendingIntent(this@ForegroundService, PlaybackStateCompat.ACTION_PLAY)))
+
+                    val service = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+                    mActions.removeAt(0)
+                    mActions.add(0,NotificationCompat.Action(Drawable.ic_play_button,"play",MediaButtonReceiver.buildMediaButtonPendingIntent(this@ForegroundService, PlaybackStateCompat.ACTION_PLAY)))
+                    service.notify(NOTIFICATION_ID,this.build())
+
+                }
+
+
+                /*
+                                             this@ForegroundService.notification?.mActions?.let {
+
+                                            for (action in it) {
+                                                Log.i("TAG","Notification action found: ${action}")
+                                            }
+                                        }
+//                                        CoroutineScope(Dispatchers.Main).launch {
+//
+//                                            delay(5000)
+//                                            this@ForegroundService.notification?.ac
+//
+//
+//                                        }
+                */
             }
 
             override fun onCommand(command: String?, extras: Bundle?, cb: ResultReceiver?) {
-
-                Log.i("TAG", "onCommand: ${command}")
 
                 mediaSource = null
 
@@ -366,18 +468,16 @@ class ForegroundService :  MediaBrowserServiceCompat(), AudioManager.OnAudioFocu
 
                 mediaButtonEvent?.action?.let { action ->
 
-                    if (action == Intent.ACTION_MEDIA_BUTTON)
-                    {
+                    if (action == Intent.ACTION_MEDIA_BUTTON) {
                         mediaButtonEvent.extras?.let {
 
                             val keyEventValue = it.get(Intent.EXTRA_KEY_EVENT)
 
-                            if (keyEventValue is KeyEvent)
-                            {
-                                when(keyEventValue.keyCode)
-                                {
+                            if (keyEventValue is KeyEvent) {
+                                when (keyEventValue.keyCode) {
                                     KeyEvent.KEYCODE_MEDIA_PAUSE -> onPause()
                                     KeyEvent.KEYCODE_MEDIA_STOP -> onStop()
+                                    KeyEvent.KEYCODE_MEDIA_PLAY -> onPlay()
                                 }
                             }
                         }
@@ -422,6 +522,22 @@ class ForegroundService :  MediaBrowserServiceCompat(), AudioManager.OnAudioFocu
             audioBecomeNoisyReceiver,
             IntentFilter(Intent.ACTION_MEDIA_BUTTON)
         )
+    }
+
+
+    private fun updateCurrentPosition() {
+
+//        player?.let {
+//            CoroutineScope(Dispatchers.IO).launch {
+//
+//                delay(2000)
+//                Log.i("TAG","current position ${it.currentPosition}")
+//
+//                withContext(Dispatchers.Main) {
+//                    updateCurrentPosition()
+//                }
+//            }
+//        }
     }
 
     override fun onGetRoot(clientPackageName: String, clientUid: Int, rootHints: Bundle?): BrowserRoot?
