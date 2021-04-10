@@ -57,6 +57,8 @@ class AudioRecordingActivity : BaseActivity(R.layout.activity_audio_recording)
                         if (isListening)
                         {
                             recorder.stop()
+
+                            // Reset and release the media recorder
                             recorder.reset()
                             recorder.release()
                             isListening = false
@@ -83,10 +85,19 @@ class AudioRecordingActivity : BaseActivity(R.layout.activity_audio_recording)
                 mediaRecorder = MediaRecorder().apply {
 
                     // Configure the input sources
+                    // The 'setAudioSource' method lets you specify a 'MediaRecorder.AudioSource'
+                    // static constant that defines the audio source. For audio recording, this
+                    // almost always 'MediaRecorder.AudioSource.MIC'
                     setAudioSource(MediaRecorder.AudioSource.MIC)
 
                     // Set the output format and encoder
+                    // After selecting your input source, you need to select the output
+                    // format using the 'setOutputFormat' method with a 'MediaRecorder.OutputFormat'
+                    // constant.
                     setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
+
+                    // Use the 'setAudioEncoder' methods with an audio encoder constant from
+                    // the 'MediaRecorder.AudioEncoder' class
                     setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
 
                     // Specify the output file
@@ -97,6 +108,11 @@ class AudioRecordingActivity : BaseActivity(R.layout.activity_audio_recording)
                     }
 
                     // Specify the output file
+                    // Assign a file to store the recorded media using the 'setOutputFile' method
+                    // before calling 'prepare'
+                    //
+                    // WARNING: The 'setOutputFile' method must be called before 'prepare' and after
+                    //          'setOutputFormat', otherwise, it will throw an 'IllegalStateException'
                     outputFile = File(mediaDirectory,"audio_recording.3gp")
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                         setOutputFile(outputFile)
@@ -105,6 +121,8 @@ class AudioRecordingActivity : BaseActivity(R.layout.activity_audio_recording)
                     }
 
                     // Prepare to record
+                    // After configuring the Media Recorder and preparing, you can begin
+                    // recording at any time by calling the 'start' method.
                     prepare()
 
                     // start recording
