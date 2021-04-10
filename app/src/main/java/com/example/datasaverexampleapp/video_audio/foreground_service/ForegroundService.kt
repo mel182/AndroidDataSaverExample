@@ -1,6 +1,7 @@
 package com.example.datasaverexampleapp.video_audio.foreground_service
 
 import android.annotation.SuppressLint
+import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -20,6 +21,7 @@ import android.util.Log
 import android.util.TypedValue
 import android.view.InputEvent
 import android.view.KeyEvent
+import androidx.core.app.NotificationCompat
 import androidx.media.MediaBrowserServiceCompat
 import androidx.media.session.MediaButtonReceiver
 import com.example.datasaverexampleapp.R
@@ -37,6 +39,7 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.upstream.RawResourceDataSource
 import com.google.android.exoplayer2.util.Util
+import kotlinx.coroutines.*
 import java.io.IOException
 
 /**
@@ -52,6 +55,7 @@ class ForegroundService :  MediaBrowserServiceCompat(), AudioManager.OnAudioFocu
     private lateinit var renderersFactory : DefaultRenderersFactory
     private lateinit var trackSelector : DefaultTrackSelector
     private var mediaResource : Int? = null
+    private var notification : NotificationCompat.Builder? = null
 
     companion object {
         const val NOTIFICATION_ID = 201
@@ -68,14 +72,6 @@ class ForegroundService :  MediaBrowserServiceCompat(), AudioManager.OnAudioFocu
         trackSelector = DefaultTrackSelector()
 
         mediaSessionCompat = MediaSessionCompat(this, TAG)
-
-//        mediaSessionCompat.setFlags(MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS or MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS)
-
-        /*
-        mediaSession.setFlags( MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS or MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS )
-connector.setPlayer(player)
-        */
-
 
         // Here you can set other initializations such as setFlags, setCallback, etc.
 
@@ -147,14 +143,14 @@ connector.setPlayer(player)
                                             .build()
                                     )
 
-                                    startForeground(
-                                        NOTIFICATION_ID, CustomMediaStyleNotification.create(
-                                            mediaSessionCompat,
-                                            this@ForegroundService
-                                        )
-                                    )
+                                    notification = CustomMediaStyleNotification.create(
+                                    mediaSessionCompat,
+                                    this@ForegroundService
+                                    ).apply {
 
-                                    registerMediaButtonReceiver()
+                                        startForeground(NOTIFICATION_ID, build())
+                                        registerMediaButtonReceiver()
+                                    }
                                 }
                             }
                         }
@@ -191,6 +187,8 @@ connector.setPlayer(player)
 
                 // Then call stopSelf to allow your service to be destroyed now that playback has stopped
                 stopSelf()
+
+                cancelNotification()
             }
 
             override fun onPause() {
@@ -392,11 +390,13 @@ connector.setPlayer(player)
 
                                 val inputEvent = test as KeyEvent
 
-                                if (inputEvent.keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE)
+                                if (inputEvent.keyCode == KeyEvent.KEYCODE_MEDIA_PAUSE)
                                 {
                                     Log.i("TAG", "pause button clicked!")
-                                } else if (inputEvent.keyCode == KeyEvent.KEYCODE_MEDIA_NEXT){
-                                    Log.i("TAG", "skip button clicked")
+                                    onPause()
+                                } else if (inputEvent.keyCode == KeyEvent.KEYCODE_MEDIA_STOP){
+                                    Log.i("TAG", "stop button clicked")
+                                    onStop()
                                 }
 
                             } else {
@@ -495,5 +495,12 @@ connector.setPlayer(player)
 
     override fun onAudioFocusChange(focusChange: Int) {
         Log.i(TAG, "focus change: ${focusChange}")
+    }
+
+    private fun cancelNotification()
+    {
+        // In previous version of Android 11 you cannot dismiss the media notification, but since the patch update from dec 2020, it is possible
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.cancel(NOTIFICATION_ID)
     }
 }

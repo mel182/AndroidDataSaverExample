@@ -22,7 +22,7 @@ class CustomMediaStyleNotification {
     companion object {
 
         @JvmStatic
-        fun create(mediaSessionCompat: MediaSessionCompat, service : MediaBrowserServiceCompat) : Notification{
+        fun create(mediaSessionCompat: MediaSessionCompat, service : MediaBrowserServiceCompat) : NotificationCompat.Builder {
 
             val controller = mediaSessionCompat.controller
             val mediaMetaData = controller.metadata
@@ -36,9 +36,13 @@ class CustomMediaStyleNotification {
 
             // Add description meta data from the media session
             return builder.apply {
-                setContentText(description.title?:"")
-                setContentText(description.subtitle?:"")
-                setSubText(description.description?:"")
+//                setContentText(description.title?:"")
+                setContentText("Text")
+//                setContentText(description.subtitle?:"")
+                setContentText("SubTitle")
+//                setSubText(description.description?:"")
+                setSubText("Sub text")
+                setContentTitle("Bon vide - Jeon ft. Ataniro")
 
                 description.iconBitmap?.let {
                     setLargeIcon(it)
@@ -53,8 +57,8 @@ class CustomMediaStyleNotification {
                 color = ContextCompat.getColor(AppContext.appContext,AppColor.colorPrimary)
 
                 // Add actions
-                addAction(NotificationCompat.Action(Drawable.ic_pause_button, "pause", MediaButtonReceiver.buildMediaButtonPendingIntent(service, PlaybackStateCompat.ACTION_PLAY_PAUSE)))
-                addAction(NotificationCompat.Action(Drawable.skip_next_icon,"Skip",MediaButtonReceiver.buildMediaButtonPendingIntent(service, PlaybackStateCompat.ACTION_SKIP_TO_NEXT)))
+                addAction(NotificationCompat.Action(Drawable.ic_pause_button, "pause", MediaButtonReceiver.buildMediaButtonPendingIntent(service, PlaybackStateCompat.ACTION_PAUSE)))
+                addAction(NotificationCompat.Action(Drawable.ic_stop_button,"stop",MediaButtonReceiver.buildMediaButtonPendingIntent(service, PlaybackStateCompat.ACTION_STOP)))
 
                 // Add the MediaStyle
                 setStyle(androidx.media.app.NotificationCompat.MediaStyle()
@@ -64,13 +68,13 @@ class CustomMediaStyleNotification {
                     // These two lines are only required if your minSdkVersion is < API 21
                     .setShowCancelButton(true)
                     .setCancelButtonIntent(MediaButtonReceiver.buildMediaButtonPendingIntent(service, PlaybackStateCompat.ACTION_STOP)))
-            }.build()
+            }
         }
 
         @RequiresApi(Build.VERSION_CODES.O)
         private fun createNotificationChannel(channelId:String, channelName:String) : String {
 
-            val channel = NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH).apply {
+            val channel = NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_DEFAULT).apply {
                 lightColor = Color.BLUE
                 lockscreenVisibility = Notification.VISIBILITY_PRIVATE
             }
