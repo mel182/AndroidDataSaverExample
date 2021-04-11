@@ -30,6 +30,7 @@ import com.example.datasaverexampleapp.appbar.tabs.AppBarTabsActivity
 import com.example.datasaverexampleapp.work_manager.WorkManagerActivity
 import com.example.datasaverexampleapp.battery.Battery
 import com.example.datasaverexampleapp.battery.PowerConnectionReceiver
+import com.example.datasaverexampleapp.camera.CameraExamplesActivity
 import com.example.datasaverexampleapp.cardview.CardViewActivity
 import com.example.datasaverexampleapp.concurrency.CoroutineExampleActivity
 import com.example.datasaverexampleapp.concurrency.FlowExampleActivity
@@ -461,6 +462,11 @@ class MainActivity : AppCompatActivity() {
 
         video_audio_streaming_examples?.setOnClickListener {
             val intent = Intent(this, VideoAudioStreamingActivity::class.java)
+            startActivity(intent)
+        }
+
+        camera_examples?.setOnClickListener {
+            val intent = Intent(this, CameraExamplesActivity::class.java)
             startActivity(intent)
         }
 

@@ -326,6 +326,12 @@
                 android:layout_height="wrap_content"
                 android:text="Video/audio example" />
 
+            <Button
+                android:id="@+id/camera_examples"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Camera example" />
+
         </LinearLayout>
     </ScrollView>
 

@@ -32,7 +32,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".video_audio.audio_recording.AudioRecordingActivity"/>
+        <activity android:name=".camera.controlling_the_camera.ControllingCameraExampleActivity"></activity>
+        <activity android:name=".camera.image_capture_intent.ImageCaptureIntentExampleActivity" />
+        <activity android:name=".camera.CameraExamplesActivity" />
+        <activity android:name=".video_audio.audio_recording.AudioRecordingActivity" />
         <activity android:name=".video_audio.foreground_service.ForegroundServiceExampleActivity" />
         <activity android:name=".video_audio.background_audio.BackgroundAudioExampleActivity" />
         <activity android:name=".video_audio.media_router_and_casting.MediaRouterAndCastingActivity" />
