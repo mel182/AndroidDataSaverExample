@@ -1,37 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_view"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp">
 
     <LinearLayout
         android:id="@+id/title_layout"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintStart_toEndOf="@+id/camera_icon"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/content_layout">
+        app:layout_constraintEnd_toStartOf="@+id/content_layout"
+        app:layout_constraintStart_toEndOf="@+id/camera_icon"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:text="Facing:"
-            android:layout_weight="0.5"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
             android:layout_weight="0.5"
+            android:gravity="center_vertical"
+            android:text="Facing:" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:gravity="center_vertical"
             android:text="Orientation:" />
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/can_disable_shutter_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:gravity="center_vertical"
+            android:text="Can disable shutter sound:" />
 
+        <TextView
+            android:id="@+id/scaler_stream_config_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:gravity="center_vertical"
+            android:text="Auto-focus control:" />
+
+        <TextView
+            android:id="@+id/scaler_stream_map_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:gravity="center_vertical"
+            android:text="Scaler stream map:" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/content_layout"
@@ -63,12 +87,41 @@
             android:text="-"
             android:textColor="@android:color/black" />
 
+        <TextView
+            android:id="@+id/disable_shutter_sound_textview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:gravity="center_vertical"
+            android:text="-"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/scaler_stream_config_map_textview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:gravity="center_vertical"
+            android:text="-"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/scaler_stream_map_textview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:gravity="center_vertical"
+            android:text="-"
+            android:textColor="@android:color/black" />
+
     </LinearLayout>
 
     <ImageView
         android:id="@+id/camera_icon"
         android:layout_width="56dp"
         android:layout_height="56dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/title_layout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_camera"
