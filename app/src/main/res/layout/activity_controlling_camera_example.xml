@@ -8,7 +8,6 @@
     android:orientation="vertical"
     tools:context=".camera.controlling_the_camera.ControllingCameraExampleActivity">
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/camera_list"
         android:layout_width="match_parent"
