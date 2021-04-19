@@ -249,15 +249,15 @@ class CameraViewActivity : BaseActivity(Layout.activity_camera_view), SurfaceHol
     }
 
     override fun surfaceCreated(p0: SurfaceHolder) {
-        Log.i("TAG","surfaceCreated")
+        // This is called immediately after the surface is first created.
         startCameraCaptureSession()
     }
 
     override fun surfaceChanged(p0: SurfaceHolder, p1: Int, p2: Int, p3: Int) {
-        Log.i("TAG","surfaceChanged")
+        //This is called immediately after any structural changes (format or size) have been made to the surface.
     }
 
     override fun surfaceDestroyed(p0: SurfaceHolder) {
-        Log.i("TAG","surfaceDestroyed")
+        //This is called immediately before a surface is being destroyed.
     }
 }
