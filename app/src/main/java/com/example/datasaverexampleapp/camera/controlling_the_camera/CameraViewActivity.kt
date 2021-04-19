@@ -90,6 +90,11 @@ class CameraViewActivity : BaseActivity(Layout.activity_camera_view), SurfaceHol
 
                         try {
                             cameraManager?.openCamera(id.toString(), cameraDeviceCallback!!,null)
+
+                            take_picture_button?.setOnClickListener {
+                                Toast.makeText(this,"Take picture",Toast.LENGTH_SHORT).show()
+                            }
+
                         }catch (e :Exception)
                         {
                             e.printStackTrace()
