@@ -60,34 +60,36 @@ class CameraViewActivity : BaseActivity(Layout.activity_camera_view), SurfaceHol
                         cameraDeviceCallback = object : CameraDevice.StateCallback() {
                             override fun onOpened(camera: CameraDevice) {
                                 deviceCamera = camera
-                                Log.i("TAG","onOpened")
+                                //The method called when a camera device has finished opening.
                             }
 
                             override fun onDisconnected(camera: CameraDevice) {
                                 camera.close()
                                 deviceCamera = null
-                                Log.i("TAG","onDisconnected")
+                                //The method called when a camera device is no longer available for use.
                             }
 
                             override fun onError(camera: CameraDevice, p1: Int) {
                                 // Something went wrong, notify the user
+                                // The method called when a camera device has encountered a serious error.
                                 Toast.makeText(this@CameraViewActivity,"Failed opening camera",Toast.LENGTH_SHORT).show()
                                 camera.close()
                                 deviceCamera = null
-                                Log.i("TAG","Error opening camera: ${p1}")
+                            }
+
+                            override fun onClosed(camera: CameraDevice) {
+                                // The method called when a camera device has been closed with 'CameraDevice.close()'.
                             }
                         }
 
                         surfaceView?.let { view ->
                             surfaceHolder = view.holder.apply {
                                 addCallback(this@CameraViewActivity)
-//                                setFixedSize(400,400)
                             }
                         }
 
                         try {
                             cameraManager?.openCamera(id.toString(), cameraDeviceCallback!!,null)
-//                            setOptimalPreviewSize(id.toString())
                         }catch (e :Exception)
                         {
                             e.printStackTrace()
@@ -148,16 +150,11 @@ class CameraViewActivity : BaseActivity(Layout.activity_camera_view), SurfaceHol
 
 
                     val smallestOne = Collections.max(bigEnough, ComparableByArea())
-                    Log.i("TAG","Smallest one height: ${smallestOne.height} and width: ${smallestOne.width}")
 
                     val orientation = characteristics?.get(CameraCharacteristics.SENSOR_ORIENTATION)
-                    Log.i("TAG","orientation: ${orientation}")
-
                     val layoutParams = surfaceView.layoutParams
                     layoutParams.height =  if (orientation == 90 || orientation == 270 ) smallestOne.width else smallestOne.height
-//                    layoutParams.height = 1080
                     layoutParams.width = if (orientation == 90 || orientation == 270) smallestOne.height else smallestOne.width
-//                    layoutParams.width = 1440
 
                     surfaceView.layoutParams = layoutParams
                 }
@@ -176,38 +173,6 @@ class CameraViewActivity : BaseActivity(Layout.activity_camera_view), SurfaceHol
         }
     }
 
-    /*
-    fun getOptimalPreviewSize(
-        textureViewWidth: Int,
-        textureViewHeight: Int,
-        maxWidth: Int,
-        maxHeight: Int,
-        aspectRatio: Size) {
-    ...
-    val supportedPreviewSizes = ...
-    val bigEnough = ArrayList<Size>()
-    // maxWidth and maxHeight should be smaller than the screen size or the defined value
-    for (option in supportedPreviewSizes) {
-        if (option.width <= maxWidth && option.height <= maxHeight &&
-            option.height == option.width * aspectRatio.h / aspectRatio.w) {
-              bigEnough.add(option)
-        }
-    }
-    // Finally pick the smallest one by area, because usually a preview does not require high resolution.
-    return Collections.min(bigEnough, ComparableByArea())
-}
-// Comparison logic
-private class ComparableByArea : Comparator<Size> {
-    override fun compare(o1: Size, o2: Size): Int {
-        return (o1.height * o1.width) - (o2.height * o2.width)
-    }
-}
-    */
-
-
-
-
-
     private lateinit var captureSession:CameraCaptureSession
     private lateinit var previewCaptureRequest:CaptureRequest
 
@@ -218,9 +183,6 @@ private class ComparableByArea : Comparator<Size> {
 
             Log.i("TAG","deviceCamera: ${deviceCamera}")
             Log.i("TAG","surfaceHolder.isCreating: ${surfaceHolder.isCreating}")
-
-//            if (deviceCamera == null || surfaceHolder.isCreating)
-//                return
 
             val previewSurface = surfaceHolder.surface
 
