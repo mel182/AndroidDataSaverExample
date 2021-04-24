@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.datasaverexampleapp.base_classes.BaseActivity
+import com.example.datasaverexampleapp.camera.picture_camera2_activity.PictureCameraActivity
 import com.example.datasaverexampleapp.type_alias.Layout
 import kotlinx.android.synthetic.main.activity_controlling_camera_example.*
 
@@ -127,9 +128,18 @@ class ControllingCameraExampleActivity : BaseActivity(Layout.activity_controllin
             adapter = CameraListAdapter(cameraInfoList){
                 CameraViewActivity.cameraId = it.id
                 CameraViewActivity.cameraManager = cameraManager
-                val cameraViewIntent = Intent(this@ControllingCameraExampleActivity,CameraViewActivity::class.java)
-                startActivity(cameraViewIntent)
+//                val cameraViewIntent = Intent(this@ControllingCameraExampleActivity,CameraViewActivity::class.java)
+//                startActivity(cameraViewIntent)
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    val intent = Intent(this@ControllingCameraExampleActivity, PictureCameraActivity::class.java)
+                    PictureCameraActivity.cameraId = it.id
+                    startActivity(intent)
+                } else {
+                    Toast.makeText(this@ControllingCameraExampleActivity,"Unsupported os!",Toast.LENGTH_SHORT).show()
+                }
             }
+
             layoutManager = LinearLayoutManager(this@ControllingCameraExampleActivity).apply {
                 val dividerItemDecoration =
                     DividerItemDecoration(context, orientation)

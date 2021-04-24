@@ -22,4 +22,11 @@
         android:layout_margin="10dp"
         android:text="Controlling camera example" />
 
+    <Button
+        android:id="@+id/controlling_camera2_example_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Controlling camera 2 example (Api 21+)" />
+
 </LinearLayout>
