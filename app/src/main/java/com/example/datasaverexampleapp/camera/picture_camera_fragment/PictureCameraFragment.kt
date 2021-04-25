@@ -3,12 +3,16 @@ package com.example.datasaverexampleapp.camera.picture_camera_fragment
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.*
 import android.hardware.camera2.*
 import android.media.ImageReader
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.util.Log
 import android.util.Size
 import android.view.Surface
@@ -26,6 +30,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.IOException
 import java.util.*
 import java.util.concurrent.Semaphore
 import java.util.concurrent.TimeUnit
@@ -37,7 +44,7 @@ import kotlin.collections.ArrayList
  * create an instance of this fragment.
  */
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-class PictureCameraFragment(private val cameraId: String) : BaseFragment(Layout.fragment_picture_camera), TextureView.SurfaceTextureListener, ImageReader.OnImageAvailableListener
+class PictureCameraFragment(private val cameraId: String, private val orientation:Int) : BaseFragment(Layout.fragment_picture_camera), TextureView.SurfaceTextureListener, ImageReader.OnImageAvailableListener
 {
     private val orientations = hashMapOf(
         ROTATION_0_INDEX to 90,
@@ -219,7 +226,36 @@ class PictureCameraFragment(private val cameraId: String) : BaseFragment(Layout.
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity?.let {
-            file = File(it.getExternalFilesDir(null), "pic.jpg")
+
+//            val newfile = File(
+//                Environment.getExternalStorageDirectory().toString() + "/specifyfoldername",
+//                "nestedfoldername"
+//            )
+
+//            val captureDirectory = File(it.filesDir,"CameraExample")
+//            val captureDirectory = File(Environment.getExternalStorageDirectory(),"CameraExample")
+//            Log.i("TAG","capture directory: ${file?.absolutePath}")
+//            if (!captureDirectory.isDirectory)
+//            {
+//                if (captureDirectory.mkdirs())
+//                {
+//                    Log.i("TAG", "capture directory created!")
+//                } else {
+//                    Log.i("TAG", "Failed creating capture directory!")
+//                }
+//            } else {
+//                Log.i("TAG", "capture directory already created!")
+//            }
+
+
+
+            val imageDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+            file = File(imageDirectory, "pic2.jpg")
+
+            preview_container?.setOnClickListener {
+                it.visibility = View.GONE
+            }
+
         }
     }
 
@@ -230,7 +266,7 @@ class PictureCameraFragment(private val cameraId: String) : BaseFragment(Layout.
 
             if (isAvailable)
             {
-                openCamera(width,height)
+                openCamera(width, height)
             } else {
                 surfaceTextureListener = this@PictureCameraFragment
             }
@@ -269,6 +305,12 @@ class PictureCameraFragment(private val cameraId: String) : BaseFragment(Layout.
                         }
 
                         cameraManager.openCamera(cameraId, cameraStateCallback, null)
+
+                        take_picture_button?.setOnClickListener {
+                            Toast.makeText(activity, "Take picture", Toast.LENGTH_SHORT).show()
+                            takePicture()
+                        }
+
                     }catch (e: CameraAccessException)
                     {
                         e.printStackTrace()
@@ -282,6 +324,11 @@ class PictureCameraFragment(private val cameraId: String) : BaseFragment(Layout.
                 }
             }
         }
+    }
+
+    private fun takePicture()
+    {
+        lockFocus()
     }
 
     private fun closeCamera()
@@ -486,7 +533,8 @@ class PictureCameraFragment(private val cameraId: String) : BaseFragment(Layout.
                 cameraDevice?.let {
 
                     // Here, we create a CameraCaptureSession for camera preview.
-                    it.createCaptureSession(Arrays.asList(surface, imageReader?.surface),
+                    it.createCaptureSession(
+                        Arrays.asList(surface, imageReader?.surface),
                         object : CameraCaptureSession.StateCallback() {
                             override fun onConfigured(@NonNull cameraCaptureSession: CameraCaptureSession) {
                                 // The camera is already closed
@@ -509,15 +557,15 @@ class PictureCameraFragment(private val cameraId: String) : BaseFragment(Layout.
                                     previewRequest = previewRequestBuilder?.build()
                                     captureSession?.setRepeatingRequest(
                                         previewRequest!!,
-                                        captureCallback, null)
+                                        captureCallback, null
+                                    )
 
                                 } catch (e: CameraAccessException) {
                                     e.printStackTrace()
                                 }
                             }
 
-                            override fun onConfigureFailed(@NonNull cameraCaptureSession: CameraCaptureSession)
-                            {
+                            override fun onConfigureFailed(@NonNull cameraCaptureSession: CameraCaptureSession) {
                                 showToast("Failed")
                             }
                         }, null
@@ -534,12 +582,15 @@ class PictureCameraFragment(private val cameraId: String) : BaseFragment(Layout.
     {
         try {
             // This is how to tell the camera to lock focus.
-            previewRequestBuilder?.set(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_START)
+            previewRequestBuilder?.set(
+                CaptureRequest.CONTROL_AF_TRIGGER,
+                CameraMetadata.CONTROL_AF_TRIGGER_START
+            )
             state = STATE_WAITING_LOCK
             previewRequestBuilder?.let {
-                captureSession?.capture(it.build(), captureCallback,null)
+                captureSession?.capture(it.build(), captureCallback, null)
             }
-        } catch (e : CameraAccessException)
+        } catch (e: CameraAccessException)
         {
             e.printStackTrace()
         }
@@ -549,14 +600,17 @@ class PictureCameraFragment(private val cameraId: String) : BaseFragment(Layout.
     {
         try {
             // This is how to tell the camera to trigger.
-            previewRequestBuilder?.set(CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER, CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START)
+            previewRequestBuilder?.set(
+                CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER,
+                CaptureRequest.CONTROL_AE_PRECAPTURE_TRIGGER_START
+            )
 
             state = STATE_WAITING_PRECAPTURE
 
             previewRequestBuilder?.let {
-                captureSession?.capture(it.build(), captureCallback,null)
+                captureSession?.capture(it.build(), captureCallback, null)
             }
-        } catch (e : CameraAccessException)
+        } catch (e: CameraAccessException)
         {
             e.printStackTrace()
         }
@@ -574,12 +628,18 @@ class PictureCameraFragment(private val cameraId: String) : BaseFragment(Layout.
             captureBuilder.addTarget(imageReader!!.surface)
 
             // Use the same AE and AF modes as the preview.
-            captureBuilder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE)
+            captureBuilder.set(
+                CaptureRequest.CONTROL_AF_MODE,
+                CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE
+            )
             setAutoFlash(captureBuilder)
 
             // Orientation
             activity?.windowManager?.defaultDisplay?.rotation?.let { orientation ->
-                captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, getSensorOrientation(orientation))
+                captureBuilder.set(
+                    CaptureRequest.JPEG_ORIENTATION,
+                    getSensorOrientation(orientation)
+                )
             }
 
             val callback = object: CameraCaptureSession.CaptureCallback() {
@@ -590,7 +650,44 @@ class PictureCameraFragment(private val cameraId: String) : BaseFragment(Layout.
                     result: TotalCaptureResult
                 ) {
                     showToast("Saved: ${file}")
-                    Log.i("TAG","Saved: ${file}")
+                    Log.i("TAG", "Saved: ${file}")
+
+//                    file?.let {
+//
+//                        val intent = Intent().apply {
+//                            action = Intent.ACTION_VIEW
+//                            setDataAndType(Uri.parse(it.absolutePath),"image/*")
+//                        }
+//                        activity?.startActivity(intent)
+//                    }
+
+
+
+
+//                    try {
+//
+//                        file?.let {
+//
+//                            if (it.createNewFile())
+//                            {
+//                                Log.i("TAG","File created!")
+//                            } else {
+//                                Log.i("TAG","Failed creating file!")
+//                            }
+//                        }
+//
+//                    }catch (e:IOException)
+//                    {
+//                        Log.i("TAG","Save io exception: ${e.message}")
+//                    }
+
+//                    val fileUri = Uri.fromFile(file)
+//                    val bitmap = MediaStore.Images.Media.getBitmap(activity?.contentResolver,fileUri)
+//
+//                    FileOutputStream(file)?.use {
+//
+//                    }
+
                     unlockFocus()
                 }
             }
@@ -598,10 +695,10 @@ class PictureCameraFragment(private val cameraId: String) : BaseFragment(Layout.
             captureSession?.apply {
                 stopRepeating()
                 abortCaptures()
-                capture(captureBuilder.build(), callback,null)
+                capture(captureBuilder.build(), callback, null)
             }
 
-        } catch (e : CameraAccessException)
+        } catch (e: CameraAccessException)
         {
             e.printStackTrace()
         }
@@ -620,25 +717,31 @@ class PictureCameraFragment(private val cameraId: String) : BaseFragment(Layout.
         try {
 
             // Reset the auto-focus trigger
-            previewRequestBuilder?.set(CaptureRequest.CONTROL_AF_TRIGGER, CameraMetadata.CONTROL_AF_TRIGGER_CANCEL)
+            previewRequestBuilder?.set(
+                CaptureRequest.CONTROL_AF_TRIGGER,
+                CameraMetadata.CONTROL_AF_TRIGGER_CANCEL
+            )
             setAutoFlash(previewRequestBuilder)
             previewRequestBuilder?.let {
-                captureSession?.capture(it.build(), captureCallback,null)
+                captureSession?.capture(it.build(), captureCallback, null)
             }
             state = STATE_PREVIEW
             previewRequest?.let {
                 captureSession?.setRepeatingRequest(it, captureCallback, null)
             }
-        } catch (e : CameraAccessException)
+        } catch (e: CameraAccessException)
         {
             e.printStackTrace()
         }
     }
 
-    private fun setAutoFlash(requestBuilder : CaptureRequest.Builder?)
+    private fun setAutoFlash(requestBuilder: CaptureRequest.Builder?)
     {
         if (flashSupported)
-            requestBuilder?.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH)
+            requestBuilder?.set(
+                CaptureRequest.CONTROL_AE_MODE,
+                CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH
+            )
     }
 
     override fun onSurfaceTextureAvailable(p0: SurfaceTexture, width: Int, height: Int) {
@@ -658,12 +761,131 @@ class PictureCameraFragment(private val cameraId: String) : BaseFragment(Layout.
     // On image reader listener
     override fun onImageAvailable(p0: ImageReader?) {
 
-        CoroutineScope(Dispatchers.IO).launch {
-            // mBackgroundHandler.post(new ImageSaver(reader.acquireNextImage(), mFile));
+        p0?.let { reader ->
+
+            reader.acquireNextImage().use {
+
+                val planes = it.planes
+                if (planes.isNotEmpty())
+                {
+                    val buffer = planes[0].buffer
+                    val data = ByteArray(buffer.remaining())
+                    buffer.get(data)
+
+                    var bitmap = BitmapFactory.decodeByteArray(data,0,data.size)
+                    Log.i("TAG","Bitmap: ${bitmap}")
+
+                    if (bitmap != null)
+                    {
+                        preview_container?.visibility = View.VISIBLE
+                        sample_preview?.setImageBitmap(rotateImage(bitmap))
+
+                        bitmap = rotateImage(bitmap)
+                    }
+
+                    val path  = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+                    val file = File(path,"test_capture2.JPG")
+
+                    try {
+                        val fileOutputStream = FileOutputStream(file)
+                        fileOutputStream?.use {
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
+                            Log.i("TAG","Bitmap saved to gallery!")
+                        }
+
+                        activity?.apply {
+                            sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE))
+                            Uri.parse("file://test_capture2.JPG")
+                        }
+                        Log.i("TAG","Image file saved and notified!")
+
+                    } catch (e :IOException)
+                    {
+                        Log.i("TAG","Failed creating new file, reason: ${e.message}")
+                    }
+
+
+
+
+                    // ------------
+
+
+
+//                    var outstream : FileOutputStream? = null
+
+//                    try {
+//
+//                        val file = File(requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES),"test.jpg")
+//                        FileOutputStream(file).apply {
+//                            write(data)
+//                            close()
+//                        }
+//                    }catch (e:FileNotFoundException)
+//                    {
+//                        Log.i("TAG","file not found exception: ${e.message}")
+//                    }catch (e:IOException)
+//                    {
+//                        Log.i("TAG","IO exception: ${e.message}")
+//                    }
+
+
+                    // -------------
+
+
+                }
+            }
         }
+//
+//
+//            val image = reader.acquireLatestImage()
+//            val buffer = image.planes[0].buffer
+//            val bytes = ByteArray(buffer.remaining())
+//            buffer.get(bytes)
+//            val output:OutputStream? = null
+//
+//
+//            try {
+//
+//                output = activity?.contentResolver?.openOutputStream(file?.absoluteFile)
+//
+//            } catch (e:IOException)
+//            {
+//                e.printStackTrace()
+//            }finally {
+//
+//            }
+//
+//
+//
+//
+//        }
+
+
+        Log.i("TAG", "onImageAvailable with image reader: ${p0}")
+
+//        CoroutineScope(Dispatchers.IO).launch {
+//            // mBackgroundHandler.post(new ImageSaver(reader.acquireNextImage(), mFile));
+//        }
     }
 
-    // Camera state
 
+    private fun rotateImage(source:Bitmap) : Bitmap
+    {
+        val cameraManager = activity?.getSystemService(Context.CAMERA_SERVICE) as CameraManager
 
+        val matrix = Matrix()
+
+        cameraManager?.let {
+
+            val lensFacing = it.getCameraCharacteristics(cameraId).get(CameraCharacteristics.LENS_FACING)
+
+            if (lensFacing == CameraCharacteristics.LENS_FACING_FRONT)
+            {
+                matrix.preScale(-1.0f,1.0f)
+            }
+        }
+
+        matrix.postRotate(90f)
+        return Bitmap.createBitmap(source,0,0,source.width,source.height,matrix,true)
+    }
 }

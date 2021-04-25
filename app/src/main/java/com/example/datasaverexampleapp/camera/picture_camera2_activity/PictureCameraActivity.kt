@@ -17,12 +17,13 @@ class PictureCameraActivity : BaseActivity(Layout.activity_picture_camera)
 {
     companion object {
         var cameraId: Int? = null
+        var orientation: Int? = null
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (cameraId == null)
+        if (cameraId == null || orientation == null)
         {
             finish()
             return
@@ -38,7 +39,8 @@ class PictureCameraActivity : BaseActivity(Layout.activity_picture_camera)
                     {
                         container?.let { containerId ->
                             supportFragmentManager?.beginTransaction()
-                                .replace(containerId.id, PictureCameraFragment(cameraId.toString()))
+                                .replace(containerId.id, PictureCameraFragment(cameraId.toString(),
+                                    orientation!!))
                                 .commit()
                         }
                     } else {
@@ -54,6 +56,7 @@ class PictureCameraActivity : BaseActivity(Layout.activity_picture_camera)
 
     override fun onDestroy() {
         cameraId = null
+        orientation = null
         super.onDestroy()
     }
 }

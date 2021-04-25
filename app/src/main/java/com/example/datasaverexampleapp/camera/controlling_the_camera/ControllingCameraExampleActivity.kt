@@ -134,6 +134,7 @@ class ControllingCameraExampleActivity : BaseActivity(Layout.activity_controllin
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     val intent = Intent(this@ControllingCameraExampleActivity, PictureCameraActivity::class.java)
                     PictureCameraActivity.cameraId = it.id
+                    PictureCameraActivity.orientation = it.orientation
                     startActivity(intent)
                 } else {
                     Toast.makeText(this@ControllingCameraExampleActivity,"Unsupported os!",Toast.LENGTH_SHORT).show()
