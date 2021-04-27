@@ -12,7 +12,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
-import android.provider.MediaStore
 import android.util.Log
 import android.util.Size
 import android.view.Surface
@@ -30,7 +29,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
-import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
 import java.util.*
@@ -44,7 +42,7 @@ import kotlin.collections.ArrayList
  * create an instance of this fragment.
  */
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-class PictureCameraFragment(private val cameraId: String, private val orientation:Int) : BaseFragment(Layout.fragment_picture_camera), TextureView.SurfaceTextureListener, ImageReader.OnImageAvailableListener
+class PictureCameraFragment(private val cameraId: String) : BaseFragment(Layout.fragment_picture_camera), TextureView.SurfaceTextureListener, ImageReader.OnImageAvailableListener
 {
     private val orientations = hashMapOf(
         ROTATION_0_INDEX to 90,
@@ -68,20 +66,22 @@ class PictureCameraFragment(private val cameraId: String, private val orientatio
     private var sensorOrientation : Int = 0
 
     private val cameraStateCallback = object : CameraDevice.StateCallback() {
-        override fun onOpened(p0: CameraDevice) {
 
-             // This method is called when the camera is opened.  We start camera preview here.
+        // This method is called when the camera is opened.  We start camera preview here.
+        override fun onOpened(p0: CameraDevice) {
             cameraOpenCloseLock.release()
             cameraDevice = p0
             createCameraPreviewSession()
         }
 
+        // The method called when a camera device is no longer available for use.
         override fun onDisconnected(p0: CameraDevice) {
             cameraOpenCloseLock.release();
             cameraDevice?.close();
             cameraDevice = null;
         }
 
+        // The method called when a camera device has encountered a serious error.
         override fun onError(p0: CameraDevice, p1: Int) {
             cameraOpenCloseLock.release();
             cameraDevice?.close();
@@ -92,21 +92,17 @@ class PictureCameraFragment(private val cameraId: String, private val orientatio
 
     private val captureCallback = object : CameraCaptureSession.CaptureCallback(){
 
-        override fun onCaptureProgressed(
-            session: CameraCaptureSession,
-            request: CaptureRequest,
-            partialResult: CaptureResult
-        )
+        // This method is called when an image capture makes partial forward progress; some
+        // (but not all) results from an image capture are available.
+        override fun onCaptureProgressed(session: CameraCaptureSession, request: CaptureRequest, partialResult: CaptureResult)
         {
-            process(partialResult);
+            process(partialResult)
         }
 
-        override fun onCaptureCompleted(
-            session: CameraCaptureSession,
-            request: CaptureRequest,
-            result: TotalCaptureResult
-        ) {
-            process(result);
+        // This method is called when an image capture has fully completed and all the result metadata is available.
+        override fun onCaptureCompleted(session: CameraCaptureSession, request: CaptureRequest, result: TotalCaptureResult)
+        {
+            process(result)
         }
     }
 
@@ -222,40 +218,20 @@ class PictureCameraFragment(private val cameraId: String, private val orientatio
         }
     }
 
+    private var captureBitmap : Bitmap? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity?.let {
 
-//            val newfile = File(
-//                Environment.getExternalStorageDirectory().toString() + "/specifyfoldername",
-//                "nestedfoldername"
-//            )
-
-//            val captureDirectory = File(it.filesDir,"CameraExample")
-//            val captureDirectory = File(Environment.getExternalStorageDirectory(),"CameraExample")
-//            Log.i("TAG","capture directory: ${file?.absolutePath}")
-//            if (!captureDirectory.isDirectory)
-//            {
-//                if (captureDirectory.mkdirs())
-//                {
-//                    Log.i("TAG", "capture directory created!")
-//                } else {
-//                    Log.i("TAG", "Failed creating capture directory!")
-//                }
-//            } else {
-//                Log.i("TAG", "capture directory already created!")
-//            }
-
-
-
-            val imageDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-            file = File(imageDirectory, "pic2.jpg")
-
-            preview_container?.setOnClickListener {
-                it.visibility = View.GONE
+            accept_button?.setOnClickListener {
+                saveImage()
+                resetCaptureState()
             }
 
+            close_button?.setOnClickListener {
+                resetCaptureState()
+            }
         }
     }
 
@@ -307,7 +283,7 @@ class PictureCameraFragment(private val cameraId: String, private val orientatio
                         cameraManager.openCamera(cameraId, cameraStateCallback, null)
 
                         take_picture_button?.setOnClickListener {
-                            Toast.makeText(activity, "Take picture", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(activity, "Processing.... please wait!", Toast.LENGTH_SHORT).show()
                             takePicture()
                         }
 
@@ -324,6 +300,41 @@ class PictureCameraFragment(private val cameraId: String, private val orientatio
                 }
             }
         }
+    }
+
+    private fun saveImage()
+    {
+        captureBitmap?.let { bitmap ->
+
+            // Save to picture directory
+            val path  = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+            val filename = "${System.currentTimeMillis()}.JPG" // File name: 'current_milli'.JPG
+            val file = File(path,filename)
+
+            try {
+                val fileOutputStream = FileOutputStream(file)
+                fileOutputStream?.use { outputStream ->
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+                }
+
+                activity?.apply {
+                    sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE))
+                    Uri.parse("file://${filename}")
+                }
+
+                showToast("Image saved in Picture folder")
+            } catch (e :IOException)
+            {
+                Log.i("TAG","Failed creating new file, reason: ${e.message}")
+            }
+        }
+    }
+
+    private fun resetCaptureState()
+    {
+        preview_container?.visibility = View.GONE
+        sample_preview?.setImageDrawable(null)
+        captureBitmap = null
     }
 
     private fun takePicture()
@@ -536,12 +547,8 @@ class PictureCameraFragment(private val cameraId: String, private val orientatio
                     it.createCaptureSession(
                         Arrays.asList(surface, imageReader?.surface),
                         object : CameraCaptureSession.StateCallback() {
-                            override fun onConfigured(@NonNull cameraCaptureSession: CameraCaptureSession) {
-                                // The camera is already closed
-//                                if (null == mCameraDevice) {
-//                                    return
-//                                }
-
+                            override fun onConfigured(@NonNull cameraCaptureSession: CameraCaptureSession)
+                            {
                                 // When the session is ready, we start displaying the preview.
                                 captureSession = cameraCaptureSession
                                 try {
@@ -642,52 +649,12 @@ class PictureCameraFragment(private val cameraId: String, private val orientatio
                 )
             }
 
+            // A callback object for tracking the progress of a CaptureRequest submitted to the camera device.
             val callback = object: CameraCaptureSession.CaptureCallback() {
 
-                override fun onCaptureCompleted(
-                    session: CameraCaptureSession,
-                    request: CaptureRequest,
-                    result: TotalCaptureResult
-                ) {
-                    showToast("Saved: ${file}")
-                    Log.i("TAG", "Saved: ${file}")
-
-//                    file?.let {
-//
-//                        val intent = Intent().apply {
-//                            action = Intent.ACTION_VIEW
-//                            setDataAndType(Uri.parse(it.absolutePath),"image/*")
-//                        }
-//                        activity?.startActivity(intent)
-//                    }
-
-
-
-
-//                    try {
-//
-//                        file?.let {
-//
-//                            if (it.createNewFile())
-//                            {
-//                                Log.i("TAG","File created!")
-//                            } else {
-//                                Log.i("TAG","Failed creating file!")
-//                            }
-//                        }
-//
-//                    }catch (e:IOException)
-//                    {
-//                        Log.i("TAG","Save io exception: ${e.message}")
-//                    }
-
-//                    val fileUri = Uri.fromFile(file)
-//                    val bitmap = MediaStore.Images.Media.getBitmap(activity?.contentResolver,fileUri)
-//
-//                    FileOutputStream(file)?.use {
-//
-//                    }
-
+                // This method is called when an image capture has fully completed and all
+                // the result metadata is available.
+                override fun onCaptureCompleted(session: CameraCaptureSession, request: CaptureRequest, result: TotalCaptureResult) {
                     unlockFocus()
                 }
             }
@@ -704,6 +671,7 @@ class PictureCameraFragment(private val cameraId: String, private val orientatio
         }
     }
 
+    // Get current sensor orientation
     private fun getSensorOrientation(rotation: Int) : Int
     {
         // Sensor orientation is 90 for most devices, or 270 for some devices (eg. Nexus 5X)
@@ -759,11 +727,15 @@ class PictureCameraFragment(private val cameraId: String, private val orientatio
     override fun onSurfaceTextureUpdated(p0: SurfaceTexture) { }
 
     // On image reader listener
-    override fun onImageAvailable(p0: ImageReader?) {
+    // The onImageAvailable is called per image basis, that is, callback
+    // fires for every new frame available from ImageReader
+    override fun onImageAvailable(imageReader: ImageReader?) {
 
-        p0?.let { reader ->
+        imageReader?.let { reader ->
 
-            reader.acquireNextImage().use {
+            // Acquire the latest Image from the ImageReader's queue, dropping
+            // older images. Returns null if no new image is available.
+            reader.acquireLatestImage().use {
 
                 val planes = it.planes
                 if (planes.isNotEmpty())
@@ -772,103 +744,23 @@ class PictureCameraFragment(private val cameraId: String, private val orientatio
                     val data = ByteArray(buffer.remaining())
                     buffer.get(data)
 
-                    var bitmap = BitmapFactory.decodeByteArray(data,0,data.size)
-                    Log.i("TAG","Bitmap: ${bitmap}")
+                    captureBitmap = BitmapFactory.decodeByteArray(data,0,data.size)
 
-                    if (bitmap != null)
-                    {
+                    captureBitmap?.let { bitmap ->
+                        captureBitmap = rotateImage(bitmap)
                         preview_container?.visibility = View.VISIBLE
-                        sample_preview?.setImageBitmap(rotateImage(bitmap))
-
-                        bitmap = rotateImage(bitmap)
+                        sample_preview?.setImageBitmap(captureBitmap!!)
+                    }?: kotlin.run {
+                        showToast("Failed processing image")
                     }
-
-                    val path  = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-                    val file = File(path,"test_capture2.JPG")
-
-                    try {
-                        val fileOutputStream = FileOutputStream(file)
-                        fileOutputStream?.use {
-                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
-                            Log.i("TAG","Bitmap saved to gallery!")
-                        }
-
-                        activity?.apply {
-                            sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE))
-                            Uri.parse("file://test_capture2.JPG")
-                        }
-                        Log.i("TAG","Image file saved and notified!")
-
-                    } catch (e :IOException)
-                    {
-                        Log.i("TAG","Failed creating new file, reason: ${e.message}")
-                    }
-
-
-
-
-                    // ------------
-
-
-
-//                    var outstream : FileOutputStream? = null
-
-//                    try {
-//
-//                        val file = File(requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES),"test.jpg")
-//                        FileOutputStream(file).apply {
-//                            write(data)
-//                            close()
-//                        }
-//                    }catch (e:FileNotFoundException)
-//                    {
-//                        Log.i("TAG","file not found exception: ${e.message}")
-//                    }catch (e:IOException)
-//                    {
-//                        Log.i("TAG","IO exception: ${e.message}")
-//                    }
-
-
-                    // -------------
-
-
                 }
             }
         }
-//
-//
-//            val image = reader.acquireLatestImage()
-//            val buffer = image.planes[0].buffer
-//            val bytes = ByteArray(buffer.remaining())
-//            buffer.get(bytes)
-//            val output:OutputStream? = null
-//
-//
-//            try {
-//
-//                output = activity?.contentResolver?.openOutputStream(file?.absoluteFile)
-//
-//            } catch (e:IOException)
-//            {
-//                e.printStackTrace()
-//            }finally {
-//
-//            }
-//
-//
-//
-//
-//        }
-
-
-        Log.i("TAG", "onImageAvailable with image reader: ${p0}")
-
-//        CoroutineScope(Dispatchers.IO).launch {
-//            // mBackgroundHandler.post(new ImageSaver(reader.acquireNextImage(), mFile));
-//        }
     }
 
 
+    // Rotate image to the corresponding screen orientation.
+    // This is because on most device the image appear in landscape mode even if it was taken in portrait mode.
     private fun rotateImage(source:Bitmap) : Bitmap
     {
         val cameraManager = activity?.getSystemService(Context.CAMERA_SERVICE) as CameraManager
@@ -881,6 +773,7 @@ class PictureCameraFragment(private val cameraId: String, private val orientatio
 
             if (lensFacing == CameraCharacteristics.LENS_FACING_FRONT)
             {
+                // Prevent front facing camera from flipping the image
                 matrix.preScale(-1.0f,1.0f)
             }
         }

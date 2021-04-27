@@ -128,8 +128,6 @@ class ControllingCameraExampleActivity : BaseActivity(Layout.activity_controllin
             adapter = CameraListAdapter(cameraInfoList){
                 CameraViewActivity.cameraId = it.id
                 CameraViewActivity.cameraManager = cameraManager
-//                val cameraViewIntent = Intent(this@ControllingCameraExampleActivity,CameraViewActivity::class.java)
-//                startActivity(cameraViewIntent)
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     val intent = Intent(this@ControllingCameraExampleActivity, PictureCameraActivity::class.java)
