@@ -4,21 +4,41 @@ package com.example.datasaverexampleapp.camera.video_recording
 import android.content.Intent
 import android.media.AudioManager
 import android.media.MediaPlayer
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.SurfaceHolder
-import android.view.View
-import android.widget.MediaController
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import com.example.datasaverexampleapp.R
 import kotlinx.android.synthetic.main.activity_media_player_video_playback.*
-import kotlinx.android.synthetic.main.activity_media_player_video_playback.surface_view
 import kotlinx.android.synthetic.main.activity_video_recording_example.*
 import kotlinx.android.synthetic.main.activity_video_recording_with_media_player_example.*
 import java.io.IOException
 
+/*
+ * This is an example of intent to record video. It is the easiest and best practice way to initiate the video recording
+ * by using the MediaStore.ACTION_VIDEO_CAPTURE action intent. In this example the media player will be used for
+ * video playback.
+ *
+ * Starting this intent will launches a new activity with a video recorder app that's is capable of allowing
+ * users to start, stop, review and retake their video. When they're satisfied, a URI to the recorded video is provided to
+ * your activity as the data parameter of the returned Intent.
+ *
+ * A video capture action Intent can contain the following three optional extras:
+ * - MediaStore.EXTRA_OUTPUT         - By default, the video recorded by the video capture action will
+ *                                     be stored in the default Media Store. If you want to record it elsewhere,
+ *                                     you can specify an alternative URI using this extra.
+ *
+ * - MediaStore.EXTRA_VIDEO_QUALITY - The video capture action allows you to specify an image quality using an
+ *                                    integer value. There are currently two possible values: 0 for low (MMS) quality
+ *                                    videos, or 1 for high (full resolution) videos. By default, the high-resolution
+ *                                    mode is used.
+ *
+ * - MediaStore.EXTRA_DURATION_LIMIT - The maximum length of the recorded video (in seconds).
+ *
+ * Note: This is a better example that can be used in production since it works in most devices.
+ */
 class VideoRecordingWithMediaPlayerExampleActivity : AppCompatActivity(R.layout.activity_video_recording_with_media_player_example),
     SurfaceHolder.Callback, MediaPlayer.OnPreparedListener  {
 
@@ -36,8 +56,7 @@ class VideoRecordingWithMediaPlayerExampleActivity : AppCompatActivity(R.layout.
         // volume by uninstalling it.
         volumeControlStream = AudioManager.STREAM_MUSIC
 
-        //video_recording_surface_view
-
+        // surface view that will be used for the video playback.
         video_recording_surface_view?.apply {
             keepScreenOn = true
             holder?.apply {
@@ -45,7 +64,6 @@ class VideoRecordingWithMediaPlayerExampleActivity : AppCompatActivity(R.layout.
                 setFixedSize(400,300)
             }
         }
-
 
         val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
 
@@ -64,30 +82,7 @@ class VideoRecordingWithMediaPlayerExampleActivity : AppCompatActivity(R.layout.
             val launchRecording = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
             resultLauncher.launch(launchRecording)
         }
-
-
     }
-
-    /*
-    mediaplayer = MediaPlayer.create(this, R.raw.sample_video).apply {
-            setOnPreparedListener(this@MediaPlayerVideoPlaybackActivity)
-        }
-        buttonPlay?.isEnabled = true
-
-        surface_view?.apply {
-            keepScreenOn = true
-            holder?.apply {
-                addCallback(this@MediaPlayerVideoPlaybackActivity)
-                setFixedSize(400,300)
-            }
-        }
-
-        buttonPlay?.setOnClickListener {
-            mediaplayer.start()
-            buttonPlay?.isEnabled = false
-            buttonPause?.isEnabled = true
-        }
-    */
 
     override fun surfaceCreated(p0: SurfaceHolder) {
         try {

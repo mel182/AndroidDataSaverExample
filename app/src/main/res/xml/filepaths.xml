@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <paths>
-<files-path name="my_images" path="images"/>
+<external-files-path name="my_images" path="images"/>
 <cache-path name="internal_image_cache" path="imagecache/"/>
 <external-files-path name="external_audio" path="audio/"/>
 <external-cache-path name="external_image_cache" path="imagecache/"/>
