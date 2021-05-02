@@ -29,5 +29,12 @@ class CameraExamplesActivity : AppCompatActivity() {
             val intent = Intent(this, VideoRecordingExampleActivity::class.java)
             startActivity(intent)
         }
+
+        video_recording_with_media_player_example_button?.setOnClickListener {
+            val intent = Intent(this, VideoRecordingExampleActivity::class.java)
+            startActivity(intent)
+        }
+
+        //video_recording_with_media_player_example_button
     }
 }
