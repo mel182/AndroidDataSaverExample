@@ -35,9 +35,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".camera.picture_camera2_activity.PictureCameraActivity"
-            android:screenOrientation="portrait"
-            android:configChanges="orientation|keyboardHidden"/>
+        <activity android:name=".camera.video_recording.VideoRecordingExampleActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".camera.picture_camera2_activity.PictureCameraActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
         <activity android:name=".camera.controlling_the_camera.CameraViewActivity" />
         <activity android:name=".camera.controlling_the_camera.ControllingCameraExampleActivity" />
         <activity android:name=".camera.image_capture_intent.ImageCaptureIntentExampleActivity" />
