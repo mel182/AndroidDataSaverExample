@@ -19,6 +19,7 @@
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <permission android:name="com.example.datasaverexampleapp.provider.ACCESS_PERMISSION" />
 
@@ -35,6 +36,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
+
         <activity android:name=".camera.video_recording.VideoRecordingWithMediaPlayerExampleActivity"/>
         <activity
             android:name=".camera.video_recording.VideoRecordingExampleActivity"
@@ -242,6 +244,7 @@
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
         </receiver>
+
     </application>
 
 </manifest>
