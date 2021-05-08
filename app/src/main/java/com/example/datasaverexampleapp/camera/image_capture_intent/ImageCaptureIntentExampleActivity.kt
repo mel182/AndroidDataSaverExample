@@ -1,7 +1,7 @@
 package com.example.datasaverexampleapp.camera.image_capture_intent
 
+import android.content.DialogInterface
 import android.content.Intent
-import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
@@ -18,7 +18,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import com.example.datasaverexampleapp.BuildConfig
 import com.example.datasaverexampleapp.R
+import com.example.datasaverexampleapp.dialog.AppCompatDialogFragmentExample
 import kotlinx.android.synthetic.main.activity_image_capture_intent_example.*
+import kotlinx.android.synthetic.main.activity_notification.*
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -40,9 +42,9 @@ import java.util.*
 class ImageCaptureIntentExampleActivity : AppCompatActivity() {
 
     private val THUMBNAIL_DATA_KEY = "data"
-    private var outputFile : Uri? = null
+    private var outputFile: Uri? = null
 
-    private var outputFilePath:String? = null
+    private var outputFilePath: String? = null
     private var resultLauncher: ActivityResultLauncher<Intent>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,276 +52,187 @@ class ImageCaptureIntentExampleActivity : AppCompatActivity() {
         setContentView(R.layout.activity_image_capture_intent_example)
         title = "Camera Intent Example"
 
-        resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        resultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
 
-            // Once the user is satisfied with the image, the result is returned to your application
-            // within the Intent received.
-            //
-            // By default, the picture taken will be returned as a thumbnail, available as a raw bitmap
-            // within the 'data' extra within the returned Intent.
-            //
-            // To obtain a full image, you must specify a target URI.
-            // NOTE: On most device obtain full-size image does not work accordingly
-            //
-            result.data?.let {
+                // Once the user is satisfied with the image, the result is returned to your application
+                // within the Intent received.
+                //
+                // By default, the picture taken will be returned as a thumbnail, available as a raw bitmap
+                // within the 'data' extra within the returned Intent.
+                //
+                // To obtain a full image, you must specify a target URI.
+                // NOTE: On most device obtain full-size image does not work accordingly
+                //
+                result.data?.let {
 
-                if (it.hasExtra(THUMBNAIL_DATA_KEY))
-                {
-                    // Contains thumbnail images
-                    it.getParcelableExtra<Bitmap>(THUMBNAIL_DATA_KEY)?.apply {
+                    if (it.hasExtra(THUMBNAIL_DATA_KEY)) {
+                        // Contains thumbnail images
+                        it.getParcelableExtra<Bitmap>(THUMBNAIL_DATA_KEY)?.apply {
 
-                        picture_result_imageView?.setImageBitmap(this)
-                        image_view_title?.text = "Picture taken"
-                        take_picture_button?.apply {
-                            text = "Take another picture"
-                            isEnabled = true
-                        }
+                            picture_result_imageView?.setImageBitmap(this)
+                            image_view_title?.text = "Picture taken"
+                            take_picture_button?.isEnabled = true
 
-                        // Save image based on the outfile uri provided
-                        try {
+                            // Save image based on the outfile uri provided
+                            try {
 
-                            outputFile?.let { uri ->
+                                outputFile?.let { uri ->
 
-                                uri.path?.let { path ->
-                                    val outputStream = FileOutputStream(File(path))
-                                    compress(Bitmap.CompressFormat.PNG, 90, outputStream)
-                                    outputStream.flush()
-                                    outputStream.close()
-                                    Toast.makeText(
-                                        this@ImageCaptureIntentExampleActivity,
-                                        "Image stored",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
+                                    uri.path?.let { path ->
+                                        val outputStream = FileOutputStream(File(path))
+                                        compress(Bitmap.CompressFormat.PNG, 90, outputStream)
+                                        outputStream.flush()
+                                        outputStream.close()
+                                        Toast.makeText(
+                                            this@ImageCaptureIntentExampleActivity,
+                                            "Image stored",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
                                 }
+
+                            } catch (e: Exception) {
+                                e.printStackTrace()
                             }
-
-                        }catch (e: Exception)
-                        {
-                            e.printStackTrace()
+                        } ?: kotlin.run {
+                            image_view_title?.text = "Failed parsing image"
+                            take_picture_button?.isEnabled = true
                         }
-                    }?: kotlin.run {
+
+                    } else {
+
+                        // If there is no thumbnail image data, the image
+                        // will have been stored in the target output URI.
+
                         image_view_title?.text = "Failed parsing image"
-                        take_picture_button?.apply {
-                            text = "Take picture"
-                            isEnabled = true
-                        }
+                        take_picture_button?.isEnabled = true
                     }
-
-                } else {
+                } ?: kotlin.run {
 
                     // If there is no thumbnail image data, the image
                     // will have been stored in the target output URI.
 
-                    image_view_title?.text = "Failed parsing image"
-                    take_picture_button?.apply {
-                        text = "Take picture"
-                        isEnabled = true
-                    }
-                }
-            }?: kotlin.run {
+                    outputFilePath?.let { path ->
 
-                // If there is no thumbnail image data, the image
-                // will have been stored in the target output URI.
+                        val exif = ExifInterface(path)
 
-                outputFilePath?.let { path ->
-
-
-                    val exif = ExifInterface(path)
-
-                    val orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
+                        val orientation = exif.getAttributeInt(
+                            ExifInterface.TAG_ORIENTATION,
+                            ExifInterface.ORIENTATION_NORMAL
+                        )
 //                    val bitmapOrientation = exifInDegrees(orientation)
 //
-//
 //                    Log.i("TAG","Bitmap orientation: ${ exifInDegrees(orientation)}")
-//                    Log.i("TAG","Display orientation: ${ resources.configuration.orientation}")
-
-
+//                    Log.i("TAG","Display orientation: ${ resources.configuration.orientation}"
 //                    val width = 400
 //                    val height = 300
 
-                    val bitmapOptions = BitmapFactory.Options().apply {
+                        val bitmapOptions = BitmapFactory.Options().apply {
 
-                        inJustDecodeBounds = true
-                        BitmapFactory.decodeFile(path, this)
+                            inJustDecodeBounds = true
+                            BitmapFactory.decodeFile(path, this)
 
-                        val width : Int = outWidth
-                        val height : Int = outHeight
+                            val width: Int = outWidth
+                            val height: Int = outHeight
 
-                        // Determine how much to scale down the image
+                            // Determine how much to scale down the image
 //                        val scaleFactor : Int = Math.max(1, Math.min(width/500, height/500))
 
-                        // Decode the image file into a Bitmap sized to fill the View
-                        inJustDecodeBounds = false
+                            // Decode the image file into a Bitmap sized to fill the View
+                            inJustDecodeBounds = false
 //                        inSampleSize = scaleFactor
-                    }
-
-                    BitmapFactory.decodeFile(path, bitmapOptions)?.also { bitmap ->
-
-
-                        val modifiedBitmap = when (orientation){
-
-                            ExifInterface.ORIENTATION_ROTATE_90 -> rotate(bitmap,90F)
-                            ExifInterface.ORIENTATION_ROTATE_180 -> rotate(bitmap,180F)
-                            ExifInterface.ORIENTATION_ROTATE_270 -> rotate(bitmap,270F)
-                            ExifInterface.ORIENTATION_FLIP_HORIZONTAL -> flip(bitmap,true,false)
-                            ExifInterface.ORIENTATION_FLIP_VERTICAL -> flip(bitmap,false,true)
-                            else -> bitmap
                         }
 
-                        picture_result_imageView?.setImageBitmap(modifiedBitmap)
-                    }
-//
-//                    val factoryOptions = BitmapFactory.Options()
-//                    factoryOptions.inJustDecodeBounds = true
-//                    BitmapFactory.decodeFile(path,factoryOptions)
-//
-//                    val scaleFactor = Math.min(factoryOptions.outWidth/width, factoryOptions.outHeight/height)
-//
-//                    factoryOptions.inJustDecodeBounds = false
-//                    factoryOptions.inSampleSize = scaleFactor
-//
-//                    val bitmap = BitmapFactory.decodeFile(path,factoryOptions)
-//                    picture_result_imageView?.setImageBitmap(bitmap)
-//
-//                    take_picture_button?.apply {
-//                        text = "Take picture"
-//                        isEnabled = true
-//                    }
+                        BitmapFactory.decodeFile(path, bitmapOptions)?.also { bitmap ->
 
-                }?: kotlin.run {
-                    image_view_title?.text = "Failed parsing image"
-                    take_picture_button?.apply {
-                        text = "Take picture"
-                        isEnabled = true
+                            val modifiedBitmap = when (orientation) {
+
+                                ExifInterface.ORIENTATION_ROTATE_90 -> rotate(bitmap, 90F)
+                                ExifInterface.ORIENTATION_ROTATE_180 -> rotate(bitmap, 180F)
+                                ExifInterface.ORIENTATION_ROTATE_270 -> rotate(bitmap, 270F)
+                                ExifInterface.ORIENTATION_FLIP_HORIZONTAL -> flip(
+                                    bitmap,
+                                    true,
+                                    false
+                                )
+                                ExifInterface.ORIENTATION_FLIP_VERTICAL -> flip(bitmap, false, true)
+                                else -> bitmap
+                            }
+
+                            picture_result_imageView?.setImageBitmap(modifiedBitmap)
+                            image_view_title?.text = "Full-size picture taken"
+                            take_picture_button?.isEnabled = true
+                            saveImage(modifiedBitmap)
+                        }
+
+                    } ?: kotlin.run {
+                        image_view_title?.text = "Failed parsing image"
+                        take_picture_button?.isEnabled = true
                     }
                 }
             }
-        }
 
         take_picture_button?.setOnClickListener {
 
-            dispatchTakePictureIntent()
 
-            // Specify the output file
-//            val mediaDirectory = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-//                externalMediaDirs[0]
-//            } else {
-//                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-//            }
+            val dialogFragment = AppCompatDialogFragmentExample().apply {
 
-//            val mediaDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+                setTitle("Camera option")
+                setMessage("Select camera option")
+                setPositiveButton("Thumbnail")
+                setNegativeButton("Full size quality")
+                setListener { dialog, which ->
+                    when (which) {
+                        DialogInterface.BUTTON_POSITIVE -> {
+                            resultLauncher?.launch(Intent(MediaStore.ACTION_IMAGE_CAPTURE))
+                        }
 
-//            try {
-//
-//                //            outputFile = File(mediaDirectory,"intent_picture.jpg")
-////                outputFile = File.createTempFile("intent_picture",".jpg",mediaDirectory)
-//
-//                val photoDirectory = File(filesDir,"images")
-//                val imageFile = File(photoDirectory,"intent_picture.png")
-//
-//
-////            val path = outputFile?.absolutePath
-//
-//                // Generate the intent
-////                val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-////
-////                takePictureIntent.resolveActivity(packageManager)?.let {
-////
-////
-////
-//////                    outputFile?.let {
-////
-//////                        val provider = "${BuildConfig.APPLICATION_ID}.files"
-//////
-//////                        outputFile = FileProvider.getUriForFile(this,provider,imageFile)
-//////
-//////                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFile)
-//////
-//////                        resultLauncher?.launch(takePictureIntent)
-//////
-//////                        take_picture_button?.isEnabled = false
-////
-//////                    }
-////
-//////                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.parse(outputFile.toString()))
-////                }
-//
-//                /*
-//                static final int REQUEST_TAKE_PHOTO = 1;
-//
-//    private void dispatchTakePictureIntent() {
-//        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        // Ensure that there's a camera activity to handle the intent
-//        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-//            // Create the File where the photo should go
-//            File photoFile = null;
-//            try {
-//                photoFile = createImageFile();
-//            } catch (IOException ex) {
-//                // Error occurred while creating the File
-//                ...
-//            }
-//            // Continue only if the File was successfully created
-//            if (photoFile != null) {
-//                Uri photoURI = FileProvider.getUriForFile(this,
-//                                                      "com.example.android.fileprovider",
-//                                                      photoFile);
-//                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-//                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-//            }
-//        }
-//    }
-//                */
-//
-//
-////            val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-//
-//                // Launch the camera app
-////                resultLauncher.launch(takePictureIntent)
-//                /*
-//                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-//                        startActivityForResult(cameraIntent, CAMERA_REQUEST);
-//                */
-//
-////                take_picture_button?.isEnabled = false
-//
-//            }catch (e:Exception)
-//            {
-//                e.printStackTrace()
-//            }
+                        DialogInterface.BUTTON_NEGATIVE -> {
+                            dispatchTakePictureIntent()
+                        }
+                    }
+                }
+            }
+            dialogFragment.show(supportFragmentManager, null)
         }
     }
 
-//    private fun exifInDegrees(exifOrientation:Int) : Int
-//    {
-//        return when(exifOrientation)
-//        {
-//            ExifInterface.ORIENTATION_ROTATE_90 -> 90
-//            ExifInterface.ORIENTATION_ROTATE_180 -> 180
-//            ExifInterface.ORIENTATION_ROTATE_270 -> 270
-//            else -> 0
-//        }
-//    }
+    private fun saveImage(bitmap: Bitmap) {
+
+        // Save to picture directory
+        val path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+        val filename = "image_capture_${System.currentTimeMillis()}.JPG" // File name: 'image_capture_current_milli'.JPG
+        val file = File(path, filename)
+        try {
+            val fileOutputStream = FileOutputStream(file)
+            fileOutputStream?.use { outputStream ->
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+            }
+            sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE))
+            Uri.parse("file://${filename}")
+            Toast.makeText(this, "Image saved in Picture folder", Toast.LENGTH_LONG).show()
+        } catch (e: IOException) {
+            Log.i("TAG", "Failed creating new file, reason: ${e.message}")
+        }
+    }
 
 
-    private fun rotate(bitmap:Bitmap, degree:Float) : Bitmap
-    {
+    private fun rotate(bitmap: Bitmap, degree: Float): Bitmap {
         val matrix = Matrix().apply {
             postRotate(degree)
         }
-        return Bitmap.createBitmap(bitmap, 0,0,bitmap.width,bitmap.height,matrix,true)
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
     }
 
-    private fun flip(bitmap:Bitmap, horizontal:Boolean, vertical : Boolean) : Bitmap
-    {
+    private fun flip(bitmap: Bitmap, horizontal: Boolean, vertical: Boolean): Bitmap {
         val matrix = Matrix().apply {
             preScale(if (horizontal) -1F else 1F, if (vertical) -1F else 1F)
         }
-        return Bitmap.createBitmap(bitmap, 0,0,bitmap.width,bitmap.height,matrix,true)
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
     }
 
-    private fun createImageFile() : File?
-    {
+    private fun createImageFile(): File? {
         try {
 
             getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.let {
@@ -337,8 +250,7 @@ class ImageCaptureIntentExampleActivity : AppCompatActivity() {
                 }
             }
 
-        }catch (e: IOException)
-        {
+        } catch (e: IOException) {
             e.printStackTrace()
         }
 
@@ -353,13 +265,7 @@ class ImageCaptureIntentExampleActivity : AppCompatActivity() {
                 // Ensure that there's a camera activity to handle the intent
                 takePictureIntent.resolveActivity(packageManager)?.also {
                     // Create the File where the photo should go
-//                    val photoFile: File? = try {
-//                        createImageFile()
-//                    } catch (ex: IOException) {
-//                        // Error occurred while creating the File
-//                        ex.printStackTrace()
-//                        null
-//                    }
+
                     // Continue only if the File was successfully created
                     imageFile.also {
                         val photoURI: Uri = FileProvider.getUriForFile(
@@ -370,14 +276,13 @@ class ImageCaptureIntentExampleActivity : AppCompatActivity() {
                         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
                         resultLauncher?.launch(takePictureIntent)
                         take_picture_button?.isEnabled = false
-//                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
                     }
                 }
             }
 
-        }?: kotlin.run {
+        } ?: kotlin.run {
             Log.i("TAG", "Error creating image file!")
         }
-
     }
+
 }

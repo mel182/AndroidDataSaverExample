@@ -286,7 +286,6 @@ class CameraViewActivity : BaseActivity(Layout.activity_camera_view), SurfaceHol
             mPreviewCaptureRequest?.apply {
                 addTarget(previewSurface)
 
-
                 cameraId?.let {
 
                     val characteristics =  cameraManager?.getCameraCharacteristics(it.toString())
@@ -410,11 +409,7 @@ class CameraViewActivity : BaseActivity(Layout.activity_camera_view), SurfaceHol
                         buffer[data]
                         // saveImage
                     }
-
-
                 }
-
-
             }
         }
 
