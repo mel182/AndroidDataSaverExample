@@ -1,5 +1,6 @@
 package com.example.datasaverexampleapp.camera.image_capture_intent
 
+import android.content.ContentValues
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
@@ -7,6 +8,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.media.ExifInterface
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
@@ -21,9 +23,7 @@ import com.example.datasaverexampleapp.R
 import com.example.datasaverexampleapp.dialog.AppCompatDialogFragmentExample
 import kotlinx.android.synthetic.main.activity_image_capture_intent_example.*
 import kotlinx.android.synthetic.main.activity_notification.*
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
+import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -201,22 +201,53 @@ class ImageCaptureIntentExampleActivity : AppCompatActivity() {
     private fun saveImage(bitmap: Bitmap) {
 
         // Save to picture directory
-        val path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-        val filename = "image_capture_${System.currentTimeMillis()}.JPG" // File name: 'image_capture_current_milli'.JPG
-        val file = File(path, filename)
-        try {
-            val fileOutputStream = FileOutputStream(file)
-            fileOutputStream?.use { outputStream ->
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+        {
+            val filename = "image_test_${System.currentTimeMillis()}.jpg"
+            var fos: OutputStream? = null
+            var imageUri:Uri? = null
+
+            //use application context to get contentResolver
+            val contentResolver = application.contentResolver
+            val contentValues = ContentValues().apply {
+                put(MediaStore.MediaColumns.DISPLAY_NAME, filename)
+                put(MediaStore.MediaColumns.MIME_TYPE,"image/jpg")
+                put(MediaStore.MediaColumns.RELATIVE_PATH,Environment.DIRECTORY_PICTURES)
+                put(MediaStore.Video.Media.IS_PENDING,1)
             }
-            sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE))
-            Uri.parse("file://${filename}")
-            Toast.makeText(this, "Image saved in Picture folder", Toast.LENGTH_LONG).show()
-        } catch (e: IOException) {
-            Log.i("TAG", "Failed creating new file, reason: ${e.message}")
+
+            contentResolver.also { resolver ->
+                imageUri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,contentValues)
+                fos = imageUri?.let { outputStream -> resolver.openOutputStream(outputStream) }
+            }
+
+            fos?.use { bitmap.compress(Bitmap.CompressFormat.JPEG, 70, it) }
+
+            contentValues.clear()
+            contentValues.put(MediaStore.Video.Media.IS_PENDING, 0)
+
+            imageUri?.let {
+                contentResolver.update(it,contentValues,null,null)
+                Toast.makeText(this, "Image saved in Picture folder", Toast.LENGTH_LONG).show()
+            }
+
+        } else {
+            val path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+            val filename = "image_capture_${System.currentTimeMillis()}.JPG" // File name: 'image_capture_current_milli'.JPG
+            val file = File(path, filename)
+            try {
+                val fileOutputStream = FileOutputStream(file)
+                fileOutputStream?.use { outputStream ->
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+                }
+                sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE))
+                Uri.parse("file://${filename}")
+                Toast.makeText(this, "Image saved in Picture folder", Toast.LENGTH_LONG).show()
+            } catch (e: IOException) {
+                Log.i("TAG", "Failed creating new file, reason: ${e.message}")
+            }
         }
     }
-
 
     private fun rotate(bitmap: Bitmap, degree: Float): Bitmap {
         val matrix = Matrix().apply {
