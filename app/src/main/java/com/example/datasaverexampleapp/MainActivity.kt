@@ -30,6 +30,7 @@ import com.example.datasaverexampleapp.appbar.tabs.AppBarTabsActivity
 import com.example.datasaverexampleapp.work_manager.WorkManagerActivity
 import com.example.datasaverexampleapp.battery.Battery
 import com.example.datasaverexampleapp.battery.PowerConnectionReceiver
+import com.example.datasaverexampleapp.bluetooth.BluetoothExampleActivity
 import com.example.datasaverexampleapp.camera.CameraExamplesActivity
 import com.example.datasaverexampleapp.cardview.CardViewActivity
 import com.example.datasaverexampleapp.concurrency.CoroutineExampleActivity
@@ -467,6 +468,11 @@ class MainActivity : AppCompatActivity() {
 
         camera_examples?.setOnClickListener {
             val intent = Intent(this, CameraExamplesActivity::class.java)
+            startActivity(intent)
+        }
+
+        bluetooth_examples?.setOnClickListener {
+            val intent = Intent(this, BluetoothExampleActivity::class.java)
             startActivity(intent)
         }
 
