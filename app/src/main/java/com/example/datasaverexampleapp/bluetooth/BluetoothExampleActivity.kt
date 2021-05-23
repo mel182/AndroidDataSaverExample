@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.datasaverexampleapp.R
 import com.example.datasaverexampleapp.bluetooth.discovery.BluetoothDiscoveryExampleActivity
+import com.example.datasaverexampleapp.bluetooth.server.BluetoothServerExampleActivity
 import kotlinx.android.synthetic.main.activity_bluetooth_example.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.bluetooth_examples
@@ -31,6 +32,11 @@ class BluetoothExampleActivity : AppCompatActivity()
             val intent = Intent(this, BluetoothDiscoveryExampleActivity::class.java)
             startActivity(intent)
 
+        }
+
+        bluetooth_server_example?.setOnClickListener {
+            val intent = Intent(this, BluetoothServerExampleActivity::class.java)
+            startActivity(intent)
         }
     }
 }

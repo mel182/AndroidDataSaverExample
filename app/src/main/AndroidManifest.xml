@@ -20,8 +20,8 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
     <permission android:name="com.example.datasaverexampleapp.provider.ACCESS_PERMISSION" />
 
@@ -38,7 +38,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".bluetooth.discovery.BluetoothDiscoveryExampleActivity"></activity>
+        <activity android:name=".bluetooth.server.BluetoothServerExampleActivity"></activity>
+        <activity android:name=".bluetooth.discovery.BluetoothDiscoveryExampleActivity" />
         <activity android:name=".bluetooth.BluetoothExampleActivity" />
         <activity android:name=".camera.video_recording.VideoRecordingWithMediaPlayerExampleActivity" />
         <activity
