@@ -15,21 +15,20 @@ abstract class IntentBaseActivity : AppCompatActivity()
     fun requestPermission(type:String,permissionRequestCallback: RequestPermissionCallback)
     {
         if (permissionRequestHandler == null)
-        {
             permissionRequestHandler = PermissionRequestHandler(this)
-            permissionRequestHandler?.requestPermission(type = type, callback = object: RequestPermissionCallback{
 
-                override fun onPermissionGranted() {
-                    permissionRequestCallback.onPermissionGranted()
-                    releasePermissionRequestHandler()
-                }
+        permissionRequestHandler?.requestPermission(type = type, callback = object: RequestPermissionCallback{
 
-                override fun onPermissionDenied() {
-                    permissionRequestCallback.onPermissionDenied()
-                    releasePermissionRequestHandler()
-                }
-            })
-        }
+            override fun onPermissionGranted() {
+                permissionRequestCallback.onPermissionGranted()
+                releasePermissionRequestHandler()
+            }
+
+            override fun onPermissionDenied() {
+                permissionRequestCallback.onPermissionDenied()
+                releasePermissionRequestHandler()
+            }
+        })
     }
 
     fun activityForResult(type:String,callback: OnActivityResultCallback)

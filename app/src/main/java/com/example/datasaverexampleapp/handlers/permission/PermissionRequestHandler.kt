@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.datasaverexampleapp.handlers.permission.entity.AccessFineLocation
 import com.example.datasaverexampleapp.handlers.permission.entity.PermissionEntity
 import com.example.datasaverexampleapp.handlers.permission.entity.PhoneCallPermission
 import com.example.datasaverexampleapp.handlers.permission.entity.ReadContactPermission
@@ -28,6 +29,10 @@ class PermissionRequestHandler(private val activity:Activity)
 
             Permission.READ_CONTACT -> {
                 requestPermission(ReadContactPermission())
+            }
+
+            Permission.ACCESS_FINE_LOCATION -> {
+                requestPermission(AccessFineLocation())
             }
         }
     }
