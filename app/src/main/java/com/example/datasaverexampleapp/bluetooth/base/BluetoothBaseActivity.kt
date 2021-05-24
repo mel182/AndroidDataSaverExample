@@ -3,12 +3,14 @@ package com.example.datasaverexampleapp.bluetooth.base
 import android.Manifest
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
+import android.bluetooth.BluetoothServerSocket
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.result.ActivityResult
 import androidx.core.content.ContextCompat
 import com.example.datasaverexampleapp.activityRequestHandler.ActivityResultHandler
@@ -17,6 +19,11 @@ import com.example.datasaverexampleapp.handlers.permission.interfaces.RequestPer
 import com.example.datasaverexampleapp.intent_example.IntentBaseActivity
 import com.example.datasaverexampleapp.speech_recognition_example.OnActivityResult
 import kotlinx.android.synthetic.main.activity_bluetooth_discovery_example.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.io.IOException
+import java.util.*
 
 /**
  * The local Bluetooth adapter is controlled via the 'BluetoothAdapter' class, which represents the host
@@ -158,11 +165,36 @@ abstract class BluetoothBaseActivity(private val layout: Int) : IntentBaseActivi
 
     protected fun cancelDiscovery()
     {
-        // The dis
+        // The discovery process consumes significant resources, so you should be sure to cancel a discover in progress
+        // using the 'cancelDiscovery' method, prior to attempting to connect with any discovered devices.
         bluetoothAdapter?.let { adapter ->
             if (adapter.isEnabled && adapter.isDiscovering)
                 adapter.cancelDiscovery()
         }
+    }
+
+    protected fun listeningUsingRfcommWithServiceRecord(name:String, uuid:UUID) : BluetoothServerSocket?
+    {
+        try {
+            val serverSocket = bluetoothAdapter?.listenUsingInsecureRfcommWithServiceRecord(name, uuid)
+
+            CoroutineScope(Dispatchers.IO).launch {
+
+                try {
+                    serverSocket?.accept()
+                } catch (e:IOException)
+                {
+                    e.printStackTrace()
+                }
+            }
+
+            return serverSocket
+
+        }catch (e:IOException)
+        {
+            e.printStackTrace()
+        }
+        return null
     }
 
     protected fun startDiscovery(succeed : (Boolean) -> Unit)
