@@ -67,6 +67,7 @@ import com.example.datasaverexampleapp.vibration.VibrationExampleActivity
 import com.example.datasaverexampleapp.video_audio.VideoAudioStreamingActivity
 import com.example.datasaverexampleapp.video_audio.foreground_service.ForegroundService
 import com.example.datasaverexampleapp.video_audio.media_notification.CustomMediaStyleNotification
+import com.example.datasaverexampleapp.wifi_p2p.Wifi_P2P_ExampleActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import java.math.BigInteger
 
@@ -473,6 +474,11 @@ class MainActivity : AppCompatActivity() {
 
         bluetooth_examples?.setOnClickListener {
             val intent = Intent(this, BluetoothExampleActivity::class.java)
+            startActivity(intent)
+        }
+
+        wifi_p2p_examples?.setOnClickListener {
+            val intent = Intent(this, Wifi_P2P_ExampleActivity::class.java)
             startActivity(intent)
         }
 

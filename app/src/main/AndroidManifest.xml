@@ -38,7 +38,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".bluetooth.server.BluetoothServerExampleActivity"></activity>
+        <activity android:name=".wifi_p2p.Wifi_P2P_ExampleActivity"></activity>
+        <activity android:name=".bluetooth.server.BluetoothServerExampleActivity" />
         <activity android:name=".bluetooth.discovery.BluetoothDiscoveryExampleActivity" />
         <activity android:name=".bluetooth.BluetoothExampleActivity" />
         <activity android:name=".camera.video_recording.VideoRecordingWithMediaPlayerExampleActivity" />
