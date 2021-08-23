@@ -41,7 +41,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".wifi_p2p.server.Wifi_P2P_ServerExampleActivity"></activity>
+        <activity android:name=".paging.PagingExampleActivity"></activity>
+        <activity android:name=".wifi_p2p.server.Wifi_P2P_ServerExampleActivity" />
         <activity android:name=".wifi_p2p.Wifi_P2P_ExampleActivity" />
         <activity android:name=".bluetooth.server.BluetoothServerExampleActivity" />
         <activity android:name=".bluetooth.discovery.BluetoothDiscoveryExampleActivity" />
