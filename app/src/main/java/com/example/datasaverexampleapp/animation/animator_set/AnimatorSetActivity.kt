@@ -198,6 +198,12 @@ class AnimatorSetActivity : AppCompatActivity() {
 
                 playTogether(scaleX, scaleY)
                 start()
+
+//                CoroutineScope(Dispatchers.Main).launch {
+//                    delay(2000)
+//                    cancel()
+//                }
+
             }
         }
 

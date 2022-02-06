@@ -357,8 +357,21 @@ class NotificationActivity : AppCompatActivity() {
 
         firebase_messaging_subscribe?.setOnClickListener {
 
-            FirebaseMessaging.getInstance().subscribeToTopic("test")
-            Toast.makeText(this,"Subscribe to 'test' topic",Toast.LENGTH_SHORT).show()
+            FirebaseMessaging.getInstance().token.addOnCompleteListener {
+
+                if (!it.isSuccessful)
+                {
+                    Log.i("TAG","fetch fcm registration token failed, reason: ${it.exception}")
+                } else {
+                    val token = it.result
+                    Log.i("TAG","fcm token: ${token}")
+
+                    FirebaseMessaging.getInstance().subscribeToTopic("test")
+                    Toast.makeText(this,"Subscribe to 'test' topic",Toast.LENGTH_SHORT).show()
+                }
+            }
+
+
         }
 
         firebase_messaging_unsubscribe?.setOnClickListener {

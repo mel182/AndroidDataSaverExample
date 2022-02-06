@@ -1,9 +1,12 @@
 package com.example.datasaverexampleapp.fullscreen_example
 
+import android.graphics.Color
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import com.example.datasaverexampleapp.R
 import kotlinx.android.synthetic.main.activity_full_screen_example.*
 
@@ -13,6 +16,13 @@ class FullScreenExampleActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_full_screen_example)
         title = "Full screen example"
+
+        supportActionBar?.hide()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window?.statusBarColor = Color.WHITE
+        }
+
 
         // Android 4.4 Kit Kat (API level 19) added the ability to provide truly immersive experience
         // even when the user is interacting with your Activity. This comes with the addition of two
@@ -35,13 +45,16 @@ class FullScreenExampleActivity : AppCompatActivity() {
         // , SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION and SYSTEM_UI_FLAG_LAYOUT_STABLE to request that the Activity always be laid
         // out as if the system UI is always hidden.
 
+
         hide_system_ui_button?.setOnClickListener {
 
-            window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
-                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
-                    View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
-                    View.SYSTEM_UI_FLAG_FULLSCREEN
+            window?.apply {
+                decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                        View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+                        View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+                        View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
+                        View.SYSTEM_UI_FLAG_FULLSCREEN
+            }
         }
 
         hide_system_ui_immersive_button?.setOnClickListener {
