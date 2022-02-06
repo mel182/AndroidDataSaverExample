@@ -338,6 +338,18 @@
                 android:layout_height="wrap_content"
                 android:text="Bluetooth example" />
 
+            <Button
+                android:id="@+id/wifi_p2p_examples"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Wifi peer 2 peer example" />
+
+            <Button
+                android:id="@+id/paging_3_example"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Paging 3 library example" />
+
         </LinearLayout>
     </ScrollView>
 

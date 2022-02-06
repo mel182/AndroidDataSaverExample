@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.datasaverexampleapp">
 
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -38,7 +41,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".bluetooth.server.BluetoothServerExampleActivity"></activity>
+        <activity android:name=".paging.PagingExampleActivity"></activity>
+        <activity android:name=".wifi_p2p.server.Wifi_P2P_ServerExampleActivity" />
+        <activity android:name=".wifi_p2p.Wifi_P2P_ExampleActivity" />
+        <activity android:name=".bluetooth.server.BluetoothServerExampleActivity" />
         <activity android:name=".bluetooth.discovery.BluetoothDiscoveryExampleActivity" />
         <activity android:name=".bluetooth.BluetoothExampleActivity" />
         <activity android:name=".camera.video_recording.VideoRecordingWithMediaPlayerExampleActivity" />

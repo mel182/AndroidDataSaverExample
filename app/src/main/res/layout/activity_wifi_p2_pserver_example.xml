@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".bluetooth.server.BluetoothServerExampleActivity">
+    tools:context=".wifi_p2p.server.Wifi_P2P_ServerExampleActivity">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/server_host_status"
+            android:id="@+id/wifi_p2p_server_host_status"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -26,9 +26,10 @@
             android:textSize="20sp" />
 
         <Button
-            android:id="@+id/start_host_button"
+            android:id="@+id/start_wifi_p2p_host_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Start" />
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

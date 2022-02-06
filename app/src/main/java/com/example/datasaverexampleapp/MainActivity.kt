@@ -56,6 +56,7 @@ import com.example.datasaverexampleapp.location.LocationMapActivity
 import com.example.datasaverexampleapp.location.maps.GoogleMapsActivity
 import com.example.datasaverexampleapp.mvvm_coroutine_flow_livedata.MvvMCoroutinesActivity
 import com.example.datasaverexampleapp.notification.NotificationActivity
+import com.example.datasaverexampleapp.paging.PagingExampleActivity
 import com.example.datasaverexampleapp.protocol_oriented_programming_kotlin.ProtocolOrientedActivity
 import com.example.datasaverexampleapp.resourceTest.ResourceActivity
 import com.example.datasaverexampleapp.room_db.RoomDBActivity
@@ -67,6 +68,7 @@ import com.example.datasaverexampleapp.vibration.VibrationExampleActivity
 import com.example.datasaverexampleapp.video_audio.VideoAudioStreamingActivity
 import com.example.datasaverexampleapp.video_audio.foreground_service.ForegroundService
 import com.example.datasaverexampleapp.video_audio.media_notification.CustomMediaStyleNotification
+import com.example.datasaverexampleapp.wifi_p2p.Wifi_P2P_ExampleActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import java.math.BigInteger
 
@@ -473,6 +475,16 @@ class MainActivity : AppCompatActivity() {
 
         bluetooth_examples?.setOnClickListener {
             val intent = Intent(this, BluetoothExampleActivity::class.java)
+            startActivity(intent)
+        }
+
+        wifi_p2p_examples?.setOnClickListener {
+            val intent = Intent(this, Wifi_P2P_ExampleActivity::class.java)
+            startActivity(intent)
+        }
+
+        paging_3_example?.setOnClickListener {
+            val intent = Intent(this, PagingExampleActivity::class.java)
             startActivity(intent)
         }
 
