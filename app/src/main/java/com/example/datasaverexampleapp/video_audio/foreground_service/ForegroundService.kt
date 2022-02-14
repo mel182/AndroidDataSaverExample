@@ -25,7 +25,10 @@ import com.example.datasaverexampleapp.R
 import com.example.datasaverexampleapp.type_alias.AppString
 import com.example.datasaverexampleapp.type_alias.Drawable
 import com.example.datasaverexampleapp.utils.refinePath
-import com.example.datasaverexampleapp.video_audio.background_audio.*
+import com.example.datasaverexampleapp.video_audio.background_audio.ADD_MEDIA_SOURCE
+import com.example.datasaverexampleapp.video_audio.background_audio.FAILED_ADDING_MEDIA_SOURCE
+import com.example.datasaverexampleapp.video_audio.background_audio.MEDIA_SOURCE
+import com.example.datasaverexampleapp.video_audio.background_audio.MEDIA_SOURCE_ADDED
 import com.example.datasaverexampleapp.video_audio.media_notification.CustomMediaStyleNotification
 import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.source.ExtractorMediaSource
@@ -37,7 +40,6 @@ import com.google.android.exoplayer2.trackselection.TrackSelectionArray
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.upstream.RawResourceDataSource
 import com.google.android.exoplayer2.util.Util
-import kotlinx.coroutines.*
 import java.io.IOException
 
 /**

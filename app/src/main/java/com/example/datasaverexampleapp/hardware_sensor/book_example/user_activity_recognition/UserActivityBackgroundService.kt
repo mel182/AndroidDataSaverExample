@@ -4,6 +4,7 @@ import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
 import android.os.Binder
+import android.os.Build
 import android.os.IBinder
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.android.gms.location.ActivityRecognitionClient
@@ -28,7 +29,7 @@ class UserActivityBackgroundService : Service()
         // To receive updates on the user's current activity, first get an instance of the 'ActivityRecognition.getClient' static method and passing in a Context.
         activityRecognitionClient = ActivityRecognitionClient(this)
         intentService = Intent(this,ActivitiesDetectionService::class.java).apply {
-            pendingIntent = PendingIntent.getService(this@UserActivityBackgroundService,1,this,PendingIntent.FLAG_UPDATE_CURRENT)
+            pendingIntent = PendingIntent.getService(this@UserActivityBackgroundService,1,this, if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE else PendingIntent.FLAG_UPDATE_CURRENT)
             this@UserActivityBackgroundService.requestActivityUpdatesButtonHandler()
         }
     }

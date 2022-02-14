@@ -8,6 +8,7 @@ import android.content.Intent
 import android.content.IntentSender
 import android.os.Build
 import android.os.Bundle
+import android.os.Looper
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.IntentSenderRequest
@@ -281,7 +282,7 @@ class LocationMapActivity : BaseActivity(Layout.activity_location_example) {
 
     private fun removeGeofence()
     {
-        geofencingClient?.removeGeofences(geofencePendingIntent)
+        geofencePendingIntent?.let { geofencingClient?.removeGeofences(it) }
         geofence_status?.text = "Geofence"
         geofence_button?.text = "Add geofence"
     }
@@ -309,47 +310,50 @@ class LocationMapActivity : BaseActivity(Layout.activity_location_example) {
             .build()
 
         val intent = Intent(this@LocationMapActivity, GeofencingReceiver::class.java)
-        geofencePendingIntent = PendingIntent.getBroadcast(this@LocationMapActivity, 0,intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        geofencePendingIntent = PendingIntent.getBroadcast(this@LocationMapActivity, 0,intent, if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE else PendingIntent.FLAG_UPDATE_CURRENT)
 
-        geofencingClient?.addGeofences(geofenceRequest, geofencePendingIntent)?.run {
+        geofencePendingIntent?.let {
 
-            addOnSuccessListener {
-                geofence_status?.text = "Geofence added!"
-                geofence_button?.text = "Remove geofence"
-            }
+            geofencingClient?.addGeofences(geofenceRequest, it)?.run {
 
-            addOnFailureListener {
+                addOnSuccessListener {
+                    geofence_status?.text = "Geofence added!"
+                    geofence_button?.text = "Remove geofence"
+                }
 
-                it.message?.let {
+                addOnFailureListener {
 
-                    when(it.trim().replace(":",""))
-                    {
-                        GeofenceStatusCodes.GEOFENCE_INSUFFICIENT_LOCATION_PERMISSION.toString() -> {
-                            geofence_status?.text = "Insufficient location permission to perform geofencing operations"
+                    it.message?.let {
+
+                        when(it.trim().replace(":",""))
+                        {
+                            GeofenceStatusCodes.GEOFENCE_INSUFFICIENT_LOCATION_PERMISSION.toString() -> {
+                                geofence_status?.text = "Insufficient location permission to perform geofencing operations"
+                            }
+
+                            GeofenceStatusCodes.GEOFENCE_NOT_AVAILABLE.toString() -> {
+                                geofence_status?.text = "Geofence service is not available now"
+                            }
+
+                            GeofenceStatusCodes.GEOFENCE_REQUEST_TOO_FREQUENT.toString() -> {
+                                geofence_status?.text = "Your app has been adding Geofences too frequently."
+                            }
+
+                            GeofenceStatusCodes.GEOFENCE_TOO_MANY_GEOFENCES.toString() -> {
+                                geofence_status?.text = "Your app has registered more than 100 geofences."
+                            }
+
+                            GeofenceStatusCodes.GEOFENCE_TOO_MANY_PENDING_INTENTS.toString() -> {
+                                geofence_status?.text = "You have provided more than 5 different PendingIntents to the addGeofences call"
+                            }
                         }
 
-                        GeofenceStatusCodes.GEOFENCE_NOT_AVAILABLE.toString() -> {
-                            geofence_status?.text = "Geofence service is not available now"
-                        }
+                        Log.i(TAG,"Failed adding geofence, reason: $it")
 
-                        GeofenceStatusCodes.GEOFENCE_REQUEST_TOO_FREQUENT.toString() -> {
-                            geofence_status?.text = "Your app has been adding Geofences too frequently."
-                        }
-
-                        GeofenceStatusCodes.GEOFENCE_TOO_MANY_GEOFENCES.toString() -> {
-                            geofence_status?.text = "Your app has registered more than 100 geofences."
-                        }
-
-                        GeofenceStatusCodes.GEOFENCE_TOO_MANY_PENDING_INTENTS.toString() -> {
-                            geofence_status?.text = "You have provided more than 5 different PendingIntents to the addGeofences call"
-                        }
+                    }?: kotlin.run {
+                        geofence_status?.text = "Adding geofence failed"
+                        Log.i(TAG,"Failed adding geofence, reason: ${it.message} ${it.cause}")
                     }
-
-                    Log.i(TAG,"Failed adding geofence, reason: $it")
-
-                }?: kotlin.run {
-                    geofence_status?.text = "Adding geofence failed"
-                    Log.i(TAG,"Failed adding geofence, reason: ${it.message} ${it.cause}")
                 }
             }
         }
@@ -408,7 +412,7 @@ class LocationMapActivity : BaseActivity(Layout.activity_location_example) {
         if (isPermissionGranted(ACCESS_FINE_LOCATION))
         {
             locationCallback?.let{
-                locationClient?.requestLocationUpdates(locationRequest,it, null)
+                locationClient?.requestLocationUpdates(locationRequest,it, Looper.getMainLooper())
             }
         }
     }

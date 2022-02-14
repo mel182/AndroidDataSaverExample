@@ -14,10 +14,10 @@ class SearchViewActivity : AppCompatActivity() {
         title = "Search view Example"
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.search_view_menu,menu)
 
-        val searchItem = menu?.findItem(R.id.searchview_item)
+        val searchItem = menu.findItem(R.id.searchview_item)
         val searchView = searchItem?.actionView as SearchView
 
         searchView.setOnSearchClickListener {

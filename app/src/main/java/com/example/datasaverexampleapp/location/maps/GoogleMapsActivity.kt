@@ -53,7 +53,7 @@ class GoogleMapsActivity : BaseActivity(Layout.activity_google_maps), OnMapReady
         setMapType()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
         menuInflater.inflate(R.menu.menu_google_map,menu)
         this.menu = menu
@@ -683,7 +683,7 @@ class GoogleMapsActivity : BaseActivity(Layout.activity_google_maps), OnMapReady
         return BitmapDescriptorFactory.fromBitmap(bitmap)
     }
 
-    override fun onMapReady(googlemap: GoogleMap?) {
+    override fun onMapReady(googlemap: GoogleMap) {
 
         googlemap?.apply {
             setOnMarkerClickListener(this@GoogleMapsActivity)
@@ -695,7 +695,7 @@ class GoogleMapsActivity : BaseActivity(Layout.activity_google_maps), OnMapReady
                 // is returned from both handler the default info window will be displayed.
                 //
                 //NOTE: The 'onMarkerClick(marker: Marker?)' must return 'false'.
-                override fun getInfoWindow(p0: Marker?): View {
+                override fun getInfoWindow(p0: Marker): View {
                     // Define a view to entirely replace the default info window
                     val view = windowInfoLayout?.apply {
                         findViewById<TextView>(ViewByID.info_window_title)?.apply {
@@ -708,15 +708,15 @@ class GoogleMapsActivity : BaseActivity(Layout.activity_google_maps), OnMapReady
                     return view?:windowInfoLayout
                 }
 
-                override fun getInfoContents(p0: Marker?): View {
+                override fun getInfoContents(p0: Marker): View {
                     // Define a view to replace the interior of the info window
                     // This method is only called if 'getInfoWindow(Marker)' first returns NULL
                     val view = windowInfoLayout?.apply {
                         findViewById<TextView>(ViewByID.info_window_title)?.apply {
-                            text = p0?.title
+                            text = p0.title
                         }
                         findViewById<TextView>(ViewByID.info_window_description)?.apply {
-                            text = p0?.snippet
+                            text = p0.snippet
                         }
                     }
                     return view?:windowInfoLayout
@@ -765,7 +765,7 @@ class GoogleMapsActivity : BaseActivity(Layout.activity_google_maps), OnMapReady
 
     private val windowInfoLayout by lazy { layoutInflater.inflate(Layout.item_google_maps_marker_window_info_layout,null) }
 
-    override fun onMarkerClick(marker: Marker?): Boolean {
+    override fun onMarkerClick(marker: Marker): Boolean {
 
         // The 'onMarkerClick' handler will receive an instance of the Marker selected. Return 'true' if your
         // handler should replace the default behaviour, or 'false' if the info window should still be displayed.
@@ -950,15 +950,15 @@ class GoogleMapsActivity : BaseActivity(Layout.activity_google_maps), OnMapReady
         //       to this requirement, it will be adjusted.
     }
 
-    override fun onCircleClick(circle: Circle?) {
+    override fun onCircleClick(circle: Circle) {
         Toast.makeText(this,"Circle clicked!",Toast.LENGTH_SHORT).show()
     }
 
-    override fun onPolygonClick(polygon: Polygon?) {
+    override fun onPolygonClick(polygon: Polygon) {
         Toast.makeText(this,"Polygon clicked!",Toast.LENGTH_SHORT).show()
     }
 
-    override fun onPolylineClick(polyline: Polyline?) {
+    override fun onPolylineClick(polyline: Polyline) {
         Toast.makeText(this,"Polyline clicked!",Toast.LENGTH_SHORT).show()
     }
 }

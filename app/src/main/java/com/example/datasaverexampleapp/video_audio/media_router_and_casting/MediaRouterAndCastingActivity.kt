@@ -158,7 +158,7 @@ class MediaRouterAndCastingActivity : AppCompatActivity() {
 
     // Then within the Fragments or Activities from which you want to Cast, override
     // the 'onCreateOptionsMenu' handler to setup the Media Route Button.
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
         menuInflater.inflate(com.example.datasaverexampleapp.type_alias.Menu.cast_menu, menu)
         CastButtonFactory.setUpMediaRouteButton(

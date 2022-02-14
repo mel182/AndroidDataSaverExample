@@ -129,7 +129,7 @@ class NotificationActivity : AppCompatActivity() {
             val launchIntent =  Intent(this,NotificationActivity::class.java)
             val contentIntent = TaskStackBuilder.create(applicationContext)
                 .addNextIntentWithParentStack(launchIntent)
-                .getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT)
+                .getPendingIntent(0, if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE else PendingIntent.FLAG_UPDATE_CURRENT)
 
             builder.setSmallIcon(Drawable.ic_notification)
                 .setContentTitle(title)
@@ -165,9 +165,9 @@ class NotificationActivity : AppCompatActivity() {
             val launchIntent =  Intent(this,NotificationActivity::class.java)
             val contentIntent = TaskStackBuilder.create(applicationContext)
                 .addNextIntentWithParentStack(launchIntent)
-                .getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT)
+                .getPendingIntent(0,if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE else PendingIntent.FLAG_UPDATE_CURRENT)
 
-            // PendingIntent.getActivity(this, 0, deleteIntent, 0)
+             //PendingIntent.getActivity(this, 0, deleteIntent, 0)
 
             builder.setSmallIcon(Drawable.ic_notification)
                 .setContentTitle(title)
@@ -193,7 +193,7 @@ class NotificationActivity : AppCompatActivity() {
             val launchIntent =  Intent(this,NotificationActivity::class.java)
             val contentIntent = TaskStackBuilder.create(applicationContext)
                 .addNextIntentWithParentStack(launchIntent)
-                .getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT)
+                .getPendingIntent(0,if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE else PendingIntent.FLAG_UPDATE_CURRENT)
 
             // PendingIntent.getActivity(this, 0, deleteIntent, 0)
 
@@ -221,7 +221,7 @@ class NotificationActivity : AppCompatActivity() {
             val launchIntent =  Intent(this,NotificationActivity::class.java)
             val contentIntent = TaskStackBuilder.create(applicationContext)
                 .addNextIntentWithParentStack(launchIntent)
-                .getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT)
+                .getPendingIntent(0,if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE else PendingIntent.FLAG_UPDATE_CURRENT)
 
             builder.setSmallIcon(Drawable.ic_notification)
                 .setContentTitle(title)
@@ -247,7 +247,7 @@ class NotificationActivity : AppCompatActivity() {
             val launchIntent =  Intent(this,NotificationActivity::class.java)
             val contentIntent = TaskStackBuilder.create(applicationContext)
                 .addNextIntentWithParentStack(launchIntent)
-                .getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT)
+                .getPendingIntent(0,if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE else PendingIntent.FLAG_UPDATE_CURRENT)
 
             val person1 = Person.Builder().setName("User 1").build()
             val person2 = Person.Builder().setName("User 2").build()
@@ -283,7 +283,7 @@ class NotificationActivity : AppCompatActivity() {
             val launchIntent =  Intent(this,NotificationActivity::class.java)
             val contentIntent = TaskStackBuilder.create(applicationContext)
                 .addNextIntentWithParentStack(launchIntent)
-                .getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT)
+                .getPendingIntent(0,if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE else PendingIntent.FLAG_UPDATE_CURRENT)
 
             builder.setSmallIcon(Drawable.ic_notification)
                 .setContentTitle(title)
@@ -310,7 +310,7 @@ class NotificationActivity : AppCompatActivity() {
             val launchIntent =  Intent(this,NotificationActivity::class.java)
             val contentIntent = TaskStackBuilder.create(applicationContext)
                 .addNextIntentWithParentStack(launchIntent)
-                .getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT)
+                .getPendingIntent(0,if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE else PendingIntent.FLAG_UPDATE_CURRENT)
 
             // This the notification inbox style property
             val inboxStyle = NotificationCompat.InboxStyle()
@@ -421,7 +421,7 @@ class NotificationActivity : AppCompatActivity() {
     {
         val intent = Intent(this,NotificationActivity::class.java)
         intent.action = "notification_cancelled"
-        return PendingIntent.getBroadcast(this,0,intent, PendingIntent.FLAG_CANCEL_CURRENT)
+        return PendingIntent.getBroadcast(this,0,intent, if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE else PendingIntent.FLAG_CANCEL_CURRENT)
     }
 
 }

@@ -109,7 +109,7 @@ class HardwareSensorActivity : BaseActivity(Layout.activity_hardware_sensor),
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
         menuInflater.inflate(R.menu.sensor_option_menu, menu)
         return true

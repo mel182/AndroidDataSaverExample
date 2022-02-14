@@ -3,12 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../DataSaverExample/app/src/main/res/layout/activity_data_binding_test.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_paging_example.xml" value="0.159375" />
         <entry key="app/src/main/res/layout/item_paging_custom_cell.xml" value="0.335" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

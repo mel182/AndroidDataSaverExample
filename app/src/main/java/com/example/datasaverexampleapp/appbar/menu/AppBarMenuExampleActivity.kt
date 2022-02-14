@@ -21,7 +21,7 @@ class AppBarMenuExampleActivity : AppCompatActivity() {
     }
 
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
         // You should always call super.onCreateOptionsMenu()
         // to ensure this call is also dispatched to Fragment
