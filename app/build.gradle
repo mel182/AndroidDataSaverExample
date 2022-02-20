@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+//apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
 
@@ -115,10 +115,6 @@ dependencies {
     def exo_player_version = "2.16.1"
     implementation "com.google.android.exoplayer:exoplayer-core:$exo_player_version"
     implementation "com.google.android.exoplayer:exoplayer-ui:$exo_player_version"
-
-//    implementation 'com.google.android.exoplayer:exoplayer-core:2.8.2'
-//    implementation 'com.google.android.exoplayer:exoplayer-ui:2.8.2'
-
 
     // router and media casting
     implementation 'androidx.mediarouter:mediarouter:1.2.6'

@@ -1,357 +1,360 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
 
-    <ScrollView
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        tools:context=".MainActivity">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <Button
-                android:id="@+id/custom_view_example"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Custom view" />
+                android:orientation="vertical">
 
-            <Button
-                android:id="@+id/compound_view_control_example"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Compound control view" />
+                <Button
+                    android:id="@+id/custom_view_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Custom view" />
 
-            <Button
-                android:id="@+id/resource_test"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Resource test" />
+                <Button
+                    android:id="@+id/compound_view_control_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Compound control view" />
 
-            <Button
-                android:id="@+id/earth_quake"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Earth quack test" />
+                <Button
+                    android:id="@+id/resource_test"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Resource test" />
 
-            <Button
-                android:id="@+id/data_binding_test"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Data binding test" />
+                <Button
+                    android:id="@+id/earth_quake"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Earth quack test" />
 
-            <Button
-                android:id="@+id/data_binding_list_example"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Data binding list example" />
+                <Button
+                    android:id="@+id/data_binding_test"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Data binding test" />
 
-            <Button
-                android:id="@+id/private_mode_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="storage private mode" />
+                <Button
+                    android:id="@+id/data_binding_list_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Data binding list example" />
 
-            <Switch
-                android:id="@+id/broadcast_toggle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Broadcast enabled" />
+                <Button
+                    android:id="@+id/private_mode_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="storage private mode" />
 
-            <Button
-                android:id="@+id/animation_test"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Animation test" />
+                <Switch
+                    android:id="@+id/broadcast_toggle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Broadcast enabled" />
 
-            <com.example.datasaverexampleapp.customTextview.FontTextView
-                android:id="@+id/wifi_info_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Hello World!" />
+                <Button
+                    android:id="@+id/animation_test"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Animation test" />
 
-            <Button
-                android:id="@+id/append_mode_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="storage append mode" />
+                <com.example.datasaverexampleapp.customTextview.FontTextView
+                    android:id="@+id/wifi_info_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hello World!" />
 
-            <Button
-                android:id="@+id/wifi_check"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Wifi check" />
+                <Button
+                    android:id="@+id/append_mode_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="storage append mode" />
 
-            <Button
-                android:id="@+id/battery_state_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Battery state" />
+                <Button
+                    android:id="@+id/wifi_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Wifi check" />
 
-            <Button
-                android:id="@+id/scroll_view_test"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Scroll view test" />
+                <Button
+                    android:id="@+id/battery_state_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Battery state" />
 
-            <Button
-                android:id="@+id/intent_test"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Intent test" />
+                <Button
+                    android:id="@+id/scroll_view_test"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Scroll view test" />
 
-            <Button
-                android:id="@+id/coroutine_example"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Coroutine example" />
+                <Button
+                    android:id="@+id/intent_test"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Intent test" />
 
-            <Button
-                android:id="@+id/flow_example"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Concurrency flow example" />
+                <Button
+                    android:id="@+id/coroutine_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Coroutine example" />
 
-            <Button
-                android:id="@+id/mvvm_coroutines_flow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="MVVM Coroutines Flow example" />
+                <Button
+                    android:id="@+id/flow_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Concurrency flow example" />
 
-            <Button
-                android:id="@+id/storage_manager_example"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Storage manager example" />
+                <Button
+                    android:id="@+id/mvvm_coroutines_flow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="MVVM Coroutines Flow example" />
 
-            <Button
-                android:id="@+id/room_database_example"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Room database example" />
+                <Button
+                    android:id="@+id/storage_manager_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Storage manager example" />
 
-            <Button
-                android:id="@+id/protocol_oriented_example"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Protocol Oriented Example" />
+                <Button
+                    android:id="@+id/room_database_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Room database example" />
 
-            <Button
-                android:id="@+id/firebase_real_time_database_example"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Firebase RealTime database example" />
+                <Button
+                    android:id="@+id/protocol_oriented_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Protocol Oriented Example" />
 
-            <Button
-                android:id="@+id/content_provider_example"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Content provider example" />
+                <Button
+                    android:id="@+id/firebase_real_time_database_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Firebase RealTime database example" />
 
-            <Button
-                android:id="@+id/background_task_example"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Background task example" />
+                <Button
+                    android:id="@+id/content_provider_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Content provider example" />
 
-            <Button
-                android:id="@+id/notification_example"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Notification example" />
+                <Button
+                    android:id="@+id/background_task_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Background task example" />
 
-            <Button
-                android:id="@+id/app_bar_example"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Appbar example" />
+                <Button
+                    android:id="@+id/notification_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Notification example" />
 
-            <Button
-                android:id="@+id/card_view_example"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Card View example" />
+                <Button
+                    android:id="@+id/app_bar_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Appbar example" />
 
-            <Button
-                android:id="@+id/appcompat_example"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="AppCompat Example" />
+                <Button
+                    android:id="@+id/card_view_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Card View example" />
 
-            <Button
-                android:id="@+id/app_bar_menu_example"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="App bar menu Example" />
+                <Button
+                    android:id="@+id/appcompat_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="AppCompat Example" />
 
-            <Button
-                android:id="@+id/searchview_example"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Search view Example" />
+                <Button
+                    android:id="@+id/app_bar_menu_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="App bar menu Example" />
 
-            <Button
-                android:id="@+id/toolbar_offscreen_example"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Toolbar offscreen Example" />
+                <Button
+                    android:id="@+id/searchview_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Search view Example" />
 
-            <Button
-                android:id="@+id/collapse_toolbar_example"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Collapse toolbar Example" />
+                <Button
+                    android:id="@+id/toolbar_offscreen_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Toolbar offscreen Example" />
 
-            <Button
-                android:id="@+id/collapse_toolbar_with_image_example"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Collapse toolbar with image Example" />
+                <Button
+                    android:id="@+id/collapse_toolbar_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Collapse toolbar Example" />
 
-            <Button
-                android:id="@+id/app_bar_with_tabs"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="App bar with tabs" />
+                <Button
+                    android:id="@+id/collapse_toolbar_with_image_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Collapse toolbar with image Example" />
 
-            <Button
-                android:id="@+id/app_bar_bottom_navigation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="App bar with bottom navigation" />
+                <Button
+                    android:id="@+id/app_bar_with_tabs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="App bar with tabs" />
 
-            <Button
-                android:id="@+id/drawer_menu_example"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Drawer menu example" />
+                <Button
+                    android:id="@+id/app_bar_bottom_navigation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="App bar with bottom navigation" />
 
-            <Button
-                android:id="@+id/dialog_example"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Dialog example" />
+                <Button
+                    android:id="@+id/drawer_menu_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Drawer menu example" />
 
-            <Button
-                android:id="@+id/snack_bar_example"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Snackbar example" />
+                <Button
+                    android:id="@+id/dialog_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dialog example" />
 
-            <Button
-                android:id="@+id/text_to_speech_example"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Text to speech example" />
+                <Button
+                    android:id="@+id/snack_bar_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Snackbar example" />
 
-            <Button
-                android:id="@+id/speech_recognition_example"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Speech recognition example" />
+                <Button
+                    android:id="@+id/text_to_speech_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Text to speech example" />
 
-            <Button
-                android:id="@+id/vibration_example"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Vibration example" />
+                <Button
+                    android:id="@+id/speech_recognition_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Speech recognition example" />
 
-            <Button
-                android:id="@+id/full_screen_example"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Full screen example" />
+                <Button
+                    android:id="@+id/vibration_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Vibration example" />
 
-            <Button
-                android:id="@+id/property_animation_example"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Property Animation example" />
+                <Button
+                    android:id="@+id/full_screen_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Full screen example" />
 
-            <Button
-                android:id="@+id/animator_set_example"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Animator set example example" />
+                <Button
+                    android:id="@+id/property_animation_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Property Animation example" />
 
-            <Button
-                android:id="@+id/draw_examples"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Draw examples" />
+                <Button
+                    android:id="@+id/animator_set_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Animator set example example" />
 
-            <Button
-                android:id="@+id/copy_paste_examples"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Copy and paste examples" />
+                <Button
+                    android:id="@+id/draw_examples"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Draw examples" />
 
-            <Button
-                android:id="@+id/onclick_delegation_examples"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="OnClick delegation example" />
+                <Button
+                    android:id="@+id/copy_paste_examples"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Copy and paste examples" />
 
-            <Button
-                android:id="@+id/location_examples"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Location examples" />
+                <Button
+                    android:id="@+id/onclick_delegation_examples"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="OnClick delegation example" />
 
-            <Button
-                android:id="@+id/google_maps_examples"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Google maps examples" />
+                <Button
+                    android:id="@+id/location_examples"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Location examples" />
 
-            <Button
-                android:id="@+id/hardware_sensor_examples"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Hardware sensor example" />
+                <Button
+                    android:id="@+id/google_maps_examples"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Google maps examples" />
 
-            <Button
-                android:id="@+id/video_audio_streaming_examples"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Video/audio example" />
+                <Button
+                    android:id="@+id/hardware_sensor_examples"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hardware sensor example" />
 
-            <Button
-                android:id="@+id/camera_examples"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Camera example" />
+                <Button
+                    android:id="@+id/video_audio_streaming_examples"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Video/audio example" />
 
-            <Button
-                android:id="@+id/bluetooth_examples"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Bluetooth example" />
+                <Button
+                    android:id="@+id/camera_examples"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Camera example" />
 
-            <Button
-                android:id="@+id/wifi_p2p_examples"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Wifi peer 2 peer example" />
+                <Button
+                    android:id="@+id/bluetooth_examples"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bluetooth example" />
 
-            <Button
-                android:id="@+id/paging_3_example"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Paging 3 library example" />
+                <Button
+                    android:id="@+id/wifi_p2p_examples"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Wifi peer 2 peer example" />
 
-        </LinearLayout>
-    </ScrollView>
+                <Button
+                    android:id="@+id/paging_3_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Paging 3 library example" />
+
+            </LinearLayout>
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>

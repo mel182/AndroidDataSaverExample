@@ -5,7 +5,10 @@ import android.app.ActivityManager.RunningAppProcessInfo
 import android.app.NotificationManager
 import android.content.*
 import android.content.pm.PackageManager
-import android.net.*
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkCapabilities
+import android.net.NetworkRequest
 import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
 import android.os.Build
@@ -15,6 +18,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.ConnectivityManagerCompat.*
+import androidx.databinding.DataBindingUtil
 import com.example.datasaverexampleapp.animation.AnimationExampleActivity
 import com.example.datasaverexampleapp.animation.animator_set.AnimatorSetActivity
 import com.example.datasaverexampleapp.animation.property.PropertyAnimationActivity
@@ -27,7 +31,6 @@ import com.example.datasaverexampleapp.appbar.scrolling_techniques.AppBarCollaps
 import com.example.datasaverexampleapp.appbar.scrolling_techniques.AppBarToolbarOffscreenActivity
 import com.example.datasaverexampleapp.appbar.searchview.SearchViewActivity
 import com.example.datasaverexampleapp.appbar.tabs.AppBarTabsActivity
-import com.example.datasaverexampleapp.work_manager.WorkManagerActivity
 import com.example.datasaverexampleapp.battery.Battery
 import com.example.datasaverexampleapp.battery.PowerConnectionReceiver
 import com.example.datasaverexampleapp.bluetooth.BluetoothExampleActivity
@@ -41,13 +44,13 @@ import com.example.datasaverexampleapp.custom_view.CustomViewActivity
 import com.example.datasaverexampleapp.custom_view.CustomViewExampleActivity
 import com.example.datasaverexampleapp.data_binding.DataBindingTestActivity
 import com.example.datasaverexampleapp.data_binding.earthQuakeExample.EarthQuakeDataBindingExampleActivity
+import com.example.datasaverexampleapp.databinding.ActivityMainBinding
 import com.example.datasaverexampleapp.dialog.DialogExampleActivity
 import com.example.datasaverexampleapp.drawing.DrawExampleActivity
 import com.example.datasaverexampleapp.earth_quake_example.EarthQuakeActivity
 import com.example.datasaverexampleapp.firebase_real_time.FireBaseRealTimeActivity
 import com.example.datasaverexampleapp.fullscreen_example.FullScreenExampleActivity
 import com.example.datasaverexampleapp.hardware_sensor.OptionDialogFragment
-import com.example.datasaverexampleapp.hardware_sensor.general.HardwareSensorActivity
 import com.example.datasaverexampleapp.implicit_delegation_example.ImplicitDelegationActivity
 import com.example.datasaverexampleapp.inDefInterfaces.Constants
 import com.example.datasaverexampleapp.inDefInterfaces.Shape
@@ -64,12 +67,12 @@ import com.example.datasaverexampleapp.snackbar.SnackBarActivity
 import com.example.datasaverexampleapp.speech_recognition_example.SpeechRecognitionActivity
 import com.example.datasaverexampleapp.storage_manager.StorageManagerExampleActivity
 import com.example.datasaverexampleapp.text_to_speech_example.TextToSpeechActivity
+import com.example.datasaverexampleapp.type_alias.Layout
 import com.example.datasaverexampleapp.vibration.VibrationExampleActivity
 import com.example.datasaverexampleapp.video_audio.VideoAudioStreamingActivity
 import com.example.datasaverexampleapp.video_audio.foreground_service.ForegroundService
-import com.example.datasaverexampleapp.video_audio.media_notification.CustomMediaStyleNotification
 import com.example.datasaverexampleapp.wifi_p2p.Wifi_P2P_ExampleActivity
-import kotlinx.android.synthetic.main.activity_main.*
+import com.example.datasaverexampleapp.work_manager.WorkManagerActivity
 import java.math.BigInteger
 
 
@@ -83,10 +86,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private var dataSaverBroadcastReceiver:BroadcastReceiver? = null
+    private var binding: ActivityMainBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        binding = DataBindingUtil.setContentView<ActivityMainBinding>(
+            this, Layout.activity_main
+        )
 
 //        val displayMetrics = DisplayMetrics()
 //        windowManager.defaultDisplay.getMetrics(displayMetrics)
@@ -115,396 +122,398 @@ class MainActivity : AppCompatActivity() {
 
         checkActiveNetwork()
         registerBackGroundRestrictedChangeBroadcastReceiver()
-        private_mode_button.setOnClickListener {
 
-            val filename = "private_mode_file"
-            val name = "Private mode file"
-
-            val fileOutputStream = openFileOutput(filename, Context.MODE_PRIVATE)
-            fileOutputStream.write(name.toByteArray())
-            fileOutputStream.close()
-
-            Toast.makeText(this,"File saved in private mode",Toast.LENGTH_SHORT).show()
-        }
-
-        append_mode_button.setOnClickListener {
-
-            val filename = "append_mode_file"
-            val name = "Append mode file"
-
-            val fileOutputStream = openFileOutput(filename, Context.MODE_APPEND)
-            fileOutputStream.write(name.toByteArray())
-            fileOutputStream.close()
-
-            Toast.makeText(this,"File saved in append mode",Toast.LENGTH_SHORT).show()
-        }
-
-        battery_state_button.setOnClickListener {
-            Battery.registerBatteryStatus(this)
-        }
-
-        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        binding?.apply {
 
 
-        wifi_check.setOnClickListener {
+            privateModeButton.setOnClickListener {
 
-            when {
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+                val filename = "private_mode_file"
+                val name = "Private mode file"
 
-                    val request = NetworkRequest.Builder().addTransportType(NetworkCapabilities.TRANSPORT_WIFI).build()
-                    val networkCallback = object : ConnectivityManager.NetworkCallback() {
+                val fileOutputStream = openFileOutput(filename, Context.MODE_PRIVATE)
+                fileOutputStream.write(name.toByteArray())
+                fileOutputStream.close()
 
-                        override fun onCapabilitiesChanged(network: Network, networkCapabilities: NetworkCapabilities) {
-                            super.onCapabilitiesChanged(network, networkCapabilities)
-                            val wifiInfo = networkCapabilities.transportInfo as WifiInfo
-                            val speedMbps = wifiInfo.linkSpeed
-                            wifi_info_txt.text = "Wifi connected\nSpeed info (Mbps): $speedMbps"
-                        }
-                    }
+                Toast.makeText(this@MainActivity,"File saved in private mode",Toast.LENGTH_SHORT).show()
+            }
 
-                    getSystemService(ConnectivityManager::class.java).apply {
-                        requestNetwork(request, networkCallback)
-                        registerNetworkCallback(request, networkCallback)
-                    }
-                }
+            appendModeButton.setOnClickListener {
 
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.M -> {
-                    val networkCapabilities = connectivityManager.activeNetwork
-                    val activeNetwork = connectivityManager.getNetworkCapabilities(networkCapabilities)
+                val filename = "append_mode_file"
+                val name = "Append mode file"
 
-                    activeNetwork?.let { networkCapability ->
+                val fileOutputStream = openFileOutput(filename, Context.MODE_APPEND)
+                fileOutputStream.write(name.toByteArray())
+                fileOutputStream.close()
 
-                        when {
-                            networkCapability.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> {
+                Toast.makeText(this@MainActivity,"File saved in append mode",Toast.LENGTH_SHORT).show()
+            }
 
-                                val wifiInfo = wifiManager.connectionInfo
+            batteryStateButton.setOnClickListener {
+                Battery.registerBatteryStatus(this@MainActivity)
+            }
+
+            val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+
+            wifiCheck.setOnClickListener {
+
+                when {
+                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+
+                        val request = NetworkRequest.Builder().addTransportType(NetworkCapabilities.TRANSPORT_WIFI).build()
+                        val networkCallback = object : ConnectivityManager.NetworkCallback() {
+
+                            override fun onCapabilitiesChanged(network: Network, networkCapabilities: NetworkCapabilities) {
+                                super.onCapabilitiesChanged(network, networkCapabilities)
+                                val wifiInfo = networkCapabilities.transportInfo as WifiInfo
                                 val speedMbps = wifiInfo.linkSpeed
-
-                                wifi_info_txt.text = "Wifi connected\nSpeed info (Mbps): $speedMbps"
-
+                                wifiInfoTxt.text = "Wifi connected\nSpeed info (Mbps): $speedMbps"
                             }
+                        }
 
-                            networkCapability.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> {
-                                wifi_info_txt.text = "Cellular transport connected!"
-                            }
-
-                            networkCapability.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> {
-                                wifi_info_txt.text = "Transport ethernet connected!"
-                            }
-
-                            networkCapability.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH) -> {
-                                wifi_info_txt.text = "Transport bluetooth connected!"
-                            }
+                        getSystemService(ConnectivityManager::class.java).apply {
+                            requestNetwork(request, networkCallback)
+                            registerNetworkCallback(request, networkCallback)
                         }
                     }
 
-                }
-                else -> {
-                    val activeNetwork = connectivityManager.activeNetworkInfo
-                    val isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting
+                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.M -> {
+                        val networkCapabilities = connectivityManager.activeNetwork
+                        val activeNetwork = connectivityManager.getNetworkCapabilities(networkCapabilities)
 
-                    activeNetwork?.let {
+                        activeNetwork?.let { networkCapability ->
 
-                        if (isConnected) {
-                            val wifi = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
-                            val mobile = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)
+                            when {
+                                networkCapability.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> {
 
-                            if (wifi != null && mobile != null) {
-                                if (wifi.isAvailable) {
-                                    wifi_info_txt.text = "Wifi connected!"
-                                } else if (mobile.isAvailable) {
-                                    wifi_info_txt.text = "Mobile connected!"
+                                    val wifiInfo = wifiManager.connectionInfo
+                                    val speedMbps = wifiInfo.linkSpeed
+
+                                    wifiInfoTxt.text = "Wifi connected\nSpeed info (Mbps): $speedMbps"
                                 }
 
-                                if (wifi.isAvailable || mobile.isAvailable) {
-                                    // Perform task
+                                networkCapability.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> {
+                                    wifiInfoTxt.text = "Cellular transport connected!"
+                                }
+
+                                networkCapability.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> {
+                                    wifiInfoTxt.text = "Transport ethernet connected!"
+                                }
+
+                                networkCapability.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH) -> {
+                                    wifiInfoTxt.text = "Transport bluetooth connected!"
                                 }
                             }
+                        }
 
-                        } else {
-                            wifi_info_txt.text = "Not Connected!"
+                    }
+                    else -> {
+                        val activeNetwork = connectivityManager.activeNetworkInfo
+                        val isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting
+
+                        activeNetwork?.let {
+
+                            if (isConnected) {
+                                val wifi = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
+                                val mobile = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)
+
+                                if (wifi != null && mobile != null) {
+                                    if (wifi.isAvailable) {
+                                        wifiInfoTxt.text = "Wifi connected!"
+                                    } else if (mobile.isAvailable) {
+                                        wifiInfoTxt.text = "Mobile connected!"
+                                    }
+
+                                    if (wifi.isAvailable || mobile.isAvailable) {
+                                        // Perform task
+                                    }
+                                }
+
+                            } else {
+                                wifiInfoTxt.text = "Not Connected!"
+                            }
                         }
                     }
                 }
             }
-        }
 
-        val receiver = ComponentName(applicationContext, PowerConnectionReceiver::class.java)
+            val receiver = ComponentName(applicationContext, PowerConnectionReceiver::class.java)
 
-        val packageManager = packageManager
+            val packageManager = packageManager
 
-        // Does not work with devices with Android N and above since the broadcast need to be registered in the manifest
-        broadcast_toggle.setOnClickListener {
+            // Does not work with devices with Android N and above since the broadcast need to be registered in the manifest
+            broadcastToggle.setOnClickListener {
 
-            if (it.isActivated)
-            {
-                packageManager.setComponentEnabledSetting(receiver,
-                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                    PackageManager.DONT_KILL_APP)
-
-                broadcast_toggle.text = "Broadcast disabled"
-
-            } else {
-                packageManager.setComponentEnabledSetting(receiver,
-                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                    PackageManager.DONT_KILL_APP)
-
-                broadcast_toggle.text = "Broadcast enabled"
-            }
-        }
-
-        earth_quake.setOnClickListener {
-            val intent = Intent(this,EarthQuakeActivity::class.java)
-            startActivity(intent)
-        }
-
-        resource_test?.setOnClickListener {
-            val resourceTestActivityIntent = Intent(this,ResourceActivity::class.java)
-            startActivity(resourceTestActivityIntent)
-        }
-
-        animation_test?.setOnClickListener {
-            val intent = Intent(this, AnimationExampleActivity::class.java)
-            startActivity(intent)
-        }
-
-        data_binding_test?.setOnClickListener {
-            val intent = Intent(this, DataBindingTestActivity::class.java)
-            startActivity(intent)
-        }
-
-        data_binding_list_example?.setOnClickListener {
-            val intent = Intent(this, EarthQuakeDataBindingExampleActivity::class.java)
-            startActivity(intent)
-        }
-
-        compound_view_control_example?.setOnClickListener {
-            val intent = Intent(this, CustomViewActivity::class.java)
-            startActivity(intent)
-        }
-
-        custom_view_example?.setOnClickListener {
-            val intent = Intent(this, CustomViewExampleActivity::class.java)
-            startActivity(intent)
-        }
-
-        intent_test?.setOnClickListener {
-            val intent = Intent(this, IntentActivity::class.java)
-            startActivity(intent)
-        }
-
-        // ------------------------ Check for intent for deep link -----------------------------------
-        intent?.let {
-            val data = it.data
-            data?.let { dataUri ->
-                Toast.makeText(this, "data: ${dataUri}", Toast.LENGTH_SHORT).show()
-
-                if (dataUri.toString() == "http://example.com")
+                if (it.isActivated)
                 {
-                    val intent = Intent(this, IntentActivity::class.java)
-                    startActivity(intent)
+                    packageManager.setComponentEnabledSetting(receiver,
+                        PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                        PackageManager.DONT_KILL_APP)
+
+                    broadcastToggle.text = "Broadcast disabled"
+
+                } else {
+                    packageManager.setComponentEnabledSetting(receiver,
+                        PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                        PackageManager.DONT_KILL_APP)
+
+                    broadcastToggle.text = "Broadcast enabled"
                 }
             }
+
+            earthQuake.setOnClickListener {
+                val intent = Intent(this@MainActivity,EarthQuakeActivity::class.java)
+                startActivity(intent)
+            }
+
+            resourceTest.setOnClickListener {
+                val resourceTestActivityIntent = Intent(this@MainActivity,ResourceActivity::class.java)
+                startActivity(resourceTestActivityIntent)
+            }
+
+            animationTest.setOnClickListener {
+                val intent = Intent(this@MainActivity, AnimationExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+            dataBindingTest.setOnClickListener {
+                val intent = Intent(this@MainActivity, DataBindingTestActivity::class.java)
+                startActivity(intent)
+            }
+
+            dataBindingListExample.setOnClickListener {
+                val intent = Intent(this@MainActivity, EarthQuakeDataBindingExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+            compoundViewControlExample.setOnClickListener {
+                val intent = Intent(this@MainActivity, CustomViewActivity::class.java)
+                startActivity(intent)
+            }
+
+            customViewExample.setOnClickListener {
+                val intent = Intent(this@MainActivity, CustomViewExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+            intentTest.setOnClickListener {
+                val intent = Intent(this@MainActivity, IntentActivity::class.java)
+                startActivity(intent)
+            }
+
+            // ------------------------ Check for intent for deep link -----------------------------------
+            intent?.let {
+                val data = it.data
+                data?.let { dataUri ->
+                    Toast.makeText(this@MainActivity, "data: ${dataUri}", Toast.LENGTH_SHORT).show()
+
+                    if (dataUri.toString() == "http://example.com")
+                    {
+                        val intent = Intent(this@MainActivity, IntentActivity::class.java)
+                        startActivity(intent)
+                    }
+                }
+            }
+            // -------------------------------------------------------------------------------------------
+
+            coroutineExample.setOnClickListener {
+                val intent = Intent(this@MainActivity, CoroutineExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+            flowExample.setOnClickListener {
+                val intent = Intent(this@MainActivity, FlowExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+            mvvmCoroutinesFlow.setOnClickListener {
+                val intent = Intent(this@MainActivity, MvvMCoroutinesActivity::class.java)
+                startActivity(intent)
+            }
+
+            storageManagerExample.setOnClickListener {
+                val intent = Intent(this@MainActivity, StorageManagerExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+            roomDatabaseExample.setOnClickListener {
+                val intent = Intent(this@MainActivity, RoomDBActivity::class.java)
+                startActivity(intent)
+            }
+
+            protocolOrientedExample.setOnClickListener {
+                val intent = Intent(this@MainActivity, ProtocolOrientedActivity::class.java)
+                startActivity(intent)
+            }
+
+            firebaseRealTimeDatabaseExample.setOnClickListener {
+                val intent = Intent(this@MainActivity, FireBaseRealTimeActivity::class.java)
+                startActivity(intent)
+            }
+
+            contentProviderExample.setOnClickListener {
+                val intent = Intent(this@MainActivity, ContentProviderActivity::class.java)
+                startActivity(intent)
+            }
+
+            backgroundTaskExample.setOnClickListener {
+                val intent = Intent(this@MainActivity, WorkManagerActivity::class.java)
+                startActivity(intent)
+            }
+
+            notificationExample.setOnClickListener {
+                val intent = Intent(this@MainActivity, NotificationActivity::class.java)
+                startActivity(intent)
+            }
+
+            appBarExample.setOnClickListener {
+                val intent = Intent(this@MainActivity, AppBarActivity::class.java)
+                startActivity(intent)
+            }
+
+            cardViewExample.setOnClickListener {
+                val intent = Intent(this@MainActivity, CardViewActivity::class.java)
+                startActivity(intent)
+            }
+
+            appBarMenuExample.setOnClickListener {
+                val intent = Intent(this@MainActivity, AppBarMenuExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+            searchviewExample.setOnClickListener {
+                val intent = Intent(this@MainActivity, SearchViewActivity::class.java)
+                startActivity(intent)
+            }
+
+            toolbarOffscreenExample.setOnClickListener {
+                val intent = Intent(this@MainActivity, AppBarToolbarOffscreenActivity::class.java)
+                startActivity(intent)
+            }
+
+            collapseToolbarExample.setOnClickListener {
+                val intent = Intent(this@MainActivity, AppBarCollapsingToolbarExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+            collapseToolbarWithImageExample.setOnClickListener {
+                val intent = Intent(this@MainActivity, AppBarCollapsingToolbarWithImageExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+            appBarWithTabs.setOnClickListener {
+                val intent = Intent(this@MainActivity, AppBarTabsActivity::class.java)
+                startActivity(intent)
+            }
+
+            appBarBottomNavigation.setOnClickListener {
+                val intent = Intent(this@MainActivity, AppBarBottomNavigationActivity::class.java)
+                startActivity(intent)
+            }
+
+            drawerMenuExample.setOnClickListener {
+                val intent = Intent(this@MainActivity, DrawerMenuActivity::class.java)
+                startActivity(intent)
+            }
+
+            dialogExample.setOnClickListener {
+                val intent = Intent(this@MainActivity, DialogExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+            snackBarExample.setOnClickListener {
+                val intent = Intent(this@MainActivity, SnackBarActivity::class.java)
+                startActivity(intent)
+            }
+
+            textToSpeechExample.setOnClickListener {
+                val intent = Intent(this@MainActivity, TextToSpeechActivity::class.java)
+                startActivity(intent)
+            }
+
+            speechRecognitionExample.setOnClickListener {
+                val intent = Intent(this@MainActivity, SpeechRecognitionActivity::class.java)
+                startActivity(intent)
+            }
+
+            vibrationExample.setOnClickListener {
+                val intent = Intent(this@MainActivity, VibrationExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+            fullScreenExample.setOnClickListener {
+                val intent = Intent(this@MainActivity, FullScreenExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+            propertyAnimationExample.setOnClickListener {
+                val intent = Intent(this@MainActivity, PropertyAnimationActivity::class.java)
+                startActivity(intent)
+            }
+
+            animatorSetExample.setOnClickListener {
+                val intent = Intent(this@MainActivity, AnimatorSetActivity::class.java)
+                startActivity(intent)
+            }
+
+            drawExamples.setOnClickListener {
+                val intent = Intent(this@MainActivity, DrawExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+            copyPasteExamples.setOnClickListener {
+                val intent = Intent(this@MainActivity, CopyPasteExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+            onclickDelegationExamples.setOnClickListener {
+                val intent = Intent(this@MainActivity, ImplicitDelegationActivity::class.java)
+                startActivity(intent)
+            }
+
+            locationExamples.setOnClickListener {
+                val intent = Intent(this@MainActivity, LocationMapActivity::class.java)
+                startActivity(intent)
+            }
+
+            googleMapsExamples.setOnClickListener {
+                val intent = Intent(this@MainActivity, GoogleMapsActivity::class.java)
+                startActivity(intent)
+            }
+
+            hardwareSensorExamples.setOnClickListener {
+                OptionDialogFragment(this@MainActivity).show(supportFragmentManager,null)
+            }
+
+            videoAudioStreamingExamples.setOnClickListener {
+                val intent = Intent(this@MainActivity, VideoAudioStreamingActivity::class.java)
+                startActivity(intent)
+            }
+
+            cameraExamples.setOnClickListener {
+                val intent = Intent(this@MainActivity, CameraExamplesActivity::class.java)
+                startActivity(intent)
+            }
+
+            bluetoothExamples.setOnClickListener {
+                val intent = Intent(this@MainActivity, BluetoothExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+            wifiP2pExamples.setOnClickListener {
+                val intent = Intent(this@MainActivity, Wifi_P2P_ExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+            paging3Example.setOnClickListener {
+                val intent = Intent(this@MainActivity, PagingExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+            cancelNotificationIfNeeded(ForegroundService.NOTIFICATION_ID)
         }
-        // -------------------------------------------------------------------------------------------
-
-        coroutine_example?.setOnClickListener {
-            val intent = Intent(this, CoroutineExampleActivity::class.java)
-            startActivity(intent)
-        }
-
-        flow_example.setOnClickListener {
-            val intent = Intent(this, FlowExampleActivity::class.java)
-            startActivity(intent)
-        }
-
-        mvvm_coroutines_flow?.setOnClickListener {
-            val intent = Intent(this, MvvMCoroutinesActivity::class.java)
-            startActivity(intent)
-        }
-
-        storage_manager_example?.setOnClickListener {
-            val intent = Intent(this, StorageManagerExampleActivity::class.java)
-            startActivity(intent)
-        }
-
-        room_database_example?.setOnClickListener {
-            val intent = Intent(this, RoomDBActivity::class.java)
-            startActivity(intent)
-        }
-
-        protocol_oriented_example?.setOnClickListener {
-            val intent = Intent(this, ProtocolOrientedActivity::class.java)
-            startActivity(intent)
-        }
-
-        firebase_real_time_database_example?.setOnClickListener {
-            val intent = Intent(this, FireBaseRealTimeActivity::class.java)
-            startActivity(intent)
-        }
-
-        content_provider_example.setOnClickListener {
-            val intent = Intent(this, ContentProviderActivity::class.java)
-            startActivity(intent)
-        }
-
-        background_task_example.setOnClickListener {
-            val intent = Intent(this, WorkManagerActivity::class.java)
-            startActivity(intent)
-        }
-
-        notification_example.setOnClickListener {
-            val intent = Intent(this, NotificationActivity::class.java)
-            startActivity(intent)
-        }
-
-        app_bar_example.setOnClickListener {
-            val intent = Intent(this, AppBarActivity::class.java)
-            startActivity(intent)
-        }
-
-        card_view_example?.setOnClickListener {
-            val intent = Intent(this, CardViewActivity::class.java)
-            startActivity(intent)
-        }
-
-        app_bar_menu_example?.setOnClickListener {
-            val intent = Intent(this, AppBarMenuExampleActivity::class.java)
-            startActivity(intent)
-        }
-
-        searchview_example?.setOnClickListener {
-            val intent = Intent(this, SearchViewActivity::class.java)
-            startActivity(intent)
-        }
-
-        toolbar_offscreen_example?.setOnClickListener {
-            val intent = Intent(this, AppBarToolbarOffscreenActivity::class.java)
-            startActivity(intent)
-        }
-
-        collapse_toolbar_example?.setOnClickListener {
-            val intent = Intent(this, AppBarCollapsingToolbarExampleActivity::class.java)
-            startActivity(intent)
-        }
-
-        collapse_toolbar_with_image_example?.setOnClickListener {
-            val intent = Intent(this, AppBarCollapsingToolbarWithImageExampleActivity::class.java)
-            startActivity(intent)
-        }
-
-        app_bar_with_tabs?.setOnClickListener {
-            val intent = Intent(this, AppBarTabsActivity::class.java)
-            startActivity(intent)
-        }
-
-
-        app_bar_bottom_navigation?.setOnClickListener {
-            val intent = Intent(this, AppBarBottomNavigationActivity::class.java)
-            startActivity(intent)
-        }
-
-        drawer_menu_example?.setOnClickListener {
-            val intent = Intent(this, DrawerMenuActivity::class.java)
-            startActivity(intent)
-        }
-
-        dialog_example?.setOnClickListener {
-            val intent = Intent(this, DialogExampleActivity::class.java)
-            startActivity(intent)
-        }
-
-        snack_bar_example?.setOnClickListener {
-            val intent = Intent(this, SnackBarActivity::class.java)
-            startActivity(intent)
-        }
-
-        text_to_speech_example?.setOnClickListener {
-            val intent = Intent(this, TextToSpeechActivity::class.java)
-            startActivity(intent)
-        }
-
-        speech_recognition_example?.setOnClickListener {
-            val intent = Intent(this, SpeechRecognitionActivity::class.java)
-            startActivity(intent)
-        }
-
-        vibration_example?.setOnClickListener {
-            val intent = Intent(this, VibrationExampleActivity::class.java)
-            startActivity(intent)
-        }
-
-        full_screen_example?.setOnClickListener {
-            val intent = Intent(this, FullScreenExampleActivity::class.java)
-            startActivity(intent)
-        }
-
-        property_animation_example?.setOnClickListener {
-            val intent = Intent(this, PropertyAnimationActivity::class.java)
-            startActivity(intent)
-        }
-
-        animator_set_example?.setOnClickListener {
-            val intent = Intent(this, AnimatorSetActivity::class.java)
-            startActivity(intent)
-        }
-
-        draw_examples?.setOnClickListener {
-            val intent = Intent(this, DrawExampleActivity::class.java)
-            startActivity(intent)
-        }
-
-        copy_paste_examples?.setOnClickListener {
-            val intent = Intent(this, CopyPasteExampleActivity::class.java)
-            startActivity(intent)
-        }
-
-        onclick_delegation_examples?.setOnClickListener {
-            val intent = Intent(this, ImplicitDelegationActivity::class.java)
-            startActivity(intent)
-        }
-
-        location_examples?.setOnClickListener {
-            val intent = Intent(this, LocationMapActivity::class.java)
-            startActivity(intent)
-        }
-
-        google_maps_examples?.setOnClickListener {
-            val intent = Intent(this, GoogleMapsActivity::class.java)
-            startActivity(intent)
-        }
-
-        hardware_sensor_examples?.setOnClickListener {
-            OptionDialogFragment(this).show(supportFragmentManager,null)
-        }
-
-        video_audio_streaming_examples?.setOnClickListener {
-            val intent = Intent(this, VideoAudioStreamingActivity::class.java)
-            startActivity(intent)
-        }
-
-        camera_examples?.setOnClickListener {
-            val intent = Intent(this, CameraExamplesActivity::class.java)
-            startActivity(intent)
-        }
-
-        bluetooth_examples?.setOnClickListener {
-            val intent = Intent(this, BluetoothExampleActivity::class.java)
-            startActivity(intent)
-        }
-
-        wifi_p2p_examples?.setOnClickListener {
-            val intent = Intent(this, Wifi_P2P_ExampleActivity::class.java)
-            startActivity(intent)
-        }
-
-        paging_3_example?.setOnClickListener {
-            val intent = Intent(this, PagingExampleActivity::class.java)
-            startActivity(intent)
-        }
-
-        cancelNotificationIfNeeded(ForegroundService.NOTIFICATION_ID)
     }
 
     private fun cancelNotificationIfNeeded(notificationID:Int)
