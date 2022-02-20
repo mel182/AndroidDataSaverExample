@@ -9,10 +9,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.datasaverexampleapp.R
 import com.example.datasaverexampleapp.type_alias.Layout
-import com.google.android.exoplayer2.*
-import com.google.android.exoplayer2.source.ExtractorMediaSource
+import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.source.MediaSource
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
+import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.upstream.RawResourceDataSource
 import com.google.android.exoplayer2.util.Util
@@ -28,7 +27,7 @@ import kotlinx.android.synthetic.main.activity_exo_player.*
  */
 class MediaSessionActivity : AppCompatActivity()
 {
-    private var player: SimpleExoPlayer? = null
+    private var player: ExoPlayer? = null
 
     // Create and initialize a Media Session, create a new instance of the
     // 'MediaSessionCompat' class from within the 'onCreate' method of your
@@ -42,7 +41,7 @@ class MediaSessionActivity : AppCompatActivity()
 
         mediaSession = MediaSessionCompat(applicationContext, "TAG")
         // Create a new Exo Player
-        player = ExoPlayerFactory.newSimpleInstance(this, DefaultTrackSelector())
+        player = ExoPlayer.Builder(this).build()
 
         // To receive media control from devices such as Bluetooth headsets, Wear OS,
         // and Android Auto, you must then call 'setFlag', indicating that you wish
@@ -64,7 +63,7 @@ class MediaSessionActivity : AppCompatActivity()
         )
 
         // This is the MediaSource representing the media to be played.
-        val rawDirectoryResource: MediaSource = ExtractorMediaSource.Factory(dataSourceFactory)
+        val rawDirectoryResource: MediaSource = ProgressiveMediaSource.Factory(dataSourceFactory)
             .createMediaSource(RawResourceDataSource.buildRawResourceUri(R.raw.bon_vibe))
 
         // Start loading the media source

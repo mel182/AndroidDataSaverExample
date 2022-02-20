@@ -22,12 +22,9 @@ import androidx.media.MediaBrowserServiceCompat
 import com.example.datasaverexampleapp.R
 import com.example.datasaverexampleapp.type_alias.AppString
 import com.google.android.exoplayer2.DefaultRenderersFactory
-import com.google.android.exoplayer2.ExoPlayerFactory
-import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory
-import com.google.android.exoplayer2.source.ExtractorMediaSource
-import com.google.android.exoplayer2.source.MediaSource
-import com.google.android.exoplayer2.source.MediaSourceEventListener
+import com.google.android.exoplayer2.source.*
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.upstream.RawResourceDataSource
@@ -56,7 +53,7 @@ class ExoPlayerMediaPlaybackService : MediaBrowserServiceCompat(),
     AudioManager.OnAudioFocusChangeListener {
     private val TAG = javaClass.simpleName
     private var mediaSessionCompat: MediaSessionCompat? = null
-    private var player: SimpleExoPlayer? = null
+    private var player: ExoPlayer? = null
     private lateinit var audioManager: AudioManager
     private var mediaSource: MediaSource? = null
     private lateinit var renderersFactory : DefaultRenderersFactory
@@ -89,11 +86,13 @@ class ExoPlayerMediaPlaybackService : MediaBrowserServiceCompat(),
                 this@ExoPlayerMediaPlaybackService.mediaSource?.let { media_source ->
 
                     // Create a new Exo Player
-                    player = if (isStreamingMedia) {
-                        ExoPlayerFactory.newSimpleInstance(this@ExoPlayerMediaPlaybackService, trackSelector)
-                    } else {
-                        ExoPlayerFactory.newSimpleInstance(this@ExoPlayerMediaPlaybackService, DefaultTrackSelector())
-                    }
+//                    player = if (isStreamingMedia) {
+//                        ExoPlayerFactory.newSimpleInstance(this@ExoPlayerMediaPlaybackService, trackSelector)
+//                    } else {
+//                        ExoPlayerFactory.newSimpleInstance(this@ExoPlayerMediaPlaybackService, DefaultTrackSelector())
+//                    }
+
+                    player = ExoPlayer.Builder(this@ExoPlayerMediaPlaybackService).build()
 
                     // Start loading the media source
                     player?.prepare(media_source)
@@ -169,7 +168,7 @@ class ExoPlayerMediaPlaybackService : MediaBrowserServiceCompat(),
                                                 Util.getUserAgent(this@ExoPlayerMediaPlaybackService, getString(R.string.app_name)))
 
                                             // This is the MediaSource representing the media to be played.
-                                            this@ExoPlayerMediaPlaybackService.mediaSource = ExtractorMediaSource
+                                            this@ExoPlayerMediaPlaybackService.mediaSource = ProgressiveMediaSource
                                                 .Factory(dataSourceFactory)
                                                 .createMediaSource(RawResourceDataSource.buildRawResourceUri(mediaSource))
 
@@ -185,7 +184,7 @@ class ExoPlayerMediaPlaybackService : MediaBrowserServiceCompat(),
                                         isStreamingMedia = true
                                         val userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:40.0) Gecko/20100101 Firefox/40.0"
                                         val uri = Uri.parse(mediaSource)
-                                        this@ExoPlayerMediaPlaybackService.mediaSource = ExtractorMediaSource
+                                        this@ExoPlayerMediaPlaybackService.mediaSource = ProgressiveMediaSource
                                             .Factory(DefaultDataSourceFactory(this@ExoPlayerMediaPlaybackService, userAgent))
                                             .setExtractorsFactory(DefaultExtractorsFactory())
                                             .createMediaSource(uri)
@@ -204,42 +203,29 @@ class ExoPlayerMediaPlaybackService : MediaBrowserServiceCompat(),
 
                        addEventListener(Handler(), object : MediaSourceEventListener {
 
-                               override fun onMediaPeriodCreated(windowIndex: Int, mediaPeriodId: MediaSource.MediaPeriodId?) { }
+                           override fun onLoadStarted(windowIndex: Int, mediaPeriodId: MediaSource.MediaPeriodId?, loadEventInfo: LoadEventInfo, mediaLoadData: MediaLoadData) {
+                               super.onLoadStarted(windowIndex, mediaPeriodId, loadEventInfo, mediaLoadData)
 
-                               override fun onMediaPeriodReleased(windowIndex: Int, mediaPeriodId: MediaSource.MediaPeriodId?) { }
+                              mediaSessionCompat?.setPlaybackState(
 
-                               override fun onLoadStarted(windowIndex: Int, mediaPeriodId: MediaSource.MediaPeriodId?, loadEventInfo: MediaSourceEventListener.LoadEventInfo?, mediaLoadData: MediaSourceEventListener.MediaLoadData?)
-                               {
-                                   mediaSessionCompat?.setPlaybackState(
-
-                                       PlaybackStateCompat.Builder()
-                                           .setActions( if (isStreamingMedia) PlaybackStateCompat.ACTION_PLAY_FROM_URI else PlaybackStateCompat.ACTION_PLAY_PAUSE)
-                                           .setState(PlaybackStateCompat.STATE_PLAYING, 0L, 0.0f)
-                                           .build()
-                                   )
-                               }
-
-                               override fun onLoadCompleted(windowIndex: Int, mediaPeriodId: MediaSource.MediaPeriodId?, loadEventInfo: MediaSourceEventListener.LoadEventInfo?, mediaLoadData: MediaSourceEventListener.MediaLoadData?) { }
-
-                               override fun onLoadCanceled(windowIndex: Int, mediaPeriodId: MediaSource.MediaPeriodId?, loadEventInfo: MediaSourceEventListener.LoadEventInfo?, mediaLoadData: MediaSourceEventListener.MediaLoadData?)
-                               {
-                                   mediaSessionCompat?.setPlaybackState(
-                                       PlaybackStateCompat.Builder()
-                                           .setActions(PlaybackStateCompat.ACTION_STOP)
-                                           .setState(PlaybackStateCompat.STATE_STOPPED, 0L, 0.0f)
-                                           .build()
-                                   )
-                               }
-
-                               override fun onLoadError(windowIndex: Int, mediaPeriodId: MediaSource.MediaPeriodId?, loadEventInfo: MediaSourceEventListener.LoadEventInfo?, mediaLoadData: MediaSourceEventListener.MediaLoadData?, error: IOException?, wasCanceled: Boolean) { }
-
-                               override fun onReadingStarted(windowIndex: Int, mediaPeriodId: MediaSource.MediaPeriodId?) { }
-
-                               override fun onUpstreamDiscarded(windowIndex: Int, mediaPeriodId: MediaSource.MediaPeriodId?, mediaLoadData: MediaSourceEventListener.MediaLoadData?) { }
-
-                               override fun onDownstreamFormatChanged(windowIndex: Int, mediaPeriodId: MediaSource.MediaPeriodId?, mediaLoadData: MediaSourceEventListener.MediaLoadData?) { }
+                                   PlaybackStateCompat.Builder()
+                                       .setActions( if (isStreamingMedia) PlaybackStateCompat.ACTION_PLAY_FROM_URI else PlaybackStateCompat.ACTION_PLAY_PAUSE)
+                                       .setState(PlaybackStateCompat.STATE_PLAYING, 0L, 0.0f)
+                                       .build()
+                              )
                            }
-                       )
+
+                           override fun onLoadCanceled(windowIndex: Int, mediaPeriodId: MediaSource.MediaPeriodId?, loadEventInfo: LoadEventInfo, mediaLoadData: MediaLoadData) {
+                               super.onLoadCanceled(windowIndex, mediaPeriodId, loadEventInfo, mediaLoadData)
+
+                               mediaSessionCompat?.setPlaybackState(
+                                   PlaybackStateCompat.Builder()
+                                       .setActions(PlaybackStateCompat.ACTION_STOP)
+                                       .setState(PlaybackStateCompat.STATE_STOPPED, 0L, 0.0f)
+                                       .build()
+                               )
+                           }
+                       })
                    }
                 } else {
                     cb?.send(FAILED_ADDING_MEDIA_SOURCE,null)

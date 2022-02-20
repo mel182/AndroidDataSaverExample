@@ -112,12 +112,12 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:19.0.1'
 
     // ExoPlayer dependencies
-//    def exo_player_version = "2.16.1"
-//    implementation "com.google.android.exoplayer:exoplayer-core:$exo_player_version"
-//    implementation "com.google.android.exoplayer:exoplayer-ui:$exo_player_version"
+    def exo_player_version = "2.16.1"
+    implementation "com.google.android.exoplayer:exoplayer-core:$exo_player_version"
+    implementation "com.google.android.exoplayer:exoplayer-ui:$exo_player_version"
 
-    implementation 'com.google.android.exoplayer:exoplayer-core:2.8.2'
-    implementation 'com.google.android.exoplayer:exoplayer-ui:2.8.2'
+//    implementation 'com.google.android.exoplayer:exoplayer-core:2.8.2'
+//    implementation 'com.google.android.exoplayer:exoplayer-ui:2.8.2'
 
 
     // router and media casting

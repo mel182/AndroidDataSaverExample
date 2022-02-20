@@ -1,27 +1,16 @@
 package com.example.datasaverexampleapp.video_audio.exoplayer
 
-import android.content.Context
-import android.media.AudioAttributes
-import android.media.AudioFocusRequest
-import android.media.AudioManager
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.datasaverexampleapp.R
-import com.google.android.exoplayer2.ExoPlayerFactory
-import com.google.android.exoplayer2.SimpleExoPlayer
-import com.google.android.exoplayer2.source.ExtractorMediaSource
+import com.google.android.exoplayer2.ExoPlayer
+import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.source.MediaSource
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
+import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.upstream.RawResourceDataSource
 import com.google.android.exoplayer2.util.Util
 import kotlinx.android.synthetic.main.activity_exo_player.*
-import java.io.File
 
 
 /**
@@ -49,7 +38,7 @@ import java.io.File
  */
 class ExoPlayerActivity : AppCompatActivity()
 {
-    private var player:SimpleExoPlayer? = null
+    private var player:ExoPlayer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +50,7 @@ class ExoPlayerActivity : AppCompatActivity()
         super.onStart()
 
         // Create a new Exo Player
-        player = ExoPlayerFactory.newSimpleInstance(this, DefaultTrackSelector())
+        player = ExoPlayer.Builder(this).build()
 
         // associate the ExoPlayer with the player View
         player_view?.player = player
@@ -75,11 +64,13 @@ class ExoPlayerActivity : AppCompatActivity()
         )
 
         // This is the MediaSource representing the media to be played.
-        val rawDirectoryResource: MediaSource = ExtractorMediaSource.Factory(dataSourceFactory)
-            .createMediaSource(RawResourceDataSource.buildRawResourceUri(R.raw.sample_video))
+        val mediaItem = MediaItem.fromUri(RawResourceDataSource.buildRawResourceUri(R.raw.sample_video))
+        val rawDirectoryResource: MediaSource = ProgressiveMediaSource.Factory(dataSourceFactory)
+            .createMediaSource(mediaItem)
 
         // Start loading the media source
-        player?.prepare(rawDirectoryResource)
+        //player?.prepare(rawDirectoryResource)
+        player?.setMediaSource(rawDirectoryResource)
 
         // Start playback automatically when ready
         player?.playWhenReady = true

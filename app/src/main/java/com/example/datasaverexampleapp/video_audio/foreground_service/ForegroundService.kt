@@ -33,16 +33,11 @@ import com.example.datasaverexampleapp.video_audio.background_audio.MEDIA_SOURCE
 import com.example.datasaverexampleapp.video_audio.background_audio.MEDIA_SOURCE_ADDED
 import com.example.datasaverexampleapp.video_audio.media_notification.CustomMediaStyleNotification
 import com.google.android.exoplayer2.*
-import com.google.android.exoplayer2.source.ExtractorMediaSource
-import com.google.android.exoplayer2.source.MediaSource
-import com.google.android.exoplayer2.source.MediaSourceEventListener
-import com.google.android.exoplayer2.source.TrackGroupArray
+import com.google.android.exoplayer2.source.*
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
-import com.google.android.exoplayer2.trackselection.TrackSelectionArray
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.upstream.RawResourceDataSource
 import com.google.android.exoplayer2.util.Util
-import java.io.IOException
 
 /**
  * This is the foreground service example
@@ -51,7 +46,7 @@ class ForegroundService :  MediaBrowserServiceCompat(), AudioManager.OnAudioFocu
 {
     private val TAG = javaClass.simpleName
     private var mediaSessionCompat: MediaSessionCompat? = null
-    private var player: SimpleExoPlayer? = null
+    private var player: ExoPlayer? = null
     private lateinit var audioManager: AudioManager
     private var mediaSource: MediaSource? = null
     private lateinit var renderersFactory : DefaultRenderersFactory
@@ -116,11 +111,7 @@ class ForegroundService :  MediaBrowserServiceCompat(), AudioManager.OnAudioFocu
                     this@ForegroundService.mediaSource?.let { media_source ->
 
                         // Create a new Exo Player
-                        player = ExoPlayerFactory.newSimpleInstance(
-                            this@ForegroundService,
-                            DefaultTrackSelector()
-                        ).apply {
-
+                        player = ExoPlayer.Builder(this@ForegroundService).build().apply {
                             addListener(this@ForegroundService)
                         }
 
@@ -253,7 +244,7 @@ class ForegroundService :  MediaBrowserServiceCompat(), AudioManager.OnAudioFocu
 
                                                     // This is the MediaSource representing the media to be played.
                                                     this@ForegroundService.mediaSource =
-                                                        ExtractorMediaSource
+                                                        ProgressiveMediaSource
                                                             .Factory(dataSourceFactory)
                                                             .createMediaSource(
                                                                 RawResourceDataSource.buildRawResourceUri(
@@ -280,24 +271,9 @@ class ForegroundService :  MediaBrowserServiceCompat(), AudioManager.OnAudioFocu
 
                         addEventListener(Handler(), object : MediaSourceEventListener {
 
-                            override fun onMediaPeriodCreated(
-                                windowIndex: Int,
-                                mediaPeriodId: MediaSource.MediaPeriodId?
-                            ) {
-                            }
+                            override fun onLoadStarted(windowIndex: Int, mediaPeriodId: MediaSource.MediaPeriodId?, loadEventInfo: LoadEventInfo, mediaLoadData: MediaLoadData) {
+                                super.onLoadStarted(windowIndex, mediaPeriodId, loadEventInfo, mediaLoadData)
 
-                            override fun onMediaPeriodReleased(
-                                windowIndex: Int,
-                                mediaPeriodId: MediaSource.MediaPeriodId?
-                            ) {
-                            }
-
-                            override fun onLoadStarted(
-                                windowIndex: Int,
-                                mediaPeriodId: MediaSource.MediaPeriodId?,
-                                loadEventInfo: MediaSourceEventListener.LoadEventInfo?,
-                                mediaLoadData: MediaSourceEventListener.MediaLoadData?
-                            ) {
                                 mediaSessionCompat?.setPlaybackState(
 
                                     PlaybackStateCompat.Builder()
@@ -307,20 +283,8 @@ class ForegroundService :  MediaBrowserServiceCompat(), AudioManager.OnAudioFocu
                                 )
                             }
 
-                            override fun onLoadCompleted(
-                                windowIndex: Int,
-                                mediaPeriodId: MediaSource.MediaPeriodId?,
-                                loadEventInfo: MediaSourceEventListener.LoadEventInfo?,
-                                mediaLoadData: MediaSourceEventListener.MediaLoadData?
-                            ) {
-                            }
-
-                            override fun onLoadCanceled(
-                                windowIndex: Int,
-                                mediaPeriodId: MediaSource.MediaPeriodId?,
-                                loadEventInfo: MediaSourceEventListener.LoadEventInfo?,
-                                mediaLoadData: MediaSourceEventListener.MediaLoadData?
-                            ) {
+                            override fun onLoadCanceled(windowIndex: Int, mediaPeriodId: MediaSource.MediaPeriodId?, loadEventInfo: LoadEventInfo, mediaLoadData: MediaLoadData) {
+                                super.onLoadCanceled(windowIndex, mediaPeriodId, loadEventInfo, mediaLoadData)
                                 mediaSessionCompat?.setPlaybackState(
                                     PlaybackStateCompat.Builder()
                                         .setActions(PlaybackStateCompat.ACTION_STOP)
@@ -328,38 +292,7 @@ class ForegroundService :  MediaBrowserServiceCompat(), AudioManager.OnAudioFocu
                                         .build()
                                 )
                             }
-
-                            override fun onLoadError(
-                                windowIndex: Int,
-                                mediaPeriodId: MediaSource.MediaPeriodId?,
-                                loadEventInfo: MediaSourceEventListener.LoadEventInfo?,
-                                mediaLoadData: MediaSourceEventListener.MediaLoadData?,
-                                error: IOException?,
-                                wasCanceled: Boolean
-                            ) {
-                            }
-
-                            override fun onReadingStarted(
-                                windowIndex: Int,
-                                mediaPeriodId: MediaSource.MediaPeriodId?
-                            ) {
-                            }
-
-                            override fun onUpstreamDiscarded(
-                                windowIndex: Int,
-                                mediaPeriodId: MediaSource.MediaPeriodId?,
-                                mediaLoadData: MediaSourceEventListener.MediaLoadData?
-                            ) {
-                            }
-
-                            override fun onDownstreamFormatChanged(
-                                windowIndex: Int,
-                                mediaPeriodId: MediaSource.MediaPeriodId?,
-                                mediaLoadData: MediaSourceEventListener.MediaLoadData?
-                            ) {
-                            }
-                        }
-                        )
+                        })
                     }
                 } else {
                     cb?.send(FAILED_ADDING_MEDIA_SOURCE, null)
@@ -501,15 +434,8 @@ class ForegroundService :  MediaBrowserServiceCompat(), AudioManager.OnAudioFocu
         notificationManager.cancel(NOTIFICATION_ID)
     }
 
-    override fun onTimelineChanged(timeline: Timeline?, manifest: Any?, reason: Int) {
+    override fun onTimelineChanged(timeline: Timeline, reason: Int) {
         Log.i("TAG","onTimelineChanged")
-    }
-
-    override fun onTracksChanged(
-        trackGroups: TrackGroupArray?,
-        trackSelections: TrackSelectionArray?
-    ) {
-        Log.i("TAG","onTracksChanged")
     }
 
     override fun onLoadingChanged(isLoading: Boolean) {
@@ -533,7 +459,7 @@ class ForegroundService :  MediaBrowserServiceCompat(), AudioManager.OnAudioFocu
         Log.i("TAG","onShuffleModeEnabledChanged")
     }
 
-    override fun onPlayerError(error: ExoPlaybackException?) {
+    override fun onPlayerError(error: PlaybackException) {
         Log.i("TAG","onPlayerError")
     }
 
@@ -541,7 +467,7 @@ class ForegroundService :  MediaBrowserServiceCompat(), AudioManager.OnAudioFocu
         Log.i("TAG","onPositionDiscontinuity")
     }
 
-    override fun onPlaybackParametersChanged(playbackParameters: PlaybackParameters?) {
+    override fun onPlaybackParametersChanged(playbackParameters: PlaybackParameters) {
         Log.i("TAG","onPlaybackParametersChanged")
     }
 
