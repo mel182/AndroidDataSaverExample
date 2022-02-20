@@ -1,83 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
     tools:context=".animation.animator_set.AnimatorSetActivity">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        >
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/animation_image"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
-                android:layout_margin="10dp"
-                app:srcCompat="@drawable/ic_baseline_wifi_24"
-                tools:ignore="VectorDrawableCompat" />
-
-            <Button
-                android:id="@+id/animate_button"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:text="Animate slide up and change alpha" />
+                android:gravity="center"
+                android:orientation="vertical">
 
-            <Button
-                android:id="@+id/fly_in_down_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:text="Fly in and down animation" />
+                <ImageView
+                    android:id="@+id/animation_image"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_margin="10dp"
+                    app:srcCompat="@drawable/ic_baseline_wifi_24"
+                    tools:ignore="VectorDrawableCompat" />
 
-            <Button
-                android:id="@+id/animate_shutter_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:text="Animate shutter animation" />
+                <Button
+                    android:id="@+id/animate_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:text="Animate slide up and change alpha" />
 
-            <ImageView
-                android:id="@+id/fav_icon"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
-                android:layout_margin="10dp"
-                app:srcCompat="@drawable/ic_favorite_yellow"
-                tools:ignore="VectorDrawableCompat" />
+                <Button
+                    android:id="@+id/fly_in_down_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:text="Fly in and down animation" />
 
-            <Button
-                android:id="@+id/feed_item_animator_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:text="Feed item animation" />
+                <Button
+                    android:id="@+id/animate_shutter_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:text="Animate shutter animation" />
 
-            <Button
-                android:id="@+id/heart_beat_animation_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:text="Heart beat animation" />
+                <ImageView
+                    android:id="@+id/fav_icon"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_margin="10dp"
+                    app:srcCompat="@drawable/ic_favorite_yellow"
+                    tools:ignore="VectorDrawableCompat" />
 
-            <Button
-                android:id="@+id/floating_action_menu_animation_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:text="Floating action menu animation" />
+                <Button
+                    android:id="@+id/feed_item_animator_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:text="Feed item animation" />
+
+                <Button
+                    android:id="@+id/heart_beat_animation_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:text="Heart beat animation" />
+
+                <Button
+                    android:id="@+id/floating_action_menu_animation_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:text="Floating action menu animation" />
 
 
-        </LinearLayout>
-    </ScrollView>
+            </LinearLayout>
+        </ScrollView>
 
-</LinearLayout>
+    </LinearLayout>
+
+</layout>
