@@ -2,11 +2,14 @@ package com.example.datasaverexampleapp.drawing
 
 import android.app.AlertDialog
 import android.content.Intent
-import android.graphics.*
+import android.graphics.Color
+import android.graphics.Paint
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.example.datasaverexampleapp.R
-import kotlinx.android.synthetic.main.activity_draw_example.*
+import com.example.datasaverexampleapp.databinding.ActivityDrawExampleBinding
+import com.example.datasaverexampleapp.type_alias.Layout
 
 class DrawExampleActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -14,52 +17,57 @@ class DrawExampleActivity : AppCompatActivity() {
         setContentView(R.layout.activity_draw_example)
         title = "Draw Example"
 
-        paint_test_button?.setOnClickListener {
+        DataBindingUtil.setContentView<ActivityDrawExampleBinding>(
+            this, Layout.activity_draw_example
+        ).apply {
 
-            paint_test_view?.apply {
+            paintTestButton.setOnClickListener {
 
-                setBackgroundColor(Color.TRANSPARENT)
+                paintTestView.apply {
 
-                // Make color red and 50% transparent
-                val opacity = 127
-                val color = Color.argb(opacity,255,0,0) //  Color with 'Color.argb'
-                val colorHex = Color.parseColor("#7FFF0000") //  Color with hex color parse
+                    setBackgroundColor(Color.TRANSPARENT)
 
-                AlertDialog.Builder(this@DrawExampleActivity).apply {
-                    setTitle("Draw example")
-                    setMessage("Which option would you like to execute?\nNote: The color is red and 50% transparent")
-                    setPositiveButton("Color") { _, _ ->
-                        setBackgroundColor(color)
+                    // Make color red and 50% transparent
+                    val opacity = 127
+                    val color = Color.argb(opacity,255,0,0) //  Color with 'Color.argb'
+                    val colorHex = Color.parseColor("#7FFF0000") //  Color with hex color parse
+
+                    AlertDialog.Builder(this@DrawExampleActivity).apply {
+                        setTitle("Draw example")
+                        setMessage("Which option would you like to execute?\nNote: The color is red and 50% transparent")
+                        setPositiveButton("Color") { _, _ ->
+                            setBackgroundColor(color)
+                        }
+                        setNegativeButton("Hex color") { _, _ ->
+                            setBackgroundColor(colorHex)
+                        }
+                        create().show()
                     }
-                    setNegativeButton("Hex color") { _, _ ->
-                        setBackgroundColor(colorHex)
-                    }
-                    create().show()
                 }
             }
-        }
 
-        opacity_test_button?.setOnClickListener {
+            opacityTestButton.setOnClickListener {
 
-            opacity_test_view?.apply {
+                opacityTestView.apply {
 
-                // Setting the opacity of an existing Paint object using the 'setAlpha' method.
-                // Make color 50% transparent
-                val paint = Paint()
-                paint.color = Color.RED
-                paint.alpha = 127
-                setBackgroundColor(paint.color)
+                    // Setting the opacity of an existing Paint object using the 'setAlpha' method.
+                    // Make color 50% transparent
+                    val paint = Paint()
+                    paint.color = Color.RED
+                    paint.alpha = 127
+                    setBackgroundColor(paint.color)
+                }
             }
-        }
 
-        compass_example_button?.setOnClickListener {
-            val intent = Intent(this, CompassExampleFinalActivity::class.java)
-            startActivity(intent)
-        }
+            compassExampleButton.setOnClickListener {
+                val intent = Intent(this@DrawExampleActivity, CompassExampleFinalActivity::class.java)
+                startActivity(intent)
+            }
 
-        composite_drawable_button?.setOnClickListener {
-            val intent = Intent(this, CompositeDrawableActivity::class.java)
-            startActivity(intent)
+            compositeDrawableButton.setOnClickListener {
+                val intent = Intent(this@DrawExampleActivity, CompositeDrawableActivity::class.java)
+                startActivity(intent)
+            }
         }
     }
 }

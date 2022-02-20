@@ -5,20 +5,16 @@ package com.example.datasaverexampleapp.fullscreen_example
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.view.WindowInsets
-import android.view.WindowInsets.Type.navigationBars
 import android.view.WindowInsets.Type.statusBars
 import android.view.WindowInsetsController
 import android.widget.Toast
-import androidx.annotation.RequiresApi
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.example.datasaverexampleapp.R
-import kotlinx.android.synthetic.main.activity_full_screen_example.*
+import com.example.datasaverexampleapp.databinding.ActivityFullScreenExampleBinding
+import com.example.datasaverexampleapp.type_alias.Layout
 
 @Suppress("DEPRECATION")
 class FullScreenExampleActivity : AppCompatActivity() {
@@ -57,75 +53,81 @@ class FullScreenExampleActivity : AppCompatActivity() {
         // , SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION and SYSTEM_UI_FLAG_LAYOUT_STABLE to request that the Activity always be laid
         // out as if the system UI is always hidden.
 
+        DataBindingUtil.setContentView<ActivityFullScreenExampleBinding>(
+            this, Layout.activity_full_screen_example
+        ).apply {
 
-        hide_system_ui_button?.setOnClickListener {
+            hideSystemUiButton.setOnClickListener {
 
-            window?.apply {
+                window?.apply {
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
 
-                    setDecorFitsSystemWindows(false)
-                    statusBarColor = Color.TRANSPARENT
-                    insetsController?.let { controller ->
-                        controller.systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-                        navigationBarColor = Color.TRANSPARENT
-                        controller.hide(statusBars())
+                        setDecorFitsSystemWindows(false)
+                        statusBarColor = Color.TRANSPARENT
+                        insetsController?.let { controller ->
+                            controller.systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+                            navigationBarColor = Color.TRANSPARENT
+                            controller.hide(statusBars())
+                        }
+                    } else {
+                        decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+                                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     }
-                } else {
-                    decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-                            View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
-                            View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 }
             }
-        }
 
-        hide_system_ui_immersive_button?.setOnClickListener {
+            hideSystemUiImmersiveButton.setOnClickListener {
 
-            // Hide the navigation bar, status bar and use IMMERSIVE
-            // Note the usage of the _LAYOUT flags to keep a stable layout
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-                window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-                        View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
-                        View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
-                        View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or // Hide nav bar
-                        View.SYSTEM_UI_FLAG_FULLSCREEN or // Hide status bar
-                        View.SYSTEM_UI_FLAG_IMMERSIVE
+                // Hide the navigation bar, status bar and use IMMERSIVE
+                // Note the usage of the _LAYOUT flags to keep a stable layout
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                    window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                            View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+                            View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+                            View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or // Hide nav bar
+                            View.SYSTEM_UI_FLAG_FULLSCREEN or // Hide status bar
+                            View.SYSTEM_UI_FLAG_IMMERSIVE
+                }
             }
-        }
 
-        hide_system_ui_immersive_sticky_button?.setOnClickListener {
+            hideSystemUiImmersiveStickyButton.setOnClickListener {
 
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-                window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-                        View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
-                        View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
-                        View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
-                        View.SYSTEM_UI_FLAG_FULLSCREEN or
-                        View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY // immersive sticky
-            }
-        }
-
-        show_system_ui_button?.setOnClickListener {
-
-            window?.apply {
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    setDecorFitsSystemWindows(true)
-                    statusBarColor = Color.BLACK
-                    insetsController?.let { controller ->
-                        controller.systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-                        navigationBarColor = Color.BLACK
-                        controller.show(statusBars())
-                    }
-                } else {
-                    decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                    window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
                             View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
                             View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
                             View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
-                            View.SYSTEM_UI_FLAG_FULLSCREEN
+                            View.SYSTEM_UI_FLAG_FULLSCREEN or
+                            View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY // immersive sticky
+                }
+            }
+
+            showSystemUiButton.setOnClickListener {
+
+                window?.apply {
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                        setDecorFitsSystemWindows(true)
+                        statusBarColor = Color.BLACK
+                        insetsController?.let { controller ->
+                            controller.systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+                            navigationBarColor = Color.BLACK
+                            controller.show(statusBars())
+                        }
+                    } else {
+                        decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+                                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+                                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
+                                View.SYSTEM_UI_FLAG_FULLSCREEN
+                    }
                 }
             }
         }
+
+
 
         window?.decorView?.apply {
 
