@@ -4,9 +4,11 @@ package com.example.datasaverexampleapp.concurrency
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.datasaverexampleapp.R
-import kotlinx.android.synthetic.main.activity_flow_example.*
+import com.example.datasaverexampleapp.databinding.ActivityFlowExampleBinding
+import com.example.datasaverexampleapp.type_alias.Layout
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 
@@ -27,140 +29,145 @@ class FlowExampleActivity : AppCompatActivity() {
         setupLambdaFlow()
         setupChannelFlowWithLambda()
 
-        fixed_flow_button.setOnClickListener {
-            CoroutineScope(Dispatchers.Main).launch {
-                val buttonText = fixed_flow_button.text
-                fixedFlow.collect { item ->
-                    fixed_flow_textView.text = item.toString()
-                }
-                fixed_flow_textView.text = "done"
-                delay(1000)
-                fixed_flow_textView.text = buttonText
-            }
-        }
+        DataBindingUtil.setContentView<ActivityFlowExampleBinding>(
+            this, Layout.activity_flow_example
+        ).apply {
 
-        collection_flow.setOnClickListener {
-            CoroutineScope(Dispatchers.Main).launch {
-                val buttonText = collection_flow.text
-                collectionFlow.collect { item ->
-                    collection_flow_textView.text = item.toString()
-                }
-                collection_flow_textView.text = "done"
-                delay(1000)
-                collection_flow_textView.text = buttonText
-            }
-        }
-
-        lambda_flow.setOnClickListener {
-            CoroutineScope(Dispatchers.Main).launch {
-                val buttonText = lambda_flow_textView.text
-                lambdaFlow.collect { item ->
-                    collection_flow_textView.text = item.toString()
-                }
-                lambda_flow_textView.text = "done"
-                delay(1000)
-                lambda_flow_textView.text = buttonText
-            }
-        }
-
-        lambda_flow.setOnClickListener {
-            CoroutineScope(Dispatchers.Main).launch {
-                val buttonText = lambda_flow_textView.text
-                lambdaFlow.collect { item ->
-                    lambda_flow_textView.text = item.toString()
-                }
-                lambda_flow_textView.text = "done"
-                delay(1000)
-                lambda_flow_textView.text = buttonText
-            }
-        }
-
-        channel_flow.setOnClickListener {
-            CoroutineScope(Dispatchers.Main).launch {
-                val buttonText = channel_flow_textView.text
-                channelFlow.collect { item ->
-                    channel_flow_textView.text = item.toString()
-                }
-                channel_flow_textView.text = "done"
-                delay(1000)
-                channel_flow_textView.text = buttonText
-            }
-        }
-
-        zip_normal.setOnClickListener {
-
-            val customAdapter = FlowZipNormalListAdapter()
-
-            flow_zip_result_list?.apply {
-                layoutManager = LinearLayoutManager(this@FlowExampleActivity)
-                adapter = customAdapter
-            }
-
-            val numbers = (1..3).asFlow()
-            val str = flowOf("one","two","three")
-
-            runBlocking {
-                numbers.zip(str) { a,b -> "$a -> $b"}.collect {
-                    customAdapter.updateList(it)
+            fixedFlowButton.setOnClickListener {
+                CoroutineScope(Dispatchers.Main).launch {
+                    val buttonText = fixedFlowButton.text
+                    fixedFlow.collect { item ->
+                        fixedFlowTextView.text = item.toString()
+                    }
+                    fixedFlowTextView.text = "done"
+                    delay(1000)
+                    fixedFlowTextView.text = buttonText
                 }
             }
-        }
 
-        zip_when_one_completes_before_one.setOnClickListener {
-
-            val customAdapter = FlowZipNormalListAdapter()
-
-            flow_zip_before_one_list?.apply {
-                layoutManager = LinearLayoutManager(this@FlowExampleActivity)
-                adapter = customAdapter
-            }
-
-            val numbers = (1..3).asFlow()
-            val stringValue = flowOf("one","two","three","four")
-
-            runBlocking {
-                numbers.zip(stringValue) { a,b -> "$a -> $b" }.collect {
-                    customAdapter.updateList(it)
+            collectionFlow.setOnClickListener {
+                CoroutineScope(Dispatchers.Main).launch {
+                    val buttonText = collectionFlow.text
+                    this@FlowExampleActivity.collectionFlow.collect { item ->
+                        collectionFlowTextView.text = item.toString()
+                    }
+                    collectionFlowTextView.text = "done"
+                    delay(1000)
+                    collectionFlowTextView.text = buttonText
                 }
             }
-        }
 
-        zip_when_one_emits_after_some_delay.setOnClickListener {
-
-            val customAdapter = FlowZipNormalListAdapter()
-
-            zip_when_one_emits_after_some_delay_list?.apply {
-                layoutManager = LinearLayoutManager(this@FlowExampleActivity)
-                adapter = customAdapter
+            lambdaFlow.setOnClickListener {
+                CoroutineScope(Dispatchers.Main).launch {
+                    val buttonText = lambdaFlowTextView.text
+                    this@FlowExampleActivity.lambdaFlow.collect { item ->
+                        collectionFlowTextView.text = item.toString()
+                    }
+                    lambdaFlowTextView.text = "done"
+                    delay(1000)
+                    lambdaFlowTextView.text = buttonText
+                }
             }
 
-            val number = (1..3).asFlow().onEach { delay(300) }
-            val values = flowOf("one","two","three").onEach { delay(400) }
+            lambdaFlow.setOnClickListener {
+                CoroutineScope(Dispatchers.Main).launch {
+                    val buttonText = lambdaFlowTextView.text
+                    this@FlowExampleActivity.lambdaFlow.collect { item ->
+                        lambdaFlowTextView.text = item.toString()
+                    }
+                    lambdaFlowTextView.text = "done"
+                    delay(1000)
+                    lambdaFlowTextView.text = buttonText
+                }
+            }
 
-            runBlocking {
+            channelFlow.setOnClickListener {
+                CoroutineScope(Dispatchers.Main).launch {
+                    val buttonText = channelFlowTextView.text
+                    this@FlowExampleActivity.channelFlow.collect { item ->
+                        channelFlowTextView.text = item.toString()
+                    }
+                    channelFlowTextView.text = "done"
+                    delay(1000)
+                    channelFlowTextView.text = buttonText
+                }
+            }
 
-                number.zip(values){ a,b -> "$a -> $b" }
-                    .collect {
+            zipNormal.setOnClickListener {
+
+                val customAdapter = FlowZipNormalListAdapter()
+
+                flowZipResultList.apply {
+                    layoutManager = LinearLayoutManager(this@FlowExampleActivity)
+                    adapter = customAdapter
+                }
+
+                val numbers = (1..3).asFlow()
+                val str = flowOf("one","two","three")
+
+                runBlocking {
+                    numbers.zip(str) { a,b -> "$a -> $b"}.collect {
                         customAdapter.updateList(it)
                     }
-            }
-        }
-
-        combine_when_one_emits_after_some_delay.setOnClickListener {
-
-            val customAdapter = FlowZipNormalListAdapter()
-
-            combine_when_one_emits_after_some_delay_list?.apply {
-                layoutManager = LinearLayoutManager(this@FlowExampleActivity)
-                adapter = customAdapter
+                }
             }
 
-            val numbers = (1..3).asFlow().onEach { delay(300) }
-            val values = flowOf ("one","two","three").onEach { delay(400) }
+            zipWhenOneCompletesBeforeOne.setOnClickListener {
 
-            CoroutineScope(Dispatchers.Main).launch {
-                numbers.combine(values){ a,b -> "$a -> $b" }.collect {
-                    customAdapter.updateList(it)
+                val customAdapter = FlowZipNormalListAdapter()
+
+                flowZipBeforeOneList.apply {
+                    layoutManager = LinearLayoutManager(this@FlowExampleActivity)
+                    adapter = customAdapter
+                }
+
+                val numbers = (1..3).asFlow()
+                val stringValue = flowOf("one","two","three","four")
+
+                runBlocking {
+                    numbers.zip(stringValue) { a,b -> "$a -> $b" }.collect {
+                        customAdapter.updateList(it)
+                    }
+                }
+            }
+
+            zipWhenOneEmitsAfterSomeDelay.setOnClickListener {
+
+                val customAdapter = FlowZipNormalListAdapter()
+
+                zipWhenOneEmitsAfterSomeDelayList.apply {
+                    layoutManager = LinearLayoutManager(this@FlowExampleActivity)
+                    adapter = customAdapter
+                }
+
+                val number = (1..3).asFlow().onEach { delay(300) }
+                val values = flowOf("one","two","three").onEach { delay(400) }
+
+                runBlocking {
+
+                    number.zip(values){ a,b -> "$a -> $b" }
+                        .collect {
+                            customAdapter.updateList(it)
+                        }
+                }
+            }
+
+            combineWhenOneEmitsAfterSomeDelay.setOnClickListener {
+
+                val customAdapter = FlowZipNormalListAdapter()
+
+                combineWhenOneEmitsAfterSomeDelayList.apply {
+                    layoutManager = LinearLayoutManager(this@FlowExampleActivity)
+                    adapter = customAdapter
+                }
+
+                val numbers = (1..3).asFlow().onEach { delay(300) }
+                val values = flowOf ("one","two","three").onEach { delay(400) }
+
+                CoroutineScope(Dispatchers.Main).launch {
+                    numbers.combine(values){ a,b -> "$a -> $b" }.collect {
+                        customAdapter.updateList(it)
+                    }
                 }
             }
         }
@@ -203,5 +210,4 @@ class FlowExampleActivity : AppCompatActivity() {
             }
         }
     }
-
 }

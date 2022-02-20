@@ -1,121 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".concurrency.FlowExampleActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <ScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        tools:context=".concurrency.FlowExampleActivity">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <Button
-                android:id="@+id/fixed_flow_button"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Fixed flow" />
+                android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/fixed_flow_textView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:text="Fixed flow" />
+                <Button
+                    android:id="@+id/fixed_flow_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Fixed flow" />
 
-            <Button
-                android:id="@+id/collection_flow"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Collection flow" />
+                <TextView
+                    android:id="@+id/fixed_flow_textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="Fixed flow" />
 
-            <TextView
-                android:id="@+id/collection_flow_textView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:text="Collection flow" />
-            <Button
-                android:id="@+id/lambda_flow"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Lambda flow" />
+                <Button
+                    android:id="@+id/collection_flow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Collection flow" />
 
-            <TextView
-                android:id="@+id/lambda_flow_textView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:text="Lambda flow" />
-            <Button
-                android:id="@+id/channel_flow"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Channel flow" />
+                <TextView
+                    android:id="@+id/collection_flow_textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="Collection flow" />
+                <Button
+                    android:id="@+id/lambda_flow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Lambda flow" />
 
-            <TextView
-                android:id="@+id/channel_flow_textView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:text="Channel flow" />
+                <TextView
+                    android:id="@+id/lambda_flow_textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="Lambda flow" />
+                <Button
+                    android:id="@+id/channel_flow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Channel flow" />
 
-            <Button
-                android:id="@+id/zip_normal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Zip normal" />
+                <TextView
+                    android:id="@+id/channel_flow_textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="Channel flow" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/flow_zip_result_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp" />
+                <Button
+                    android:id="@+id/zip_normal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Zip normal" />
 
-            <Button
-                android:id="@+id/zip_when_one_completes_before_one"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Zip when one completes before one" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/flow_zip_result_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/flow_zip_before_one_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp" />
+                <Button
+                    android:id="@+id/zip_when_one_completes_before_one"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Zip when one completes before one" />
 
-            <Button
-                android:id="@+id/zip_when_one_emits_after_some_delay"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Zip when one emits after some delay" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/flow_zip_before_one_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/zip_when_one_emits_after_some_delay_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp" />
+                <Button
+                    android:id="@+id/zip_when_one_emits_after_some_delay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Zip when one emits after some delay" />
 
-            <Button
-                android:id="@+id/combine_when_one_emits_after_some_delay"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Combine when one emits after some delay" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/zip_when_one_emits_after_some_delay_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/combine_when_one_emits_after_some_delay_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp" />
-        </LinearLayout>
-    </ScrollView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <Button
+                    android:id="@+id/combine_when_one_emits_after_some_delay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Combine when one emits after some delay" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/combine_when_one_emits_after_some_delay_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp" />
+            </LinearLayout>
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
