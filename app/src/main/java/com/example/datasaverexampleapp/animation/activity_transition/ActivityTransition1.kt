@@ -1,29 +1,35 @@
 package com.example.datasaverexampleapp.animation.activity_transition
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
 import androidx.core.view.ViewCompat
+import androidx.databinding.DataBindingUtil
 import com.example.datasaverexampleapp.R
-import kotlinx.android.synthetic.main.activity_transition1.*
+import com.example.datasaverexampleapp.databinding.ActivityTransition1Binding
+import com.example.datasaverexampleapp.type_alias.Layout
 
 class ActivityTransition1 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_transition1)
 
-        activity2_button?.setOnClickListener {
+        DataBindingUtil.setContentView<ActivityTransition1Binding>(
+            this, Layout.activity_transition1
+        ).apply {
 
-            val intent = Intent(this, ActivityTransition2::class.java)
-            val bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                this,
-                Pair.create(view_component as View, ViewCompat.getTransitionName(view_component)),
-                Pair.create(view_component as View, ViewCompat.getTransitionName(view_component))).toBundle()
-            startActivity(intent,bundle)
+            activity2Button.setOnClickListener {
+
+                val intent = Intent(this@ActivityTransition1, ActivityTransition2::class.java)
+                val bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                    this@ActivityTransition1,
+                    Pair.create(viewComponent as View, ViewCompat.getTransitionName(viewComponent)),
+                    Pair.create(viewComponent as View, ViewCompat.getTransitionName(viewComponent))).toBundle()
+                startActivity(intent,bundle)
+            }
         }
-
     }
 }
