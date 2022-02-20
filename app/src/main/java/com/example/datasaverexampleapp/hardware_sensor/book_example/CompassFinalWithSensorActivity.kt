@@ -7,19 +7,17 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Surface
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.example.datasaverexampleapp.R
-import kotlinx.android.synthetic.main.activity_compass_example_final.*
-import kotlinx.android.synthetic.main.activity_device_orientation.*
+import com.example.datasaverexampleapp.databinding.ActivityCompassExampleFinalBinding
+import com.example.datasaverexampleapp.type_alias.Layout
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.lang.StringBuilder
 import java.util.*
-import kotlin.math.roundToInt
 
 class CompassFinalWithSensorActivity : AppCompatActivity(), SensorEventListener
 {
@@ -27,6 +25,7 @@ class CompassFinalWithSensorActivity : AppCompatActivity(), SensorEventListener
     private var screenRotation:Int = 0
     private var newestValue = FloatArray(3)
     private var compassTimer:Timer? = null
+    private var binding: ActivityCompassExampleFinalBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +43,11 @@ class CompassFinalWithSensorActivity : AppCompatActivity(), SensorEventListener
                 }
             },0,period)
         }
+
+        binding = DataBindingUtil.setContentView(
+            this, Layout.activity_compass_example_final
+        )
+
     }
 
     override fun onResume() {
@@ -61,11 +65,13 @@ class CompassFinalWithSensorActivity : AppCompatActivity(), SensorEventListener
 
     private fun updateOrientation(values:FloatArray)
     {
-        compass_view?.apply {
-            bearing = values[0]
-            pitch = values[1]
-            roll = values[2]
-            invalidate()
+        binding?.apply {
+            compassView.apply {
+                bearing = values[0]
+                pitch = values[1]
+                roll = values[2]
+                invalidate()
+            }
         }
     }
 
