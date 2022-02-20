@@ -48,6 +48,7 @@
         <entry key="app/src/main/res/layout/item_dialog_fragment_device_result_view.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/item_drawer_layout.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/item_paging_custom_cell.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/item_sensor_options_list.xml" value="0.17753623188405798" />
       </map>
     </option>
   </component>
