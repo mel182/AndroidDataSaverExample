@@ -1,14 +1,16 @@
 package com.example.datasaverexampleapp.appbar.app_bar_bottom_navigation
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.datasaverexampleapp.R
+import com.example.datasaverexampleapp.databinding.FragmentContent2Binding
 import com.example.datasaverexampleapp.global_adapter.DataAdapter
-import kotlinx.android.synthetic.main.fragment_content1.*
+import com.example.datasaverexampleapp.type_alias.Layout
 
 /**
  * A simple [Fragment] subclass.
@@ -28,24 +30,31 @@ class ContentFragment2 : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        item_list?.apply {
+        activity?.apply {
 
-            val data = arrayListOf(
-                "value 1", "value 2", "value 3",
-                "value 4", "value 5", "value 6",
-                "value 7", "value 8", "value 9",
-                "value 10", "value 11", "value 12",
-                "value 13", "value 14", "value 15",
-                "value 16", "value 17", "value 18",
-                "value 19", "value 20", "value 21",
-                "value 22", "value 23", "value 24",
-                "value 25", "value 26", "value 27",
-                "value 28", "value 29", "value 30",
-                "value 31", "value 32", "value 33")
+            DataBindingUtil.setContentView<FragmentContent2Binding>(
+                this, Layout.fragment_content2
+            ).apply {
 
-            layoutManager = LinearLayoutManager(context)
-            adapter = DataAdapter(data)
+                itemList.apply {
+
+                    val data = arrayListOf(
+                        "value 1", "value 2", "value 3",
+                        "value 4", "value 5", "value 6",
+                        "value 7", "value 8", "value 9",
+                        "value 10", "value 11", "value 12",
+                        "value 13", "value 14", "value 15",
+                        "value 16", "value 17", "value 18",
+                        "value 19", "value 20", "value 21",
+                        "value 22", "value 23", "value 24",
+                        "value 25", "value 26", "value 27",
+                        "value 28", "value 29", "value 30",
+                        "value 31", "value 32", "value 33")
+
+                    layoutManager = LinearLayoutManager(context)
+                    adapter = DataAdapter(data)
+                }
+            }
         }
-
     }
 }
