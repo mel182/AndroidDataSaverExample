@@ -2,21 +2,18 @@
 
 package com.example.datasaverexampleapp.hardware_sensor.book_example
 
-import android.app.PictureInPictureParams
 import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.service.autofill.FieldClassification
-import android.util.Log
 import android.view.Surface
-import android.view.WindowManager
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.example.datasaverexampleapp.R
-import kotlinx.android.synthetic.main.activity_device_orientation.*
-import java.lang.StringBuilder
+import com.example.datasaverexampleapp.databinding.ActivityDeviceOrientationBinding
+import com.example.datasaverexampleapp.type_alias.Layout
 import kotlin.math.roundToInt
 
 class DeviceOrientationActivity : AppCompatActivity(), SensorEventListener {
@@ -27,6 +24,7 @@ class DeviceOrientationActivity : AppCompatActivity(), SensorEventListener {
     private var gyroscopeSensor: Sensor? = null
     private var accelerometerValues:FloatArray? = null
     private var magneticFieldValues:FloatArray? = null
+    private var binding: ActivityDeviceOrientationBinding? = null
 
     val nanosecondPerSecond = 1.0f / 100000000.0f
     var lastTime = 0L
@@ -35,6 +33,10 @@ class DeviceOrientationActivity : AppCompatActivity(), SensorEventListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_device_orientation)
         title = "Device orientation Example"
+
+        binding = DataBindingUtil.setContentView<ActivityDeviceOrientationBinding>(
+            this, Layout.activity_device_orientation
+        )
 
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         accelerometerSensor = sensorManager?.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
@@ -81,9 +83,11 @@ class DeviceOrientationActivity : AppCompatActivity(), SensorEventListener {
                     val pitch = sensorEvent.values[1] * dT
                     val roll = sensorEvent.values[2] * dT
 
-                    azimuth2_text.text = StringBuilder().append(azimuth.roundToInt()).append("°").toString()
-                    pitch2_text.text = StringBuilder().append(pitch.roundToInt()).append("°").toString()
-                    roll2_text.text = StringBuilder().append(roll.roundToInt()).append("°").toString()
+                    binding?.apply {
+                        azimuth2Text.text = StringBuilder().append(azimuth.roundToInt()).append("°").toString()
+                        pitch2Text.text = StringBuilder().append(pitch.roundToInt()).append("°").toString()
+                        roll2Text.text = StringBuilder().append(roll.roundToInt()).append("°").toString()
+                    }
                 }
                 lastTime = sensorEvent.timestamp
 
@@ -109,9 +113,11 @@ class DeviceOrientationActivity : AppCompatActivity(), SensorEventListener {
         val pitch = Math.toDegrees(values[1].toDouble())
         val roll = Math.toDegrees(values[2].toDouble())
 
-        azimuth_text.text = StringBuilder().append(azimuth.roundToInt()).append("°").toString()
-        pitch_text.text = StringBuilder().append(pitch.roundToInt()).append("°").toString()
-        roll_text.text = StringBuilder().append(roll.roundToInt()).append("°").toString()
+        binding?.apply {
+            azimuthText.text = StringBuilder().append(azimuth.roundToInt()).append("°").toString()
+            pitchText.text = StringBuilder().append(pitch.roundToInt()).append("°").toString()
+            rollText.text = StringBuilder().append(roll.roundToInt()).append("°").toString()
+        }
     }
 
     private fun determineDeviceOrientation(values:FloatArray)
@@ -143,25 +149,28 @@ class DeviceOrientationActivity : AppCompatActivity(), SensorEventListener {
 
         // Obtain the new, remapped, orientation value
         val orientation = SensorManager.getOrientation(outR,values)
-        device_orientation.text = orientation.joinToString()
 
-        if (orientation.size == 3)
-        {
-            val azimuth = orientation[0]
-            val pitch = orientation[1]
-            val roll = orientation[2]
+        binding?.apply {
 
-            val azimuthString = StringBuilder().append("z: ").append(azimuth.roundToInt()).append("°").toString()
-            val pitchString = StringBuilder().append("x: ").append(pitch.roundToInt()).append("°").toString()
-            val rollString = StringBuilder().append("y: ").append(roll.roundToInt()).append("°").toString()
+            deviceOrientation.text = orientation.joinToString()
 
-            device_orientation.text = StringBuilder()
-                .append(azimuthString)
-                .append(" ")
-                .append(pitchString)
-                .append(" ")
-                .append(rollString).toString()
+            if (orientation.size == 3)
+            {
+                val azimuth = orientation[0]
+                val pitch = orientation[1]
+                val roll = orientation[2]
+
+                val azimuthString = StringBuilder().append("z: ").append(azimuth.roundToInt()).append("°").toString()
+                val pitchString = StringBuilder().append("x: ").append(pitch.roundToInt()).append("°").toString()
+                val rollString = StringBuilder().append("y: ").append(roll.roundToInt()).append("°").toString()
+
+                deviceOrientation.text = StringBuilder()
+                    .append(azimuthString)
+                    .append(" ")
+                    .append(pitchString)
+                    .append(" ")
+                    .append(rollString).toString()
+            }
         }
-
     }
 }
