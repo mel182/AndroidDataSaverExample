@@ -6,10 +6,12 @@ import android.util.Log
 import android.view.MotionEvent
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.datasaverexampleapp.R
-import kotlinx.android.synthetic.main.activity_earth_quake_data_binding_example.*
+import com.example.datasaverexampleapp.databinding.ActivityEarthQuakeDataBindingExampleBinding
+import com.example.datasaverexampleapp.type_alias.Layout
 import kotlinx.coroutines.*
 
 class EarthQuakeDataBindingExampleActivity : AppCompatActivity() {
@@ -21,40 +23,45 @@ class EarthQuakeDataBindingExampleActivity : AppCompatActivity() {
 
         val customAdapter = EarthQuakeDataBindingExampleAdapter()
 
-        list?.apply {
-            layoutManager = LinearLayoutManager(this@EarthQuakeDataBindingExampleActivity)
-            adapter = customAdapter
-        }
+        DataBindingUtil.setContentView<ActivityEarthQuakeDataBindingExampleBinding>(
+            this, Layout.activity_earth_quake_data_binding_example
+        ).apply {
 
-        val earthQuakeViewModel = ViewModelProvider(this).get(EarthQuakeViewModel::class.java)
-        earthQuakeViewModel.retrieveData().observe(this) { response ->
-            customAdapter.loadData(response)
-        }
+            list?.apply {
+                layoutManager = LinearLayoutManager(this@EarthQuakeDataBindingExampleActivity)
+                adapter = customAdapter
+            }
 
-        CoroutineScope(Dispatchers.Main).launch {
-            coroutineScope {
+            val earthQuakeViewModel = ViewModelProvider(this@EarthQuakeDataBindingExampleActivity).get(EarthQuakeViewModel::class.java)
+            earthQuakeViewModel.retrieveData().observe(this@EarthQuakeDataBindingExampleActivity) { response ->
+                customAdapter.loadData(response)
+            }
 
-                delay(2000)
-                launch(Dispatchers.Main)
-                {
-                    EarthQuakeRepository.loadData(1)
-                }
-                delay(2000)
-                launch(Dispatchers.Main)
-                {
-                    EarthQuakeRepository.loadData(2)
+            CoroutineScope(Dispatchers.Main).launch {
+                coroutineScope {
+
+                    delay(2000)
+                    launch(Dispatchers.Main)
+                    {
+                        EarthQuakeRepository.loadData(1)
+                    }
+                    delay(2000)
+                    launch(Dispatchers.Main)
+                    {
+                        EarthQuakeRepository.loadData(2)
+                    }
                 }
             }
-        }
 
-        list?.setOnTouchListener { _, event ->
-            
-            if (event.action == MotionEvent.ACTION_DOWN)
-            {
-                Log.i("TAG","Tap registered!")
-                Toast.makeText(this, "Tap", Toast.LENGTH_SHORT).show()
+            list?.setOnTouchListener { _, event ->
+
+                if (event.action == MotionEvent.ACTION_DOWN)
+                {
+                    Log.i("TAG","Tap registered!")
+                    Toast.makeText(this@EarthQuakeDataBindingExampleActivity, "Tap", Toast.LENGTH_SHORT).show()
+                }
+                true
             }
-            true
         }
     }
 }

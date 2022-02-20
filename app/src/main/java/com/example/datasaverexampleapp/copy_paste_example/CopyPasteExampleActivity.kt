@@ -7,8 +7,10 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.example.datasaverexampleapp.R
-import kotlinx.android.synthetic.main.activity_copy_paste_example.*
+import com.example.datasaverexampleapp.databinding.ActivityCopyPasteExampleBinding
+import com.example.datasaverexampleapp.type_alias.Layout
 
 class CopyPasteExampleActivity : AppCompatActivity() {
 
@@ -19,55 +21,59 @@ class CopyPasteExampleActivity : AppCompatActivity() {
 
         val clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
 
-        textView_copy_text?.apply {
+        DataBindingUtil.setContentView<ActivityCopyPasteExampleBinding>(
+            this, Layout.activity_copy_paste_example
+        ).apply {
 
-            setOnLongClickListener {
+            textViewCopyText.apply {
 
-                ClipData.newPlainText(this.text,this.text)?.apply {
-                    clipboard.setPrimaryClip(this)
-                    Toast.makeText(this@CopyPasteExampleActivity,"Text copied",Toast.LENGTH_SHORT).show()
+                setOnLongClickListener {
+
+                    ClipData.newPlainText(this.text,this.text)?.apply {
+                        clipboard.setPrimaryClip(this)
+                        Toast.makeText(this@CopyPasteExampleActivity,"Text copied",Toast.LENGTH_SHORT).show()
+                    }
+
+                    true
                 }
-
-                true
             }
-        }
 
-        editText_paste_text?.apply {
+            editTextPasteText.apply {
 
-            clearFocus()
+                clearFocus()
 
-            setOnLongClickListener {
+                setOnLongClickListener {
 
-                if (!clipboard.hasPrimaryClip())
-                {
-                    Toast.makeText(this@CopyPasteExampleActivity,"Does not have primary clip",Toast.LENGTH_SHORT).show()
-                } else {
-                    Log.i("TAG","Does have primary clip")
+                    if (!clipboard.hasPrimaryClip())
+                    {
+                        Toast.makeText(this@CopyPasteExampleActivity,"Does not have primary clip",Toast.LENGTH_SHORT).show()
+                    } else {
+                        Log.i("TAG","Does have primary clip")
 
-                    clipboard.primaryClipDescription?.let { clipDescription ->
+                        clipboard.primaryClipDescription?.let { clipDescription ->
 
-                        if (clipDescription.hasMimeType(MIMETYPE_TEXT_PLAIN))
-                        {
-                            // Disable the paste UI if the content in the clipboard is not of supported type
-                            clipboard.primaryClip?.getItemAt(0)?.let { clipDataItem ->
+                            if (clipDescription.hasMimeType(MIMETYPE_TEXT_PLAIN))
+                            {
+                                // Disable the paste UI if the content in the clipboard is not of supported type
+                                clipboard.primaryClip?.getItemAt(0)?.let { clipDataItem ->
 
-                                val pasteData = clipDataItem.text
-                                editText_paste_text?.setText(pasteData)
+                                    val pasteData = clipDataItem.text
+                                    editTextPasteText.setText(pasteData)
+                                }
+
+                            } else {
+                                // Enable the paste UI option if the clipboard contains data of supported type
                             }
-
-                        } else {
-                            // Enable the paste UI option if the clipboard contains data of supported type
                         }
                     }
+
+                    true
                 }
 
-                true
             }
 
+            isSelectableTextViewCopyText.setTextIsSelectable(true) // Set text view as selectable text programmatically
+            // Through xml = android:textIsSelectable="true"
         }
-
-        is_selectable_textView_copy_text?.setTextIsSelectable(true) // Set text view as selectable text programmatically
-        // Through xml = android:textIsSelectable="true"
-
     }
 }
