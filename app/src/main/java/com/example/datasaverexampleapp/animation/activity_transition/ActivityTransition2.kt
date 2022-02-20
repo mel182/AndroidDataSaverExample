@@ -1,17 +1,23 @@
 package com.example.datasaverexampleapp.animation.activity_transition
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.example.datasaverexampleapp.R
-import kotlinx.android.synthetic.main.activity_transition2.*
+import com.example.datasaverexampleapp.databinding.ActivityTransition2Binding
+import com.example.datasaverexampleapp.type_alias.Layout
 
 class ActivityTransition2 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_transition2)
 
-        activity1_button?.setOnClickListener {
-            onBackPressed()
+        DataBindingUtil.setContentView<ActivityTransition2Binding>(
+            this, Layout.activity_transition2
+        ).apply {
+            activity1Button?.setOnClickListener {
+                onBackPressed()
+            }
         }
     }
 }

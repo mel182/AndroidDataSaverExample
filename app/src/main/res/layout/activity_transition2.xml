@@ -1,25 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
     tools:context=".animation.activity_transition.ActivityTransition2">
 
     <LinearLayout
-        android:id="@+id/view_component"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:background="@color/colorAccent"
-        android:orientation="horizontal"
-        android:transitionName="view_component"
-        tools:targetApi="lollipop" />
-
-    <Button
-        android:id="@+id/activity1_button"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="Activity 1" />
-</LinearLayout>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        >
+
+        <LinearLayout
+            android:id="@+id/view_component"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:background="@color/colorAccent"
+            android:orientation="horizontal"
+            android:transitionName="view_component"
+            tools:targetApi="lollipop" />
+
+        <Button
+            android:id="@+id/activity1_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Activity 1" />
+    </LinearLayout>
+
+</layout>
+
+
