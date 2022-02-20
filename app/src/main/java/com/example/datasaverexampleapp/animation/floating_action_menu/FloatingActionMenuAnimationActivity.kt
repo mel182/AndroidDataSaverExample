@@ -1,13 +1,15 @@
 package com.example.datasaverexampleapp.animation.floating_action_menu
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.example.datasaverexampleapp.R
-import kotlinx.android.synthetic.main.activity_floating_action_menu_animation.*
+import com.example.datasaverexampleapp.databinding.ActivityFloatingActionMenuAnimationBinding
+import com.example.datasaverexampleapp.type_alias.Layout
 
 class FloatingActionMenuAnimationActivity : AppCompatActivity() {
 
@@ -15,70 +17,78 @@ class FloatingActionMenuAnimationActivity : AppCompatActivity() {
     private val rotateClose: Animation by lazy { AnimationUtils.loadAnimation(this, R.anim.fab_rotate_close_anim) }
     private val fromBottom: Animation by lazy { AnimationUtils.loadAnimation(this, R.anim.fab_from_bottom_anim) }
     private val toBottom: Animation by lazy { AnimationUtils.loadAnimation(this, R.anim.fab_to_bottom_anim) }
+    private var binding: ActivityFloatingActionMenuAnimationBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_floating_action_menu_animation)
         title = "Floating action menu"
 
-        floatingActionButton_main?.setOnClickListener {
-            animateButtons()
-        }
+        binding = DataBindingUtil.setContentView<ActivityFloatingActionMenuAnimationBinding>(
+            this, Layout.activity_floating_action_menu_animation
+        ).apply {
 
-        floatingActionButtonEdit?.setOnClickListener {
-
-            if (it.visibility == View.VISIBLE)
-            {
-                Toast.makeText(this, "Edit button clicked!",Toast.LENGTH_SHORT).show()
+            floatingActionButtonMain.setOnClickListener {
                 animateButtons()
             }
-        }
 
-        floatingActionButtonMessage?.setOnClickListener {
+            floatingActionButtonEdit?.setOnClickListener {
 
-            if (it.visibility == View.VISIBLE)
-            {
-                Toast.makeText(this, "Message button clicked!",Toast.LENGTH_SHORT).show()
-                animateButtons()
+                if (it.visibility == View.VISIBLE)
+                {
+                    Toast.makeText(this@FloatingActionMenuAnimationActivity, "Edit button clicked!",Toast.LENGTH_SHORT).show()
+                    animateButtons()
+                }
+            }
+
+            floatingActionButtonMessage?.setOnClickListener {
+
+                if (it.visibility == View.VISIBLE)
+                {
+                    Toast.makeText(this@FloatingActionMenuAnimationActivity, "Message button clicked!",Toast.LENGTH_SHORT).show()
+                    animateButtons()
+                }
             }
         }
-
     }
 
     private fun animateButtons()
     {
-        if (floatingActionButtonEdit.visibility == View.VISIBLE && floatingActionButtonMessage.visibility == View.VISIBLE)
-        {
-            floatingActionButtonEdit?.apply {
-                visibility = View.INVISIBLE
-                startAnimation(toBottom)
-            }
+        binding?.apply {
 
-            floatingActionButtonMessage?.apply {
-                visibility = View.INVISIBLE
-                startAnimation(toBottom)
-            }
+            if (floatingActionButtonEdit.visibility == View.VISIBLE && floatingActionButtonMessage.visibility == View.VISIBLE)
+            {
+                floatingActionButtonEdit.apply {
+                    visibility = View.INVISIBLE
+                    startAnimation(toBottom)
+                }
 
-            floatingActionButton_main?.apply {
-                startAnimation(rotateClose)
-                setImageResource(R.drawable.ic_baseline_settings)
-            }
+                floatingActionButtonMessage.apply {
+                    visibility = View.INVISIBLE
+                    startAnimation(toBottom)
+                }
 
-        } else {
+                floatingActionButtonMain.apply {
+                    startAnimation(rotateClose)
+                    setImageResource(R.drawable.ic_baseline_settings)
+                }
 
-            floatingActionButtonEdit?.apply {
-                visibility = View.VISIBLE
-                startAnimation(fromBottom)
-            }
+            } else {
 
-            floatingActionButtonMessage?.apply {
-                visibility = View.VISIBLE
-                startAnimation(fromBottom)
-            }
+                floatingActionButtonEdit.apply {
+                    visibility = View.VISIBLE
+                    startAnimation(fromBottom)
+                }
 
-            floatingActionButton_main?.apply {
-                startAnimation(rotateOpen)
-                setImageResource(R.drawable.ic_add)
+                floatingActionButtonMessage.apply {
+                    visibility = View.VISIBLE
+                    startAnimation(fromBottom)
+                }
+
+                floatingActionButtonMain.apply {
+                    startAnimation(rotateOpen)
+                    setImageResource(R.drawable.ic_add)
+                }
             }
         }
     }
