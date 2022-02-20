@@ -1,14 +1,14 @@
 package com.example.datasaverexampleapp.bluetooth
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.example.datasaverexampleapp.R
 import com.example.datasaverexampleapp.bluetooth.discovery.BluetoothDiscoveryExampleActivity
 import com.example.datasaverexampleapp.bluetooth.server.BluetoothServerExampleActivity
-import kotlinx.android.synthetic.main.activity_bluetooth_example.*
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_main.bluetooth_examples
+import com.example.datasaverexampleapp.databinding.ActivityBluetoothExampleBinding
+import com.example.datasaverexampleapp.type_alias.Layout
 
 /**
  * Bluetooth is a communications protocol designed for short-range, low-bandwidth peer-to-peer communications.
@@ -28,15 +28,21 @@ class BluetoothExampleActivity : AppCompatActivity()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bluetooth_example)
         title = "Bluetooth examples"
-        bluetooth_discovery_example?.setOnClickListener {
-            val intent = Intent(this, BluetoothDiscoveryExampleActivity::class.java)
-            startActivity(intent)
 
-        }
+        DataBindingUtil.setContentView<ActivityBluetoothExampleBinding>(
+            this, Layout.activity_bluetooth_example
+        ).apply {
 
-        bluetooth_server_example?.setOnClickListener {
-            val intent = Intent(this, BluetoothServerExampleActivity::class.java)
-            startActivity(intent)
+            bluetoothDiscoveryExample.setOnClickListener {
+                val intent = Intent(this@BluetoothExampleActivity, BluetoothDiscoveryExampleActivity::class.java)
+                startActivity(intent)
+
+            }
+
+            bluetoothServerExample.setOnClickListener {
+                val intent = Intent(this@BluetoothExampleActivity, BluetoothServerExampleActivity::class.java)
+                startActivity(intent)
+            }
         }
     }
 }
