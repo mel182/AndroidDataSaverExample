@@ -1,14 +1,17 @@
 package com.example.datasaverexampleapp.appbar
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.example.datasaverexampleapp.R
-import kotlinx.android.synthetic.main.activity_app_bar.*
-import kotlinx.android.synthetic.main.activity_app_bar1.*
+import com.example.datasaverexampleapp.databinding.ActivityAppBarBinding
+import com.example.datasaverexampleapp.type_alias.Layout
 
 class AppBarActivity : AppCompatActivity() {
+
+    private var binding:ActivityAppBarBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,21 +28,24 @@ class AppBarActivity : AppCompatActivity() {
         supportActionBar?.title = "App bar Example"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        app_bar_activity_button?.setOnClickListener {
-            val intent = Intent(this, AppBarActivity1::class.java)
-            startActivity(intent)
+        binding = DataBindingUtil.setContentView<ActivityAppBarBinding>(
+            this, Layout.activity_app_bar
+        ).apply {
+            appBarActivityButton.setOnClickListener {
+                val intent = Intent(this@AppBarActivity, AppBarActivity1::class.java)
+                startActivity(intent)
+            }
         }
     }
 
     override fun onResume() {
         super.onResume()
-
-        intent?.let {
-            val data = it.getStringExtra("data")
-            Log.i("TAG","Date value: ${data}")
-            extra_intent_textView?.text = data
+        binding?.apply {
+            intent?.let {
+                val data = it.getStringExtra("data")
+                Log.i("TAG","Date value: ${data}")
+                extraIntentTextView.text = data
+            }
         }
     }
-
-
 }
