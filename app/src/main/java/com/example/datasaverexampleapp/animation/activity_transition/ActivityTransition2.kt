@@ -15,7 +15,7 @@ class ActivityTransition2 : AppCompatActivity() {
         DataBindingUtil.setContentView<ActivityTransition2Binding>(
             this, Layout.activity_transition2
         ).apply {
-            activity1Button?.setOnClickListener {
+            activity1Button.setOnClickListener {
                 onBackPressed()
             }
         }
