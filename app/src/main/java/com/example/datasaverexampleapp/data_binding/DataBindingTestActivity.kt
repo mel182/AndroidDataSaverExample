@@ -8,29 +8,29 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.datasaverexampleapp.R
 import com.example.datasaverexampleapp.databinding.ActivityDataBindingTestBinding
-import kotlinx.android.synthetic.main.activity_data_binding_test.*
 
 class DataBindingTestActivity : AppCompatActivity(R.layout.activity_data_binding_test) {
+
+    var binding : ActivityDataBindingTestBinding? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_data_binding_test)
 
         val mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        DataBindingUtil.setContentView<ActivityDataBindingTestBinding>(
+        binding = DataBindingUtil.setContentView<ActivityDataBindingTestBinding>(
             this, R.layout.activity_data_binding_test
         ).apply {
             lifecycleOwner = this@DataBindingTestActivity
             viewmodel = mainViewModel
+
+            dataBindingActivityMainView?.setOnClickListener {
+                Toast.makeText(this@DataBindingTestActivity, "View clicked!", Toast.LENGTH_SHORT).show()
+            }
         }
 
         mainViewModel.editTextContent.observe(this, Observer {
             Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
         })
-
-        data_binding_activity_main_view?.setOnClickListener {
-            Toast.makeText(this, "View clicked!", Toast.LENGTH_SHORT).show()
-        }
-
-
     }
 }
