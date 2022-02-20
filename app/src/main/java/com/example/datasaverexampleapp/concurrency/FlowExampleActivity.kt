@@ -1,8 +1,9 @@
+@file:Suppress("EXPERIMENTAL_API_USAGE")
+
 package com.example.datasaverexampleapp.concurrency
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.datasaverexampleapp.R
 import kotlinx.android.synthetic.main.activity_flow_example.*
@@ -191,6 +192,7 @@ class FlowExampleActivity : AppCompatActivity() {
         }
     }
 
+    @ExperimentalCoroutinesApi
     private fun setupChannelFlowWithLambda()
     {
         // Setup channel flow with lambda

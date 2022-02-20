@@ -147,7 +147,7 @@ class MainActivity : AppCompatActivity() {
                 CoroutineScope(Dispatchers.IO).launch{
 
                     val contentValues = ContentValues()
-                    var ageInt:Int? = null
+                    val ageInt: Int?
 
                     if (age.isNotBlank())
                     {

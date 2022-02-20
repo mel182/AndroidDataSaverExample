@@ -18,8 +18,7 @@ class AppBarBottomNavigationActivity : AppCompatActivity()
 
         title = app_bar_bottom_navigation.menu.findItem(R.id.contentFragment1).title
 
-        app_bar_bottom_navigation.setOnNavigationItemSelectedListener {
-
+        app_bar_bottom_navigation.setOnItemSelectedListener {
             when(it.itemId)
             {
                 R.id.contentFragment1 -> {

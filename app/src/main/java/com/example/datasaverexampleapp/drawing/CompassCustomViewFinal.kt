@@ -1,5 +1,8 @@
+@file:Suppress("VARIABLE_WITH_REDUNDANT_INITIALIZER")
+
 package com.example.datasaverexampleapp.drawing
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
@@ -11,6 +14,7 @@ import com.example.datasaverexampleapp.R
 import kotlin.math.cos
 import kotlin.math.min
 
+@Suppress("NAME_SHADOWING")
 class CompassCustomViewFinal : View {
 
     var bearing:Float? = 1f
@@ -44,6 +48,7 @@ class CompassCustomViewFinal : View {
 
     constructor(context: Context?) : this(context, null)
     constructor(context: Context?, attrs: AttributeSet?) : this(context, attrs, 0)
+    @SuppressLint("CustomViewStyleable")
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(
         context,
         attrs,
@@ -160,6 +165,7 @@ class CompassCustomViewFinal : View {
         return result
     }
 
+    @SuppressLint("DrawAllocation")
     override fun onDraw(canvas: Canvas?) {
 
         val ringWidth = textHeight + 4

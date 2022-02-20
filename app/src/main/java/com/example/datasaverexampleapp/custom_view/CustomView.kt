@@ -1,5 +1,6 @@
 package com.example.datasaverexampleapp.custom_view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
@@ -9,6 +10,7 @@ import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
 
+@Suppress("UNUSED_VARIABLE")
 class CustomView : View {
 
     // Create the new paint brushes
@@ -96,6 +98,7 @@ class CustomView : View {
         return true
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
 
         // Get the type of action this event represents

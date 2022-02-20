@@ -1,6 +1,9 @@
+@file:Suppress("UNNECESSARY_SAFE_CALL")
+
 package com.example.datasaverexampleapp.camera.picture_camera2_activity
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -17,6 +20,7 @@ class PictureCameraActivity : BaseActivity(Layout.activity_picture_camera)
         var orientation: Int? = null
     }
 
+    @SuppressLint("UnsupportedChromeOsCameraSystemFeature")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

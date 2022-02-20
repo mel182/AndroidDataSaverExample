@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.example.datasaverexampleapp.text_to_speech_example
 
 import android.content.Intent

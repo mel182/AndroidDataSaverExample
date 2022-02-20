@@ -1,5 +1,8 @@
+@file:Suppress("UNNECESSARY_SAFE_CALL", "DEPRECATION")
+
 package com.example.datasaverexampleapp.video_audio.background_audio
 
+import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.os.Bundle
 import android.os.Handler
@@ -33,6 +36,7 @@ class MediaPlayerFragment : Fragment() {
         return inflater.inflate(Layout.fragment_media_player, container, false)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -184,6 +188,7 @@ class MediaPlayerFragment : Fragment() {
                 Handler()
             )
             {
+                @SuppressLint("SetTextI18n")
                 override fun onReceiveResult(resultCode: Int, resultData: Bundle?) {
                     super.onReceiveResult(resultCode, resultData)
                     streamStatus?.text = if (resultCode == MEDIA_SOURCE_ADDED) "Media added, ready to play" else "Failed to add media, try again"

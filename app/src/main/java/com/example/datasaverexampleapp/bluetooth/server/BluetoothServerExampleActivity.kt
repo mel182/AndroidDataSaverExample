@@ -64,22 +64,19 @@ class BluetoothServerExampleActivity : BluetoothBaseActivity(Layout.activity_blu
         server_host_status?.text = "Starting....."
         if (isBluetoothEnabled())
         {
-            listeningUsingRfcommWithServiceRecord(name, uuid)?.let {
-                socket = it
+            listeningUsingRfcommWithServiceRecord(name, uuid) { bluetooth_server ->
+                socket = bluetooth_server
                 server_host_status?.text = "Hosting...."
-            }?: kotlin.run {
-                server_host_status?.text = "Failed starting server"
             }
         } else {
             enabledBluetooth { succeed ->
 
                 if (succeed)
                 {
-                    listeningUsingRfcommWithServiceRecord(name, uuid)?.let {
-                        socket = it
-                    }?: kotlin.run {
-                        server_host_status?.text = "Failed starting server"
+                    listeningUsingRfcommWithServiceRecord(name, uuid) { bluetooth_server ->
+                        socket = bluetooth_server
                     }
+
                 } else {
                     server_host_status?.text = "Failed starting server"
                 }

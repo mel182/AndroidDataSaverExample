@@ -1,3 +1,5 @@
+@file:Suppress("UNNECESSARY_SAFE_CALL")
+
 package com.example.datasaverexampleapp.hardware_sensor.book_example.user_activity_recognition
 
 import android.app.PendingIntent

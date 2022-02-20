@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION", "UNNECESSARY_SAFE_CALL")
+
 package com.example.datasaverexampleapp.video_audio.foreground_service
 
 import android.annotation.SuppressLint

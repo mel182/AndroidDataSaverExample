@@ -3,13 +3,10 @@ package com.example.datasaverexampleapp.data_binding.earthQuakeExample
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
-import android.view.GestureDetector
 import android.view.MotionEvent
-import android.view.View
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.datasaverexampleapp.R
 import kotlinx.android.synthetic.main.activity_earth_quake_data_binding_example.*
@@ -29,12 +26,12 @@ class EarthQuakeDataBindingExampleActivity : AppCompatActivity() {
             adapter = customAdapter
         }
 
-        val earthQuakeViewModel = ViewModelProviders.of(this).get(EarthQuakeViewModel::class.java)
-        earthQuakeViewModel.retrieveData().observe(this, { response ->
+        val earthQuakeViewModel = ViewModelProvider(this).get(EarthQuakeViewModel::class.java)
+        earthQuakeViewModel.retrieveData().observe(this) { response ->
             customAdapter.loadData(response)
-        })
-        
-        GlobalScope.launch {
+        }
+
+        CoroutineScope(Dispatchers.Main).launch {
             coroutineScope {
 
                 delay(2000)
@@ -59,6 +56,5 @@ class EarthQuakeDataBindingExampleActivity : AppCompatActivity() {
             }
             true
         }
-
     }
 }

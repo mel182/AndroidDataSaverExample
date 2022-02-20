@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION", "UNNECESSARY_SAFE_CALL")
+
 package com.example.datasaverexampleapp.video_audio.background_audio
 
 import android.annotation.SuppressLint
@@ -27,9 +29,9 @@ import com.google.android.exoplayer2.source.ExtractorMediaSource
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.MediaSourceEventListener
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
-import com.google.android.exoplayer2.upstream.*
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
+import com.google.android.exoplayer2.upstream.RawResourceDataSource
 import com.google.android.exoplayer2.util.Util
-import kotlinx.android.synthetic.main.activity_audio_playback_example.*
 import java.io.IOException
 
 /**

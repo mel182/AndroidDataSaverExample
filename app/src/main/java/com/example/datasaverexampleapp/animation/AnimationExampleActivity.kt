@@ -17,6 +17,7 @@ import kotlinx.android.synthetic.main.activity_animation_example.*
 import kotlinx.coroutines.*
 import kotlin.math.hypot
 
+@Suppress("UNUSED_VARIABLE")
 class AnimationExampleActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,17 +44,15 @@ class AnimationExampleActivity : AppCompatActivity() {
             animationDrawable.start()
         }
 
-
-        GlobalScope.launch {
-
-           val job: Job = launch(Dispatchers.IO){
+        CoroutineScope(Dispatchers.IO).launch {
+            val job: Job = launch(Dispatchers.IO){
 
                 launch(Dispatchers.Main){
 
                     Toast.makeText(this@AnimationExampleActivity, "dispatcher main", Toast.LENGTH_SHORT).show()
                     delay(100)
                 }
-           }
+            }
         }
 
         circular_reveal_animation_button?.setOnClickListener {
@@ -103,6 +102,5 @@ class AnimationExampleActivity : AppCompatActivity() {
             val intent = Intent(this,ActivityTransition1::class.java)
             startActivity(intent)
         }
-
     }
 }

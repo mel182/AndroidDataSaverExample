@@ -1,3 +1,5 @@
+@file:Suppress("NAME_SHADOWING","USELESS_ELVIS", "VARIABLE_WITH_REDUNDANT_INITIALIZER")
+
 package com.example.datasaverexampleapp.custom_view.compass_example
 
 import android.content.Context

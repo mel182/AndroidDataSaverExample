@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.example.datasaverexampleapp.video_audio.audio_recording
 
 import android.Manifest

@@ -1,5 +1,8 @@
+@file:Suppress("UNNECESSARY_SAFE_CALL", "DEPRECATION")
+
 package com.example.datasaverexampleapp.video_audio.foreground_service
 
+import android.annotation.SuppressLint
 import android.content.ComponentName
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -39,6 +42,7 @@ class ForegroundServiceExampleActivity : AppCompatActivity()
     private var mediaBrowser: MediaBrowserCompat? = null
     private var mediaController: MediaControllerCompat? = null
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(Layout.activity_foreground_example)
@@ -168,6 +172,7 @@ class ForegroundServiceExampleActivity : AppCompatActivity()
                 Handler()
             )
             {
+                @SuppressLint("SetTextI18n")
                 override fun onReceiveResult(resultCode: Int, resultData: Bundle?) {
                     super.onReceiveResult(resultCode, resultData)
                     streamStatus?.text = if (resultCode == MEDIA_SOURCE_ADDED) "Media added, ready to play" else "Failed to add media, try again"

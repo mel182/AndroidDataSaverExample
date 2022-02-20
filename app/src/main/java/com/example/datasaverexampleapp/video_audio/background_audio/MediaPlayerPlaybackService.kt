@@ -1,3 +1,7 @@
+@file:Suppress("DEPRECATION", "ControlFlowWithEmptyBody", "RedundantNullableReturnType",
+    "UNNECESSARY_SAFE_CALL"
+)
+
 package com.example.datasaverexampleapp.video_audio.background_audio
 
 import android.annotation.SuppressLint

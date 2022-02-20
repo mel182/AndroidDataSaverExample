@@ -1,3 +1,5 @@
+@file:Suppress("UNUSED_VARIABLE")
+
 package com.example.datasaverexampleapp.queuing_connection
 
 import java.util.*

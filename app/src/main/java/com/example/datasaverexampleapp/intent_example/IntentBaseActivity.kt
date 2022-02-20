@@ -1,5 +1,8 @@
+@file:Suppress("DEPRECATION")
+
 package com.example.datasaverexampleapp.intent_example
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import com.example.datasaverexampleapp.handlers.activity_result_handler.ActivityForResultHandler
@@ -48,6 +51,7 @@ abstract class IntentBaseActivity : AppCompatActivity()
         permissionRequestHandler = null
     }
 
+    @SuppressLint("MissingSuperCall")
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray)
     {
         permissionRequestHandler?.handlePermissionsResult(requestCode,grantResults)

@@ -9,6 +9,7 @@ import android.net.Uri
 import com.example.datasaverexampleapp.room_db.DatabaseAccessor
 import com.example.datasaverexampleapp.room_db.UserEntity
 
+@Suppress("VARIABLE_WITH_REDUNDANT_INITIALIZER")
 class TestContentProvider : ContentProvider()
 {
     companion object{

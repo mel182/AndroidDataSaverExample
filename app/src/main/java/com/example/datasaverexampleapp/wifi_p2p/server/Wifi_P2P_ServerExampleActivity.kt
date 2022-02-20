@@ -1,5 +1,8 @@
+@file:Suppress("BlockingMethodInNonBlockingContext")
+
 package com.example.datasaverexampleapp.wifi_p2p.server
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -19,6 +22,7 @@ class Wifi_P2P_ServerExampleActivity : AppCompatActivity() {
     private val port = 8666
     private var serverClient: Socket? = null
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_wifi_p2_pserver_example)
@@ -29,7 +33,7 @@ class Wifi_P2P_ServerExampleActivity : AppCompatActivity() {
 
             setOnClickListener {
 
-                when(this.text.toString().toLowerCase(Locale.ROOT))
+                when(this.text.toString().lowercase(Locale.ROOT))
                 {
                     "start" -> {
                         wifi_p2p_server_host_status?.text = "Starting...."

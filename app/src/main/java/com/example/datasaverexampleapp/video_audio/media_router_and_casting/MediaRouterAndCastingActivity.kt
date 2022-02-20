@@ -72,52 +72,55 @@ class MediaRouterAndCastingActivity : AppCompatActivity() {
         // You can also attach a 'SessionManagerListener' to your Manager instance to listen for creation,
         // suspension, resumption and termination of new Cast Sessions.
         sessionManager?.addSessionManagerListener(object : SessionManagerListener<Session> {
-            override fun onSessionStarting(session: Session?) {
+
+            override fun onSessionEnded(p0: Session, p1: Int) {
                 Log.i(javaClass.simpleName, "on Session starting!")
             }
 
-            override fun onSessionStarted(session: Session?, p1: String?) {
+            override fun onSessionEnding(p0: Session) {
+                Log.i(javaClass.simpleName, "on Session ending! with: $p0")
+            }
+
+            override fun onSessionResumeFailed(p0: Session, p1: Int) {
+                Log.i(javaClass.simpleName, "on Session resume failed!")
+            }
+
+            override fun onSessionResumed(p0: Session, p1: Boolean) {
+                Log.i(javaClass.simpleName, "on Session resumed!")
+            }
+
+            override fun onSessionResuming(p0: Session, p1: String) {
+                Log.i(javaClass.simpleName, "on Session resuming!")
+            }
+
+            override fun onSessionStartFailed(p0: Session, p1: Int) {
+                Log.i(javaClass.simpleName, "on Session start failed! with: $p1")
+            }
+
+            override fun onSessionStarted(p0: Session, p1: String) {
                 Log.i(javaClass.simpleName, "on Session started! with: $p1")
 
                 castSession?.let { cast_session ->
 
-                    cast_session.remoteMediaClient.let {
+                    cast_session.remoteMediaClient.let { remote_media ->
 
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             movieMetaData = MediaMetadata.Builder().apply {
                                 putString(MediaMetadata.METADATA_KEY_TITLE,"Media data title")
                             }.build()
-                            castMovie(it)
+                            if (remote_media != null) {
+                                castMovie(remote_media)
+                            }
                         }
                     }
                 }
             }
 
-            override fun onSessionStartFailed(p0: Session?, p1: Int) {
-                Log.i(javaClass.simpleName, "on Session start failed! with: $p1")
+            override fun onSessionStarting(p0: Session) {
+                Log.i(javaClass.simpleName, "on Session starting!")
             }
 
-            override fun onSessionEnding(session: Session?) {
-                Log.i(javaClass.simpleName, "on Session ending! with: $session")
-            }
-
-            override fun onSessionEnded(p0: Session?, p1: Int) {
-                Log.i(javaClass.simpleName, "on Session ended!")
-            }
-
-            override fun onSessionResuming(p0: Session?, p1: String?) {
-                Log.i(javaClass.simpleName, "on Session resuming!")
-            }
-
-            override fun onSessionResumed(p0: Session?, p1: Boolean) {
-                Log.i(javaClass.simpleName, "on Session resumed!")
-            }
-
-            override fun onSessionResumeFailed(p0: Session?, p1: Int) {
-                Log.i(javaClass.simpleName, "on Session resume failed!")
-            }
-
-            override fun onSessionSuspended(p0: Session?, p1: Int) {
+            override fun onSessionSuspended(p0: Session, p1: Int) {
                 Log.i(javaClass.simpleName, "on Session suspended!")
             }
         })

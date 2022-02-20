@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.example.datasaverexampleapp.hardware_sensor.book_example
 
 import android.content.Context
@@ -33,13 +35,14 @@ class CompassFinalWithSensorActivity : AppCompatActivity(), SensorEventListener
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         screenRotation = windowManager.defaultDisplay.rotation
 
+        val period = 1000L/60L
         compassTimer = Timer("compassUpdate").apply {
 
             scheduleAtFixedRate(object : TimerTask(){
                 override fun run() {
                     updateGUI()
                 }
-            },0,1000/60)
+            },0,period)
         }
     }
 

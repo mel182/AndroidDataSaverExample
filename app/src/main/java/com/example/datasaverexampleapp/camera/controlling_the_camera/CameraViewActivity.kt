@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.example.datasaverexampleapp.camera.controlling_the_camera
 
 import android.Manifest
@@ -8,18 +10,16 @@ import android.hardware.camera2.*
 import android.media.ImageReader
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.util.Size
-import android.view.*
+import android.view.SurfaceHolder
+import android.view.View
+import android.view.ViewTreeObserver
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.example.datasaverexampleapp.base_classes.BaseActivity
 import com.example.datasaverexampleapp.type_alias.Layout
 import kotlinx.android.synthetic.main.activity_camera_view.*
-import kotlinx.android.synthetic.main.activity_media_player_video_playback.*
-import kotlinx.android.synthetic.main.activity_mvv_m_coroutines.*
-import java.lang.IllegalArgumentException
 import java.util.*
 
 /**
@@ -38,6 +38,7 @@ import java.util.*
  * To display a preview, the 'SurfaceHolder.Callback' must be implemented, that listens for the construction of a valid
  * Surface (and ideally set it size with 'setFixedSize'.
  */
+@Suppress("DEPRECATION")
 @SuppressLint("NewApi")
 class CameraViewActivity : BaseActivity(Layout.activity_camera_view), SurfaceHolder.Callback, ImageReader.OnImageAvailableListener {
 

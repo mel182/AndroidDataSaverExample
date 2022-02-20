@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatDialogFragment
 
+@Suppress("UNUSED_ANONYMOUS_PARAMETER")
 class AppCompatDialogFragmentExample() :
     AppCompatDialogFragment() {
 

@@ -121,7 +121,9 @@ class BluetoothDiscoveryExampleActivity : BluetoothBaseActivity(Layout.activity_
     {
         if (isBluetoothEnabled())
         {
-            scan_mode?.text = if (getBluetoothScanMode() == -1) "-" else getBluetoothScanMode().asScanModeText()
+            getBluetoothScanMode { mode ->
+                scan_mode?.text = if (mode == -1) "-" else mode.asScanModeText()
+            }
         } else {
             scan_mode?.text = "-"
         }

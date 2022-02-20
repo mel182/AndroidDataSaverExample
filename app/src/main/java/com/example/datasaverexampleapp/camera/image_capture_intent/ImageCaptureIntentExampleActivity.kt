@@ -1,5 +1,10 @@
+@file:Suppress("UNUSED_VARIABLE", "DEPRECATION", "VARIABLE_WITH_REDUNDANT_INITIALIZER","UNUSED_ANONYMOUS_PARAMETER",
+    "UNNECESSARY_SAFE_CALL"
+)
+
 package com.example.datasaverexampleapp.camera.image_capture_intent
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.DialogInterface
 import android.content.Intent
@@ -263,6 +268,7 @@ class ImageCaptureIntentExampleActivity : AppCompatActivity() {
         return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
     }
 
+    @SuppressLint("SimpleDateFormat")
     private fun createImageFile(): File? {
         try {
 

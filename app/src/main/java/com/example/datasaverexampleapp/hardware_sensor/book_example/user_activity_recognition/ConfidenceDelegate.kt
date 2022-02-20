@@ -1,3 +1,5 @@
+@file:Suppress("NAME_SHADOWING")
+
 package com.example.datasaverexampleapp.hardware_sensor.book_example.user_activity_recognition
 
 import com.example.datasaverexampleapp.hardware_sensor.general.StringDelegate

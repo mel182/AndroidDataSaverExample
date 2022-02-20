@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION", "UNUSED_VARIABLE", "ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+
 package com.example.datasaverexampleapp.video_audio.audio_playback_focus
 
 import android.annotation.SuppressLint

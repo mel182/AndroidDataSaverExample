@@ -1,16 +1,20 @@
+@file:Suppress("DEPRECATION", "UNNECESSARY_SAFE_CALL")
+
 package com.example.datasaverexampleapp.bluetooth.base
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
+import android.bluetooth.BluetoothManager
 import android.bluetooth.BluetoothServerSocket
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.result.ActivityResult
 import androidx.core.content.ContextCompat
 import com.example.datasaverexampleapp.activityRequestHandler.ActivityResultHandler
@@ -18,7 +22,7 @@ import com.example.datasaverexampleapp.handlers.activity_result_handler.constant
 import com.example.datasaverexampleapp.handlers.permission.interfaces.RequestPermissionCallback
 import com.example.datasaverexampleapp.intent_example.IntentBaseActivity
 import com.example.datasaverexampleapp.speech_recognition_example.OnActivityResult
-import kotlinx.android.synthetic.main.activity_bluetooth_discovery_example.*
+import com.example.datasaverexampleapp.speech_recognition_example.OnPermissionResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -47,7 +51,14 @@ abstract class BluetoothBaseActivity(private val layout: Int) : IntentBaseActivi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(layout)
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val bluetoothManager = getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
+            bluetoothManager.adapter
+        } else {
+            bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
+        }
+
         registerReceiver(
             bluetoothStateReceiver,
             IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED)
@@ -77,21 +88,69 @@ abstract class BluetoothBaseActivity(private val layout: Int) : IntentBaseActivi
      * Get bluetooth hardware address
      * Note: if bluetooth is turned off, it will returns null
      */
-    protected fun getBluetoothAddress(): String = bluetoothAdapter?.address ?: ""
+    @SuppressLint("MissingPermission", "HardwareIds")
+    protected fun getBluetoothAddress(address: (String) -> Unit) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+        {
+            activityResultHandler?.requestPermission(Manifest.permission.BLUETOOTH_CONNECT, object: OnPermissionResult {
+
+                override fun onPermissionResult(result: Boolean) {
+                    super.onPermissionResult(result)
+
+                    address(if (result) bluetoothAdapter?.address ?: "" else "")
+                }
+            })
+        } else {
+            address(bluetoothAdapter?.address ?: "")
+        }
+    }
 
     /*
      * Get Bluetooth adapter friendly name
      * Note: if bluetooth is turned off, it will returns null
      */
-    protected fun getFriendlyName(): String = bluetoothAdapter?.name ?: ""
+    @SuppressLint("MissingPermission", "HardwareIds")
+    protected fun getFriendlyName(name:(String) -> Unit){
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+        {
+            activityResultHandler?.requestPermission(Manifest.permission.BLUETOOTH_CONNECT, object: OnPermissionResult {
+
+                @SuppressLint("MissingPermission")
+                override fun onPermissionResult(result: Boolean) {
+                    super.onPermissionResult(result)
+
+                    name(if (result) bluetoothAdapter?.name ?: "" else "")
+                }
+            })
+        } else {
+            name(bluetoothAdapter?.address ?: "")
+        }
+    }
 
     /*
      * Set Bluetooth adapter friendly name
      * Note: if you have the BLUETOOTH_ADMIN permission, you can change the friendly name of the Bluetooth Adapter
      *       using the 'setName' method.
      */
+    @SuppressLint("MissingPermission")
     protected fun setFriendlyName(name: String) {
-        bluetoothAdapter?.name = name
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+        {
+            activityResultHandler?.requestPermission(Manifest.permission.BLUETOOTH_CONNECT, object: OnPermissionResult {
+
+                @SuppressLint("MissingPermission")
+                override fun onPermissionResult(result: Boolean) {
+                    super.onPermissionResult(result)
+                    if (result)
+                        bluetoothAdapter?.name = name
+                }
+            })
+        } else {
+            bluetoothAdapter?.name = name
+        }
     }
 
     /*
@@ -145,7 +204,24 @@ abstract class BluetoothBaseActivity(private val layout: Int) : IntentBaseActivi
         )
     }
 
-    protected fun getBluetoothScanMode(): Int = bluetoothAdapter?.scanMode ?: -1
+    @SuppressLint("MissingPermission")
+    protected fun getBluetoothScanMode(mode: (Int) -> Unit) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+        {
+            activityResultHandler?.requestPermission(Manifest.permission.BLUETOOTH_SCAN, object: OnPermissionResult {
+
+                @SuppressLint("MissingPermission")
+                override fun onPermissionResult(result: Boolean) {
+                    super.onPermissionResult(result)
+                    if (result)
+                        mode(bluetoothAdapter?.scanMode ?: -1)
+                }
+            })
+        } else {
+            mode(bluetoothAdapter?.scanMode ?: -1)
+        }
+    }
 
     /**
      * Request bluetooth enabled
@@ -163,18 +239,56 @@ abstract class BluetoothBaseActivity(private val layout: Int) : IntentBaseActivi
         })
     }
 
+    @SuppressLint("MissingPermission")
     protected fun cancelDiscovery()
     {
         // The discovery process consumes significant resources, so you should be sure to cancel a discover in progress
         // using the 'cancelDiscovery' method, prior to attempting to connect with any discovered devices.
-        bluetoothAdapter?.let { adapter ->
-            if (adapter.isEnabled && adapter.isDiscovering)
-                adapter.cancelDiscovery()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+        {
+            activityResultHandler?.requestPermission(Manifest.permission.BLUETOOTH_SCAN, object: OnPermissionResult {
+
+                @SuppressLint("MissingPermission")
+                override fun onPermissionResult(result: Boolean) {
+                    super.onPermissionResult(result)
+                    if (result)
+                    {
+                        bluetoothAdapter?.let { adapter ->
+                            if (adapter.isEnabled && adapter.isDiscovering)
+                                adapter.cancelDiscovery()
+                        }
+                    }
+                }
+            })
+        } else {
+            bluetoothAdapter?.let { adapter ->
+                if (adapter.isEnabled && adapter.isDiscovering)
+                    adapter.cancelDiscovery()
+            }
         }
     }
 
-    protected fun listeningUsingRfcommWithServiceRecord(name:String, uuid:UUID) : BluetoothServerSocket?
+    protected fun listeningUsingRfcommWithServiceRecord(name:String, uuid:UUID, bluetoothServerSocket: (BluetoothServerSocket?) -> Unit)
     {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+        {
+            activityResultHandler?.requestPermission(Manifest.permission.BLUETOOTH_CONNECT, object: OnPermissionResult {
+
+                @SuppressLint("MissingPermission")
+                override fun onPermissionResult(result: Boolean) {
+                    super.onPermissionResult(result)
+                    if (result)
+                        listenToInsecureRfComm(name,uuid,bluetoothServerSocket)
+                }
+            })
+        } else {
+            listenToInsecureRfComm(name,uuid,bluetoothServerSocket)
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun listenToInsecureRfComm(name:String, uuid:UUID, bluetoothServerSocket: (BluetoothServerSocket?) -> Unit){
+
         try {
             val serverSocket = bluetoothAdapter?.listenUsingInsecureRfcommWithServiceRecord(name, uuid)
 
@@ -182,19 +296,19 @@ abstract class BluetoothBaseActivity(private val layout: Int) : IntentBaseActivi
 
                 try {
                     serverSocket?.accept()
+                    bluetoothServerSocket(serverSocket)
                 } catch (e:IOException)
                 {
                     e.printStackTrace()
+                    bluetoothServerSocket(null)
                 }
             }
-
-            return serverSocket
 
         }catch (e:IOException)
         {
             e.printStackTrace()
+            bluetoothServerSocket(null)
         }
-        return null
     }
 
     protected fun startDiscovery(succeed : (Boolean) -> Unit)
@@ -226,22 +340,48 @@ abstract class BluetoothBaseActivity(private val layout: Int) : IntentBaseActivi
             }
         } else {
             requestPermission(Manifest.permission.ACCESS_FINE_LOCATION, object : RequestPermissionCallback{
+                @SuppressLint("MissingPermission")
                 override fun onPermissionGranted() {
 
                     bluetoothAdapter?.let { adapter ->
 
                         // You must check if the local Bluetooth Adapter is already performing a discovery scan by using the
                         // 'isDiscovering' method.
-                        if (adapter.isEnabled && !adapter.isDiscovering)
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
                         {
-                            // To initiate the discovery process, call 'startDiscovery' on the Bluetooth Adapter.
-                            //
-                            // Note: The discovery process is asynchronous. Android broadcast Intents to notify you of the start
-                            //       and end of discovery, as well as notifying you of remote devices discovered during the scan.
-                            adapter.startDiscovery()
-                            succeed(true)
+                            activityResultHandler?.requestPermission(Manifest.permission.BLUETOOTH_SCAN, object: OnPermissionResult {
+
+                                @SuppressLint("MissingPermission")
+                                override fun onPermissionResult(result: Boolean) {
+                                    super.onPermissionResult(result)
+                                    if (result)
+                                    {
+                                        if (adapter.isEnabled && !adapter.isDiscovering)
+                                        {
+                                            // To initiate the discovery process, call 'startDiscovery' on the Bluetooth Adapter.
+                                            //
+                                            // Note: The discovery process is asynchronous. Android broadcast Intents to notify you of the start
+                                            //       and end of discovery, as well as notifying you of remote devices discovered during the scan.
+                                            adapter.startDiscovery()
+                                            succeed(true)
+                                        } else {
+                                            succeed(false)
+                                        }
+                                    }
+                                }
+                            })
                         } else {
-                            succeed(false)
+                            if (adapter.isEnabled && !adapter.isDiscovering)
+                            {
+                                // To initiate the discovery process, call 'startDiscovery' on the Bluetooth Adapter.
+                                //
+                                // Note: The discovery process is asynchronous. Android broadcast Intents to notify you of the start
+                                //       and end of discovery, as well as notifying you of remote devices discovered during the scan.
+                                adapter.startDiscovery()
+                                succeed(true)
+                            } else {
+                                succeed(false)
+                            }
                         }
                     }?: kotlin.run {
                         succeed(false)
@@ -263,12 +403,12 @@ abstract class BluetoothBaseActivity(private val layout: Int) : IntentBaseActivi
     private val bluetoothStateReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
 
-            intent?.let { intent ->
+            intent?.let { bc_intent ->
 
-                intent.action?.apply {
+                bc_intent.action?.apply {
 
                     if (this == BluetoothAdapter.ACTION_STATE_CHANGED) {
-                        when (intent.getIntExtra(
+                        when (bc_intent.getIntExtra(
                             BluetoothAdapter.EXTRA_STATE,
                             BluetoothAdapter.ERROR
                         )) {
@@ -291,8 +431,8 @@ abstract class BluetoothBaseActivity(private val layout: Int) : IntentBaseActivi
                     {
                         // The broadcast in general also includes name of remote device in an extra indexed as 'BluetoothDevice.EXTRA_NAME'
                         //
-                        val remoteDeviceName = intent.getStringExtra(BluetoothDevice.EXTRA_NAME)
-                        val remoteDevice = intent.getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
+                        val remoteDeviceName = bc_intent.getStringExtra(BluetoothDevice.EXTRA_NAME)
+                        val remoteDevice = bc_intent.getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
                         onBluetoothRemoteDeviceFound(remoteDeviceName, remoteDevice)
                     }
 

@@ -5,8 +5,8 @@ import android.app.ActivityManager.RunningAppProcessInfo
 import android.app.NotificationManager
 import android.content.*
 import android.content.pm.PackageManager
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
+import android.net.*
+import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
 import android.os.Build
 import android.os.Bundle
@@ -73,6 +73,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import java.math.BigInteger
 
 
+@Suppress("DEPRECATION")
 @RequiresApi(Build.VERSION_CODES.N)
 class MainActivity : AppCompatActivity() {
 
@@ -148,67 +149,82 @@ class MainActivity : AppCompatActivity() {
 
         wifi_check.setOnClickListener {
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-            {
-                val networkCapabilities = connectivityManager.activeNetwork
-                val activeNetwork = connectivityManager.getNetworkCapabilities(networkCapabilities)
+            when {
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
 
-                activeNetwork?.let { networkCapability ->
+                    val request = NetworkRequest.Builder().addTransportType(NetworkCapabilities.TRANSPORT_WIFI).build()
+                    val networkCallback = object : ConnectivityManager.NetworkCallback() {
 
-                    when
-                    {
-                        networkCapability.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> {
-
-                            val wifiInfo = wifiManager.connectionInfo
+                        override fun onCapabilitiesChanged(network: Network, networkCapabilities: NetworkCapabilities) {
+                            super.onCapabilitiesChanged(network, networkCapabilities)
+                            val wifiInfo = networkCapabilities.transportInfo as WifiInfo
                             val speedMbps = wifiInfo.linkSpeed
-
                             wifi_info_txt.text = "Wifi connected\nSpeed info (Mbps): $speedMbps"
-
                         }
+                    }
 
-                        networkCapability.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> {
-                            wifi_info_txt.text = "Cellular transport connected!"
-                        }
-
-                        networkCapability.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> {
-                            wifi_info_txt.text = "Transport ethernet connected!"
-                        }
-
-                        networkCapability.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH) -> {
-                            wifi_info_txt.text = "Transport bluetooth connected!"
-                        }
+                    getSystemService(ConnectivityManager::class.java).apply {
+                        requestNetwork(request, networkCallback)
+                        registerNetworkCallback(request, networkCallback)
                     }
                 }
 
-            } else {
-                val activeNetwork = connectivityManager.activeNetworkInfo
-                val isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.M -> {
+                    val networkCapabilities = connectivityManager.activeNetwork
+                    val activeNetwork = connectivityManager.getNetworkCapabilities(networkCapabilities)
 
-                activeNetwork?.let {
+                    activeNetwork?.let { networkCapability ->
 
-                    if (isConnected)
-                    {
-                        val wifi = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
-                        val mobile = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)
+                        when {
+                            networkCapability.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> {
 
-                        if (wifi != null && mobile != null)
-                        {
-                            if (wifi.isAvailable)
-                            {
-                                wifi_info_txt.text = "Wifi connected!"
-                            } else if (mobile.isAvailable)
-                            {
-                                wifi_info_txt.text = "Mobile connected!"
+                                val wifiInfo = wifiManager.connectionInfo
+                                val speedMbps = wifiInfo.linkSpeed
+
+                                wifi_info_txt.text = "Wifi connected\nSpeed info (Mbps): $speedMbps"
+
                             }
 
-                            if (wifi.isAvailable || mobile.isAvailable)
-                            {
-                                // Perform task
+                            networkCapability.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> {
+                                wifi_info_txt.text = "Cellular transport connected!"
+                            }
+
+                            networkCapability.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> {
+                                wifi_info_txt.text = "Transport ethernet connected!"
+                            }
+
+                            networkCapability.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH) -> {
+                                wifi_info_txt.text = "Transport bluetooth connected!"
                             }
                         }
+                    }
 
-                    } else {
-                        wifi_info_txt.text = "Not Connected!"
+                }
+                else -> {
+                    val activeNetwork = connectivityManager.activeNetworkInfo
+                    val isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting
+
+                    activeNetwork?.let {
+
+                        if (isConnected) {
+                            val wifi = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
+                            val mobile = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)
+
+                            if (wifi != null && mobile != null) {
+                                if (wifi.isAvailable) {
+                                    wifi_info_txt.text = "Wifi connected!"
+                                } else if (mobile.isAvailable) {
+                                    wifi_info_txt.text = "Mobile connected!"
+                                }
+
+                                if (wifi.isAvailable || mobile.isAvailable) {
+                                    // Perform task
+                                }
+                            }
+
+                        } else {
+                            wifi_info_txt.text = "Not Connected!"
+                        }
                     }
                 }
             }

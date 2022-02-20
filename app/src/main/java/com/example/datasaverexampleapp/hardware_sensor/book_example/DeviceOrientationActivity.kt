@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.example.datasaverexampleapp.hardware_sensor.book_example
 
 import android.app.PictureInPictureParams

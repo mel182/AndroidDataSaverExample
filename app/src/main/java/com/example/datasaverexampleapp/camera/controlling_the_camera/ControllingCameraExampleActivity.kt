@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.example.datasaverexampleapp.camera.controlling_the_camera
 
 import android.Manifest

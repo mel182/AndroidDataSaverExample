@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION", "VARIABLE_WITH_REDUNDANT_INITIALIZER")
+
 package com.example.datasaverexampleapp.storage_manager
 
 import android.content.Intent

@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.example.datasaverexampleapp.camera.picture_camera_fragment
 
 import android.Manifest
@@ -41,6 +43,7 @@ import kotlin.collections.ArrayList
  * Use the [PictureCameraFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+@Suppress("UNNECESSARY_SAFE_CALL")
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 class PictureCameraFragment(private val cameraId: String) : BaseFragment(Layout.fragment_picture_camera), TextureView.SurfaceTextureListener, ImageReader.OnImageAvailableListener
 {

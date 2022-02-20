@@ -1,13 +1,11 @@
 package com.example.datasaverexampleapp.protocol_oriented_programming_kotlin
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.example.datasaverexampleapp.R
 import com.example.datasaverexampleapp.room_db.DatabaseAccessor
-import com.example.datasaverexampleapp.room_db.RoomDBViewModel
 import com.example.datasaverexampleapp.room_db.UserEntity
 
 class ProtocolOrientedActivity : AppCompatActivity() {
@@ -30,16 +28,16 @@ class ProtocolOrientedActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_protocol_oriented)
-        protocolViewModel = ViewModelProviders.of(this).get(ProtocolOrientedViewModel::class.java)
-        protocolViewModel2 = ViewModelProviders.of(this).get(ProtocolOrientedViewModel2::class.java)
+        protocolViewModel = ViewModelProvider(this).get(ProtocolOrientedViewModel::class.java)
+        protocolViewModel2 = ViewModelProvider(this).get(ProtocolOrientedViewModel2::class.java)
 
-        protocolViewModel.getAllUsers().observe(this, {
-            Log.i("TAG","Protocol view model 1 result: ${it}")
-        })
+        protocolViewModel.getAllUsers().observe(this) {
+            Log.i("TAG", "Protocol view model 1 result: ${it}")
+        }
 
-        protocolViewModel2.getAllUsers().observe(this, {
-            Log.i("TAG","Protocol view model 2 result: ${it}")
-        })
+        protocolViewModel2.getAllUsers().observe(this) {
+            Log.i("TAG", "Protocol view model 2 result: ${it}")
+        }
 
         DatabaseAccessor.insertUser(UserEntity(name = "FirstnameTest 1", lastname = "LastnameTest 2", age = 23))
     }

@@ -1,3 +1,5 @@
+@file:Suppress("UNUSED_ANONYMOUS_PARAMETER", "DEPRECATION")
+
 package com.example.datasaverexampleapp.resourceTest
 
 import android.graphics.Color

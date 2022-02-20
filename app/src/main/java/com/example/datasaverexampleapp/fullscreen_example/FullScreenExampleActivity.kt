@@ -1,17 +1,29 @@
+@file:Suppress("UNNECESSARY_SAFE_CALL", "UNUSED_ANONYMOUS_PARAMETER")
+
 package com.example.datasaverexampleapp.fullscreen_example
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.view.WindowInsets
+import android.view.WindowInsets.Type.navigationBars
+import android.view.WindowInsets.Type.statusBars
+import android.view.WindowInsetsController
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import com.example.datasaverexampleapp.R
 import kotlinx.android.synthetic.main.activity_full_screen_example.*
 
+@Suppress("DEPRECATION")
 class FullScreenExampleActivity : AppCompatActivity() {
 
+    @SuppressLint("ObsoleteSdkInt")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_full_screen_example)
@@ -49,11 +61,21 @@ class FullScreenExampleActivity : AppCompatActivity() {
         hide_system_ui_button?.setOnClickListener {
 
             window?.apply {
-                decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-                        View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
-                        View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
-                        View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
-                        View.SYSTEM_UI_FLAG_FULLSCREEN
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+
+                    setDecorFitsSystemWindows(false)
+                    statusBarColor = Color.TRANSPARENT
+                    insetsController?.let { controller ->
+                        controller.systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+                        navigationBarColor = Color.TRANSPARENT
+                        controller.hide(statusBars())
+                    }
+                } else {
+                    decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                            View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+                            View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                }
             }
         }
 
@@ -85,26 +107,60 @@ class FullScreenExampleActivity : AppCompatActivity() {
 
         show_system_ui_button?.setOnClickListener {
 
-            window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
-                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            window?.apply {
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    setDecorFitsSystemWindows(true)
+                    statusBarColor = Color.BLACK
+                    insetsController?.let { controller ->
+                        controller.systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+                        navigationBarColor = Color.BLACK
+                        controller.show(statusBars())
+                    }
+                } else {
+                    decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                            View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+                            View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+                            View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
+                            View.SYSTEM_UI_FLAG_FULLSCREEN
+                }
+            }
         }
 
-        // You may choose to hide and display the App Bar and other navigational controls based
-        // on entering and exiting full screen mode.
-        // You can do this by registering an 'OnSystemUiVisibilityChangeListener' to a View - typically
-        // the view you're using the navigation visibility.
-        // Note: The system UI flags are reset whenever the user leaves (and subsequently) your app.
-        //       As a result the timing of calls to set these flags is important to ensure the UI is
-        //       always in the state you expect. It's recommended that you set and reset any system UI flags
-        //       within the 'onResume' and 'onWindowFocusChanged' handler.
-        window?.decorView?.setOnSystemUiVisibilityChangeListener { visibility ->
+        window?.decorView?.apply {
 
-            if (visibility == View.SYSTEM_UI_FLAG_VISIBLE)
-            {
-                Toast.makeText(this, "Display Action Bar and Status bar",Toast.LENGTH_SHORT).show()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){
+
+                setOnApplyWindowInsetsListener { view, windowInsets ->
+
+                    if (windowInsets.isVisible(statusBars()))
+                    {
+                        Toast.makeText(this@FullScreenExampleActivity, "Display Action Bar and Status bar",Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this@FullScreenExampleActivity, "Hide Action Bar and Status bar",Toast.LENGTH_SHORT).show()
+                    }
+
+                    windowInsets
+                }
+
             } else {
-                Toast.makeText(this, "Hide Action Bar and Status bar",Toast.LENGTH_SHORT).show()
+                // You may choose to hide and display the App Bar and other navigational controls based
+                // on entering and exiting full screen mode.
+                // You can do this by registering an 'OnSystemUiVisibilityChangeListener' to a View - typically
+                // the view you're using the navigation visibility.
+                // Note: The system UI flags are reset whenever the user leaves (and subsequently) your app.
+                //       As a result the timing of calls to set these flags is important to ensure the UI is
+                //       always in the state you expect. It's recommended that you set and reset any system UI flags
+                //       within the 'onResume' and 'onWindowFocusChanged' handler.
+                window?.decorView?.setOnSystemUiVisibilityChangeListener { visibility ->
+
+                    if (visibility == View.SYSTEM_UI_FLAG_VISIBLE)
+                    {
+                        Toast.makeText(this@FullScreenExampleActivity, "Display Action Bar and Status bar",Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this@FullScreenExampleActivity, "Hide Action Bar and Status bar",Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         }
     }
