@@ -2,10 +2,12 @@ package com.example.datasaverexampleapp.appbar.app_bar_bottom_navigation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.example.datasaverexampleapp.R
-import kotlinx.android.synthetic.main.activity_app_bar_bottom_navigation.*
+import com.example.datasaverexampleapp.databinding.ActivityAppBarBottomNavigationBinding
+import com.example.datasaverexampleapp.type_alias.Layout
 
 class AppBarBottomNavigationActivity : AppCompatActivity()
 {
@@ -13,31 +15,36 @@ class AppBarBottomNavigationActivity : AppCompatActivity()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_app_bar_bottom_navigation)
 
-        val navController = Navigation.findNavController(this,fragment3.id)
-        NavigationUI.setupWithNavController(app_bar_bottom_navigation, navController)
+        DataBindingUtil.setContentView<ActivityAppBarBottomNavigationBinding>(
+            this, Layout.activity_app_bar_bottom_navigation
+        ).apply {
 
-        title = app_bar_bottom_navigation.menu.findItem(R.id.contentFragment1).title
+            val navController = Navigation.findNavController(this@AppBarBottomNavigationActivity, fragment3.id)
+            NavigationUI.setupWithNavController(appBarBottomNavigation, navController)
 
-        app_bar_bottom_navigation.setOnItemSelectedListener {
-            when(it.itemId)
-            {
-                R.id.contentFragment1 -> {
-                    navController.navigate(it.itemId)
-                    title = it.title
-                    true
-                }
-                R.id.contentFragment2 -> {
-                    navController.navigate(it.itemId)
-                    title = it.title
-                    true
-                }
-                R.id.contentFragment3 -> {
-                    navController.navigate(it.itemId)
-                    title = it.title
-                    true
-                }
+            title = appBarBottomNavigation.menu.findItem(R.id.contentFragment1).title
 
-                else -> false
+            appBarBottomNavigation.setOnItemSelectedListener {
+                when(it.itemId)
+                {
+                    R.id.contentFragment1 -> {
+                        navController.navigate(it.itemId)
+                        title = it.title
+                        true
+                    }
+                    R.id.contentFragment2 -> {
+                        navController.navigate(it.itemId)
+                        title = it.title
+                        true
+                    }
+                    R.id.contentFragment3 -> {
+                        navController.navigate(it.itemId)
+                        title = it.title
+                        true
+                    }
+
+                    else -> false
+                }
             }
         }
     }
