@@ -1,17 +1,11 @@
 package com.example.datasaverexampleapp.bluetooth.server
 
 import android.bluetooth.BluetoothServerSocket
-import android.bluetooth.BluetoothSocket
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
-import com.example.datasaverexampleapp.R
+import androidx.databinding.DataBindingUtil
 import com.example.datasaverexampleapp.bluetooth.base.BluetoothBaseActivity
+import com.example.datasaverexampleapp.databinding.ActivityBluetoothServerExampleBinding
 import com.example.datasaverexampleapp.type_alias.Layout
-import kotlinx.android.synthetic.main.activity_bluetooth_server_example.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.util.*
 
 /**
@@ -46,39 +40,42 @@ class BluetoothServerExampleActivity : BluetoothBaseActivity(Layout.activity_blu
     private val name = "MyTestBluetoothServer"
     private val uuid = UUID.randomUUID()
     private var socket : BluetoothServerSocket? = null
+    private var binding: ActivityBluetoothServerExampleBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         title = "Bluetooth Server Example"
 
-
-
-        start_host_button?.setOnClickListener {
-            startHost()
+        binding = DataBindingUtil.setContentView<ActivityBluetoothServerExampleBinding?>(this, Layout.activity_bluetooth_server_example).apply {
+            startHostButton.setOnClickListener {
+                startHost()
+            }
         }
-
     }
 
     private fun startHost()
     {
-        server_host_status?.text = "Starting....."
-        if (isBluetoothEnabled())
-        {
-            listeningUsingRfcommWithServiceRecord(name, uuid) { bluetooth_server ->
-                socket = bluetooth_server
-                server_host_status?.text = "Hosting...."
-            }
-        } else {
-            enabledBluetooth { succeed ->
+        binding?.apply {
 
-                if (succeed)
-                {
-                    listeningUsingRfcommWithServiceRecord(name, uuid) { bluetooth_server ->
-                        socket = bluetooth_server
+            serverHostStatus.text = "Starting....."
+            if (isBluetoothEnabled())
+            {
+                listeningUsingRfcommWithServiceRecord(name, uuid) { bluetooth_server ->
+                    socket = bluetooth_server
+                    serverHostStatus.text = "Hosting...."
+                }
+            } else {
+                enabledBluetooth { succeed ->
+
+                    if (succeed)
+                    {
+                        listeningUsingRfcommWithServiceRecord(name, uuid) { bluetooth_server ->
+                            socket = bluetooth_server
+                        }
+
+                    } else {
+                        serverHostStatus.text = "Failed starting server"
                     }
-
-                } else {
-                    server_host_status?.text = "Failed starting server"
                 }
             }
         }
