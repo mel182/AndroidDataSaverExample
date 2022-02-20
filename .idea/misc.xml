@@ -7,8 +7,11 @@
         <entry key="app/src/main/res/layout/activity_animation_example.xml" value="0.23333333333333334" />
         <entry key="app/src/main/res/layout/activity_animator_set.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/activity_app_bar.xml" value="0.23333333333333334" />
+        <entry key="app/src/main/res/layout/activity_app_bar_advance_scrolling.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/activity_app_bar_bottom_navigation.xml" value="0.17753623188405798" />
+        <entry key="app/src/main/res/layout/activity_app_bar_collapsing_toolbar_example.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/activity_data_binding_test.xml" value="0.17753623188405798" />
+        <entry key="app/src/main/res/layout/activity_drawer_menu.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/activity_floating_action_menu_animation.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/activity_paging_example.xml" value="0.159375" />
@@ -19,6 +22,7 @@
         <entry key="app/src/main/res/layout/fragment_content1.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/fragment_content2.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/fragment_content3.xml" value="0.17753623188405798" />
+        <entry key="app/src/main/res/layout/item_drawer_layout.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/item_paging_custom_cell.xml" value="0.335" />
       </map>
     </option>
