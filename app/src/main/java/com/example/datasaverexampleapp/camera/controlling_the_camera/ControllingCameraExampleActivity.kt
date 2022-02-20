@@ -12,12 +12,13 @@ import android.hardware.camera2.CameraManager
 import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.datasaverexampleapp.base_classes.BaseActivity
 import com.example.datasaverexampleapp.camera.picture_camera2_activity.PictureCameraActivity
+import com.example.datasaverexampleapp.databinding.ActivityControllingCameraExampleBinding
 import com.example.datasaverexampleapp.type_alias.Layout
-import kotlinx.android.synthetic.main.activity_controlling_camera_example.*
 
 /**
  * This is an example on how the device camera can be controlled programmatically by using the Camera API
@@ -38,10 +39,14 @@ class ControllingCameraExampleActivity : BaseActivity(Layout.activity_controllin
     }
 
     private var cameraInfo: Camera.CameraInfo? = null
+    private var binding: ActivityControllingCameraExampleBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         title = "Controlling Camera example"
+
+        binding = DataBindingUtil.setContentView<ActivityControllingCameraExampleBinding>(
+            this, Layout.activity_controlling_camera_example)
 
         if (packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
             // Camera detected!
@@ -126,25 +131,28 @@ class ControllingCameraExampleActivity : BaseActivity(Layout.activity_controllin
             }
         }
 
-        camera_list?.apply {
-            adapter = CameraListAdapter(cameraInfoList){
-                CameraViewActivity.cameraId = it.id
-                CameraViewActivity.cameraManager = cameraManager
+        binding?.apply {
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    val intent = Intent(this@ControllingCameraExampleActivity, PictureCameraActivity::class.java)
-                    PictureCameraActivity.cameraId = it.id
-                    PictureCameraActivity.orientation = it.orientation
-                    startActivity(intent)
-                } else {
-                    Toast.makeText(this@ControllingCameraExampleActivity,"Unsupported os!",Toast.LENGTH_SHORT).show()
+            cameraList.apply {
+                adapter = CameraListAdapter(cameraInfoList){
+                    CameraViewActivity.cameraId = it.id
+                    CameraViewActivity.cameraManager = cameraManager
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        val intent = Intent(this@ControllingCameraExampleActivity, PictureCameraActivity::class.java)
+                        PictureCameraActivity.cameraId = it.id
+                        PictureCameraActivity.orientation = it.orientation
+                        startActivity(intent)
+                    } else {
+                        Toast.makeText(this@ControllingCameraExampleActivity,"Unsupported os!",Toast.LENGTH_SHORT).show()
+                    }
                 }
-            }
 
-            layoutManager = LinearLayoutManager(this@ControllingCameraExampleActivity).apply {
-                val dividerItemDecoration =
-                    DividerItemDecoration(context, orientation)
-                addItemDecoration(dividerItemDecoration)
+                layoutManager = LinearLayoutManager(this@ControllingCameraExampleActivity).apply {
+                    val dividerItemDecoration =
+                        DividerItemDecoration(context, orientation)
+                    addItemDecoration(dividerItemDecoration)
+                }
             }
         }
     }

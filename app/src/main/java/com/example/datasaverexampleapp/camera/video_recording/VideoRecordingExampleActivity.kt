@@ -8,9 +8,9 @@ import android.widget.MediaController
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import com.example.datasaverexampleapp.databinding.ActivityVideoRecordingExampleBinding
 import com.example.datasaverexampleapp.type_alias.Layout
-import kotlinx.android.synthetic.main.activity_image_capture_intent_example.*
-import kotlinx.android.synthetic.main.activity_video_recording_example.*
 
 /**
  * This is an example of intent to record video. It is the easiest and best practice way to initiate the video recording
@@ -42,25 +42,30 @@ class VideoRecordingExampleActivity : AppCompatActivity(Layout.activity_video_re
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        DataBindingUtil.setContentView<ActivityVideoRecordingExampleBinding>(
+            this, Layout.activity_video_recording_example
+        ).apply {
 
-            // get activity Result
-            result.data?.let {
+            resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
 
-                videoView?.apply {
-                    setMediaController(MediaController(this@VideoRecordingExampleActivity))
-                    setVideoURI(it.data)
-                    start()
+                // get activity Result
+                result.data?.let {
+
+                    videoView?.apply {
+                        setMediaController(MediaController(this@VideoRecordingExampleActivity))
+                        setVideoURI(it.data)
+                        start()
+                    }
                 }
             }
-        }
 
-        start_video_example_button?.setOnClickListener {
-            it.visibility = View.GONE
-            // Generate the Intent
-            val launchRecording = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
-            // Launch the camera app
-            resultLauncher?.launch(launchRecording)
+            startVideoExampleButton.setOnClickListener {
+                it.visibility = View.GONE
+                // Generate the Intent
+                val launchRecording = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
+                // Launch the camera app
+                resultLauncher?.launch(launchRecording)
+            }
         }
     }
 }

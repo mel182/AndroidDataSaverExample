@@ -10,10 +10,10 @@ import android.util.Log
 import android.view.SurfaceHolder
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.example.datasaverexampleapp.R
-import kotlinx.android.synthetic.main.activity_media_player_video_playback.*
-import kotlinx.android.synthetic.main.activity_video_recording_example.*
-import kotlinx.android.synthetic.main.activity_video_recording_with_media_player_example.*
+import com.example.datasaverexampleapp.databinding.ActivityVideoRecordingWithMediaPlayerExampleBinding
+import com.example.datasaverexampleapp.type_alias.Layout
 import java.io.IOException
 
 /*
@@ -56,31 +56,36 @@ class VideoRecordingWithMediaPlayerExampleActivity : AppCompatActivity(R.layout.
         // volume by uninstalling it.
         volumeControlStream = AudioManager.STREAM_MUSIC
 
-        // surface view that will be used for the video playback.
-        video_recording_surface_view?.apply {
-            keepScreenOn = true
-            holder?.apply {
-                addCallback(this@VideoRecordingWithMediaPlayerExampleActivity)
-                setFixedSize(400,300)
-            }
-        }
+        DataBindingUtil.setContentView<ActivityVideoRecordingWithMediaPlayerExampleBinding>(
+            this, Layout.activity_video_recording_with_media_player_example
+        ).apply {
 
-        val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-
-            start_video_example2_button?.isEnabled = true
-
-            result.data?.let {
-
-                mediaplayer = MediaPlayer.create(this,it.data).apply {
-                    setOnPreparedListener(this@VideoRecordingWithMediaPlayerExampleActivity)
+            // surface view that will be used for the video playback.
+            videoRecordingSurfaceView.apply {
+                keepScreenOn = true
+                holder?.apply {
+                    addCallback(this@VideoRecordingWithMediaPlayerExampleActivity)
+                    setFixedSize(400,300)
                 }
             }
-        }
 
-        start_video_example2_button?.setOnClickListener {
-            it.isEnabled = false
-            val launchRecording = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
-            resultLauncher.launch(launchRecording)
+            val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+
+                startVideoExample2Button.isEnabled = true
+
+                result.data?.let {
+
+                    mediaplayer = MediaPlayer.create(this@VideoRecordingWithMediaPlayerExampleActivity,it.data).apply {
+                        setOnPreparedListener(this@VideoRecordingWithMediaPlayerExampleActivity)
+                    }
+                }
+            }
+
+            startVideoExample2Button.setOnClickListener {
+                it.isEnabled = false
+                val launchRecording = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
+                resultLauncher.launch(launchRecording)
+            }
         }
     }
 

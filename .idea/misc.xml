@@ -14,15 +14,23 @@
         <entry key="app/src/main/res/layout/activity_bluetooth_discovery_example.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/activity_bluetooth_example.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/activity_bluetooth_server_example.xml" value="0.17753623188405798" />
+        <entry key="app/src/main/res/layout/activity_camera_examples.xml" value="0.17753623188405798" />
+        <entry key="app/src/main/res/layout/activity_camera_view.xml" value="0.17753623188405798" />
+        <entry key="app/src/main/res/layout/activity_controlling_camera_example.xml" value="0.17753623188405798" />
+        <entry key="app/src/main/res/layout/activity_coroutine_example.xml" value="0.23333333333333334" />
         <entry key="app/src/main/res/layout/activity_data_binding_test.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/activity_drawer_menu.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/activity_floating_action_menu_animation.xml" value="0.17753623188405798" />
+        <entry key="app/src/main/res/layout/activity_image_capture_intent_example.xml" value="0.23333333333333334" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/activity_paging_example.xml" value="0.159375" />
+        <entry key="app/src/main/res/layout/activity_picture_camera.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/activity_property_animation.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/activity_scroll_view.xml" value="0.23333333333333334" />
         <entry key="app/src/main/res/layout/activity_transition1.xml" value="0.23333333333333334" />
         <entry key="app/src/main/res/layout/activity_transition2.xml" value="0.23333333333333334" />
+        <entry key="app/src/main/res/layout/activity_video_recording_example.xml" value="0.17753623188405798" />
+        <entry key="app/src/main/res/layout/activity_video_recording_with_media_player_example.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/fragment_content1.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/fragment_content2.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/fragment_content3.xml" value="0.17753623188405798" />

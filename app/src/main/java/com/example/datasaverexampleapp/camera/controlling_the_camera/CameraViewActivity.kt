@@ -17,9 +17,10 @@ import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.databinding.DataBindingUtil
 import com.example.datasaverexampleapp.base_classes.BaseActivity
+import com.example.datasaverexampleapp.databinding.ActivityCameraViewBinding
 import com.example.datasaverexampleapp.type_alias.Layout
-import kotlinx.android.synthetic.main.activity_camera_view.*
 import java.util.*
 
 /**
@@ -53,6 +54,7 @@ class CameraViewActivity : BaseActivity(Layout.activity_camera_view), SurfaceHol
     private lateinit var surfaceHolder: SurfaceHolder
     private var imageReader: ImageReader? = null
     private var onImageAvailabilityListener: ImageReader.OnImageAvailableListener? = null
+    private var binding: ActivityCameraViewBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,113 +64,125 @@ class CameraViewActivity : BaseActivity(Layout.activity_camera_view), SurfaceHol
 
         title = "Camera view with id: ${cameraId}"
         openCamera()
+
+        binding = DataBindingUtil.setContentView<ActivityCameraViewBinding>(
+            this, Layout.activity_camera_view
+        )
     }
 
     @SuppressLint("MissingPermission")
     private fun openCamera() {
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        binding?.apply {
 
-            requestPermission(Manifest.permission.CAMERA) { granted ->
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
-                if (granted) {
+                requestPermission(Manifest.permission.CAMERA) { granted ->
 
-                    cameraId?.let { id ->
+                    if (granted) {
 
-                        cameraDeviceCallback = object : CameraDevice.StateCallback() {
-                            override fun onOpened(camera: CameraDevice) {
-                                deviceCamera = camera
-                                //The method called when a camera device has finished opening.
+                        cameraId?.let { id ->
+
+                            cameraDeviceCallback = object : CameraDevice.StateCallback() {
+                                override fun onOpened(camera: CameraDevice) {
+                                    deviceCamera = camera
+                                    //The method called when a camera device has finished opening.
+                                }
+
+                                override fun onDisconnected(camera: CameraDevice) {
+                                    camera.close()
+                                    deviceCamera = null
+                                    //The method called when a camera device is no longer available for use.
+                                }
+
+                                override fun onError(camera: CameraDevice, p1: Int) {
+                                    // Something went wrong, notify the user
+                                    // The method called when a camera device has encountered a serious error.
+                                    Toast.makeText(
+                                        this@CameraViewActivity,
+                                        "Failed opening camera",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                    camera.close()
+                                    deviceCamera = null
+                                }
+
+                                override fun onClosed(camera: CameraDevice) {
+                                    // The method called when a camera device has been closed with 'CameraDevice.close()'.
+                                }
                             }
 
-                            override fun onDisconnected(camera: CameraDevice) {
-                                camera.close()
-                                deviceCamera = null
-                                //The method called when a camera device is no longer available for use.
+                            surfaceView.let { view ->
+                                surfaceHolder = view.holder.apply {
+                                    addCallback(this@CameraViewActivity)
+                                }
                             }
 
-                            override fun onError(camera: CameraDevice, p1: Int) {
-                                // Something went wrong, notify the user
-                                // The method called when a camera device has encountered a serious error.
-                                Toast.makeText(
-                                    this@CameraViewActivity,
-                                    "Failed opening camera",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                camera.close()
-                                deviceCamera = null
+                            createAndSetImageReader()
+
+                            try {
+                                cameraManager?.openCamera(id.toString(), cameraDeviceCallback!!, null)
+
+                                takePictureButton.setOnClickListener {
+                                    takePicture()
+                                }
+
+                            } catch (e: Exception) {
+                                e.printStackTrace()
                             }
-
-                            override fun onClosed(camera: CameraDevice) {
-                                // The method called when a camera device has been closed with 'CameraDevice.close()'.
-                            }
-                        }
-
-                        surfaceView?.let { view ->
-                            surfaceHolder = view.holder.apply {
-                                addCallback(this@CameraViewActivity)
-                            }
-                        }
-
-                        createAndSetImageReader()
-
-                        try {
-                            cameraManager?.openCamera(id.toString(), cameraDeviceCallback!!, null)
-
-                            take_picture_button?.setOnClickListener {
-                                takePicture()
-                            }
-
-                        } catch (e: Exception) {
-                            e.printStackTrace()
                         }
                     }
                 }
-            }
 
-        } else {
+            } else {
 
-            try {
-                cameraId?.let { id ->
-                    camera = Camera.open(id)
+                try {
+                    cameraId?.let { id ->
+                        camera = Camera.open(id)
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
                 }
-            } catch (e: Exception) {
-                e.printStackTrace()
             }
+
         }
     }
 
     private fun createAndSetImageReader()
     {
-        //TODO: Continue with implementation of image reader by retrieving the surface view height and width
-        val viewTreeObserver = surfaceView.viewTreeObserver
-        viewTreeObserver.addOnGlobalLayoutListener(object :
-            ViewTreeObserver.OnGlobalFocusChangeListener, ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalFocusChanged(p0: View?, p1: View?) {}
+        binding?.apply {
+            //TODO: Continue with implementation of image reader by retrieving the surface view height and width
+            val viewTreeObserver = surfaceView.viewTreeObserver
+            viewTreeObserver.addOnGlobalLayoutListener(object :
+                ViewTreeObserver.OnGlobalFocusChangeListener, ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalFocusChanged(p0: View?, p1: View?) {}
 
-            override fun onGlobalLayout() {
+                override fun onGlobalLayout() {
 
-                surfaceView.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                Log.i("TAG", "Measure width: ${surfaceView.measuredWidth}")
-                Log.i("TAG", "Measure height: ${surfaceView.measuredHeight}")
+                    surfaceView.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    Log.i("TAG", "Measure width: ${surfaceView.measuredWidth}")
+                    Log.i("TAG", "Measure height: ${surfaceView.measuredHeight}")
 
-                imageReader = ImageReader.newInstance(surfaceView.measuredWidth,surfaceView.measuredHeight,ImageFormat.JPEG,2).apply {
-                    setOnImageAvailableListener({ imageReader ->
+                    imageReader = ImageReader.newInstance(surfaceView.measuredWidth,surfaceView.measuredHeight,ImageFormat.JPEG,2).apply {
+                        setOnImageAvailableListener({ imageReader ->
 
-                        imageReader.acquireNextImage().use { image ->
+                            imageReader.acquireNextImage().use { image ->
 
-                            for (planeFound in image.planes) {
+                                for (planeFound in image.planes) {
 
-                                val buffer = planeFound.buffer
-                                val data = ByteArray(buffer.remaining())
-                                buffer.get(data)
-                                Log.i("TAG","Buffer data: ${data}")
+                                    val buffer = planeFound.buffer
+                                    val data = ByteArray(buffer.remaining())
+                                    buffer.get(data)
+                                    Log.i("TAG","Buffer data: ${data}")
+                                }
                             }
-                        }
-                    },null) // optional handler
+                        },null) // optional handler
+                    }
                 }
-            }
-        })
+            })
+        }
+
+
     }
 
     private fun takePicture() {
@@ -199,63 +213,64 @@ class CameraViewActivity : BaseActivity(Layout.activity_camera_view), SurfaceHol
     fun setOptimalPreviewSize(id: String)
     {
         Log.i("TAG", "Optimal size")
+        binding?.apply {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                val characteristics =  cameraManager?.getCameraCharacteristics(id)
+                val supportedSizes = characteristics?.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)?.getOutputSizes(
+                    ImageFormat.JPEG
+                )
 
-            val characteristics =  cameraManager?.getCameraCharacteristics(id)
-            val supportedSizes = characteristics?.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)?.getOutputSizes(
-                ImageFormat.JPEG
-            )
-
-            val viewTreeObserver = surfaceView.viewTreeObserver
-            viewTreeObserver.addOnGlobalLayoutListener(object :
-                ViewTreeObserver.OnGlobalFocusChangeListener,
-                ViewTreeObserver.OnGlobalLayoutListener {
-                override fun onGlobalFocusChanged(p0: View?, p1: View?) {
-                }
-
-                override fun onGlobalLayout() {
-                    surfaceView.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                    Log.i("TAG", "Measure width: ${surfaceView.measuredWidth}")
-                    Log.i("TAG", "Measure height: ${surfaceView.measuredHeight}")
-
-                    val previewWidth = surfaceView.measuredWidth
-                    val previewHeight = surfaceView.measuredHeight
-
-                    //region Image reader
-                    ImageReader.newInstance(previewWidth,previewHeight,ImageFormat.JPEG,2).apply {
-                        setOnImageAvailableListener(this@CameraViewActivity,null)
+                val viewTreeObserver = surfaceView.viewTreeObserver
+                viewTreeObserver.addOnGlobalLayoutListener(object :
+                    ViewTreeObserver.OnGlobalFocusChangeListener,
+                    ViewTreeObserver.OnGlobalLayoutListener {
+                    override fun onGlobalFocusChanged(p0: View?, p1: View?) {
                     }
-                    //endregion
 
-                    val bigEnough = ArrayList<Size>()
+                    override fun onGlobalLayout() {
+                        surfaceView.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                        Log.i("TAG", "Measure width: ${surfaceView.measuredWidth}")
+                        Log.i("TAG", "Measure height: ${surfaceView.measuredHeight}")
 
-                    supportedSizes?.forEach {
-                        Log.i("TAG", "Camera size found: ${it}")
+                        val previewWidth = surfaceView.measuredWidth
+                        val previewHeight = surfaceView.measuredHeight
 
-                        for (option in supportedSizes) {
-                            if (option.width <= previewWidth && option.height <= previewHeight) {
-                                bigEnough.add(option)
+                        //region Image reader
+                        ImageReader.newInstance(previewWidth,previewHeight,ImageFormat.JPEG,2).apply {
+                            setOnImageAvailableListener(this@CameraViewActivity,null)
+                        }
+                        //endregion
+
+                        val bigEnough = ArrayList<Size>()
+
+                        supportedSizes?.forEach {
+                            Log.i("TAG", "Camera size found: ${it}")
+
+                            for (option in supportedSizes) {
+                                if (option.width <= previewWidth && option.height <= previewHeight) {
+                                    bigEnough.add(option)
+                                }
                             }
                         }
+
+
+                        val smallestOne = Collections.max(bigEnough, ComparableByArea())
+
+                        val orientation = characteristics?.get(CameraCharacteristics.SENSOR_ORIENTATION)
+                        val layoutParams = surfaceView.layoutParams
+                        layoutParams.height =
+                            if (orientation == 90 || orientation == 270) smallestOne.width else smallestOne.height
+                        layoutParams.width =
+                            if (orientation == 90 || orientation == 270) smallestOne.height else smallestOne.width
+
+                        surfaceView.layoutParams = layoutParams
                     }
+                })
 
-
-                    val smallestOne = Collections.max(bigEnough, ComparableByArea())
-
-                    val orientation = characteristics?.get(CameraCharacteristics.SENSOR_ORIENTATION)
-                    val layoutParams = surfaceView.layoutParams
-                    layoutParams.height =
-                        if (orientation == 90 || orientation == 270) smallestOne.width else smallestOne.height
-                    layoutParams.width =
-                        if (orientation == 90 || orientation == 270) smallestOne.height else smallestOne.width
-
-                    surfaceView.layoutParams = layoutParams
-                }
-            })
-
-        } else {
-            Log.i("TAG", "Lollipop and lower!")
+            } else {
+                Log.i("TAG", "Lollipop and lower!")
+            }
         }
     }
 

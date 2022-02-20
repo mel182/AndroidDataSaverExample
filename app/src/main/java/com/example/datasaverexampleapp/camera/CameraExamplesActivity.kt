@@ -3,11 +3,13 @@ package com.example.datasaverexampleapp.camera
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.example.datasaverexampleapp.R
 import com.example.datasaverexampleapp.camera.controlling_the_camera.ControllingCameraExampleActivity
 import com.example.datasaverexampleapp.camera.image_capture_intent.ImageCaptureIntentExampleActivity
 import com.example.datasaverexampleapp.camera.video_recording.VideoRecordingExampleActivity
-import kotlinx.android.synthetic.main.activity_camera_examples.*
+import com.example.datasaverexampleapp.databinding.ActivityCameraExamplesBinding
+import com.example.datasaverexampleapp.type_alias.Layout
 
 class CameraExamplesActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,24 +17,29 @@ class CameraExamplesActivity : AppCompatActivity() {
         setContentView(R.layout.activity_camera_examples)
         title = "Camera Example"
 
-        camera_intent_button?.setOnClickListener {
-            val intent = Intent(this, ImageCaptureIntentExampleActivity::class.java)
-            startActivity(intent)
-        }
+        DataBindingUtil.setContentView<ActivityCameraExamplesBinding>(
+            this, Layout.activity_camera_examples
+        ).apply {
 
-        controlling_camera_example_button?.setOnClickListener {
-            val intent = Intent(this, ControllingCameraExampleActivity::class.java)
-            startActivity(intent)
-        }
+            cameraIntentButton.setOnClickListener {
+                val intent = Intent(this@CameraExamplesActivity, ImageCaptureIntentExampleActivity::class.java)
+                startActivity(intent)
+            }
 
-        video_recording_example_button?.setOnClickListener {
-            val intent = Intent(this, VideoRecordingExampleActivity::class.java)
-            startActivity(intent)
-        }
+            controllingCameraExampleButton.setOnClickListener {
+                val intent = Intent(this@CameraExamplesActivity, ControllingCameraExampleActivity::class.java)
+                startActivity(intent)
+            }
 
-        video_recording_with_media_player_example_button?.setOnClickListener {
-            val intent = Intent(this, VideoRecordingExampleActivity::class.java)
-            startActivity(intent)
+            videoRecordingExampleButton?.setOnClickListener {
+                val intent = Intent(this@CameraExamplesActivity, VideoRecordingExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+            videoRecordingWithMediaPlayerExampleButton.setOnClickListener {
+                val intent = Intent(this@CameraExamplesActivity, VideoRecordingExampleActivity::class.java)
+                startActivity(intent)
+            }
         }
     }
 }

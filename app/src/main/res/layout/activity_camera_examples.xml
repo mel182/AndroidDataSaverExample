@@ -1,39 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".camera.CameraExamplesActivity">
 
-    <Button
-        android:id="@+id/camera_intent_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="Camera Intent" />
+    <LinearLayout
 
-    <Button
-        android:id="@+id/controlling_camera_example_button"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="Controlling camera example" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/video_recording_example_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="Video recording example" />
+        <Button
+            android:id="@+id/camera_intent_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Camera Intent" />
 
-    <Button
-        android:id="@+id/video_recording_with_media_player_example_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="Video recording with media player example" />
+        <Button
+            android:id="@+id/controlling_camera_example_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Controlling camera example" />
 
-</LinearLayout>
+        <Button
+            android:id="@+id/video_recording_example_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Video recording example" />
+
+        <Button
+            android:id="@+id/video_recording_with_media_player_example_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Video recording with media player example" />
+
+    </LinearLayout>
+
+</layout>
