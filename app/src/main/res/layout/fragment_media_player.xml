@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".video_audio.background_audio.MediaPlayerFragment">
+<layout>
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".video_audio.background_audio.MediaPlayerFragment">
 
-    <include layout="@layout/item_player_layout"/>
+        <include android:id="@+id/player_layout" layout="@layout/item_player_layout"/>
 
-</FrameLayout>
+    </FrameLayout>
+</layout>

@@ -16,10 +16,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.example.datasaverexampleapp.R
+import com.example.datasaverexampleapp.databinding.FragmentMediaPlayerBinding
 import com.example.datasaverexampleapp.type_alias.Layout
-import kotlinx.android.synthetic.main.item_player_layout.*
 
 /**
  * A simple [Fragment] subclass.
@@ -30,6 +31,7 @@ class MediaPlayerFragment : Fragment() {
 
     private var mediaBrowser: MediaBrowserCompat? = null
     private var mediaController: MediaControllerCompat? = null
+    private var binding: FragmentMediaPlayerBinding? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -40,79 +42,84 @@ class MediaPlayerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        playerTitle?.text = "Media player"
-        updateStatus("Initializing....")
-
         activity?.let { fragmentActivity ->
 
-            mediaBrowser = MediaBrowserCompat(fragmentActivity,
-                ComponentName(fragmentActivity, ExoPlayerMediaPlaybackService::class.java),
-                object : MediaBrowserCompat.ConnectionCallback(){
+            binding = DataBindingUtil.setContentView<FragmentMediaPlayerBinding>(
+                fragmentActivity, Layout.fragment_media_player
+            ).apply {
 
-                    override fun onConnected() {
-                        super.onConnected()
-                        initializeMediaBrowserAndController()
-                        updateStatus("-")
+                playerLayout.playerTitle?.text = "Media player"
+                updateStatus("Initializing....")
+
+                mediaBrowser = MediaBrowserCompat(fragmentActivity,
+                    ComponentName(fragmentActivity, ExoPlayerMediaPlaybackService::class.java),
+                    object : MediaBrowserCompat.ConnectionCallback(){
+
+                        override fun onConnected() {
+                            super.onConnected()
+                            initializeMediaBrowserAndController()
+                            updateStatus("-")
+                        }
+
+                        override fun onConnectionSuspended() {
+                            super.onConnectionSuspended()
+                            // We were connected, but no longer are.
+                            updateStatus("Service connection suspended")
+                        }
+
+                        override fun onConnectionFailed() {
+                            super.onConnectionFailed()
+                            // The attempt to connect failed completely.
+                            // Check the ComponentName!
+                            updateStatus("Service Connection failed")
+                        }
+                    },null)
+
+                mediaBrowser?.connect()
+
+                playerLayout.playAudioButton?.setOnClickListener {
+
+                    when (playerLayout.playAudioButton?.text)
+                    {
+                        "Add Media Audio" -> {
+                            updateStatus("Added media....")
+                            addPlayAudio(R.raw.bon_vibe)
+                            playerLayout.streamAudioButton?.isEnabled = false
+                        }
+                        "Play Audio" -> {
+                            mediaController?.transportControls?.play()
+                            playerLayout.playAudioButton?.text = "Stop Audio"
+                            updateStatus("Preparing....")
+                        }
+                        "Stop Audio" -> {
+                            mediaController?.transportControls?.stop()
+                            updateStatus("-")
+                            playerLayout.playAudioButton?.text = "Add Media Audio"
+                            playerLayout.streamAudioButton?.isEnabled = true
+                        }
                     }
+                }
 
-                    override fun onConnectionSuspended() {
-                        super.onConnectionSuspended()
-                        // We were connected, but no longer are.
-                        updateStatus("Service connection suspended")
+                playerLayout.streamAudioButton?.setOnClickListener {
+
+                    when (playerLayout.streamAudioButton?.text)
+                    {
+                        "Add Stream Audio" -> {
+                            updateStatus("Added streaming media....")
+                            addPlayAudio("https://stream.audioxi.com/SW")
+                            playerLayout.playAudioButton?.isEnabled = false
+                        }
+                        "Play Stream Audio" -> {
+                            mediaController?.transportControls?.play()
+                            playerLayout.streamAudioButton?.text = "Stop Streaming Audio"
+                        }
+                        "Stop Streaming Audio" -> {
+                            mediaController?.transportControls?.stop()
+                            updateStatus("-")
+                            playerLayout.streamAudioButton?.text = "Add Stream Audio"
+                            playerLayout.playAudioButton?.isEnabled = true
+                        }
                     }
-
-                    override fun onConnectionFailed() {
-                        super.onConnectionFailed()
-                        // The attempt to connect failed completely.
-                        // Check the ComponentName!
-                        updateStatus("Service Connection failed")
-                    }
-                },null)
-
-            mediaBrowser?.connect()
-        }
-
-        playAudioButton?.setOnClickListener {
-
-            when (playAudioButton?.text)
-            {
-                "Add Media Audio" -> {
-                    updateStatus("Added media....")
-                    addPlayAudio(R.raw.bon_vibe)
-                    streamAudioButton?.isEnabled = false
-                }
-                "Play Audio" -> {
-                    mediaController?.transportControls?.play()
-                    playAudioButton?.text = "Stop Audio"
-                    updateStatus("Preparing....")
-                }
-                "Stop Audio" -> {
-                    mediaController?.transportControls?.stop()
-                    updateStatus("-")
-                    playAudioButton?.text = "Add Media Audio"
-                    streamAudioButton?.isEnabled = true
-                }
-            }
-        }
-
-        streamAudioButton?.setOnClickListener {
-
-            when (streamAudioButton?.text)
-            {
-                "Add Stream Audio" -> {
-                    updateStatus("Added streaming media....")
-                    addPlayAudio("https://stream.audioxi.com/SW")
-                    playAudioButton?.isEnabled = false
-                }
-                "Play Stream Audio" -> {
-                    mediaController?.transportControls?.play()
-                    streamAudioButton?.text = "Stop Streaming Audio"
-                }
-                "Stop Streaming Audio" -> {
-                    mediaController?.transportControls?.stop()
-                    updateStatus("-")
-                    streamAudioButton?.text = "Add Stream Audio"
-                    playAudioButton?.isEnabled = true
                 }
             }
         }
@@ -120,7 +127,7 @@ class MediaPlayerFragment : Fragment() {
 
     private fun updateStatus(status:String)
     {
-        streamStatus?.text = status
+         binding?.playerLayout?.streamStatus?.text = status
     }
 
     private fun initializeMediaBrowserAndController()
@@ -154,8 +161,8 @@ class MediaPlayerFragment : Fragment() {
                                 {
                                     Log.i("TAG","Action stop!")
                                     updateStatus("-")
-                                    playAudioButton?.isEnabled = true
-                                    streamAudioButton?.isEnabled = true
+                                    binding?.playerLayout?.playAudioButton?.isEnabled = true
+                                    binding?.playerLayout?.streamAudioButton?.isEnabled = true
                                     getParentActivity()?.getPlayerTabLayout()?.visibility = View.VISIBLE
                                 }
                             }
@@ -191,21 +198,21 @@ class MediaPlayerFragment : Fragment() {
                 @SuppressLint("SetTextI18n")
                 override fun onReceiveResult(resultCode: Int, resultData: Bundle?) {
                     super.onReceiveResult(resultCode, resultData)
-                    streamStatus?.text = if (resultCode == MEDIA_SOURCE_ADDED) "Media added, ready to play" else "Failed to add media, try again"
+                    binding?.playerLayout?.streamStatus?.text = if (resultCode == MEDIA_SOURCE_ADDED) "Media added, ready to play" else "Failed to add media, try again"
 
                     if (mediaSource is Int)
                     {
-                        playAudioButton?.text = "Play Audio"
+                        binding?.playerLayout?.playAudioButton?.text = "Play Audio"
                     } else if (mediaSource is String)
                     {
-                        streamAudioButton?.text = "Play Stream Audio"
+                        binding?.playerLayout?.streamAudioButton?.text = "Play Stream Audio"
                     }
                 }
             })
         }?: kotlin.run {
             updateStatus("Failed adding media source, try again")
-            playAudioButton?.isEnabled = true
-            streamAudioButton?.isEnabled = true
+            binding?.playerLayout?.playAudioButton?.isEnabled = true
+            binding?.playerLayout?.streamAudioButton?.isEnabled = true
         }
     }
 
