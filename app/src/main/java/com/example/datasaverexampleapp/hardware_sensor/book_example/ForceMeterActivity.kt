@@ -5,14 +5,15 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.example.datasaverexampleapp.R
-import kotlinx.android.synthetic.main.activity_force_meter.*
+import com.example.datasaverexampleapp.databinding.ActivityForceMeterBinding
+import com.example.datasaverexampleapp.type_alias.Layout
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.lang.StringBuilder
 import java.util.*
 import kotlin.math.roundToInt
 
@@ -22,6 +23,7 @@ class ForceMeterActivity : AppCompatActivity(), SensorEventListener {
     private var currentAcceleration = 0f
     private var maxAcceleration = 0f
     private val calibration = SensorManager.STANDARD_GRAVITY
+    private var binding: ActivityForceMeterBinding? = null
 
     // Because this application is functional only when the host device features an accelerometer
     // sensor, modify the manifest to include a 'uses-feature' node specifying the requirement for accelerometer hardware.
@@ -32,6 +34,8 @@ class ForceMeterActivity : AppCompatActivity(), SensorEventListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_force_meter)
         title = "Force meter example"
+
+        binding = DataBindingUtil.setContentView(this, Layout.activity_force_meter)
 
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
@@ -50,8 +54,10 @@ class ForceMeterActivity : AppCompatActivity(), SensorEventListener {
         sensorManager?.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)?.let { sensor ->
             sensorManager?.registerListener(this, sensor, SensorManager.SENSOR_DELAY_FASTEST)
         }?: kotlin.run {
-            acceleration?.text = "Sensor not available"
-            max_acceleration?.text = ""
+            binding?.apply {
+                acceleration.text = "Sensor not available"
+                maxAcceleration.text = ""
+            }
         }
     }
 
@@ -85,10 +91,12 @@ class ForceMeterActivity : AppCompatActivity(), SensorEventListener {
 
             val currentG = getResultString(currentAcceleration/calibration)
             val maxG = getResultString(currentAcceleration/calibration)
-            acceleration?.text = currentG
-            max_acceleration?.apply {
-                text = maxG
-                invalidate()
+            binding?.apply {
+                acceleration.text = currentG
+                maxAcceleration?.apply {
+                    text = maxG
+                    invalidate()
+                }
             }
         }
     }

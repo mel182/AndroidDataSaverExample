@@ -1,29 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
     tools:context=".hardware_sensor.book_example.ForceMeterActivity">
 
-    <TextView
-        android:id="@+id/acceleration"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Current Acceleration"
-        android:layout_margin="10dp"
-        android:textStyle="bold"
-        android:textSize="32sp"/>
+    <LinearLayout
 
-    <TextView
-        android:id="@+id/max_acceleration"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Maximum Acceleration"
-        android:layout_margin="10dp"
-        android:textSize="40sp" />
-</LinearLayout>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/acceleration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Current Acceleration"
+            android:layout_margin="10dp"
+            android:textStyle="bold"
+            android:textSize="32sp"/>
+
+        <TextView
+            android:id="@+id/max_acceleration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Maximum Acceleration"
+            android:layout_margin="10dp"
+            android:textSize="40sp" />
+    </LinearLayout>
+</layout>
