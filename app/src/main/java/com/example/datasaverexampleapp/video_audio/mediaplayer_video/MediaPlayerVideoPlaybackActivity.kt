@@ -6,8 +6,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.SurfaceHolder
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.example.datasaverexampleapp.R
-import kotlinx.android.synthetic.main.activity_media_player_video_playback.*
+import com.example.datasaverexampleapp.databinding.ActivityMediaPlayerVideoPlaybackBinding
+import com.example.datasaverexampleapp.type_alias.Layout
 import java.io.IOException
 
 /**
@@ -78,34 +80,40 @@ class MediaPlayerVideoPlaybackActivity : AppCompatActivity(), SurfaceHolder.Call
         mediaplayer = MediaPlayer.create(this, R.raw.sample_video).apply {
             setOnPreparedListener(this@MediaPlayerVideoPlaybackActivity)
         }
-        buttonPlay?.isEnabled = true
 
-        surface_view?.apply {
-            keepScreenOn = true
-            holder?.apply {
-                addCallback(this@MediaPlayerVideoPlaybackActivity)
-                setFixedSize(400,300)
+        DataBindingUtil.setContentView<ActivityMediaPlayerVideoPlaybackBinding>(
+            this, Layout.activity_media_player_video_playback
+        ).apply {
+
+            buttonPlay.isEnabled = true
+
+            surfaceView.apply {
+                keepScreenOn = true
+                holder?.apply {
+                    addCallback(this@MediaPlayerVideoPlaybackActivity)
+                    setFixedSize(400,300)
+                }
             }
-        }
 
-        buttonPlay?.setOnClickListener {
-            mediaplayer.start()
-            buttonPlay?.isEnabled = false
-            buttonPause?.isEnabled = true
-        }
+            buttonPlay.setOnClickListener {
+                mediaplayer.start()
+                buttonPlay.isEnabled = false
+                buttonPause.isEnabled = true
+            }
 
-        buttonPause?.setOnClickListener {
-            mediaplayer.pause()
-            buttonPlay?.isEnabled = true
-            buttonPause?.isEnabled = false
-        }
+            buttonPause.setOnClickListener {
+                mediaplayer.pause()
+                buttonPlay.isEnabled = true
+                buttonPause.isEnabled = false
+            }
 
-        buttonSkip?.setOnClickListener {
-            mediaplayer.seekTo(mediaplayer.duration / 2)
-        }
+            buttonSkip.setOnClickListener {
+                mediaplayer.seekTo(mediaplayer.duration / 2)
+            }
 
-        close_button?.setOnClickListener {
-            onBackPressed()
+            closeButton.setOnClickListener {
+                onBackPressed()
+            }
         }
     }
 
