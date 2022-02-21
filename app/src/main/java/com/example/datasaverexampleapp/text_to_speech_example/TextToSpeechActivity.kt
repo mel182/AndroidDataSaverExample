@@ -8,13 +8,16 @@ import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.example.datasaverexampleapp.R
-import kotlinx.android.synthetic.main.activity_text_to_speech.*
+import com.example.datasaverexampleapp.databinding.ActivityTextToSpeechBinding
+import com.example.datasaverexampleapp.type_alias.Layout
 
 class TextToSpeechActivity : AppCompatActivity()
 {
     private var ttsInit = false
     private var tts : TextToSpeech? = null
+    private var binding: ActivityTextToSpeechBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,14 +25,18 @@ class TextToSpeechActivity : AppCompatActivity()
         title = "Text to Speech Example"
         checkTextToSpeechStatus()
 
-        action_button?.setOnClickListener {
+        binding = DataBindingUtil.setContentView<ActivityTextToSpeechBinding>(
+            this, Layout.activity_text_to_speech
+        ).apply {
+            actionButton.setOnClickListener {
 
-            if (action_button.text == "install")
-            {
-                installTextToSpeechLibrary()
-            } else if (action_button.text == "Speak")
-            {
-                speak()
+                if (actionButton.text == "install")
+                {
+                    installTextToSpeechLibrary()
+                } else if (actionButton.text == "Speak")
+                {
+                    speak()
+                }
             }
         }
     }
@@ -37,12 +44,15 @@ class TextToSpeechActivity : AppCompatActivity()
     private fun checkTextToSpeechStatus()
     {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            text_to_speech_status?.text = if (result.resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
-                initializeTextToSpeech()
-                "Initializing....."
-            } else {
-                action_button?.text = "install"
-                "Library not installed"
+
+            binding?.apply {
+                textToSpeechStatus.text = if (result.resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
+                    initializeTextToSpeech()
+                    "Initializing....."
+                } else {
+                    actionButton.text = "install"
+                    "Library not installed"
+                }
             }
         }.launch(Intent(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA))
     }
@@ -67,8 +77,10 @@ class TextToSpeechActivity : AppCompatActivity()
                 if (status == TextToSpeech.SUCCESS)
                 {
                     ttsInit = true
-                    text_to_speech_status?.text = "Library imported"
-                    action_button?.text = "Speak"
+                    binding?.apply {
+                        textToSpeechStatus.text = "Library imported"
+                        actionButton.text = "Speak"
+                    }
                 }
             }
         }
