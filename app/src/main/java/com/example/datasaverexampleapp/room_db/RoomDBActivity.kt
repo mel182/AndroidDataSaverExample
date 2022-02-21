@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.example.datasaverexampleapp.R
-import kotlinx.android.synthetic.main.activity_room_d_b.*
+import com.example.datasaverexampleapp.databinding.ActivityRoomDBBinding
+import com.example.datasaverexampleapp.type_alias.Layout
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,18 +20,23 @@ class RoomDBActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_room_d_b)
 
-        container1?.apply {
-            val content = DbObserverFragment().setTitle("Container 1")
-            val transaction = supportFragmentManager.beginTransaction()
-            transaction.add(this.id,content)
-            transaction.commit()
-        }
+        DataBindingUtil.setContentView<ActivityRoomDBBinding>(
+            this, Layout.activity_room_d_b
+        ).apply {
 
-        container2?.apply {
-            val content = DbObserverFragment().setTitle("Container 2")
-            val transaction = supportFragmentManager.beginTransaction()
-            transaction.add(this.id,content)
-            transaction.commit()
+            container1.apply {
+                val content = DbObserverFragment().setTitle("Container 1")
+                val transaction = supportFragmentManager.beginTransaction()
+                transaction.add(this.id,content)
+                transaction.commit()
+            }
+
+            container2.apply {
+                val content = DbObserverFragment().setTitle("Container 2")
+                val transaction = supportFragmentManager.beginTransaction()
+                transaction.add(this.id,content)
+                transaction.commit()
+            }
         }
 
         CoroutineScope(Dispatchers.IO).launch {
