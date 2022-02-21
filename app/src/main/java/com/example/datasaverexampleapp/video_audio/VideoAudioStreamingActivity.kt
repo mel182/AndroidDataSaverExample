@@ -1,9 +1,12 @@
 package com.example.datasaverexampleapp.video_audio
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.example.datasaverexampleapp.R
+import com.example.datasaverexampleapp.databinding.ActivityVideoAudioStreamingBinding
+import com.example.datasaverexampleapp.type_alias.Layout
 import com.example.datasaverexampleapp.video_audio.audio_playback_focus.AudioPlaybackFocusExampleActivity
 import com.example.datasaverexampleapp.video_audio.audio_recording.AudioRecordingActivity
 import com.example.datasaverexampleapp.video_audio.background_audio.BackgroundAudioExampleActivity
@@ -12,7 +15,6 @@ import com.example.datasaverexampleapp.video_audio.foreground_service.Foreground
 import com.example.datasaverexampleapp.video_audio.media_router_and_casting.MediaRouterAndCastingActivity
 import com.example.datasaverexampleapp.video_audio.media_session.MediaSessionActivity
 import com.example.datasaverexampleapp.video_audio.mediaplayer_video.MediaPlayerVideoPlaybackActivity
-import kotlinx.android.synthetic.main.activity_video_audio_streaming.*
 
 /**
  * Smartphones and tablets have become so popular that for many
@@ -69,44 +71,49 @@ class VideoAudioStreamingActivity : AppCompatActivity() {
         setContentView(R.layout.activity_video_audio_streaming)
         title = "Video/Audio Example"
 
-        media_player_video_playback?.setOnClickListener {
-            val intent = Intent(this, MediaPlayerVideoPlaybackActivity::class.java)
-            startActivity(intent)
-        }
+        DataBindingUtil.setContentView<ActivityVideoAudioStreamingBinding>(
+            this, Layout.activity_video_audio_streaming
+        ).apply {
 
-        exo_player_example?.setOnClickListener {
-            val intent = Intent(this, ExoPlayerActivity::class.java)
-            startActivity(intent)
-        }
+            mediaPlayerVideoPlayback?.setOnClickListener {
+                val intent = Intent(this@VideoAudioStreamingActivity, MediaPlayerVideoPlaybackActivity::class.java)
+                startActivity(intent)
+            }
 
-        audio_playback_example?.setOnClickListener {
-            val intent = Intent(this, AudioPlaybackFocusExampleActivity::class.java)
-            startActivity(intent)
-        }
+            exoPlayerExample.setOnClickListener {
+                val intent = Intent(this@VideoAudioStreamingActivity, ExoPlayerActivity::class.java)
+                startActivity(intent)
+            }
 
-        media_session_example?.setOnClickListener {
-            val intent = Intent(this, MediaSessionActivity::class.java)
-            startActivity(intent)
-        }
+            audioPlaybackExample.setOnClickListener {
+                val intent = Intent(this@VideoAudioStreamingActivity, AudioPlaybackFocusExampleActivity::class.java)
+                startActivity(intent)
+            }
 
-        media_router_and_casting_example?.setOnClickListener {
-            val intent = Intent(this, MediaRouterAndCastingActivity::class.java)
-            startActivity(intent)
-        }
+            mediaSessionExample.setOnClickListener {
+                val intent = Intent(this@VideoAudioStreamingActivity, MediaSessionActivity::class.java)
+                startActivity(intent)
+            }
 
-        background_audio_example?.setOnClickListener {
-            val intent = Intent(this, BackgroundAudioExampleActivity::class.java)
-            startActivity(intent)
-        }
+            mediaRouterAndCastingExample.setOnClickListener {
+                val intent = Intent(this@VideoAudioStreamingActivity, MediaRouterAndCastingActivity::class.java)
+                startActivity(intent)
+            }
 
-        foreground_service_example?.setOnClickListener {
-            val intent = Intent(this, ForegroundServiceExampleActivity::class.java)
-            startActivity(intent)
-        }
+            backgroundAudioExample.setOnClickListener {
+                val intent = Intent(this@VideoAudioStreamingActivity, BackgroundAudioExampleActivity::class.java)
+                startActivity(intent)
+            }
 
-        audio_recording_example?.setOnClickListener {
-            val intent = Intent(this, AudioRecordingActivity::class.java)
-            startActivity(intent)
+            foregroundServiceExample.setOnClickListener {
+                val intent = Intent(this@VideoAudioStreamingActivity, ForegroundServiceExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+            audioRecordingExample.setOnClickListener {
+                val intent = Intent(this@VideoAudioStreamingActivity, AudioRecordingActivity::class.java)
+                startActivity(intent)
+            }
         }
     }
 }

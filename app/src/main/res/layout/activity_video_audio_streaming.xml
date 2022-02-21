@@ -1,75 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center_horizontal"
-    tools:context=".video_audio.VideoAudioStreamingActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <Button
-        android:id="@+id/media_player_video_playback"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:padding="15dp"
-        android:text="Media player video playback" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        tools:context=".video_audio.VideoAudioStreamingActivity">
 
-    <Button
-        android:id="@+id/exo_player_example"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:padding="15dp"
-        android:text="Exo player example (api 16+)" />
+        <Button
+            android:id="@+id/media_player_video_playback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:padding="15dp"
+            android:text="Media player video playback" />
 
-    <Button
-        android:id="@+id/audio_playback_example"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:padding="15dp"
-        android:text="Audio playback example" />
+        <Button
+            android:id="@+id/exo_player_example"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:padding="15dp"
+            android:text="Exo player example (api 16+)" />
 
-    <Button
-        android:id="@+id/media_session_example"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:padding="15dp"
-        android:text="Media session example" />
+        <Button
+            android:id="@+id/audio_playback_example"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:padding="15dp"
+            android:text="Audio playback example" />
 
-    <Button
-        android:id="@+id/media_router_and_casting_example"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:padding="15dp"
-        android:text="Media router and casting example" />
+        <Button
+            android:id="@+id/media_session_example"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:padding="15dp"
+            android:text="Media session example" />
 
-    <Button
-        android:id="@+id/background_audio_example"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:padding="15dp"
-        android:text="Background audio example" />
+        <Button
+            android:id="@+id/media_router_and_casting_example"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:padding="15dp"
+            android:text="Media router and casting example" />
 
-    <Button
-        android:id="@+id/foreground_service_example"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:padding="15dp"
-        android:text="Foreground service example" />
+        <Button
+            android:id="@+id/background_audio_example"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:padding="15dp"
+            android:text="Background audio example" />
 
-    <Button
-        android:id="@+id/audio_recording_example"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:padding="15dp"
-        android:text="Audio Recording example" />
+        <Button
+            android:id="@+id/foreground_service_example"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:padding="15dp"
+            android:text="Foreground service example" />
 
-</LinearLayout>
+        <Button
+            android:id="@+id/audio_recording_example"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:padding="15dp"
+            android:text="Audio Recording example" />
+
+    </LinearLayout>
+</layout>
