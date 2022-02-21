@@ -1,125 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".notification.NotificationActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <ScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        tools:context=".notification.NotificationActivity">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
-
-            <Button
-                android:id="@+id/simple_notification_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="Simple notification" />
-
-            <Button
-                android:id="@+id/notification_background_color_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="Notification with color" />
-
-            <Button
-                android:id="@+id/notification_large_icon_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="Notification with large icon" />
-
-            <Button
-                android:id="@+id/notification_with_intent_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="Notification with intent" />
-
-            <Button
-                android:id="@+id/notification_with_delete_intent_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="Notification with delete intent" />
-
-            <Button
-                android:id="@+id/notification_big_text_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="Notification with big text style" />
-
-            <Button
-                android:id="@+id/notification_big_picture_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="Notification with big picture style" />
-
-            <Button
-                android:id="@+id/notification_messaging_style_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="Notification with messaging style" />
-
-            <Button
-                android:id="@+id/notification_with_category_sender_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="Notification with category and sender" />
-
-            <Button
-                android:id="@+id/notification_group_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="Notification group example" />
-
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ic_border_radius"
-                android:layout_margin="5dp"
-                android:orientation="vertical">
+                android:orientation="vertical" >
 
-                <com.example.datasaverexampleapp.customTextview.FontTextView
-                    android:id="@+id/wifi_info_txt"
-                    android:layout_width="wrap_content"
+                <Button
+                    android:id="@+id/simple_notification_button"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="Simple notification" />
+
+                <Button
+                    android:id="@+id/notification_background_color_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="Notification with color" />
+
+                <Button
+                    android:id="@+id/notification_large_icon_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="Notification with large icon" />
+
+                <Button
+                    android:id="@+id/notification_with_intent_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="Notification with intent" />
+
+                <Button
+                    android:id="@+id/notification_with_delete_intent_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="Notification with delete intent" />
+
+                <Button
+                    android:id="@+id/notification_big_text_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="Notification with big text style" />
+
+                <Button
+                    android:id="@+id/notification_big_picture_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="Notification with big picture style" />
+
+                <Button
+                    android:id="@+id/notification_messaging_style_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="Notification with messaging style" />
+
+                <Button
+                    android:id="@+id/notification_with_category_sender_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="Notification with category and sender" />
+
+                <Button
+                    android:id="@+id/notification_group_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="Notification group example" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_border_radius"
                     android:layout_margin="5dp"
-                    android:text="Firebase messaging" />
+                    android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/firebase_messaging_subscribe"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:text="Firebase messaging subscribe" />
+                    <com.example.datasaverexampleapp.customTextview.FontTextView
+                        android:id="@+id/wifi_info_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="Firebase messaging" />
 
-                <Button
-                    android:id="@+id/firebase_messaging_unsubscribe"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:text="Firebase messaging unsubscribe" />
+                    <Button
+                        android:id="@+id/firebase_messaging_subscribe"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:text="Firebase messaging subscribe" />
+
+                    <Button
+                        android:id="@+id/firebase_messaging_unsubscribe"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:text="Firebase messaging unsubscribe" />
+
+                </LinearLayout>
 
             </LinearLayout>
-
-        </LinearLayout>
-    </ScrollView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
