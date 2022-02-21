@@ -6,13 +6,14 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import com.example.datasaverexampleapp.databinding.ActivityMediaRouterAndCastingBinding
 import com.example.datasaverexampleapp.type_alias.Layout
 import com.example.datasaverexampleapp.type_alias.ViewByID
 import com.google.android.gms.cast.MediaInfo
 import com.google.android.gms.cast.MediaLoadRequestData
 import com.google.android.gms.cast.framework.*
 import com.google.android.gms.cast.framework.media.RemoteMediaClient
-import kotlinx.android.synthetic.main.activity_media_router_and_casting.*
 
 /**
  * The Cast Application Framework provides several user interface elements that you can use to
@@ -59,71 +60,76 @@ class MediaRouterAndCastingActivity : AppCompatActivity() {
         title = "Media router and casting Example"
         castContext = CastContext.getSharedInstance(this)
 
-        // Connect the media Route Button to the Cast Application Framework within your
-        // Activity's 'onCreate' handler
-        CastButtonFactory.setUpMediaRouteButton(applicationContext, mediaRouteButton)
+        DataBindingUtil.setContentView<ActivityMediaRouterAndCastingBinding>(
+            this, Layout.activity_media_router_and_casting
+        ).apply {
 
-        // Once the Cast Button has been added to your app, you will use a Cast Session
-        // to specify the media (and its associated metadata) that your app will cast.
-        castContext?.let { cast_Context ->
-            sessionManager = cast_Context.sessionManager
-        }
+            // Connect the media Route Button to the Cast Application Framework within your
+            // Activity's 'onCreate' handler
+            CastButtonFactory.setUpMediaRouteButton(applicationContext, mediaRouteButton)
 
-        // You can also attach a 'SessionManagerListener' to your Manager instance to listen for creation,
-        // suspension, resumption and termination of new Cast Sessions.
-        sessionManager?.addSessionManagerListener(object : SessionManagerListener<Session> {
-
-            override fun onSessionEnded(p0: Session, p1: Int) {
-                Log.i(javaClass.simpleName, "on Session starting!")
+            // Once the Cast Button has been added to your app, you will use a Cast Session
+            // to specify the media (and its associated metadata) that your app will cast.
+            castContext?.let { cast_Context ->
+                sessionManager = cast_Context.sessionManager
             }
 
-            override fun onSessionEnding(p0: Session) {
-                Log.i(javaClass.simpleName, "on Session ending! with: $p0")
-            }
+            // You can also attach a 'SessionManagerListener' to your Manager instance to listen for creation,
+            // suspension, resumption and termination of new Cast Sessions.
+            sessionManager?.addSessionManagerListener(object : SessionManagerListener<Session> {
 
-            override fun onSessionResumeFailed(p0: Session, p1: Int) {
-                Log.i(javaClass.simpleName, "on Session resume failed!")
-            }
+                override fun onSessionEnded(p0: Session, p1: Int) {
+                    Log.i(javaClass.simpleName, "on Session starting!")
+                }
 
-            override fun onSessionResumed(p0: Session, p1: Boolean) {
-                Log.i(javaClass.simpleName, "on Session resumed!")
-            }
+                override fun onSessionEnding(p0: Session) {
+                    Log.i(javaClass.simpleName, "on Session ending! with: $p0")
+                }
 
-            override fun onSessionResuming(p0: Session, p1: String) {
-                Log.i(javaClass.simpleName, "on Session resuming!")
-            }
+                override fun onSessionResumeFailed(p0: Session, p1: Int) {
+                    Log.i(javaClass.simpleName, "on Session resume failed!")
+                }
 
-            override fun onSessionStartFailed(p0: Session, p1: Int) {
-                Log.i(javaClass.simpleName, "on Session start failed! with: $p1")
-            }
+                override fun onSessionResumed(p0: Session, p1: Boolean) {
+                    Log.i(javaClass.simpleName, "on Session resumed!")
+                }
 
-            override fun onSessionStarted(p0: Session, p1: String) {
-                Log.i(javaClass.simpleName, "on Session started! with: $p1")
+                override fun onSessionResuming(p0: Session, p1: String) {
+                    Log.i(javaClass.simpleName, "on Session resuming!")
+                }
 
-                castSession?.let { cast_session ->
+                override fun onSessionStartFailed(p0: Session, p1: Int) {
+                    Log.i(javaClass.simpleName, "on Session start failed! with: $p1")
+                }
 
-                    cast_session.remoteMediaClient.let { remote_media ->
+                override fun onSessionStarted(p0: Session, p1: String) {
+                    Log.i(javaClass.simpleName, "on Session started! with: $p1")
 
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            movieMetaData = MediaMetadata.Builder().apply {
-                                putString(MediaMetadata.METADATA_KEY_TITLE,"Media data title")
-                            }.build()
-                            if (remote_media != null) {
-                                castMovie(remote_media)
+                    castSession?.let { cast_session ->
+
+                        cast_session.remoteMediaClient.let { remote_media ->
+
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                movieMetaData = MediaMetadata.Builder().apply {
+                                    putString(MediaMetadata.METADATA_KEY_TITLE,"Media data title")
+                                }.build()
+                                if (remote_media != null) {
+                                    castMovie(remote_media)
+                                }
                             }
                         }
                     }
                 }
-            }
 
-            override fun onSessionStarting(p0: Session) {
-                Log.i(javaClass.simpleName, "on Session starting!")
-            }
+                override fun onSessionStarting(p0: Session) {
+                    Log.i(javaClass.simpleName, "on Session starting!")
+                }
 
-            override fun onSessionSuspended(p0: Session, p1: Int) {
-                Log.i(javaClass.simpleName, "on Session suspended!")
-            }
-        })
+                override fun onSessionSuspended(p0: Session, p1: Int) {
+                    Log.i(javaClass.simpleName, "on Session suspended!")
+                }
+            })
+        }
     }
 
     private fun castMovie(remoteMediaClient: RemoteMediaClient)
