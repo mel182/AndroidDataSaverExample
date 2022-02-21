@@ -1,38 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".storage_manager.StorageManagerExampleActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <Button
-        android:id="@+id/open_directory_example"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:text="Picture directory request example" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".storage_manager.StorageManagerExampleActivity">
 
-    <Button
-        android:id="@+id/file_provider_example"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:text="File provider example" />
+        <Button
+            android:id="@+id/open_directory_example"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="Picture directory request example" />
 
-    <Button
-        android:id="@+id/receive_file_from_file_provider_example"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:text="Receive file from file provider example" />
+        <Button
+            android:id="@+id/file_provider_example"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="File provider example" />
 
-    <Button
-        android:id="@+id/temporary_file_access_example"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:text="Temporary file access example" />
-</LinearLayout>
+        <Button
+            android:id="@+id/receive_file_from_file_provider_example"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="Receive file from file provider example" />
+
+        <Button
+            android:id="@+id/temporary_file_access_example"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="Temporary file access example" />
+    </LinearLayout>
+</layout>
