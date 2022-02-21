@@ -11,77 +11,82 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
 import com.example.datasaverexampleapp.R
 import com.example.datasaverexampleapp.activityRequestHandler.ActivityResultHandler
-import kotlinx.android.synthetic.main.activity_speech_recognition.*
+import com.example.datasaverexampleapp.databinding.ActivitySpeechRecognitionBinding
+import com.example.datasaverexampleapp.type_alias.Layout
 import java.util.*
 
 class SpeechRecognitionActivity : AppCompatActivity()
 {
     private var activityResultHandler: ActivityResultHandler? = null
+    private var binding: ActivitySpeechRecognitionBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_speech_recognition)
         title = "Speech recognition example"
         activityResultHandler = ActivityResultHandler(this)
+        binding = DataBindingUtil.setContentView<ActivitySpeechRecognitionBinding>(
+            this, Layout.activity_speech_recognition
+        ).apply {
+            speechRecognitionButton.setOnClickListener {
 
-        speech_recognition_button?.setOnClickListener {
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-            {
-                if (ContextCompat.checkSelfPermission(this, RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
                 {
+                    if (ContextCompat.checkSelfPermission(this@SpeechRecognitionActivity, RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED)
+                    {
+                        launchSpeechRecognition()
+                    } else {
+
+                        activityResultHandler?.requestPermission(RECORD_AUDIO, object : OnPermissionResult{
+                            override fun onPermissionResult(result: Boolean) {
+
+                                if (result)
+                                {
+                                    Log.i("SR","Audio permission granted")
+                                    launchSpeechRecognition()
+                                } else {
+                                    Toast.makeText(this@SpeechRecognitionActivity,"Permission denied",Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        })
+                    }
+
+                } else {
                     launchSpeechRecognition()
-                } else {
-
-                    activityResultHandler?.requestPermission(RECORD_AUDIO, object : OnPermissionResult{
-                        override fun onPermissionResult(result: Boolean) {
-
-                            if (result)
-                            {
-                                Log.i("SR","Audio permission granted")
-                                launchSpeechRecognition()
-                            } else {
-                                Toast.makeText(this@SpeechRecognitionActivity,"Permission denied",Toast.LENGTH_SHORT).show()
-                            }
-                        }
-                    })
                 }
-
-            } else {
-                launchSpeechRecognition()
             }
-        }
 
-        speech_recognition_web_button?.setOnClickListener {
+            speechRecognitionWebButton.setOnClickListener {
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-            {
-                if (ContextCompat.checkSelfPermission(this, RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
                 {
-                    launchSpeechRecognitionWeb()
-                } else {
+                    if (ContextCompat.checkSelfPermission(this@SpeechRecognitionActivity, RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED)
+                    {
+                        launchSpeechRecognitionWeb()
+                    } else {
 
-                    activityResultHandler?.requestPermission(RECORD_AUDIO, object : OnPermissionResult{
-                        override fun onPermissionResult(result: Boolean) {
+                        activityResultHandler?.requestPermission(RECORD_AUDIO, object : OnPermissionResult{
+                            override fun onPermissionResult(result: Boolean) {
 
-                            if (result)
-                            {
-                                Log.i("SR","Audio permission granted")
-                                launchSpeechRecognitionWeb()
-                            } else {
-                                Toast.makeText(this@SpeechRecognitionActivity,"Permission denied",Toast.LENGTH_SHORT).show()
+                                if (result)
+                                {
+                                    Log.i("SR","Audio permission granted")
+                                    launchSpeechRecognitionWeb()
+                                } else {
+                                    Toast.makeText(this@SpeechRecognitionActivity,"Permission denied",Toast.LENGTH_SHORT).show()
+                                }
                             }
-                        }
-                    })
-                }
+                        })
+                    }
 
-            } else {
-                launchSpeechRecognitionWeb()
+                } else {
+                    launchSpeechRecognitionWeb()
+                }
             }
         }
-
     }
 
     private fun launchSpeechRecognition()
@@ -105,7 +110,7 @@ class SpeechRecognitionActivity : AppCompatActivity()
                     results?.let {
 
                         if (it.size == 1)
-                            speech_recognition_status?.text = "speech recognized: ${it[0]}"
+                            binding?.speechRecognitionStatus?.text = "speech recognized: ${it[0]}"
                     }
 
                     confidence?.forEach {
@@ -130,7 +135,7 @@ class SpeechRecognitionActivity : AppCompatActivity()
                     results?.let {
 
                         if (it.size == 1)
-                            speech_recognition_status?.text = "speech recognized web: ${it[0]}"
+                            binding?.speechRecognitionStatus?.text = "speech recognized web: ${it[0]}"
                     }
 
                     confidence?.forEach {
@@ -139,8 +144,6 @@ class SpeechRecognitionActivity : AppCompatActivity()
                 }
             }
         })
-
-
     }
 
     override fun onDestroy() {
