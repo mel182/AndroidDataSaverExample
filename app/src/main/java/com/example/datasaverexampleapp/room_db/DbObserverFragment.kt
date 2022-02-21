@@ -3,11 +3,12 @@
 package com.example.datasaverexampleapp.room_db
 
 import android.os.Bundle
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.datasaverexampleapp.databinding.FragmentDbObserverBinding
 import com.example.datasaverexampleapp.type_alias.Layout
-import kotlinx.android.synthetic.main.fragment_db_observer.*
 
 /**
  * A simple [Fragment] subclass.
@@ -31,16 +32,21 @@ class DbObserverFragment : Fragment(Layout.fragment_db_observer) {
 
         roomDBViewModel = ViewModelProvider(this).get(RoomDBViewModel::class.java)
 
-        title?.text = titleText
-        user_list?.apply {
-            layoutManager = LinearLayoutManager(activity)
-            adapter = dataListAdapter
+        activity?.apply {
+
+            DataBindingUtil.setContentView<FragmentDbObserverBinding>(
+                this, Layout.fragment_db_observer
+            ).apply {
+                title.text = titleText
+                userList.apply {
+                    layoutManager = LinearLayoutManager(activity)
+                    adapter = dataListAdapter
+                }
+            }
         }
 
         roomDBViewModel.getAllUsers().observe(viewLifecycleOwner) {
             dataListAdapter.addUsers(it)
         }
     }
-
-
 }
