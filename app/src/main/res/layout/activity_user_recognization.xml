@@ -1,44 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
-    tools:context=".hardware_sensor.book_example.user_activity_recognition.UserRecognitionActivity">
-
-    <TextView
-        android:id="@+id/state_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:text="-"
-        android:textSize="30sp" />
+    xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_height="match_parent"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:context=".hardware_sensor.book_example.user_activity_recognition.UserRecognitionActivity">
 
         <TextView
-            android:id="@+id/user_activity_textView"
-            android:layout_width="match_parent"
+            android:id="@+id/state_textView"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
             android:text="-"
             android:textSize="30sp" />
 
-        <ImageView
-            android:id="@+id/activity_icon"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:srcCompat="@drawable/ic_still" />
-    </LinearLayout>
+            android:gravity="center"
+            android:orientation="vertical">
 
-</LinearLayout>
+            <TextView
+                android:id="@+id/user_activity_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="-"
+                android:textSize="30sp" />
+
+            <ImageView
+                android:id="@+id/activity_icon"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_still" />
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>
