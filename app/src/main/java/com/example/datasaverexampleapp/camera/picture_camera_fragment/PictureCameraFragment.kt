@@ -22,11 +22,12 @@ import android.view.View
 import android.widget.Toast
 import androidx.annotation.NonNull
 import androidx.annotation.RequiresApi
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.example.datasaverexampleapp.base_classes.BaseFragment
 import com.example.datasaverexampleapp.camera.controlling_the_camera.*
+import com.example.datasaverexampleapp.databinding.FragmentPictureCameraBinding
 import com.example.datasaverexampleapp.type_alias.Layout
-import kotlinx.android.synthetic.main.fragment_picture_camera.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -36,7 +37,6 @@ import java.io.IOException
 import java.util.*
 import java.util.concurrent.Semaphore
 import java.util.concurrent.TimeUnit
-import kotlin.collections.ArrayList
 
 /**
  * A simple [Fragment] subclass.
@@ -222,18 +222,25 @@ class PictureCameraFragment(private val cameraId: String) : BaseFragment(Layout.
     }
 
     private var captureBitmap : Bitmap? = null
+    private var binding: FragmentPictureCameraBinding? = null
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity?.let {
 
-            accept_button?.setOnClickListener {
-                saveImage()
-                resetCaptureState()
-            }
+            binding = DataBindingUtil.setContentView<FragmentPictureCameraBinding>(
+                it, Layout.fragment_picture_camera
+            ).apply {
 
-            close_button?.setOnClickListener {
-                resetCaptureState()
+                acceptButton.setOnClickListener {
+                    saveImage()
+                    resetCaptureState()
+                }
+
+                closeButton.setOnClickListener {
+                    resetCaptureState()
+                }
             }
         }
     }
@@ -241,13 +248,16 @@ class PictureCameraFragment(private val cameraId: String) : BaseFragment(Layout.
     override fun onResume() {
         super.onResume()
 
-        auto_fit_view?.apply {
+        binding?.apply {
 
-            if (isAvailable)
-            {
-                openCamera(width, height)
-            } else {
-                surfaceTextureListener = this@PictureCameraFragment
+            autoFitView.apply {
+
+                if (isAvailable)
+                {
+                    openCamera(width, height)
+                } else {
+                    surfaceTextureListener = this@PictureCameraFragment
+                }
             }
         }
     }
@@ -285,7 +295,7 @@ class PictureCameraFragment(private val cameraId: String) : BaseFragment(Layout.
 
                         cameraManager.openCamera(cameraId, cameraStateCallback, null)
 
-                        take_picture_button?.setOnClickListener {
+                        binding?.takePictureButton?.setOnClickListener {
                             Toast.makeText(activity, "Processing.... please wait!", Toast.LENGTH_SHORT).show()
                             takePicture()
                         }
@@ -335,8 +345,10 @@ class PictureCameraFragment(private val cameraId: String) : BaseFragment(Layout.
 
     private fun resetCaptureState()
     {
-        preview_container?.visibility = View.GONE
-        sample_preview?.setImageDrawable(null)
+        binding?.apply {
+            previewContainer.visibility = View.GONE
+            samplePreview.setImageDrawable(null)
+        }
         captureBitmap = null
     }
 
@@ -462,11 +474,13 @@ class PictureCameraFragment(private val cameraId: String) : BaseFragment(Layout.
                             // We fit the aspect ratio of TextureView to the size of preview we picked.
                             resources.configuration.orientation.let { orientation ->
 
-                                if (orientation == Configuration.ORIENTATION_LANDSCAPE)
-                                {
-                                    auto_fit_view.setAspectRatio(width, height)
-                                } else {
-                                    auto_fit_view.setAspectRatio(height, width)
+                                binding?.apply {
+                                    if (orientation == Configuration.ORIENTATION_LANDSCAPE)
+                                    {
+                                        autoFitView.setAspectRatio(width, height)
+                                    } else {
+                                        autoFitView.setAspectRatio(height, width)
+                                    }
                                 }
 
                                 // Check if the flash is supported
@@ -524,7 +538,7 @@ class PictureCameraFragment(private val cameraId: String) : BaseFragment(Layout.
                 }
             }
 
-            auto_fit_view.setTransform(matrix)
+            binding?.autoFitView?.setTransform(matrix)
         }
     }
 
@@ -532,7 +546,7 @@ class PictureCameraFragment(private val cameraId: String) : BaseFragment(Layout.
     {
         try {
 
-            auto_fit_view.surfaceTexture?.let { texture ->
+            binding?.autoFitView?.surfaceTexture?.let { texture ->
 
                 // We configure the size of default buffer to be the size of camera preview we want.
                 texture.setDefaultBufferSize(previewSize!!.width, previewSize!!.height)
@@ -751,8 +765,8 @@ class PictureCameraFragment(private val cameraId: String) : BaseFragment(Layout.
 
                     captureBitmap?.let { bitmap ->
                         captureBitmap = rotateImage(bitmap)
-                        preview_container?.visibility = View.VISIBLE
-                        sample_preview?.setImageBitmap(captureBitmap!!)
+                        binding?.previewContainer?.visibility = View.VISIBLE
+                        binding?.samplePreview?.setImageBitmap(captureBitmap!!)
                     }?: kotlin.run {
                         showToast("Failed processing image")
                     }
