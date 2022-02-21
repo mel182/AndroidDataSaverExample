@@ -1,11 +1,13 @@
 package com.example.datasaverexampleapp.wifi_p2p
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.example.datasaverexampleapp.R
+import com.example.datasaverexampleapp.databinding.ActivityWifiP2PexampleBinding
+import com.example.datasaverexampleapp.type_alias.Layout
 import com.example.datasaverexampleapp.wifi_p2p.server.Wifi_P2P_ServerExampleActivity
-import kotlinx.android.synthetic.main.activity_wifi_p2_pexample.*
 
 class Wifi_P2P_ExampleActivity : AppCompatActivity()
 {
@@ -14,9 +16,13 @@ class Wifi_P2P_ExampleActivity : AppCompatActivity()
         title = "Wifi peer to peer Example"
         setContentView(R.layout.activity_wifi_p2_pexample)
 
-        wifi_p2p_server?.setOnClickListener {
-            val intent = Intent(this, Wifi_P2P_ServerExampleActivity::class.java)
-            startActivity(intent)
+        DataBindingUtil.setContentView<ActivityWifiP2PexampleBinding>(
+            this, Layout.activity_wifi_p2_pexample
+        ).apply {
+            wifiP2pServer.setOnClickListener {
+                val intent = Intent(this@Wifi_P2P_ExampleActivity, Wifi_P2P_ServerExampleActivity::class.java)
+                startActivity(intent)
+            }
         }
     }
 }
