@@ -11,19 +11,26 @@ import android.media.AudioAttributes
 import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.example.datasaverexampleapp.R
-import kotlinx.android.synthetic.main.activity_audio_playback_example.*
+import com.example.datasaverexampleapp.databinding.ActivityAudioPlaybackExampleBinding
+import com.example.datasaverexampleapp.type_alias.Layout
 
 class AudioPlaybackFocusExampleActivity : AppCompatActivity() {
+
+    private var binding: ActivityAudioPlaybackExampleBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_audio_playback_example)
         title = "Audio playback example"
+        binding = DataBindingUtil.setContentView(
+            this, Layout.activity_audio_playback_example
+        )
         requestAudioFocus()
         registerAudioBecomingNoisyReceiver()
     }
@@ -160,7 +167,7 @@ class AudioPlaybackFocusExampleActivity : AppCompatActivity() {
             intent?.let {  intentReceived ->
                 if (intentReceived.action == AudioManager.ACTION_AUDIO_BECOMING_NOISY)
                 {
-                    audio_noisy_textView?.text = "Audio becomes noisy!"
+                    binding?.audioNoisyTextView?.text = "Audio becomes noisy!"
                 }
             }
         }
