@@ -9,10 +9,12 @@ import android.media.MediaRecorder
 import android.os.Bundle
 import android.os.Environment
 import android.os.Environment.getExternalStoragePublicDirectory
+import androidx.databinding.DataBindingUtil
 import com.example.datasaverexampleapp.R
 import com.example.datasaverexampleapp.base_classes.BaseActivity
+import com.example.datasaverexampleapp.databinding.ActivityAudioRecordingBinding
 import com.example.datasaverexampleapp.type_alias.Drawable
-import kotlinx.android.synthetic.main.activity_audio_recording.*
+import com.example.datasaverexampleapp.type_alias.Layout
 import java.io.File
 
 /**
@@ -41,40 +43,45 @@ class AudioRecordingActivity : BaseActivity(R.layout.activity_audio_recording)
     private var isListening : Boolean = false
     private var isMediaPlayerPlaying : Boolean = false
     private var outputFile : File? = null
+    private var binding: ActivityAudioRecordingBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         title = "Audio Recording Example"
 
-        val micPresent: Boolean = packageManager.hasSystemFeature(PackageManager.FEATURE_MICROPHONE)
-        if (micPresent)
-        {
-            setState(RecorderState.READY)
-            mic_icon?.setOnClickListener {
+        binding = DataBindingUtil.setContentView<ActivityAudioRecordingBinding>(
+            this, Layout.activity_audio_recording
+        ).apply {
+            val micPresent: Boolean = packageManager.hasSystemFeature(PackageManager.FEATURE_MICROPHONE)
+            if (micPresent)
+            {
+                setState(RecorderState.READY)
+                micIcon.setOnClickListener {
 
-                if (!isMediaPlayerPlaying)
-                {
-                    mediaRecorder?.let { recorder ->
+                    if (!isMediaPlayerPlaying)
+                    {
+                        mediaRecorder?.let { recorder ->
 
-                        if (isListening)
-                        {
-                            recorder.stop()
+                            if (isListening)
+                            {
+                                recorder.stop()
 
-                            // Reset and release the media recorder
-                            recorder.reset()
-                            recorder.release()
-                            isListening = false
-                            setState(RecorderState.READY)
-                            playRecordedAudio()
-                        } else {
-                            startRecording()
-                        }
+                                // Reset and release the media recorder
+                                recorder.reset()
+                                recorder.release()
+                                isListening = false
+                                setState(RecorderState.READY)
+                                playRecordedAudio()
+                            } else {
+                                startRecording()
+                            }
 
-                    }?:startRecording()
+                        }?:startRecording()
+                    }
                 }
+            } else {
+                setState(RecorderState.NO_MIC_DETECTED)
             }
-        } else {
-            setState(RecorderState.NO_MIC_DETECTED)
         }
     }
 
@@ -169,30 +176,34 @@ class AudioRecordingActivity : BaseActivity(R.layout.activity_audio_recording)
 
     private fun setState(state: RecorderState)
     {
-        when(state)
-        {
-            RecorderState.PERMISSION_DENIED -> {
-                recording_status?.text = "Recording permission denied"
-                mic_icon?.setImageResource(Drawable.ic_microphone_disabled)
-            }
-            RecorderState.PLAYING_AUDIO -> {
-                recording_status?.text = "Playing recording...."
-                mic_icon?.setImageResource(Drawable.ic_music)
-            }
-            RecorderState.READY -> {
-                recording_status?.text = "Press microphone icon to start recording"
-                mic_icon?.setImageResource(Drawable.ic_microphone_enable)
-            }
-            RecorderState.RECORDING -> {
-                recording_status?.text = "Recording... press recording icon to stop"
-                mic_icon?.setImageResource(Drawable.ic_recording)
-            }
+        binding?.apply {
 
-            RecorderState.NO_MIC_DETECTED -> {
-                recording_status?.text = "No microphone detected"
-                mic_icon?.setImageResource(Drawable.ic_microphone_disabled)
+            when(state)
+            {
+                RecorderState.PERMISSION_DENIED -> {
+                    recordingStatus.text = "Recording permission denied"
+                    micIcon.setImageResource(Drawable.ic_microphone_disabled)
+                }
+                RecorderState.PLAYING_AUDIO -> {
+                    recordingStatus.text = "Playing recording...."
+                    micIcon.setImageResource(Drawable.ic_music)
+                }
+                RecorderState.READY -> {
+                    recordingStatus.text = "Press microphone icon to start recording"
+                    micIcon.setImageResource(Drawable.ic_microphone_enable)
+                }
+                RecorderState.RECORDING -> {
+                    recordingStatus.text = "Recording... press recording icon to stop"
+                    micIcon.setImageResource(Drawable.ic_recording)
+                }
+
+                RecorderState.NO_MIC_DETECTED -> {
+                    recordingStatus.text = "No microphone detected"
+                    micIcon.setImageResource(Drawable.ic_microphone_disabled)
+                }
             }
         }
+
     }
 }
 

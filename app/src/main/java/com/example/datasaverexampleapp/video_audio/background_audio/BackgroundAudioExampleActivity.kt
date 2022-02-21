@@ -2,9 +2,10 @@ package com.example.datasaverexampleapp.video_audio.background_audio
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import com.example.datasaverexampleapp.databinding.ActivityBackgroundAudioExampleBinding
 import com.example.datasaverexampleapp.type_alias.Layout
 import com.google.android.material.tabs.TabLayout
-import kotlinx.android.synthetic.main.activity_background_audio_example.*
 
 /**
  * This is the background audio playback example Activity Example
@@ -22,6 +23,7 @@ class BackgroundAudioExampleActivity : AppCompatActivity()
 {
     private lateinit var exoPlayerFragment: ExoPlayerFragment
     private lateinit var mediaPlayerFragment: MediaPlayerFragment
+    private var binding: ActivityBackgroundAudioExampleBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,42 +33,46 @@ class BackgroundAudioExampleActivity : AppCompatActivity()
         exoPlayerFragment = ExoPlayerFragment()
         mediaPlayerFragment = MediaPlayerFragment()
 
-        playerTabLayout?.apply {
+        binding = DataBindingUtil.setContentView<ActivityBackgroundAudioExampleBinding?>(
+            this, Layout.activity_background_audio_example
+        ).apply {
+            playerTabLayout?.apply {
 
-            supportFragmentManager.beginTransaction().apply {
-                fragmentContainer?.let { container ->
-                    add(container.id,exoPlayerFragment)
-                    commit()
-                }
-            }
-
-            addOnTabSelectedListener( object : TabLayout.OnTabSelectedListener {
-                override fun onTabSelected(tab: TabLayout.Tab?) {
-
-                    tab?.apply {
-
-                        val fragmentTransaction = supportFragmentManager.beginTransaction()
-
-                        fragmentContainer?.let {
-
-                            when(position)
-                            {
-                                0 -> fragmentTransaction.replace(it.id,exoPlayerFragment)
-                                else -> fragmentTransaction.replace(it.id,mediaPlayerFragment)
-                            }
-                        }
-
-                        fragmentTransaction.commit()
+                supportFragmentManager.beginTransaction().apply {
+                    fragmentContainer?.let { container ->
+                        add(container.id,exoPlayerFragment)
+                        commit()
                     }
                 }
 
-                override fun onTabUnselected(tab: TabLayout.Tab?) {}
+                addOnTabSelectedListener( object : TabLayout.OnTabSelectedListener {
+                    override fun onTabSelected(tab: TabLayout.Tab?) {
 
-                override fun onTabReselected(tab: TabLayout.Tab?) {}
+                        tab?.apply {
 
-            })
+                            val fragmentTransaction = supportFragmentManager.beginTransaction()
+
+                            fragmentContainer?.let {
+
+                                when(position)
+                                {
+                                    0 -> fragmentTransaction.replace(it.id,exoPlayerFragment)
+                                    else -> fragmentTransaction.replace(it.id,mediaPlayerFragment)
+                                }
+                            }
+
+                            fragmentTransaction.commit()
+                        }
+                    }
+
+                    override fun onTabUnselected(tab: TabLayout.Tab?) {}
+
+                    override fun onTabReselected(tab: TabLayout.Tab?) {}
+
+                })
+            }
         }
     }
 
-    fun getPlayerTabLayout() : TabLayout? = playerTabLayout
+    fun getPlayerTabLayout() : TabLayout? = binding?.playerTabLayout
 }
