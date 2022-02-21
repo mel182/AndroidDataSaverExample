@@ -2,7 +2,10 @@ package com.example.datasaverexampleapp.video_audio.exoplayer
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.example.datasaverexampleapp.R
+import com.example.datasaverexampleapp.databinding.ActivityExoPlayerBinding
+import com.example.datasaverexampleapp.type_alias.Layout
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.source.MediaSource
@@ -10,7 +13,6 @@ import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.upstream.RawResourceDataSource
 import com.google.android.exoplayer2.util.Util
-import kotlinx.android.synthetic.main.activity_exo_player.*
 
 
 /**
@@ -39,10 +41,14 @@ import kotlinx.android.synthetic.main.activity_exo_player.*
 class ExoPlayerActivity : AppCompatActivity()
 {
     private var player:ExoPlayer? = null
+    private var binding: ActivityExoPlayerBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_exo_player)
+        binding = DataBindingUtil.setContentView(
+            this, Layout.activity_exo_player
+        )
         title = "Exoplayer Example (api 16+)"
     }
 
@@ -53,7 +59,7 @@ class ExoPlayerActivity : AppCompatActivity()
         player = ExoPlayer.Builder(this).build()
 
         // associate the ExoPlayer with the player View
-        player_view?.player = player
+        binding?.playerView?.player = player
 
         //Build a DataSource.Factory capable of loading http and local content
         val dataSourceFactory = DefaultDataSourceFactory(
@@ -78,7 +84,7 @@ class ExoPlayerActivity : AppCompatActivity()
 
 
     override fun onStop() {
-        player_view?.player = null
+        binding?.playerView?.player = null
         player?.release()
         player = null
         super.onStop()
