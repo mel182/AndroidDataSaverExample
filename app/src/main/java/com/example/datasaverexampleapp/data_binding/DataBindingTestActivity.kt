@@ -1,3 +1,5 @@
+@file:Suppress("UNNECESSARY_SAFE_CALL")
+
 package com.example.datasaverexampleapp.data_binding
 
 import android.os.Bundle

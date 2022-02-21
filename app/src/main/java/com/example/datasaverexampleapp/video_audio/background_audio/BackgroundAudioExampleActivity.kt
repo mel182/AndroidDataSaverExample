@@ -1,3 +1,5 @@
+@file:Suppress("UNNECESSARY_SAFE_CALL")
+
 package com.example.datasaverexampleapp.video_audio.background_audio
 
 import android.os.Bundle

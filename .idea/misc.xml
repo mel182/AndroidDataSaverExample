@@ -92,6 +92,7 @@
         <entry key="app/src/main/res/layout/item_paging_custom_cell.xml" value="0.335" />
         <entry key="app/src/main/res/layout/item_player_layout.xml" value="0.23333333333333334" />
         <entry key="app/src/main/res/layout/item_sensor_options_list.xml" value="0.17753623188405798" />
+        <entry key="contentProviderApp/src/main/res/layout/activity_main.xml" value="0.1015625" />
       </map>
     </option>
   </component>

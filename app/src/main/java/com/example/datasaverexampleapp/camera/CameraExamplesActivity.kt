@@ -1,3 +1,5 @@
+@file:Suppress("UNNECESSARY_SAFE_CALL")
+
 package com.example.datasaverexampleapp.camera
 
 import android.content.Intent

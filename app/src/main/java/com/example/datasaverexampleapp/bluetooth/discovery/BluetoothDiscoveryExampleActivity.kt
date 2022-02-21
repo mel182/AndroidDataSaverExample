@@ -1,5 +1,8 @@
+@file:Suppress("UNNECESSARY_SAFE_CALL")
+
 package com.example.datasaverexampleapp.bluetooth.discovery
 
+import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.os.Bundle
@@ -21,6 +24,7 @@ class BluetoothDiscoveryExampleActivity : BluetoothBaseActivity(Layout.activity_
     private val devicesFound : ArrayList<DiscoveryDevice> = ArrayList()
     private var binding: ActivityBluetoothDiscoveryExampleBinding? = null
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         title = "Bluetooth discovery Example"

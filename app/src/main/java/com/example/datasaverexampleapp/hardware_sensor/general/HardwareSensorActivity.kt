@@ -1,4 +1,4 @@
-@file:Suppress("DEPRECATION")
+@file:Suppress("DEPRECATION", "UNNECESSARY_SAFE_CALL", "SimpleRedundantLet")
 
 package com.example.datasaverexampleapp.hardware_sensor.general
 
@@ -88,6 +88,7 @@ class HardwareSensorActivity : BaseActivity(Layout.activity_hardware_sensor),
                         bottomSheetBehavior = this
                         peekHeight = 0
                         addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+                            @SuppressLint("SwitchIntDef")
                             override fun onStateChanged(bottomSheet: View, newState: Int) {
 
                                 when (newState) {
@@ -130,6 +131,7 @@ class HardwareSensorActivity : BaseActivity(Layout.activity_hardware_sensor),
         return true
     }
 
+    @SuppressLint("ObsoleteSdkInt")
     private fun disableUnsupportedMenuItems() {
         this.menu?.also { menuItem ->
 

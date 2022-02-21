@@ -1,5 +1,8 @@
+@file:Suppress("UNNECESSARY_SAFE_CALL")
+
 package com.example.datasaverexampleapp.hardware_sensor.book_example
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorEvent
@@ -17,6 +20,7 @@ import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.math.roundToInt
 
+@SuppressLint("SetTextI18n")
 class ForceMeterActivity : AppCompatActivity(), SensorEventListener {
 
     private var sensorManager:SensorManager? = null

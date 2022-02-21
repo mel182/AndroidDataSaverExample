@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.example.datasaverexampleapp.video_audio.exoplayer
 
 import android.os.Bundle

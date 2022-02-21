@@ -1,7 +1,10 @@
+@file:Suppress("UNNECESSARY_SAFE_CALL")
+
 package com.example.datasaverexampleapp.animation
 
 import android.animation.Animator
 import android.animation.AnimatorInflater
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.drawable.AnimationDrawable
 import android.os.Build
@@ -20,6 +23,7 @@ import kotlinx.coroutines.*
 import kotlin.math.hypot
 
 @Suppress("UNUSED_VARIABLE")
+@SuppressLint("SetTextI18n")
 class AnimationExampleActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -1,3 +1,5 @@
+@file:Suppress("UNNECESSARY_SAFE_CALL")
+
 package com.example.datasaverexampleapp.data_binding.earthQuakeExample
 
 import android.annotation.SuppressLint
