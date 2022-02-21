@@ -4,13 +4,15 @@ package com.example.datasaverexampleapp.vibration
 
 import android.content.Context
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.example.datasaverexampleapp.R
-import kotlinx.android.synthetic.main.activity_vibration_example.*
+import com.example.datasaverexampleapp.databinding.ActivityVibrationExampleBinding
+import com.example.datasaverexampleapp.type_alias.Layout
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -27,53 +29,58 @@ class VibrationExampleActivity : AppCompatActivity()
         title = "Vibration example"
         vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
 
-        vibrator?.apply {
+        DataBindingUtil.setContentView<ActivityVibrationExampleBinding>(
+            this, Layout.activity_vibration_example
+        )?.let { binding ->
 
-            vibrate_pattern_button?.setOnClickListener {
+            vibrator?.apply {
 
-                if (hasVibrator())
-                {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                binding.vibratePatternButton.setOnClickListener {
+
+                    if (hasVibrator())
                     {
-                        val vibrate = VibrationEffect.createWaveform(pattern, 0) // 0 for repeating
-                        vibrate(vibrate) // Execute vibration pattern
-                    } else {
-                        vibrate(pattern,0) // Execute vibration pattern '0' for repeating
-                    }
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                        {
+                            val vibrate = VibrationEffect.createWaveform(pattern, 0) // 0 for repeating
+                            vibrate(vibrate) // Execute vibration pattern
+                        } else {
+                            vibrate(pattern,0) // Execute vibration pattern '0' for repeating
+                        }
 
-                    CoroutineScope(Dispatchers.Main).launch {
+                        CoroutineScope(Dispatchers.Main).launch {
 
-                        delay(20000)
-                        cancel()
-                        Toast.makeText(this@VibrationExampleActivity,"Vibrator cancelled!",Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
-
-            vibrate_once_button?.setOnClickListener {
-
-                if (hasVibrator())
-                {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-                    {
-                        val vibrate = VibrationEffect.createWaveform(pattern, -1) // -1 disable repeating
-                        vibrate(vibrate) // Execute vibration pattern
-                    } else {
-                        vibrate(pattern,-1) // Execute vibration pattern '-1' disable repeating
+                            delay(20000)
+                            cancel()
+                            Toast.makeText(this@VibrationExampleActivity,"Vibrator cancelled!",Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
-            }
 
-            vibrate_for_second_button?.setOnClickListener {
+                binding.vibrateOnceButton.setOnClickListener {
 
-                if (hasVibrator())
-                {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                    if (hasVibrator())
                     {
-                        val vibrate = VibrationEffect.createOneShot(1000, VibrationEffect.DEFAULT_AMPLITUDE) // -1 disable repeating
-                        vibrate(vibrate) // Execute vibration pattern
-                    } else {
-                        vibrate(1000) // Execute vibration pattern '-1' disable repeating
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                        {
+                            val vibrate = VibrationEffect.createWaveform(pattern, -1) // -1 disable repeating
+                            vibrate(vibrate) // Execute vibration pattern
+                        } else {
+                            vibrate(pattern,-1) // Execute vibration pattern '-1' disable repeating
+                        }
+                    }
+                }
+
+                binding.vibrateForSecondButton.setOnClickListener {
+
+                    if (hasVibrator())
+                    {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                        {
+                            val vibrate = VibrationEffect.createOneShot(1000, VibrationEffect.DEFAULT_AMPLITUDE) // -1 disable repeating
+                            vibrate(vibrate) // Execute vibration pattern
+                        } else {
+                            vibrate(1000) // Execute vibration pattern '-1' disable repeating
+                        }
                     }
                 }
             }
