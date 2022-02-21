@@ -4,7 +4,6 @@ package com.example.datasaverexampleapp.video_audio.foreground_service
 
 import android.annotation.SuppressLint
 import android.content.ComponentName
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.RemoteException
@@ -14,15 +13,15 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
-import android.util.TypedValue
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.example.datasaverexampleapp.R
+import com.example.datasaverexampleapp.databinding.ActivityForegroundExampleBinding
 import com.example.datasaverexampleapp.type_alias.Layout
 import com.example.datasaverexampleapp.video_audio.background_audio.ADD_MEDIA_SOURCE
-import com.example.datasaverexampleapp.video_audio.background_audio.ExoPlayerMediaPlaybackService
 import com.example.datasaverexampleapp.video_audio.background_audio.MEDIA_SOURCE
 import com.example.datasaverexampleapp.video_audio.background_audio.MEDIA_SOURCE_ADDED
-import kotlinx.android.synthetic.main.item_player_layout.*
 
 /**
  * This is a foreground service example.
@@ -41,71 +40,76 @@ class ForegroundServiceExampleActivity : AppCompatActivity()
 {
     private var mediaBrowser: MediaBrowserCompat? = null
     private var mediaController: MediaControllerCompat? = null
+    private var binding: ActivityForegroundExampleBinding? = null
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(Layout.activity_foreground_example)
         title = "Foreground Service example"
+        binding = DataBindingUtil.setContentView<ActivityForegroundExampleBinding>(
+            this, Layout.activity_foreground_example
+        ).apply {
 
-        playerTitle?.text = "Media player"
-        updateStatus("Initializing....")
+            playerLayout.playerTitle?.text = "Media player"
+            updateStatus("Initializing....")
 
-        mediaBrowser = MediaBrowserCompat(this,
-            ComponentName(this, ForegroundService::class.java),
-            object : MediaBrowserCompat.ConnectionCallback(){
+            mediaBrowser = MediaBrowserCompat(this@ForegroundServiceExampleActivity,
+                ComponentName(this@ForegroundServiceExampleActivity, ForegroundService::class.java),
+                object : MediaBrowserCompat.ConnectionCallback(){
 
-                override fun onConnected() {
-                    super.onConnected()
-                    initializeMediaBrowserAndController()
-                    updateStatus("-")
-                }
+                    override fun onConnected() {
+                        super.onConnected()
+                        initializeMediaBrowserAndController()
+                        updateStatus("-")
+                    }
 
-                override fun onConnectionSuspended() {
-                    super.onConnectionSuspended()
-                    // We were connected, but no longer are.
-                    updateStatus("Service connection suspended")
-                }
+                    override fun onConnectionSuspended() {
+                        super.onConnectionSuspended()
+                        // We were connected, but no longer are.
+                        updateStatus("Service connection suspended")
+                    }
 
-                override fun onConnectionFailed() {
-                    super.onConnectionFailed()
-                    // The attempt to connect failed completely.
-                    // Check the ComponentName!
-                    updateStatus("Service Connection failed")
-                }
-            },null)
+                    override fun onConnectionFailed() {
+                        super.onConnectionFailed()
+                        // The attempt to connect failed completely.
+                        // Check the ComponentName!
+                        updateStatus("Service Connection failed")
+                    }
+                },null)
 
-        mediaBrowser?.connect()
+            mediaBrowser?.connect()
 
-        playAudioButton?.setOnClickListener {
+            playerLayout.playAudioButton?.setOnClickListener {
 
-            when (playAudioButton?.text)
-            {
-                "Add Media Audio" -> {
-                    updateStatus("Added media....")
-                    addPlayAudio(R.raw.bon_vibe)
-                    streamAudioButton?.isEnabled = false
-                }
-                "Play Audio" -> {
-                    mediaController?.transportControls?.play()
-                    playAudioButton?.text = "Stop Audio"
-                    updateStatus("Preparing....")
-                }
-                "Stop Audio" -> {
-                    mediaController?.transportControls?.stop()
-                    updateStatus("-")
-                    playAudioButton?.text = "Add Media Audio"
-                    streamAudioButton?.isEnabled = true
+                when (playerLayout.playAudioButton?.text)
+                {
+                    "Add Media Audio" -> {
+                        updateStatus("Added media....")
+                        addPlayAudio(R.raw.bon_vibe)
+                        playerLayout.streamAudioButton?.isEnabled = false
+                    }
+                    "Play Audio" -> {
+                        mediaController?.transportControls?.play()
+                        playerLayout.playAudioButton?.text = "Stop Audio"
+                        updateStatus("Preparing....")
+                    }
+                    "Stop Audio" -> {
+                        mediaController?.transportControls?.stop()
+                        updateStatus("-")
+                        playerLayout.playAudioButton?.text = "Add Media Audio"
+                        playerLayout.streamAudioButton?.isEnabled = true
+                    }
                 }
             }
-        }
 
-        streamAudioButton?.visibility = View.INVISIBLE
+            playerLayout.streamAudioButton?.visibility = View.INVISIBLE
+        }
     }
 
     private fun updateStatus(status:String)
     {
-        streamStatus?.text = status
+        binding?.playerLayout?.streamStatus?.text = status
     }
 
     private fun initializeMediaBrowserAndController()
@@ -138,8 +142,8 @@ class ForegroundServiceExampleActivity : AppCompatActivity()
                                 {
                                     Log.i("TAG","Action stop!")
                                     updateStatus("-")
-                                    playAudioButton?.isEnabled = true
-                                    streamAudioButton?.isEnabled = true
+                                    binding?.playerLayout?.playAudioButton?.isEnabled = true
+                                    binding?.playerLayout?.streamAudioButton?.isEnabled = true
                                 }
                             }
                         }
@@ -175,21 +179,21 @@ class ForegroundServiceExampleActivity : AppCompatActivity()
                 @SuppressLint("SetTextI18n")
                 override fun onReceiveResult(resultCode: Int, resultData: Bundle?) {
                     super.onReceiveResult(resultCode, resultData)
-                    streamStatus?.text = if (resultCode == MEDIA_SOURCE_ADDED) "Media added, ready to play" else "Failed to add media, try again"
+                    binding?.playerLayout?.streamStatus?.text = if (resultCode == MEDIA_SOURCE_ADDED) "Media added, ready to play" else "Failed to add media, try again"
 
                     if (mediaSource is Int)
                     {
-                        playAudioButton?.text = "Play Audio"
+                        binding?.playerLayout?.playAudioButton?.text = "Play Audio"
                     } else if (mediaSource is String)
                     {
-                        streamAudioButton?.text = "Play Stream Audio"
+                        binding?.playerLayout?.streamAudioButton?.text = "Play Stream Audio"
                     }
                 }
             })
         }?: kotlin.run {
             updateStatus("Failed adding media source, try again")
-            playAudioButton?.isEnabled = true
-            streamAudioButton?.isEnabled = true
+            binding?.playerLayout?.playAudioButton?.isEnabled = true
+            binding?.playerLayout?.streamAudioButton?.isEnabled = true
         }
     }
 
