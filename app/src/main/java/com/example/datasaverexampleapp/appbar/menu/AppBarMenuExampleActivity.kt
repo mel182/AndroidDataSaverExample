@@ -6,7 +6,6 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.datasaverexampleapp.R
-import kotlinx.android.synthetic.main.activity_app_bar_menu_example.*
 
 class AppBarMenuExampleActivity : AppCompatActivity() {
 
