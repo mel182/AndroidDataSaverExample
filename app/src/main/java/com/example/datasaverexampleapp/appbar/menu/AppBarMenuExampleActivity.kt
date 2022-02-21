@@ -5,7 +5,10 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.example.datasaverexampleapp.R
+import com.example.datasaverexampleapp.databinding.ActivityAppBarMenuExampleBinding
+import com.example.datasaverexampleapp.type_alias.Layout
 
 class AppBarMenuExampleActivity : AppCompatActivity() {
 
@@ -14,9 +17,13 @@ class AppBarMenuExampleActivity : AppCompatActivity() {
         setContentView(R.layout.activity_app_bar_menu_example)
         title = "App bar menu example"
 
-//        val fragmentTransaction = supportFragmentManager.beginTransaction()
-//        fragmentTransaction.add(appMenuExampleContainer.id, AppBarMenuFragment())
-//        fragmentTransaction.commit()
+        DataBindingUtil.setContentView<ActivityAppBarMenuExampleBinding>(
+            this, Layout.activity_app_bar_menu_example
+        ).apply {
+            //        val fragmentTransaction = supportFragmentManager.beginTransaction()
+            //        fragmentTransaction.add(appMenuExampleContainer.id, AppBarMenuFragment())
+            //        fragmentTransaction.commit()
+        }
     }
 
 
