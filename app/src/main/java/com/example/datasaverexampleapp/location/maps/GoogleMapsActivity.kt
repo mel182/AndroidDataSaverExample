@@ -15,12 +15,11 @@ import android.view.View
 import android.widget.CompoundButton
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.alpha
 import androidx.core.view.iterator
+import androidx.databinding.DataBindingUtil
 import com.example.datasaverexampleapp.R
 import com.example.datasaverexampleapp.base_classes.BaseActivity
+import com.example.datasaverexampleapp.databinding.ActivityGoogleMapsBinding
 import com.example.datasaverexampleapp.type_alias.Drawable
 import com.example.datasaverexampleapp.type_alias.Layout
 import com.example.datasaverexampleapp.type_alias.ViewByID
@@ -29,7 +28,6 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
-import kotlinx.android.synthetic.main.activity_google_maps.*
 
 class GoogleMapsActivity : BaseActivity(Layout.activity_google_maps), OnMapReadyCallback, GoogleMap.OnMarkerClickListener , CompoundButton.OnCheckedChangeListener, GoogleMap.OnCircleClickListener, GoogleMap.OnPolygonClickListener, GoogleMap.OnPolylineClickListener
 {
@@ -41,9 +39,14 @@ class GoogleMapsActivity : BaseActivity(Layout.activity_google_maps), OnMapReady
     private var groundOverlay: GroundOverlay? = null
     private var marker : Marker? = null
     private val TAG = "GOOGLE_MAPS"
+    private var binding: ActivityGoogleMapsBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        binding = DataBindingUtil.setContentView<ActivityGoogleMapsBinding>(
+            this, Layout.activity_google_maps
+        )
 
         // Obtain the support map fragment and request the Google Map object.
         supportFragmentManager.findFragmentById(ViewByID.map)?.apply {
@@ -501,11 +504,13 @@ class GoogleMapsActivity : BaseActivity(Layout.activity_google_maps), OnMapReady
 
     private fun setMapType()
     {
-        map_type_normal_radioButton?.isChecked = true
-        map_type_normal_radioButton?.setOnCheckedChangeListener(this)
-        map_type_satelite_radioButton?.setOnCheckedChangeListener(this)
-        map_type_terrain_radioButton?.setOnCheckedChangeListener(this)
-        map_type_hybrid_radioButton?.setOnCheckedChangeListener(this)
+        binding?.apply {
+            mapTypeNormalRadioButton.isChecked = true
+            mapTypeNormalRadioButton.setOnCheckedChangeListener(this@GoogleMapsActivity)
+            mapTypeSateliteRadioButton.setOnCheckedChangeListener(this@GoogleMapsActivity)
+            mapTypeTerrainRadioButton.setOnCheckedChangeListener(this@GoogleMapsActivity)
+            mapTypeHybridRadioButton.setOnCheckedChangeListener(this@GoogleMapsActivity)
+        }
     }
 
     private fun animateLocationZoom()
@@ -740,27 +745,29 @@ class GoogleMapsActivity : BaseActivity(Layout.activity_google_maps), OnMapReady
 
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
 
-        when(buttonView?.id)
-        {
-            map_type_normal_radioButton?.id -> {
+        binding?.apply {
+            when(buttonView?.id)
+            {
+                mapTypeNormalRadioButton.id -> {
 
-                if (isChecked)
-                    this.map?.mapType = GoogleMap.MAP_TYPE_NORMAL
-            }
-            map_type_satelite_radioButton?.id -> {
+                    if (isChecked)
+                        this@GoogleMapsActivity.map?.mapType = GoogleMap.MAP_TYPE_NORMAL
+                }
+                mapTypeSateliteRadioButton.id -> {
 
-                if (isChecked)
-                    this.map?.mapType = GoogleMap.MAP_TYPE_SATELLITE
-            }
-            map_type_terrain_radioButton?.id -> {
+                    if (isChecked)
+                        this@GoogleMapsActivity.map?.mapType = GoogleMap.MAP_TYPE_SATELLITE
+                }
+                mapTypeTerrainRadioButton.id -> {
 
-                if (isChecked)
-                    this.map?.mapType = GoogleMap.MAP_TYPE_TERRAIN
-            }
-            map_type_hybrid_radioButton?.id -> {
+                    if (isChecked)
+                        this@GoogleMapsActivity.map?.mapType = GoogleMap.MAP_TYPE_TERRAIN
+                }
+                mapTypeHybridRadioButton.id -> {
 
-                if (isChecked)
-                    this.map?.mapType = GoogleMap.MAP_TYPE_HYBRID
+                    if (isChecked)
+                        this@GoogleMapsActivity.map?.mapType = GoogleMap.MAP_TYPE_HYBRID
+                }
             }
         }
     }
