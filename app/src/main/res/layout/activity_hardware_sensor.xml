@@ -1,48 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".hardware_sensor.general.HardwareSensorActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
-        android:id="@+id/no_sensor_detected_view"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:visibility="gone"
-        android:gravity="center">
+        tools:context=".hardware_sensor.general.HardwareSensorActivity">
 
-        <ImageView
-            android:id="@+id/imageView6"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            app:srcCompat="@drawable/ic_sensor_icon" />
+        <LinearLayout
+            android:id="@+id/no_sensor_detected_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:gravity="center">
 
-        <TextView
-            android:id="@+id/no_sensor_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="No sensor detected!"/>
+            <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                app:srcCompat="@drawable/ic_sensor_icon" />
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/no_sensor_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No sensor detected!"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/sensor_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/list_overlay"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/black_alpha_50"
-        android:alpha="0"
-        android:orientation="vertical"
-        android:visibility="gone"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/sensor_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-    <include layout="@layout/item_bottom_sheet_layout"/>
+        <LinearLayout
+            android:id="@+id/list_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/black_alpha_50"
+            android:alpha="0"
+            android:orientation="vertical"
+            android:visibility="gone"/>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <include android:id="@+id/bottom_sheet_item" layout="@layout/item_bottom_sheet_layout"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

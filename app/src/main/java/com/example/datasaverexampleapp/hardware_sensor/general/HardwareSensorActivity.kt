@@ -15,15 +15,15 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.view.iterator
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.datasaverexampleapp.R
 import com.example.datasaverexampleapp.base_classes.BaseActivity
+import com.example.datasaverexampleapp.databinding.ActivityHardwareSensorBinding
 import com.example.datasaverexampleapp.type_alias.Layout
 import com.example.datasaverexampleapp.type_alias.ViewByID
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import kotlinx.android.synthetic.main.activity_hardware_sensor.*
-import kotlinx.android.synthetic.main.item_bottom_sheet_layout.*
 
 // NOTE: Where a sensor is required for your application to function, you can specify it as a required feature in the application's manifest.
 //
@@ -67,45 +67,51 @@ class HardwareSensorActivity : BaseActivity(Layout.activity_hardware_sensor),
     val normalHeight = 0.5f
     val adjustedHeight = 0.7f
 
+    private var binding: ActivityHardwareSensorBinding? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        showAllSensor()
+        binding = DataBindingUtil.setContentView<ActivityHardwareSensorBinding>(
+            this, Layout.activity_hardware_sensor
+        ).apply {
+            showAllSensor()
 
-        resources.displayMetrics?.also { displayMetrics ->
+            resources.displayMetrics?.also { displayMetrics ->
 
-            bottom_sheet?.let { bottomSheetView ->
+                bottomSheetItem.bottomSheet.let { bottomSheetView ->
 
-                val layoutParams = bottomSheetView.layoutParams
-                layoutParams.height = (displayMetrics.heightPixels * normalHeight).toInt()
-                bottomSheetView.layoutParams = layoutParams
+                    val layoutParams = bottomSheetView.layoutParams
+                    layoutParams.height = (displayMetrics.heightPixels * normalHeight).toInt()
+                    bottomSheetView.layoutParams = layoutParams
 
-                BottomSheetBehavior.from(bottom_sheet).apply {
-                    bottomSheetBehavior = this
-                    peekHeight = 0
-                    addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-                        override fun onStateChanged(bottomSheet: View, newState: Int) {
+                    BottomSheetBehavior.from(bottomSheetItem.bottomSheet).apply {
+                        bottomSheetBehavior = this
+                        peekHeight = 0
+                        addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+                            override fun onStateChanged(bottomSheet: View, newState: Int) {
 
-                            when (newState) {
-                                BottomSheetBehavior.STATE_EXPANDED -> {
-                                    list_overlay?.setOnClickListener {
-                                        bottomSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
+                                when (newState) {
+                                    BottomSheetBehavior.STATE_EXPANDED -> {
+                                        listOverlay.setOnClickListener {
+                                            bottomSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
+                                        }
                                     }
-                                }
 
-                                BottomSheetBehavior.STATE_COLLAPSED -> {
-                                    list_overlay?.apply {
-                                        visibility = View.GONE
-                                        alpha = 0f
+                                    BottomSheetBehavior.STATE_COLLAPSED -> {
+                                        listOverlay.apply {
+                                            visibility = View.GONE
+                                            alpha = 0f
+                                        }
+                                        removeReadingFragment()
                                     }
-                                    removeReadingFragment()
                                 }
                             }
-                        }
 
-                        override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                            list_overlay?.alpha = slideOffset
-                        }
-                    })
+                            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                                listOverlay.alpha = slideOffset
+                            }
+                        })
+                    }
                 }
             }
         }
@@ -518,12 +524,13 @@ class HardwareSensorActivity : BaseActivity(Layout.activity_hardware_sensor),
 
     private fun adjustBottomSheetHeight(sensor:Sensor)
     {
-        resources.displayMetrics?.also { displayMetrics ->
-
-            bottom_sheet?.let { bottomSheetView ->
-                val layoutParams = bottomSheetView.layoutParams
-                layoutParams.height = (displayMetrics.heightPixels * getHeight(sensor)).toInt()
-                bottomSheetView.layoutParams = layoutParams
+        binding?.apply {
+            resources.displayMetrics?.also { displayMetrics ->
+                bottomSheetItem.bottomSheet.let { bottomSheetView ->
+                    val layoutParams = bottomSheetView.layoutParams
+                    layoutParams.height = (displayMetrics.heightPixels * getHeight(sensor)).toInt()
+                    bottomSheetView.layoutParams = layoutParams
+                }
             }
         }
     }
@@ -585,17 +592,19 @@ class HardwareSensorActivity : BaseActivity(Layout.activity_hardware_sensor),
         }.map { it }.toList()
         sensorListAdapter?.updateList(filterList)
 
-        if (filterList.isEmpty()) {
-            this@HardwareSensorActivity.title =
-                " No sensor found"
-            no_sensor_detected_view?.visibility = View.VISIBLE
-            sensor_list?.visibility = View.GONE
-        } else {
-            val sensorPlural = if (filterList.size == 1) "sensor" else "sensors"
-            this@HardwareSensorActivity.title =
-                " ${filterList.size} $sensorPlural found"
-            no_sensor_detected_view?.visibility = View.GONE
-            sensor_list?.visibility = View.VISIBLE
+        binding?.apply {
+            if (filterList.isEmpty()) {
+                this@HardwareSensorActivity.title =
+                    " No sensor found"
+                noSensorDetectedView.visibility = View.VISIBLE
+                sensorList.visibility = View.GONE
+            } else {
+                val sensorPlural = if (filterList.size == 1) "sensor" else "sensors"
+                this@HardwareSensorActivity.title =
+                    " ${filterList.size} $sensorPlural found"
+                noSensorDetectedView.visibility = View.GONE
+                sensorList.visibility = View.VISIBLE
+            }
         }
     }
 
@@ -604,7 +613,7 @@ class HardwareSensorActivity : BaseActivity(Layout.activity_hardware_sensor),
         if (!selectedSensor.type.isCustomSensor()) {
             adjustBottomSheetHeight(selectedSensor)
             setReadingFragment(selectedSensor)
-            list_overlay?.visibility = View.VISIBLE
+            binding?.listOverlay?.visibility = View.VISIBLE
             bottomSheetBehavior?.state = BottomSheetBehavior.STATE_EXPANDED
         } else {
             Toast.makeText(this, "Unsupported sensor", Toast.LENGTH_SHORT).show()
@@ -618,11 +627,13 @@ class HardwareSensorActivity : BaseActivity(Layout.activity_hardware_sensor),
         if (sensorReadingFragment != null)
             return
 
-        bottom_sheet_title?.text = sensor.name
-        supportFragmentManager.beginTransaction().let { fragmentTransaction ->
-            sensorReadingFragment = SensorReadingFragment(sensor,sensorManager).apply {
-                fragmentTransaction.add(this@HardwareSensorActivity.bottom_sheet_content.id,this)
-                fragmentTransaction.commit()
+        binding?.apply {
+            bottomSheetItem.bottomSheetTitle.text = sensor.name
+            supportFragmentManager.beginTransaction().let { fragmentTransaction ->
+                sensorReadingFragment = SensorReadingFragment(sensor,sensorManager).apply {
+                    fragmentTransaction.add(bottomSheetItem.bottomSheetContent.id,this)
+                    fragmentTransaction.commit()
+                }
             }
         }
     }
@@ -649,30 +660,33 @@ class HardwareSensorActivity : BaseActivity(Layout.activity_hardware_sensor),
         //
         // sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY, TRUE): This overload implementation of 'getDefaultSensor' that takes both a Sensor type
         //                                                              and a Boolean indicating if you specifically require a wakeup sensor.
-        sensorManager.getSensorList(Sensor.TYPE_ALL)?.also { sensorList ->
+        binding?.apply {
+            sensorManager.getSensorList(Sensor.TYPE_ALL)?.also { sensor_list ->
 
-            if (sensorList.isEmpty()) {
-                title = "Hardware sensor (No sensor detected)"
-                no_sensor_detected_view?.visibility = View.VISIBLE
-                sensor_list?.visibility = View.GONE
-            } else {
-                no_sensor_detected_view?.visibility = View.GONE
-                sensor_list?.visibility = View.VISIBLE
-                val sensorCount = if (sensorList.size > 1) "sensor" else "sensors"
-                title = "Hardware sensor (${sensorList.size} $sensorCount detected)"
+                if (sensor_list.isEmpty()) {
+                    title = "Hardware sensor (No sensor detected)"
+                    noSensorDetectedView.visibility = View.VISIBLE
+                    sensorList.visibility = View.GONE
+                } else {
+                    noSensorDetectedView.visibility = View.GONE
+                    sensorList.visibility = View.VISIBLE
+                    val sensorCount = if (sensor_list.size > 1) "sensor" else "sensors"
+                    title = "Hardware sensor (${sensor_list.size} $sensorCount detected)"
 
-                sensor_list?.apply {
-                    sensorListAdapter?.let { adapter ->
-                        adapter.updateList(sensorList)
-                    } ?: kotlin.run {
-                        val targetLayoutManager = LinearLayoutManager(this@HardwareSensorActivity)
-                        layoutManager = targetLayoutManager
-                        val dividerItemDecoration =
-                            DividerItemDecoration(context, targetLayoutManager.orientation)
-                        addItemDecoration(dividerItemDecoration)
-                        sensorListAdapter =
-                            SensorListAdapter(sensorList, this@HardwareSensorActivity)
-                        adapter = sensorListAdapter
+                    sensor_list?.apply {
+                        sensorListAdapter?.let { adapter ->
+                            adapter.updateList(sensor_list)
+                        } ?: kotlin.run {
+                            sensorList.apply {
+                                val targetLayoutManager = LinearLayoutManager(this@HardwareSensorActivity)
+                                layoutManager = targetLayoutManager
+                                val dividerItemDecoration =
+                                    DividerItemDecoration(context, targetLayoutManager.orientation)
+                                addItemDecoration(dividerItemDecoration)
+                                sensorListAdapter = SensorListAdapter(sensor_list, this@HardwareSensorActivity)
+                                adapter = sensorListAdapter
+                            }
+                        }
                     }
                 }
             }
@@ -686,34 +700,37 @@ class HardwareSensorActivity : BaseActivity(Layout.activity_hardware_sensor),
         setNoSensorTitle()
         this@HardwareSensorActivity.title = "Dynamic sensors"
 
-        if (sensorManager.isDynamicSensorDiscoverySupported) {
-            // You can determine if dynamic Sensors are available on the current host platform using the Sensor
-            // Manager's 'isDynamicSensorDiscoverySupported' method. To determine if a specific Sensor is dynamic,
-            // call its 'isDynamicSensor' method.
-            sensorManager.getDynamicSensorList(Sensor.TYPE_ALL)?.also { dynamicSensorList ->
+        binding?.apply {
 
-                if (dynamicSensorList.isEmpty()) {
-                    this@HardwareSensorActivity.title = "No dynamic sensor found"
-                    no_sensor_detected_view?.visibility = View.VISIBLE
-                    sensor_list?.visibility = View.GONE
-                } else {
-                    val sensorPlural = if (dynamicSensorList.size > 0) "sensor" else "sensors"
-                    this@HardwareSensorActivity.title =
-                        " ${dynamicSensorList.size} Dynamic $sensorPlural found"
-                    no_sensor_detected_view?.visibility = View.GONE
-                    sensor_list?.visibility = View.VISIBLE
-                    sensorListAdapter?.updateList(dynamicSensorList)
+            if (sensorManager.isDynamicSensorDiscoverySupported) {
+                // You can determine if dynamic Sensors are available on the current host platform using the Sensor
+                // Manager's 'isDynamicSensorDiscoverySupported' method. To determine if a specific Sensor is dynamic,
+                // call its 'isDynamicSensor' method.
+                sensorManager.getDynamicSensorList(Sensor.TYPE_ALL)?.also { dynamicSensorList ->
+
+                    if (dynamicSensorList.isEmpty()) {
+                        this@HardwareSensorActivity.title = "No dynamic sensor found"
+                        noSensorDetectedView.visibility = View.VISIBLE
+                        sensorList.visibility = View.GONE
+                    } else {
+                        val sensorPlural = if (dynamicSensorList.size > 0) "sensor" else "sensors"
+                        this@HardwareSensorActivity.title =
+                            " ${dynamicSensorList.size} Dynamic $sensorPlural found"
+                        noSensorDetectedView.visibility = View.GONE
+                        sensorList.visibility = View.VISIBLE
+                        sensorListAdapter?.updateList(dynamicSensorList)
+                    }
                 }
+            } else {
+                setNoSensorTitle(false)
+                noSensorDetectedView.visibility = View.VISIBLE
+                sensorList.visibility = View.GONE
             }
-        } else {
-            setNoSensorTitle(false)
-            no_sensor_detected_view?.visibility = View.VISIBLE
-            sensor_list?.visibility = View.GONE
         }
     }
 
     private fun setNoSensorTitle(noSensorFound: Boolean = true) {
-        no_sensor_title?.text = if (noSensorFound)
+        binding?.noSensorTitle?.text = if (noSensorFound)
             "No sensor detected!"
         else
             "Dynamic sensor discovery feature not supported"

@@ -1,53 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/bottom_sheet"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@android:color/transparent"
-    app:behavior_hideable="true"
-    app:behavior_peekHeight="16dp"
-    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
-
+<layout>
     <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/bottom_sheet"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:background="@drawable/item_bottom_sheet_header_shape">
+        android:background="@android:color/transparent"
+        app:behavior_hideable="true"
+        app:behavior_peekHeight="16dp"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-        <View
-            android:layout_width="70dp"
-            android:layout_height="4dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/item_bottom_sheet_header_indicator"/>
-
-        <TextView
-            android:id="@+id/bottom_sheet_title"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:gravity="center"
-            android:layout_weight=".5"
-            android:textColor="@android:color/black"
-            android:textSize="16sp"
-            tools:text="Title"/>
+            android:layout_height="60dp"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:background="@drawable/item_bottom_sheet_header_shape">
 
-        <View
+            <View
+                android:layout_width="70dp"
+                android:layout_height="4dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/item_bottom_sheet_header_indicator"/>
+
+            <TextView
+                android:id="@+id/bottom_sheet_title"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:layout_weight=".5"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                tools:text="Title"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:background="@android:color/darker_gray"/>
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/bottom_sheet_content"
+            android:background="@android:color/white"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginLeft="5dp"
-            android:background="@android:color/darker_gray"/>
+            android:layout_height="match_parent"/>
 
     </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/bottom_sheet_content"
-        android:background="@android:color/white"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
-</LinearLayout>
+</layout>
