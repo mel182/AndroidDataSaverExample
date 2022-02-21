@@ -2,11 +2,13 @@ package com.example.datasaverexampleapp.intent_example.starSignPicker
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.datasaverexampleapp.R
-import kotlinx.android.synthetic.main.activity_for_result.*
+import com.example.datasaverexampleapp.databinding.ActivityForResultBinding
+import com.example.datasaverexampleapp.type_alias.Layout
 
 class ActivityForResultActivity : AppCompatActivity(), OnItemClicked {
 
@@ -19,14 +21,17 @@ class ActivityForResultActivity : AppCompatActivity(), OnItemClicked {
         setContentView(R.layout.activity_for_result)
         title = "Activity for result Example"
 
-        demo_list?.apply {
-            layoutManager = LinearLayoutManager(this@ActivityForResultActivity)
-            adapter = StarSignAdapter(this@ActivityForResultActivity)
+        DataBindingUtil.setContentView<ActivityForResultBinding>(
+            this, Layout.activity_for_result
+        ).apply {
+            demoList.apply {
+                layoutManager = LinearLayoutManager(this@ActivityForResultActivity)
+                adapter = StarSignAdapter(this@ActivityForResultActivity)
+            }
         }
     }
 
     override fun onItemClick(item: String) {
-
         val outData = Intent()
         outData.putExtra(EXTRA_ACTIVITY_FOR_RESULT_EXAMPLE, item)
         setResult(Activity.RESULT_OK, outData)
