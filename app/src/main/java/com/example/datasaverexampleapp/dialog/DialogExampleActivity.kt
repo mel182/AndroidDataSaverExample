@@ -1,9 +1,11 @@
 package com.example.datasaverexampleapp.dialog
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.example.datasaverexampleapp.R
-import kotlinx.android.synthetic.main.activity_dialog_example.*
+import com.example.datasaverexampleapp.databinding.ActivityDialogExampleBinding
+import com.example.datasaverexampleapp.type_alias.Layout
 
 class DialogExampleActivity : AppCompatActivity()
 {
@@ -12,19 +14,23 @@ class DialogExampleActivity : AppCompatActivity()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dialog_example)
 
-        appcompat_dialog_button?.setOnClickListener {
+        DataBindingUtil.setContentView<ActivityDialogExampleBinding>(
+            this, Layout.activity_dialog_example
+        ).apply {
 
-            val dialogFragment = AppCompatDialogFragmentExample()
-            dialogFragment.show(supportFragmentManager,null)
+            appcompatDialogButton.setOnClickListener {
+
+                val dialogFragment = AppCompatDialogFragmentExample()
+                dialogFragment.show(supportFragmentManager,null)
+            }
+
+            appcompatDialogWithCustomViewButton.setOnClickListener {
+
+                DialogFragmentCustomView()
+                    .setTitle("Custom view")
+                    .setButtonTitle("Button title")
+                    .show(supportFragmentManager,null)
+            }
         }
-
-        appcompat_dialog_with_custom_view_button?.setOnClickListener {
-
-            DialogFragmentCustomView()
-                .setTitle("Custom view")
-                .setButtonTitle("Button title")
-                .show(supportFragmentManager,null)
-        }
-
     }
 }
