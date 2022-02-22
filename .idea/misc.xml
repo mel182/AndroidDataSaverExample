@@ -4,6 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../DataSaverExample/app/src/main/res/layout/activity_data_binding_test.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.184" />
+        <entry key="app/src/main/res/drawable/avd_anim.xml" value="0.2235" />
+        <entry key="app/src/main/res/drawable/ic_add.xml" value="0.2235" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.184" />
         <entry key="app/src/main/res/layout/activity_animation_example.xml" value="0.23333333333333334" />
         <entry key="app/src/main/res/layout/activity_animator_set.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/activity_app_bar.xml" value="0.23333333333333334" />
@@ -92,6 +96,7 @@
         <entry key="app/src/main/res/layout/item_paging_custom_cell.xml" value="0.335" />
         <entry key="app/src/main/res/layout/item_player_layout.xml" value="0.23333333333333334" />
         <entry key="app/src/main/res/layout/item_sensor_options_list.xml" value="0.17753623188405798" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.184" />
         <entry key="contentProviderApp/src/main/res/layout/activity_main.xml" value="0.1015625" />
       </map>
     </option>
