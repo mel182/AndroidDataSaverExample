@@ -26,55 +26,64 @@
                     android:id="@+id/custom_view_example"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Custom view" />
+                    android:text="Custom view"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/compound_view_control_example"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Compound control view" />
+                    android:text="Compound control view"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/resource_test"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Resource test" />
+                    android:text="Resource test"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/earth_quake"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Earth quack test" />
+                    android:text="Earth quack test"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/data_binding_test"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Data binding test" />
+                    android:text="Data binding test"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/data_binding_list_example"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Data binding list example" />
+                    android:text="Data binding list example"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/private_mode_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="storage private mode" />
+                    android:text="storage private mode"
+                    tools:ignore="HardcodedText"/>
 
                 <Switch
                     android:id="@+id/broadcast_toggle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Broadcast enabled" />
+                    android:text="Broadcast enabled"
+                    tools:ignore="HardcodedText,UseSwitchCompatOrMaterialXml" />
 
                 <Button
                     android:id="@+id/animation_test"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Animation test" />
+                    android:text="Animation test"
+                    tools:ignore="HardcodedText"/>
 
                 <com.example.datasaverexampleapp.customTextview.FontTextView
                     android:id="@+id/wifi_info_txt"
@@ -86,271 +95,324 @@
                     android:id="@+id/append_mode_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="storage append mode" />
+                    android:text="storage append mode"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/wifi_check"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Wifi check" />
+                    android:text="Wifi check"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/battery_state_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Battery state" />
+                    android:text="Battery state"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/scroll_view_test"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Scroll view test" />
+                    android:text="Scroll view test"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/intent_test"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Intent test" />
+                    android:text="Intent test"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/coroutine_example"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Coroutine example" />
+                    android:text="Coroutine example"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/flow_example"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Concurrency flow example" />
+                    android:text="Concurrency flow example"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/mvvm_coroutines_flow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="MVVM Coroutines Flow example" />
+                    android:text="MVVM Coroutines Flow example"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/storage_manager_example"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Storage manager example" />
+                    android:text="Storage manager example"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/room_database_example"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Room database example" />
+                    android:text="Room database example"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/protocol_oriented_example"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Protocol Oriented Example" />
+                    android:text="Protocol Oriented Example"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/firebase_real_time_database_example"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Firebase RealTime database example" />
+                    android:text="Firebase RealTime database example"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/content_provider_example"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Content provider example" />
+                    android:text="Content provider example"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/background_task_example"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Background task example" />
+                    android:text="Background task example"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/notification_example"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Notification example" />
+                    android:text="Notification example"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/app_bar_example"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Appbar example" />
+                    android:text="Appbar example"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/card_view_example"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Card View example" />
+                    android:text="Card View example"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/appcompat_example"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="AppCompat Example" />
+                    android:text="AppCompat Example"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/app_bar_menu_example"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="App bar menu Example" />
+                    android:text="App bar menu Example"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/searchview_example"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Search view Example" />
+                    android:text="Search view Example"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/toolbar_offscreen_example"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Toolbar offscreen Example" />
+                    android:text="Toolbar offscreen Example"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/collapse_toolbar_example"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Collapse toolbar Example" />
+                    android:text="Collapse toolbar Example"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/collapse_toolbar_with_image_example"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Collapse toolbar with image Example" />
+                    android:text="Collapse toolbar with image Example"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/app_bar_with_tabs"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="App bar with tabs" />
+                    android:text="App bar with tabs"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/app_bar_bottom_navigation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="App bar with bottom navigation" />
+                    android:text="App bar with bottom navigation"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/drawer_menu_example"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Drawer menu example" />
+                    android:text="Drawer menu example"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/dialog_example"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Dialog example" />
+                    android:text="Dialog example"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/snack_bar_example"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Snackbar example" />
+                    android:text="Snackbar example"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/text_to_speech_example"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Text to speech example" />
+                    android:text="Text to speech example"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/speech_recognition_example"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Speech recognition example" />
+                    android:text="Speech recognition example"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/vibration_example"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Vibration example" />
+                    android:text="Vibration example"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/full_screen_example"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Full screen example" />
+                    android:text="Full screen example"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/property_animation_example"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Property Animation example" />
+                    android:text="Property Animation example"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/animator_set_example"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Animator set example example" />
+                    android:text="Animator set example example"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/draw_examples"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Draw examples" />
+                    android:text="Draw examples"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/copy_paste_examples"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Copy and paste examples" />
+                    android:text="Copy and paste examples"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/onclick_delegation_examples"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="OnClick delegation example" />
+                    android:text="OnClick delegation example"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/location_examples"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Location examples" />
+                    android:text="Location examples"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/google_maps_examples"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Google maps examples" />
+                    android:text="Google maps examples"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/hardware_sensor_examples"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Hardware sensor example" />
+                    android:text="Hardware sensor example"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/video_audio_streaming_examples"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Video/audio example" />
+                    android:text="Video/audio example"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/camera_examples"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Camera example" />
+                    android:text="Camera example"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/bluetooth_examples"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Bluetooth example" />
+                    android:text="Bluetooth example"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/wifi_p2p_examples"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Wifi peer 2 peer example" />
+                    android:text="Wifi peer 2 peer example"
+                    tools:ignore="HardcodedText"/>
 
                 <Button
                     android:id="@+id/paging_3_example"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Paging 3 library example" />
+                    android:text="Paging 3 library example"
+                    tools:ignore="HardcodedText"/>
+
+
+                <Button
+                    android:id="@+id/shimmer_animation_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Shimmer animation example"
+                    tools:ignore="HardcodedText" />
 
             </LinearLayout>
         </ScrollView>

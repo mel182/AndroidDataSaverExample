@@ -63,6 +63,7 @@ import com.example.datasaverexampleapp.paging.PagingExampleActivity
 import com.example.datasaverexampleapp.protocol_oriented_programming_kotlin.ProtocolOrientedActivity
 import com.example.datasaverexampleapp.resourceTest.ResourceActivity
 import com.example.datasaverexampleapp.room_db.RoomDBActivity
+import com.example.datasaverexampleapp.shimmer_animation.ShimmerAnimationActivity
 import com.example.datasaverexampleapp.snackbar.SnackBarActivity
 import com.example.datasaverexampleapp.speech_recognition_example.SpeechRecognitionActivity
 import com.example.datasaverexampleapp.storage_manager.StorageManagerExampleActivity
@@ -509,6 +510,11 @@ class MainActivity : AppCompatActivity() {
 
             paging3Example.setOnClickListener {
                 val intent = Intent(this@MainActivity, PagingExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+            shimmerAnimationExample.setOnClickListener {
+                val intent = Intent(this@MainActivity, ShimmerAnimationActivity::class.java)
                 startActivity(intent)
             }
 
