@@ -61,6 +61,7 @@ import com.example.datasaverexampleapp.mvvm_coroutine_flow_livedata.MvvMCoroutin
 import com.example.datasaverexampleapp.notification.NotificationActivity
 import com.example.datasaverexampleapp.paging.PagingExampleActivity
 import com.example.datasaverexampleapp.protocol_oriented_programming_kotlin.ProtocolOrientedActivity
+import com.example.datasaverexampleapp.recycler_view_item_animation.RecyclerViewItemAnimationActivity
 import com.example.datasaverexampleapp.resourceTest.ResourceActivity
 import com.example.datasaverexampleapp.room_db.RoomDBActivity
 import com.example.datasaverexampleapp.shimmer_animation.ShimmerAnimationActivity
@@ -515,6 +516,11 @@ class MainActivity : AppCompatActivity() {
 
             shimmerAnimationExample.setOnClickListener {
                 val intent = Intent(this@MainActivity, ShimmerAnimationActivity::class.java)
+                startActivity(intent)
+            }
+
+            recyclerViewItemAnimationExample.setOnClickListener {
+                val intent = Intent(this@MainActivity, RecyclerViewItemAnimationActivity::class.java)
                 startActivity(intent)
             }
 

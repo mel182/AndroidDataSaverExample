@@ -60,6 +60,7 @@
         <entry key="app/src/main/res/layout/activity_paging_example.xml" value="0.159375" />
         <entry key="app/src/main/res/layout/activity_picture_camera.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/activity_property_animation.xml" value="0.17753623188405798" />
+        <entry key="app/src/main/res/layout/activity_recycler_view_item_animation.xml" value="0.2056159420289855" />
         <entry key="app/src/main/res/layout/activity_resource.xml" value="0.23333333333333334" />
         <entry key="app/src/main/res/layout/activity_room_d_b.xml" value="0.23333333333333334" />
         <entry key="app/src/main/res/layout/activity_scroll_view.xml" value="0.23333333333333334" />
@@ -92,6 +93,7 @@
         <entry key="app/src/main/res/layout/item_dialog_fragment_device_result_view.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/item_drawer_layout.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/item_paging_custom_cell.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/item_paging_custom_cell2.xml" value="0.335" />
         <entry key="app/src/main/res/layout/item_player_layout.xml" value="0.23333333333333334" />
         <entry key="app/src/main/res/layout/item_sensor_options_list.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/item_shimmer_layout.xml" value="0.165" />
