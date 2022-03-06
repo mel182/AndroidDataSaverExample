@@ -61,6 +61,7 @@ import com.example.datasaverexampleapp.location.maps.GoogleMapsActivity
 import com.example.datasaverexampleapp.mvvm_coroutine_flow_livedata.MvvMCoroutinesActivity
 import com.example.datasaverexampleapp.notification.NotificationActivity
 import com.example.datasaverexampleapp.paging.PagingExampleActivity
+import com.example.datasaverexampleapp.preference_datastore.PreferenceDataStoreActivity
 import com.example.datasaverexampleapp.protocol_oriented_programming_kotlin.ProtocolOrientedActivity
 import com.example.datasaverexampleapp.recycler_view_item_animation.RecyclerViewItemAnimationActivity
 import com.example.datasaverexampleapp.resourceTest.ResourceActivity
@@ -523,6 +524,11 @@ class MainActivity : AppCompatActivity() {
 
             recyclerViewItemAnimationExample.setOnClickListener {
                 val intent = Intent(this@MainActivity, RecyclerViewItemAnimationActivity::class.java)
+                startActivity(intent)
+            }
+
+            preferenceDatastoreExample.setOnClickListener {
+                val intent = Intent(this@MainActivity, PreferenceDataStoreActivity::class.java)
                 startActivity(intent)
             }
 

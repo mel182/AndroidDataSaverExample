@@ -421,6 +421,13 @@
                     android:text="Recycler view item animation example"
                     tools:ignore="HardcodedText" />
 
+                <Button
+                    android:id="@+id/preference_datastore_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Preference data store example"
+                    tools:ignore="HardcodedText" />
+
             </LinearLayout>
         </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
