@@ -7,6 +7,7 @@ import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.datasaverexampleapp.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -23,6 +24,14 @@ class PagingExampleActivity : AppCompatActivity() {
         setContentView(R.layout.activity_paging_example)
         title = "Paging Example"
         pagingViewModel = ViewModelProvider(this).get(PagingViewModel::class.java)
+
+        findViewById<SwipeRefreshLayout>(R.id.refresh_layout)?.apply {
+
+            setOnRefreshListener {
+                listAdapter.refresh()
+                isRefreshing = false
+            }
+        }
 
         findViewById<RecyclerView>(R.id.paging_recycler_list)?.apply {
             layoutManager = LinearLayoutManager(this@PagingExampleActivity)
@@ -52,7 +61,9 @@ class PagingExampleActivity : AppCompatActivity() {
         }
 
         CoroutineScope(Dispatchers.Main).launch {
+            Log.i("TAG65","loading paging data to list....")
             pagingViewModel.pagingItemsList.collectLatest {
+                Log.i("TAG65","Paging data received!")
                 listAdapter.submitData(it)
             }
         }

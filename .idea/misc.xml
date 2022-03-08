@@ -5,7 +5,8 @@
       <map>
         <entry key="../DataSaverExample/app/src/main/res/drawable/avd_anim.xml" value="0.1" />
         <entry key="../DataSaverExample/app/src/main/res/layout/activity_data_binding_test.xml" value="0.1" />
-        <entry key="app/src/main/res/drawable/ic_add.xml" value="0.156" />
+        <entry key="../DataSaverExample/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="../DataSaverExample/app/src/main/res/layout/activity_paging_example.xml" value="0.1125" />
         <entry key="app/src/main/res/layout/activity_animation_example.xml" value="0.23333333333333334" />
         <entry key="app/src/main/res/layout/activity_animator_set.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/activity_app_bar.xml" value="0.23333333333333334" />
@@ -52,20 +53,18 @@
         <entry key="app/src/main/res/layout/activity_implicit_delegation.xml" value="0.23333333333333334" />
         <entry key="app/src/main/res/layout/activity_intent.xml" value="0.23333333333333334" />
         <entry key="app/src/main/res/layout/activity_location_example.xml" value="0.23333333333333334" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/activity_media_player_video_playback.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/activity_media_router_and_casting.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/activity_media_session.xml" value="0.17753623188405798" />
-        <entry key="app/src/main/res/layout/activity_mvv_m_coroutines.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_mvv_m_coroutines.xml" value="0.23333333333333334" />
         <entry key="app/src/main/res/layout/activity_notification.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/activity_paging_example.xml" value="0.159375" />
         <entry key="app/src/main/res/layout/activity_picture_camera.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/activity_property_animation.xml" value="0.17753623188405798" />
-        <entry key="app/src/main/res/layout/activity_recycler_view_item_animation.xml" value="0.2056159420289855" />
         <entry key="app/src/main/res/layout/activity_resource.xml" value="0.23333333333333334" />
         <entry key="app/src/main/res/layout/activity_room_d_b.xml" value="0.23333333333333334" />
         <entry key="app/src/main/res/layout/activity_scroll_view.xml" value="0.23333333333333334" />
-        <entry key="app/src/main/res/layout/activity_shimmer_animation.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_snack_bar.xml" value="0.23333333333333334" />
         <entry key="app/src/main/res/layout/activity_speech_recognition.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/activity_storage_manager_example.xml" value="0.23333333333333334" />
@@ -94,10 +93,8 @@
         <entry key="app/src/main/res/layout/item_dialog_fragment_device_result_view.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/item_drawer_layout.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/item_paging_custom_cell.xml" value="0.335" />
-        <entry key="app/src/main/res/layout/item_paging_custom_cell2.xml" value="0.335" />
         <entry key="app/src/main/res/layout/item_player_layout.xml" value="0.23333333333333334" />
         <entry key="app/src/main/res/layout/item_sensor_options_list.xml" value="0.17753623188405798" />
-        <entry key="app/src/main/res/layout/item_shimmer_layout.xml" value="0.165" />
         <entry key="contentProviderApp/src/main/res/layout/activity_main.xml" value="0.1015625" />
       </map>
     </option>
