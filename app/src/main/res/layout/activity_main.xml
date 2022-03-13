@@ -428,6 +428,13 @@
                     android:text="Preference data store example"
                     tools:ignore="HardcodedText" />
 
+                <Button
+                    android:id="@+id/motion_layout_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Motion layout example"
+                    tools:ignore="HardcodedText" />
+
             </LinearLayout>
         </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
