@@ -128,4 +128,7 @@ dependencies {
     // splash screen dependency
     implementation("androidx.core:core-splashscreen:1.0.0-beta01")
 
+    // Motion layout dependency
+    implementation("androidx.constraintlayout:constraintlayout:2.1.3")
+
 }

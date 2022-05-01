@@ -56,8 +56,10 @@ import com.example.datasaverexampleapp.implicit_delegation_example.ImplicitDeleg
 import com.example.datasaverexampleapp.inDefInterfaces.Constants
 import com.example.datasaverexampleapp.inDefInterfaces.Shape
 import com.example.datasaverexampleapp.intent_example.IntentActivity
+import com.example.datasaverexampleapp.kotlin_flow_advance.KotlinFlowAdvanceExampleActivity
 import com.example.datasaverexampleapp.location.LocationMapActivity
 import com.example.datasaverexampleapp.location.maps.GoogleMapsActivity
+import com.example.datasaverexampleapp.motion_layout.MotionLayoutExampleActivity
 import com.example.datasaverexampleapp.mvvm_coroutine_flow_livedata.MvvMCoroutinesActivity
 import com.example.datasaverexampleapp.notification.NotificationActivity
 import com.example.datasaverexampleapp.paging.PagingExampleActivity
@@ -529,6 +531,16 @@ class MainActivity : AppCompatActivity() {
 
             preferenceDatastoreExample.setOnClickListener {
                 val intent = Intent(this@MainActivity, PreferenceDataStoreActivity::class.java)
+                startActivity(intent)
+            }
+
+            kotlinFlowAdvanceExample.setOnClickListener {
+                val intent = Intent(this@MainActivity, KotlinFlowAdvanceExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+            motionLayoutExample.setOnClickListener {
+                val intent = Intent(this@MainActivity, MotionLayoutExampleActivity::class.java)
                 startActivity(intent)
             }
 

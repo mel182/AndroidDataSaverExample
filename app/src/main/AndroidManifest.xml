@@ -47,24 +47,46 @@
         android:theme="@style/Theme.AppSplash"
         tools:ignore="AllowBackup">
         <activity
+            android:name=".motion_layout.MotionLayoutExampleActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".kotlin_flow_advance.KotlinFlowAdvanceExampleActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".preference_datastore.PreferenceDataStoreActivity"
-            android:theme="@style/AppTheme"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".recycler_view_item_animation.RecyclerViewItemAnimationActivity"
-            android:theme="@style/AppTheme"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".shimmer_animation.ShimmerAnimationActivity"
-            android:theme="@style/AppTheme"
-            android:exported="false" />
-        <activity android:name=".paging.PagingExampleActivity" android:theme="@style/AppTheme" />
-        <activity android:name=".wifi_p2p.server.Wifi_P2P_ServerExampleActivity"  android:theme="@style/AppTheme"/>
-        <activity android:name=".wifi_p2p.Wifi_P2P_ExampleActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".bluetooth.server.BluetoothServerExampleActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".bluetooth.discovery.BluetoothDiscoveryExampleActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".bluetooth.BluetoothExampleActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".camera.video_recording.VideoRecordingWithMediaPlayerExampleActivity" android:theme="@style/AppTheme"/>
+            android:exported="false"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".paging.PagingExampleActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".wifi_p2p.server.Wifi_P2P_ServerExampleActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".wifi_p2p.Wifi_P2P_ExampleActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".bluetooth.server.BluetoothServerExampleActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".bluetooth.discovery.BluetoothDiscoveryExampleActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".bluetooth.BluetoothExampleActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".camera.video_recording.VideoRecordingWithMediaPlayerExampleActivity"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".camera.video_recording.VideoRecordingExampleActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -77,43 +99,117 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             tools:ignore="LockedOrientationActivity" />
-        <activity android:name=".camera.controlling_the_camera.CameraViewActivity" android:theme="@style/AppTheme" />
-        <activity android:name=".camera.controlling_the_camera.ControllingCameraExampleActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".camera.image_capture_intent.ImageCaptureIntentExampleActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".camera.CameraExamplesActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".video_audio.audio_recording.AudioRecordingActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".video_audio.foreground_service.ForegroundServiceExampleActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".video_audio.background_audio.BackgroundAudioExampleActivity" android:theme="@style/AppTheme" />
-        <activity android:name=".video_audio.media_router_and_casting.MediaRouterAndCastingActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".video_audio.media_session.MediaSessionActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".video_audio.audio_playback_focus.AudioPlaybackFocusExampleActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".video_audio.exoplayer.ExoPlayerActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".video_audio.mediaplayer_video.MediaPlayerVideoPlaybackActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".video_audio.VideoAudioStreamingActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".hardware_sensor.book_example.user_activity_recognition.UserRecognitionActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".hardware_sensor.book_example.CompassFinalWithSensorActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".hardware_sensor.book_example.DeviceOrientationActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".hardware_sensor.book_example.ForceMeterActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".hardware_sensor.general.HardwareSensorActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".location.maps.GoogleMapsActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".location.geocoder.GeoCoderExampleActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".implicit_delegation_example.ImplicitDelegationActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".location.LocationMapActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".copy_paste_example.CopyPasteExampleActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".drawing.CompositeDrawableActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".drawing.CompassExampleFinalActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".drawing.DrawExampleActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".animation.floating_action_menu.FloatingActionMenuAnimationActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".animation.animator_set.AnimatorSetActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".animation.property.PropertyAnimationActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".fullscreen_example.FullScreenExampleActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".vibration.VibrationExampleActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".speech_recognition_example.SpeechRecognitionActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".text_to_speech_example.TextToSpeechActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".snackbar.SnackBarActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".dialog.DialogExampleActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".appbar.drawer_menu.DrawerMenuActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".appbar.app_bar_bottom_navigation.AppBarBottomNavigationActivity" android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".camera.controlling_the_camera.CameraViewActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".camera.controlling_the_camera.ControllingCameraExampleActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".camera.image_capture_intent.ImageCaptureIntentExampleActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".camera.CameraExamplesActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".video_audio.audio_recording.AudioRecordingActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".video_audio.foreground_service.ForegroundServiceExampleActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".video_audio.background_audio.BackgroundAudioExampleActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".video_audio.media_router_and_casting.MediaRouterAndCastingActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".video_audio.media_session.MediaSessionActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".video_audio.audio_playback_focus.AudioPlaybackFocusExampleActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".video_audio.exoplayer.ExoPlayerActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".video_audio.mediaplayer_video.MediaPlayerVideoPlaybackActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".video_audio.VideoAudioStreamingActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".hardware_sensor.book_example.user_activity_recognition.UserRecognitionActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".hardware_sensor.book_example.CompassFinalWithSensorActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".hardware_sensor.book_example.DeviceOrientationActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".hardware_sensor.book_example.ForceMeterActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".hardware_sensor.general.HardwareSensorActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".location.maps.GoogleMapsActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".location.geocoder.GeoCoderExampleActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".implicit_delegation_example.ImplicitDelegationActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".location.LocationMapActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".copy_paste_example.CopyPasteExampleActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".drawing.CompositeDrawableActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".drawing.CompassExampleFinalActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".drawing.DrawExampleActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".animation.floating_action_menu.FloatingActionMenuAnimationActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".animation.animator_set.AnimatorSetActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".animation.property.PropertyAnimationActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".fullscreen_example.FullScreenExampleActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".vibration.VibrationExampleActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".speech_recognition_example.SpeechRecognitionActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".text_to_speech_example.TextToSpeechActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".snackbar.SnackBarActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".dialog.DialogExampleActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".appbar.drawer_menu.DrawerMenuActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".appbar.app_bar_bottom_navigation.AppBarBottomNavigationActivity"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".appbar.tabs.AppBarTabsActivity"
             android:theme="@style/AppTheme.Custom.NoActionBar" />
@@ -126,30 +222,46 @@
         <activity
             android:name=".appbar.scrolling_techniques.AppBarToolbarOffscreenActivity"
             android:theme="@style/AppTheme.Custom.NoActionBar" />
-        <activity android:name=".appbar.searchview.SearchViewActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".appbar.menu.AppBarMenuExampleActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".cardview.CardViewActivity" android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".appbar.searchview.SearchViewActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".appbar.menu.AppBarMenuExampleActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".cardview.CardViewActivity"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".appbar.AppBarActivity2"
             android:parentActivityName=".appbar.AppBarActivity1"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".appbar.AppBarActivity1"
             android:parentActivityName=".appbar.AppBarActivity"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".appbar.AppBarActivity"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme"/>
-        <activity android:name=".animation.activity_transition.ActivityTransition2" android:theme="@style/AppTheme"/>
-        <activity android:name=".animation.activity_transition.ActivityTransition1" android:theme="@style/AppTheme"/>
-        <activity android:name=".notification.NotificationActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".concurrency.CoroutineExampleActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".work_manager.WorkManagerActivity" android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".animation.activity_transition.ActivityTransition2"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".animation.activity_transition.ActivityTransition1"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".notification.NotificationActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".concurrency.CoroutineExampleActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".work_manager.WorkManagerActivity"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".content_provider.ContentProviderActivity"
-            android:theme="@style/AppTheme"
-            android:exported="false">
+            android:exported="false"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.PICK" />
 
@@ -158,16 +270,28 @@
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
-        <activity android:name=".firebase_real_time.FireBaseRealTimeActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".room_db.RoomDBActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".protocol_oriented_programming_kotlin.ProtocolOrientedActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".storage_manager.StorageManagerExampleActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".mvvm_coroutine_flow_livedata.MvvMCoroutinesActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".concurrency.FlowExampleActivity" android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".firebase_real_time.FireBaseRealTimeActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".room_db.RoomDBActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".protocol_oriented_programming_kotlin.ProtocolOrientedActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".storage_manager.StorageManagerExampleActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".mvvm_coroutine_flow_livedata.MvvMCoroutinesActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".concurrency.FlowExampleActivity"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".intent_example.starSignPicker.ActivityForResultActivity"
-            android:theme="@style/AppTheme"
-            android:exported="false">
+            android:exported="false"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.PICK" />
 
@@ -176,19 +300,37 @@
                 <data android:scheme="starsigns" />
             </intent-filter>
         </activity>
-        <activity android:name=".intent_example.IntentActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".custom_view.CustomViewExampleActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".custom_view.CustomViewActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".data_binding.earthQuakeExample.EarthQuakeDataBindingExampleActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".data_binding.DataBindingTestActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".animation.AnimationExampleActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".resourceTest.ResourceActivity" android:theme="@style/AppTheme"/>
-        <activity android:name=".ScrollViewActivity" android:theme="@style/AppTheme" />
-        <activity android:name=".earth_quake_example.EarthQuakeActivity" android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".intent_example.IntentActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".custom_view.CustomViewExampleActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".custom_view.CustomViewActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".data_binding.earthQuakeExample.EarthQuakeDataBindingExampleActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".data_binding.DataBindingTestActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".animation.AnimationExampleActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".resourceTest.ResourceActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ScrollViewActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".earth_quake_example.EarthQuakeActivity"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".MainActivity"
-            android:theme="@style/AppTheme"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
