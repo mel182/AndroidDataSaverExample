@@ -47,13 +47,17 @@
         android:theme="@style/Theme.AppSplash"
         tools:ignore="AllowBackup">
         <activity
-            android:name=".async_recycler_view.AsyncRecyclerViewExampleActivity"
+            android:name=".motion_layout.MotionLayoutExampleActivity"
             android:exported="false"
             android:theme="@style/AppTheme"/>
         <activity
-            android:name=".motion_layout.MotionLayoutActivity"
+            android:name=".kotlin_flow_advance.KotlinFlowAdvanceExampleActivity"
             android:exported="false"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".async_recycler_view.AsyncRecyclerViewExampleActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".preference_datastore.PreferenceDataStoreActivity"
             android:exported="false"

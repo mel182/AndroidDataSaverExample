@@ -3,7 +3,18 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../DataSaverExample/app/src/main/res/drawable/avd_anim.xml" value="0.1" />
         <entry key="../DataSaverExample/app/src/main/res/layout/activity_data_binding_test.xml" value="0.1" />
+        <entry key="../DataSaverExample/app/src/main/res/layout/activity_kotlin_flow_advance_example.xml" value="0.15512465373961218" />
+        <entry key="../DataSaverExample/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="../DataSaverExample/app/src/main/res/layout/activity_motion_layout_example.xml" value="0.1" />
+        <entry key="../DataSaverExample/app/src/main/res/layout/activity_paging_example.xml" value="0.1125" />
+        <entry key="../DataSaverExample/app/src/main/res/layout/item_camera_list_item.xml" value="0.11955420466058764" />
+        <entry key="../DataSaverExample/app/src/main/res/layout/item_custom_cell.xml" value="0.11955420466058764" />
+        <entry key="../DataSaverExample/app/src/main/res/layout/item_database_list_custom_cell.xml" value="0.1" />
+        <entry key="../DataSaverExample/app/src/main/res/layout/item_dialog_fragment_custom_view.xml" value="0.11955420466058764" />
+        <entry key="../DataSaverExample/app/src/main/res/layout/item_paging_custom_cell.xml" value="0.335" />
+        <entry key="../DataSaverExample/app/src/main/res/layout/item_paging_custom_cell2.xml" value="0.11955420466058764" />
         <entry key="app/src/main/res/drawable/ic_add.xml" value="0.156" />
         <entry key="app/src/main/res/layout/activity_animation_example.xml" value="0.23333333333333334" />
         <entry key="app/src/main/res/layout/activity_animator_set.xml" value="0.17753623188405798" />
@@ -15,6 +26,7 @@
         <entry key="app/src/main/res/layout/activity_app_bar_collapsing_toolbar_with_image_example.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/activity_app_bar_menu_example.xml" value="0.23333333333333334" />
         <entry key="app/src/main/res/layout/activity_app_bar_tabs.xml" value="0.17753623188405798" />
+        <entry key="app/src/main/res/layout/activity_async_recycler_view_example.xml" value="0.39895833333333336" />
         <entry key="app/src/main/res/layout/activity_audio_playback_example.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/activity_audio_recording.xml" value="0.23333333333333334" />
         <entry key="app/src/main/res/layout/activity_background_audio_example.xml" value="0.23333333333333334" />
@@ -90,6 +102,7 @@
         <entry key="app/src/main/res/layout/fragment_media_player.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/fragment_picture_camera.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/fragment_sensor_reading.xml" value="0.17753623188405798" />
+        <entry key="app/src/main/res/layout/holder_async_recyclerview_loading_custom_cell.xml" value="0.5791666666666667" />
         <entry key="app/src/main/res/layout/item_bottom_sheet_layout.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/item_dialog_fragment_custom_view.xml" value="0.17753623188405798" />
         <entry key="app/src/main/res/layout/item_dialog_fragment_device_result_view.xml" value="0.17753623188405798" />
@@ -103,6 +116,7 @@
       </map>
     </option>
   </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
