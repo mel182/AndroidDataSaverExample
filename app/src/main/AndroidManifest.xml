@@ -47,9 +47,13 @@
         android:theme="@style/Theme.AppSplash"
         tools:ignore="AllowBackup">
         <activity
-            android:name=".motion_layout.MotionLayoutActivity"
+            android:name=".async_recycler_view.AsyncRecyclerViewExampleActivity"
             android:exported="false"
             android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".motion_layout.MotionLayoutActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".preference_datastore.PreferenceDataStoreActivity"
             android:exported="false"

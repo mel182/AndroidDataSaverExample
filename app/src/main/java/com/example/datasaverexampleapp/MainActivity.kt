@@ -32,6 +32,7 @@ import com.example.datasaverexampleapp.appbar.scrolling_techniques.AppBarCollaps
 import com.example.datasaverexampleapp.appbar.scrolling_techniques.AppBarToolbarOffscreenActivity
 import com.example.datasaverexampleapp.appbar.searchview.SearchViewActivity
 import com.example.datasaverexampleapp.appbar.tabs.AppBarTabsActivity
+import com.example.datasaverexampleapp.async_recycler_view.AsyncRecyclerViewExampleActivity
 import com.example.datasaverexampleapp.battery.Battery
 import com.example.datasaverexampleapp.battery.PowerConnectionReceiver
 import com.example.datasaverexampleapp.bluetooth.BluetoothExampleActivity
@@ -535,6 +536,11 @@ class MainActivity : AppCompatActivity() {
 
             motionLayoutExample.setOnClickListener {
                 val intent = Intent(this@MainActivity, MotionLayoutActivity::class.java)
+                startActivity(intent)
+            }
+
+            asyncRecyclerviewExample.setOnClickListener {
+                val intent = Intent(this@MainActivity, AsyncRecyclerViewExampleActivity::class.java)
                 startActivity(intent)
             }
 

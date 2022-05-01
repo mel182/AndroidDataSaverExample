@@ -435,6 +435,13 @@
                     android:text="Motion layout example"
                     tools:ignore="HardcodedText" />
 
+                <Button
+                    android:id="@+id/async_recyclerview_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Async recycler view example"
+                    tools:ignore="HardcodedText" />
+
             </LinearLayout>
         </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>

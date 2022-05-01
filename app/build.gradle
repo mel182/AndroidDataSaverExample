@@ -132,4 +132,7 @@ dependencies {
     // Preference datastore dependency
     implementation("androidx.datastore:datastore-preferences:1.0.0")
 
+    // Motion layout
+    implementation("androidx.constraintlayout:constraintlayout:2.1.3")
+
 }
