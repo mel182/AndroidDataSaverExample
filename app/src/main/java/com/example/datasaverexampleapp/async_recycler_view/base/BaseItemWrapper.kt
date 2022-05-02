@@ -10,7 +10,7 @@ open class BaseItemWrapper<Binding : ViewDataBinding>(@LayoutRes val layout:Int?
     open fun populate(binding: Binding?) {
         this.binding = binding
         binding?.apply {
-            setVariable(com.example.datasaverexampleapp.BR.wrapper,this)
+            setVariable(com.example.datasaverexampleapp.BR.wrapper,this@BaseItemWrapper)
             executePendingBindings()
         }
     }

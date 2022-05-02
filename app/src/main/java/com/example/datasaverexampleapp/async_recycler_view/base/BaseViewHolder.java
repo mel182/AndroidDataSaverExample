@@ -5,14 +5,14 @@ import android.view.View;
 import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.datasaverexampleapp.async_recycler_view.interfaces.OnRecyclerClickListener2;
+import com.example.datasaverexampleapp.async_recycler_view.interfaces.OnRecyclerClickListener;
 
-public class BaseViewHolder2<Binding extends ViewDataBinding> extends RecyclerView.ViewHolder
+public class BaseViewHolder<Binding extends ViewDataBinding> extends RecyclerView.ViewHolder
 {
     Binding binding;
-    private OnRecyclerClickListener2 onRecyclerClickListener;
+    private OnRecyclerClickListener onRecyclerClickListener;
 
-    public BaseViewHolder2(Binding binding)
+    public BaseViewHolder(Binding binding)
     {
         super(binding.getRoot());
         this.binding = binding;
@@ -23,7 +23,7 @@ public class BaseViewHolder2<Binding extends ViewDataBinding> extends RecyclerVi
         return binding;
     }
 
-    public void setOnRecyclerViewClickListener(OnRecyclerClickListener2 listener)
+    public void setOnRecyclerViewClickListener(OnRecyclerClickListener listener)
     {
         this.onRecyclerClickListener = listener;
     }

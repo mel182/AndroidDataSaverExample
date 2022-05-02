@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_margin="5dp"
         android:background="@android:color/background_light">
 
         <TextView
@@ -29,7 +30,7 @@
             android:id="@+id/age"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{wrapper.data.age}"
+            android:text="@{String.valueOf(wrapper.data.age)}"
             android:layout_margin="5dp"
             tools:text="Age"/>
 

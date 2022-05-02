@@ -3,13 +3,11 @@ package com.example.datasaverexampleapp.async_recycler_view
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import com.example.datasaverexampleapp.R
 import com.example.datasaverexampleapp.async_recycler_view.base.BaseDataBindingActivity
 import com.example.datasaverexampleapp.async_recycler_view.base.BaseViewHolder
 import com.example.datasaverexampleapp.async_recycler_view.custom_cell.AsyncRecyclerViewCustomCell
 import com.example.datasaverexampleapp.async_recycler_view.interfaces.OnRecyclerClickListener
 import com.example.datasaverexampleapp.async_recycler_view.model.RecyclerViewAsyncListItem
-import com.example.datasaverexampleapp.base_classes.BaseActivity
 import com.example.datasaverexampleapp.databinding.ActivityAsyncRecyclerViewExampleBinding
 import com.example.datasaverexampleapp.type_alias.Layout
 
@@ -20,7 +18,8 @@ import com.example.datasaverexampleapp.type_alias.Layout
  * This example shows how to improve the loading performance and make the rendering faster.
  * Furthermore, we are going to implement a best practice to show how to use data binding efficiently.
  */
-class AsyncRecyclerViewExampleActivity : BaseDataBindingActivity<ActivityAsyncRecyclerViewExampleBinding>(Layout.activity_async_recycler_view_example), OnRecyclerClickListener
+class AsyncRecyclerViewExampleActivity : BaseDataBindingActivity<ActivityAsyncRecyclerViewExampleBinding>(Layout.activity_async_recycler_view_example),
+    OnRecyclerClickListener
 {
     private var listAdapter: AsyncRecyclerViewListAdapter? = null
 
@@ -33,11 +32,19 @@ class AsyncRecyclerViewExampleActivity : BaseDataBindingActivity<ActivityAsyncRe
             AsyncRecyclerViewCustomCell(RecyclerViewAsyncListItem(name = "John3", age = 23)),
             AsyncRecyclerViewCustomCell(RecyclerViewAsyncListItem(name = "John4", age = 24)),
             AsyncRecyclerViewCustomCell(RecyclerViewAsyncListItem(name = "John5", age = 25)),
-            AsyncRecyclerViewCustomCell(RecyclerViewAsyncListItem(name = "John6", age = 26))
+            AsyncRecyclerViewCustomCell(RecyclerViewAsyncListItem(name = "John6", age = 26)),
+            AsyncRecyclerViewCustomCell(RecyclerViewAsyncListItem(name = "John7", age = 27)),
+            AsyncRecyclerViewCustomCell(RecyclerViewAsyncListItem(name = "John8", age = 28)),
+            AsyncRecyclerViewCustomCell(RecyclerViewAsyncListItem(name = "John9", age = 29)),
+            AsyncRecyclerViewCustomCell(RecyclerViewAsyncListItem(name = "John10", age = 30)),
+            AsyncRecyclerViewCustomCell(RecyclerViewAsyncListItem(name = "John11", age = 31)),
+            AsyncRecyclerViewCustomCell(RecyclerViewAsyncListItem(name = "John12", age = 32)),
+            AsyncRecyclerViewCustomCell(RecyclerViewAsyncListItem(name = "John13", age = 33)),
+            AsyncRecyclerViewCustomCell(RecyclerViewAsyncListItem(name = "John14", age = 34))
         )
 
         this.view?.apply {
-            listAdapter = AsyncRecyclerViewListAdapter(itemList, this@AsyncRecyclerViewExampleActivity).apply {
+            listAdapter = AsyncRecyclerViewListAdapter(this@AsyncRecyclerViewExampleActivity,itemList, this@AsyncRecyclerViewExampleActivity).apply {
                 itemList.adapter = this
                 itemList.layoutManager = CustomLinearLayoutManager(this@AsyncRecyclerViewExampleActivity)
                 setData(dummyData)
@@ -45,7 +52,13 @@ class AsyncRecyclerViewExampleActivity : BaseDataBindingActivity<ActivityAsyncRe
         }
     }
 
-    override fun onItemClicked(position: Int, viewholder: BaseViewHolder<*>, view: View?, item: Any?, extras: Any?) {
+    override fun onItemClicked(
+        position: Int,
+        viewholder: BaseViewHolder<*>,
+        view: View?,
+        item: Any?,
+        extras: Any?
+    ) {
         Log.i("TAG12","on item clicked!")
     }
 }

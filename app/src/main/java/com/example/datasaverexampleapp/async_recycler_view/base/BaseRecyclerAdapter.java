@@ -9,22 +9,21 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.datasaverexampleapp.async_recycler_view.CustomLinearLayoutManager;
 import com.example.datasaverexampleapp.async_recycler_view.interfaces.OnRecyclerClickListener;
-import com.example.datasaverexampleapp.async_recycler_view.interfaces.OnRecyclerClickListener2;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BaseRecyclerAdapter2 extends RecyclerView.Adapter<BaseViewHolder2>
+@SuppressWarnings("rawtypes")
+public class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseViewHolder>
 {
     private Context context;
     private LayoutInflater layoutInflater;
     private RecyclerView recyclerView;
-    private OnRecyclerClickListener2 onRecyclerClickListener;
+    private OnRecyclerClickListener onRecyclerClickListener;
     private ArrayList<BaseItemWrapper> data = new ArrayList<>();
 
-    public BaseRecyclerAdapter2(Context context, RecyclerView recyclerView, OnRecyclerClickListener2 listener)
+    public BaseRecyclerAdapter(Context context, RecyclerView recyclerView, OnRecyclerClickListener listener)
     {
         this.context = context;
         this.layoutInflater = LayoutInflater.from(context);
@@ -78,12 +77,12 @@ public class BaseRecyclerAdapter2 extends RecyclerView.Adapter<BaseViewHolder2>
 
     @NonNull
     @Override
-    public BaseViewHolder2 onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new BaseViewHolder2<>(DataBindingUtil.inflate(layoutInflater, viewType, parent, false));
+    public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new BaseViewHolder<>(DataBindingUtil.inflate(layoutInflater, viewType, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BaseViewHolder2 holder, int position) {
+    public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
 
         BaseItemWrapper item = data.get(position);
 
