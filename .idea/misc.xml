@@ -5,6 +5,7 @@
       <map>
         <entry key="../DataSaverExample/app/src/main/res/drawable/avd_anim.xml" value="0.1" />
         <entry key="../DataSaverExample/app/src/main/res/layout/activity_data_binding_test.xml" value="0.1" />
+        <entry key="../DataSaverExample/app/src/main/res/layout/activity_exo_player.xml" value="0.1" />
         <entry key="../DataSaverExample/app/src/main/res/layout/activity_kotlin_flow_advance_example.xml" value="0.15512465373961218" />
         <entry key="../DataSaverExample/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="../DataSaverExample/app/src/main/res/layout/activity_motion_layout_example.xml" value="0.1" />

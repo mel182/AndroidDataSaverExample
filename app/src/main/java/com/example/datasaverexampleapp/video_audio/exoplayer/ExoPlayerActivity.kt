@@ -8,10 +8,13 @@ import androidx.databinding.DataBindingUtil
 import com.example.datasaverexampleapp.R
 import com.example.datasaverexampleapp.databinding.ActivityExoPlayerBinding
 import com.example.datasaverexampleapp.type_alias.Layout
+import com.google.android.exoplayer2.DefaultLoadControl
+import com.google.android.exoplayer2.DefaultRenderersFactory
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.upstream.RawResourceDataSource
 import com.google.android.exoplayer2.util.Util
@@ -54,34 +57,63 @@ class ExoPlayerActivity : AppCompatActivity()
         title = "Exoplayer Example (api 16+)"
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onResume() {
+        super.onResume()
+        initializePlayer()
 
-        // Create a new Exo Player
-        player = ExoPlayer.Builder(this).build()
+//        CoroutineScope(Dispatchers.Main).launch {
+//            delay(5000)
+//            // To pause video programmatically
+//            this@ExoPlayerActivity.player?.apply {
+//                playWhenReady = false
+//                pause()
+//            }
+//
+//            delay(5000)
+//            // To play video programmatically
+//            this@ExoPlayerActivity.player?.apply {
+//                playWhenReady = true
+//                play()
+//            }
+//        }
+    }
 
-        // associate the ExoPlayer with the player View
-        binding?.playerView?.player = player
+    private fun initializePlayer() {
 
-        //Build a DataSource.Factory capable of loading http and local content
-        val dataSourceFactory = DefaultDataSourceFactory(
-            this, Util.getUserAgent(
-                this,
-                getString(R.string.app_name)
-            )
-        )
+        if (player == null)
+        {
+            // Create a new Exo Player
+            player = ExoPlayer.Builder(this)
+                .setRenderersFactory(DefaultRenderersFactory(this))
+                .setTrackSelector(DefaultTrackSelector())
+                .setLoadControl(DefaultLoadControl())
+                .build()
 
-        // This is the MediaSource representing the media to be played.
-        val mediaItem = MediaItem.fromUri(RawResourceDataSource.buildRawResourceUri(R.raw.sample_video))
-        val rawDirectoryResource: MediaSource = ProgressiveMediaSource.Factory(dataSourceFactory)
-            .createMediaSource(mediaItem)
+            // associate the ExoPlayer with the player View
+            binding?.playerView?.player = player
 
-        // Start loading the media source
-        //player?.prepare(rawDirectoryResource)
-        player?.setMediaSource(rawDirectoryResource)
+            this.player?.apply {
+                playWhenReady = true
+                seekTo(0L)
 
-        // Start playback automatically when ready
-        player?.playWhenReady = true
+                //Build a DataSource.Factory capable of loading http and local content
+                val dataSourceFactory = DefaultDataSourceFactory(
+                    this@ExoPlayerActivity, Util.getUserAgent(
+                        this@ExoPlayerActivity,
+                        getString(R.string.app_name)
+                    )
+                )
+
+                // This is the MediaSource representing the media to be played.
+                val mediaItem = MediaItem.fromUri(RawResourceDataSource.buildRawResourceUri(R.raw.sample_video))
+                //val mediaItem = MediaItem.fromUri(Uri.parse("https://objectstore.true.nl/voetbalinternational:video/2022/carr_nistelrooij_ajax.mp4"))
+                val rawDirectoryResource: MediaSource = ProgressiveMediaSource.Factory(dataSourceFactory)
+                    .createMediaSource(mediaItem)
+
+                setMediaSource(rawDirectoryResource)
+                prepare()
+            }
+        }
     }
 
 
