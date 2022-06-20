@@ -112,7 +112,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:19.0.1'
 
     // ExoPlayer dependencies
-    def exo_player_version = "2.16.1"
+    def exo_player_version = "2.18.0"
     implementation "com.google.android.exoplayer:exoplayer-core:$exo_player_version"
     implementation "com.google.android.exoplayer:exoplayer-ui:$exo_player_version"
 

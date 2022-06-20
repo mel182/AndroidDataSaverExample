@@ -23,13 +23,12 @@ import com.example.datasaverexampleapp.R
 import com.example.datasaverexampleapp.type_alias.AppString
 import com.google.android.exoplayer2.DefaultRenderersFactory
 import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory
+import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.source.*
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.upstream.RawResourceDataSource
 import com.google.android.exoplayer2.util.Util
-import java.io.IOException
 
 /**
  * This is the Media playback service, a subclass of [MediaBrowserServiceCompat]
@@ -65,7 +64,7 @@ class ExoPlayerMediaPlaybackService : MediaBrowserServiceCompat(),
         super.onCreate()
 
         audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        renderersFactory = DefaultRenderersFactory(this@ExoPlayerMediaPlaybackService, DefaultRenderersFactory.EXTENSION_RENDERER_MODE_OFF)
+        renderersFactory = DefaultRenderersFactory(this@ExoPlayerMediaPlaybackService)
         trackSelector = DefaultTrackSelector()
 
         mediaSessionCompat = MediaSessionCompat(this, TAG)
@@ -170,7 +169,7 @@ class ExoPlayerMediaPlaybackService : MediaBrowserServiceCompat(),
                                             // This is the MediaSource representing the media to be played.
                                             this@ExoPlayerMediaPlaybackService.mediaSource = ProgressiveMediaSource
                                                 .Factory(dataSourceFactory)
-                                                .createMediaSource(RawResourceDataSource.buildRawResourceUri(mediaSource))
+                                                .createMediaSource(MediaItem.fromUri(RawResourceDataSource.buildRawResourceUri(mediaSource)))
 
                                             cb?.send(MEDIA_SOURCE_ADDED,null)
 
@@ -186,8 +185,7 @@ class ExoPlayerMediaPlaybackService : MediaBrowserServiceCompat(),
                                         val uri = Uri.parse(mediaSource)
                                         this@ExoPlayerMediaPlaybackService.mediaSource = ProgressiveMediaSource
                                             .Factory(DefaultDataSourceFactory(this@ExoPlayerMediaPlaybackService, userAgent))
-                                            .setExtractorsFactory(DefaultExtractorsFactory())
-                                            .createMediaSource(uri)
+                                            .createMediaSource(MediaItem.fromUri(uri))
 
                                         cb?.send(MEDIA_SOURCE_ADDED,null)
                                     }

@@ -42,7 +42,7 @@ import com.google.android.exoplayer2.util.Util
 /**
  * This is the foreground service example
  */
-class ForegroundService :  MediaBrowserServiceCompat(), AudioManager.OnAudioFocusChangeListener, Player.EventListener
+class ForegroundService :  MediaBrowserServiceCompat(), AudioManager.OnAudioFocusChangeListener, Player.Listener
 {
     private val TAG = javaClass.simpleName
     private var mediaSessionCompat: MediaSessionCompat? = null
@@ -66,10 +66,7 @@ class ForegroundService :  MediaBrowserServiceCompat(), AudioManager.OnAudioFocu
         super.onCreate()
 
         audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        renderersFactory = DefaultRenderersFactory(
-            this@ForegroundService,
-            DefaultRenderersFactory.EXTENSION_RENDERER_MODE_OFF
-        )
+        renderersFactory = DefaultRenderersFactory(this@ForegroundService)
         trackSelector = DefaultTrackSelector()
 
         mediaSessionCompat = MediaSessionCompat(this, TAG)
@@ -246,11 +243,7 @@ class ForegroundService :  MediaBrowserServiceCompat(), AudioManager.OnAudioFocu
                                                     this@ForegroundService.mediaSource =
                                                         ProgressiveMediaSource
                                                             .Factory(dataSourceFactory)
-                                                            .createMediaSource(
-                                                                RawResourceDataSource.buildRawResourceUri(
-                                                                    it
-                                                                )
-                                                            )
+                                                            .createMediaSource(MediaItem.fromUri(RawResourceDataSource.buildRawResourceUri(it)))
 
                                                     cb?.send(MEDIA_SOURCE_ADDED, null)
 
