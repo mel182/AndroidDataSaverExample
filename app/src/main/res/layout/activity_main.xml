@@ -449,6 +449,13 @@
                     android:text="Async recycler view example"
                     tools:ignore="HardcodedText" />
 
+                <Button
+                    android:id="@+id/jetpack_compose_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Jetpack compose example"
+                    tools:ignore="HardcodedText" />
+
             </LinearLayout>
         </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>

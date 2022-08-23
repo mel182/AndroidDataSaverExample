@@ -47,9 +47,17 @@
         android:theme="@style/Theme.AppSplash"
         tools:ignore="AllowBackup">
         <activity
+            android:name=".compose.simple_example.SimpleComposeActivity"
+            android:theme="@style/AppTheme"
+            android:exported="false" />
+        <activity
+            android:name=".compose.ComposeActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".motion_layout.MotionLayoutExampleActivity"
             android:exported="false"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".kotlin_flow_advance.KotlinFlowAdvanceExampleActivity"
             android:exported="false"
@@ -57,7 +65,7 @@
         <activity
             android:name=".async_recycler_view.AsyncRecyclerViewExampleActivity"
             android:exported="false"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".preference_datastore.PreferenceDataStoreActivity"
             android:exported="false"

@@ -38,6 +38,7 @@ import com.example.datasaverexampleapp.battery.PowerConnectionReceiver
 import com.example.datasaverexampleapp.bluetooth.BluetoothExampleActivity
 import com.example.datasaverexampleapp.camera.CameraExamplesActivity
 import com.example.datasaverexampleapp.cardview.CardViewActivity
+import com.example.datasaverexampleapp.compose.ComposeActivity
 import com.example.datasaverexampleapp.concurrency.CoroutineExampleActivity
 import com.example.datasaverexampleapp.concurrency.FlowExampleActivity
 import com.example.datasaverexampleapp.content_provider.ContentProviderActivity
@@ -547,6 +548,11 @@ class MainActivity : AppCompatActivity() {
 
             asyncRecyclerviewExample.setOnClickListener {
                 val intent = Intent(this@MainActivity, AsyncRecyclerViewExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+            jetpackComposeExample.setOnClickListener {
+                val intent = Intent(this@MainActivity, ComposeActivity::class.java)
                 startActivity(intent)
             }
 

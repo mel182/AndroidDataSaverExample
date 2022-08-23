@@ -4,12 +4,14 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../DataSaverExample/app/src/main/res/drawable/avd_anim.xml" value="0.1" />
+        <entry key="../DataSaverExample/app/src/main/res/layout/activity_compose.xml" value="0.1" />
         <entry key="../DataSaverExample/app/src/main/res/layout/activity_data_binding_test.xml" value="0.1" />
         <entry key="../DataSaverExample/app/src/main/res/layout/activity_exo_player.xml" value="0.1" />
         <entry key="../DataSaverExample/app/src/main/res/layout/activity_kotlin_flow_advance_example.xml" value="0.15512465373961218" />
         <entry key="../DataSaverExample/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="../DataSaverExample/app/src/main/res/layout/activity_motion_layout_example.xml" value="0.1" />
         <entry key="../DataSaverExample/app/src/main/res/layout/activity_paging_example.xml" value="0.1125" />
+        <entry key="../DataSaverExample/app/src/main/res/layout/activity_simple_compose.xml" value="0.10326086956521739" />
         <entry key="../DataSaverExample/app/src/main/res/layout/item_camera_list_item.xml" value="0.11955420466058764" />
         <entry key="../DataSaverExample/app/src/main/res/layout/item_custom_cell.xml" value="0.11955420466058764" />
         <entry key="../DataSaverExample/app/src/main/res/layout/item_database_list_custom_cell.xml" value="0.1" />
