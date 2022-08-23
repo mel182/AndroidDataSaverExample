@@ -140,7 +140,7 @@ dependencies {
     // Motion layout dependency
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
-    // Compose dependencies
+    // -------  Compose dependencies --------
 
     // Integration with activities
     implementation 'androidx.activity:activity-compose:1.5.1'
