@@ -22,10 +22,10 @@
                 android:orientation="vertical">
 
                 <Button
-                    android:id="@+id/simple_example"
+                    android:id="@+id/row_column_example"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Simple view"
+                    android:text="Row and column Example"
                     tools:ignore="HardcodedText"/>
 
             </LinearLayout>
