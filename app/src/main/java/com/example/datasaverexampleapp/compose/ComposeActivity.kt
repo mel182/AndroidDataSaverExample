@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
+import com.example.datasaverexampleapp.compose.bottom_navigation.BottomNavigationActivity
 import com.example.datasaverexampleapp.compose.row_and_column_example.RowAndColumnComposeActivity
 import com.example.datasaverexampleapp.compose.tablayout_example.ComposeTabLayoutActivity
 import com.example.datasaverexampleapp.databinding.ActivityComposeBinding
@@ -28,6 +29,11 @@ class ComposeActivity : AppCompatActivity() {
 
             tablayoutExample.setOnClickListener {
                 val intent = Intent(this@ComposeActivity, ComposeTabLayoutActivity::class.java)
+                startActivity(intent)
+            }
+
+            bottomNavigationExample.setOnClickListener {
+                val intent = Intent(this@ComposeActivity, BottomNavigationActivity::class.java)
                 startActivity(intent)
             }
         }
