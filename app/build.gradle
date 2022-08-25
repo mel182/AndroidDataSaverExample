@@ -157,7 +157,11 @@ dependencies {
     implementation "com.google.android.material:compose-theme-adapter:1.1.16"
     // When using a AppCompat theme
     implementation "com.google.accompanist:accompanist-appcompat-theme:0.25.1"
+    // For compose tab layout
+    implementation "com.google.accompanist:accompanist-pager:0.25.1"
+    implementation "com.google.accompanist:accompanist-pager-indicators:0.25.1"
     // UI Tests
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4:1.2.1'
     debugImplementation "androidx.compose.ui:ui-tooling:1.2.1"
+
 }

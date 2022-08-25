@@ -28,6 +28,13 @@
                     android:text="Row and column Example"
                     tools:ignore="HardcodedText"/>
 
+                <Button
+                    android:id="@+id/tablayout_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tablayout Example"
+                    tools:ignore="HardcodedText"/>
+
             </LinearLayout>
 
         </ScrollView>

@@ -47,9 +47,13 @@
         android:theme="@style/Theme.AppSplash"
         tools:ignore="AllowBackup">
         <activity
-            android:name=".compose.row_and_column_example.RowAndColumnComposeActivity"
+            android:name=".compose.tablayout_example.ComposeTabLayoutActivity"
             android:theme="@style/AppTheme"
             android:exported="false" />
+        <activity
+            android:name=".compose.row_and_column_example.RowAndColumnComposeActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".compose.ComposeActivity"
             android:exported="false"

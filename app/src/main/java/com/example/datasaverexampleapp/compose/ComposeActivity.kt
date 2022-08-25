@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import com.example.datasaverexampleapp.compose.row_and_column_example.RowAndColumnComposeActivity
+import com.example.datasaverexampleapp.compose.tablayout_example.ComposeTabLayoutActivity
 import com.example.datasaverexampleapp.databinding.ActivityComposeBinding
 import com.example.datasaverexampleapp.type_alias.Layout
 
@@ -22,6 +23,11 @@ class ComposeActivity : AppCompatActivity() {
 
             rowColumnExample.setOnClickListener {
                 val intent = Intent(this@ComposeActivity, RowAndColumnComposeActivity::class.java)
+                startActivity(intent)
+            }
+
+            tablayoutExample.setOnClickListener {
+                val intent = Intent(this@ComposeActivity, ComposeTabLayoutActivity::class.java)
                 startActivity(intent)
             }
         }
