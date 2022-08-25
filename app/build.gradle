@@ -160,6 +160,8 @@ dependencies {
     // For compose tab layout
     implementation "com.google.accompanist:accompanist-pager:0.25.1"
     implementation "com.google.accompanist:accompanist-pager-indicators:0.25.1"
+    // Bottom navigation compose dependency
+    implementation("androidx.navigation:navigation-compose:2.5.1")
     // UI Tests
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4:1.2.1'
     debugImplementation "androidx.compose.ui:ui-tooling:1.2.1"
