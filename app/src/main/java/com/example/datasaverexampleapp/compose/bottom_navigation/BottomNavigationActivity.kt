@@ -77,7 +77,7 @@ fun UpdateUI(navHostController:NavHostController,destination:String) {
 
 @Composable
 fun Navigation(navHostController:NavHostController, destination:String) {
-    
+
     NavHost(navController = navHostController, startDestination = destination){
 
         composable("home") {
@@ -98,6 +98,7 @@ fun BottomNavigationBar(navHostController:NavHostController, onItemClick: (Botto
     BottomNavigation(backgroundColor = Color.Gray, elevation = 5.dp, ) {
         Log.i("TAG25","bottom nav bar row scope called!")
         Log.i("TAG25","tab items: ${BottomNavRepo.tabItems}")
+        // To update tab items
         BottomNavRepo.tabItems.forEach { item ->
             val selected = item.route == backStateEntry.value?.destination?.route
             Log.i("TAG25","|------------------------------|")
