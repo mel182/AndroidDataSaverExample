@@ -47,9 +47,13 @@
         android:theme="@style/Theme.AppSplash"
         tools:ignore="AllowBackup">
         <activity
+            android:name=".compose.canvas.CanvasShapeActivity"
+            android:theme="@style/AppTheme"
+            android:exported="false" />
+        <activity
             android:name=".compose.bottom_navigation.BottomNavigationActivity"
             android:exported="false"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".compose.tablayout_example.ComposeTabLayoutActivity"
             android:exported="false"

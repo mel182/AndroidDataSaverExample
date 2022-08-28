@@ -42,6 +42,13 @@
                     android:text="Bottom navigation Example"
                     tools:ignore="HardcodedText"/>
 
+                <Button
+                    android:id="@+id/bottom_canvas_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Canvas shape Example"
+                    tools:ignore="HardcodedText"/>
+
             </LinearLayout>
 
         </ScrollView>
