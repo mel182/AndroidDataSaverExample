@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil
 import com.example.datasaverexampleapp.compose.bottom_navigation.BottomNavigationActivity
 import com.example.datasaverexampleapp.compose.bottom_sheet.BottomSheetComposeActivity
 import com.example.datasaverexampleapp.compose.canvas.CanvasShapeActivity
+import com.example.datasaverexampleapp.compose.lifecycle.LifeCycleOwnerActivity
 import com.example.datasaverexampleapp.compose.row_and_column_example.RowAndColumnComposeActivity
 import com.example.datasaverexampleapp.compose.screen_orientation.ScreenOrientationActivity
 import com.example.datasaverexampleapp.compose.simple_list.ComposeSimpleListActivity
@@ -57,12 +58,15 @@ class ComposeActivity : AppCompatActivity() {
                 startActivity(intent)
             }
 
+            disposableLifecycleExample.setOnClickListener {
+                val intent = Intent(this@ComposeActivity, LifeCycleOwnerActivity::class.java)
+                startActivity(intent)
+            }
+
             simpleListExample.setOnClickListener {
                 val intent = Intent(this@ComposeActivity, ComposeSimpleListActivity::class.java)
                 startActivity(intent)
             }
-
-            //ScreenOrientationActivity
 
             bottomCanvasExample.setOnClickListener {
                 val intent = Intent(this@ComposeActivity, CanvasShapeActivity::class.java)

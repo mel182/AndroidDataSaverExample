@@ -47,9 +47,13 @@
         android:theme="@style/Theme.AppSplash"
         tools:ignore="AllowBackup">
         <activity
-            android:name=".compose.screen_orientation.ScreenOrientationActivity"
+            android:name=".compose.lifecycle.LifeCycleOwnerActivity"
             android:exported="false"
             android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".compose.screen_orientation.ScreenOrientationActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".compose.simple_list.ComposeSimpleListActivity"
             android:exported="false"
