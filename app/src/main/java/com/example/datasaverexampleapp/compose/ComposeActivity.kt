@@ -8,6 +8,7 @@ import com.example.datasaverexampleapp.compose.bottom_navigation.BottomNavigatio
 import com.example.datasaverexampleapp.compose.bottom_sheet.BottomSheetComposeActivity
 import com.example.datasaverexampleapp.compose.canvas.CanvasShapeActivity
 import com.example.datasaverexampleapp.compose.row_and_column_example.RowAndColumnComposeActivity
+import com.example.datasaverexampleapp.compose.simple_list.ComposeSimpleListActivity
 import com.example.datasaverexampleapp.compose.tablayout_example.ComposeTabLayoutActivity
 import com.example.datasaverexampleapp.compose.textfield_buttons_snackbar_example.TextFieldButtonSnackbarActivity
 import com.example.datasaverexampleapp.databinding.ActivityComposeBinding
@@ -47,6 +48,11 @@ class ComposeActivity : AppCompatActivity() {
 
             textfieldBottonSnackbarExample.setOnClickListener {
                 val intent = Intent(this@ComposeActivity, TextFieldButtonSnackbarActivity::class.java)
+                startActivity(intent)
+            }
+
+            simpleListExample.setOnClickListener {
+                val intent = Intent(this@ComposeActivity, ComposeSimpleListActivity::class.java)
                 startActivity(intent)
             }
 
