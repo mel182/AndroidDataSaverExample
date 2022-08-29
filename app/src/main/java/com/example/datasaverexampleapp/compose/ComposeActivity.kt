@@ -8,6 +8,7 @@ import com.example.datasaverexampleapp.compose.bottom_navigation.BottomNavigatio
 import com.example.datasaverexampleapp.compose.bottom_sheet.BottomSheetComposeActivity
 import com.example.datasaverexampleapp.compose.canvas.CanvasShapeActivity
 import com.example.datasaverexampleapp.compose.row_and_column_example.RowAndColumnComposeActivity
+import com.example.datasaverexampleapp.compose.screen_orientation.ScreenOrientationActivity
 import com.example.datasaverexampleapp.compose.simple_list.ComposeSimpleListActivity
 import com.example.datasaverexampleapp.compose.tablayout_example.ComposeTabLayoutActivity
 import com.example.datasaverexampleapp.compose.textfield_buttons_snackbar_example.TextFieldButtonSnackbarActivity
@@ -51,10 +52,17 @@ class ComposeActivity : AppCompatActivity() {
                 startActivity(intent)
             }
 
+            orientationExample.setOnClickListener {
+                val intent = Intent(this@ComposeActivity, ScreenOrientationActivity::class.java)
+                startActivity(intent)
+            }
+
             simpleListExample.setOnClickListener {
                 val intent = Intent(this@ComposeActivity, ComposeSimpleListActivity::class.java)
                 startActivity(intent)
             }
+
+            //ScreenOrientationActivity
 
             bottomCanvasExample.setOnClickListener {
                 val intent = Intent(this@ComposeActivity, CanvasShapeActivity::class.java)

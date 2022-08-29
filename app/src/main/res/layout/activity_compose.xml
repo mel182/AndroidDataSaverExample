@@ -57,6 +57,13 @@
                     tools:ignore="HardcodedText"/>
 
                 <Button
+                    android:id="@+id/orientation_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Screen orientation example"
+                    tools:ignore="HardcodedText"/>
+
+                <Button
                     android:id="@+id/simple_list_example"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
