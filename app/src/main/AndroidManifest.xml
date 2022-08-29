@@ -47,9 +47,13 @@
         android:theme="@style/Theme.AppSplash"
         tools:ignore="AllowBackup">
         <activity
-            android:name=".compose.bottom_sheet.BottomSheetComposeActivity"
+            android:name=".compose.textfield_buttons_snackbar_example.TextFieldButtonSnackbarActivity"
             android:exported="false"
             android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".compose.bottom_sheet.BottomSheetComposeActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".compose.canvas.CanvasShapeActivity"
             android:exported="false"
