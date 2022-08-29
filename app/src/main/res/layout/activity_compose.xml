@@ -43,6 +43,13 @@
                     tools:ignore="HardcodedText"/>
 
                 <Button
+                    android:id="@+id/bottom_sheet_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bottom sheet Example"
+                    tools:ignore="HardcodedText"/>
+
+                <Button
                     android:id="@+id/bottom_canvas_example"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
