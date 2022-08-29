@@ -49,6 +49,7 @@
         <activity
             android:name=".compose.textfield_buttons_snackbar_example.TextFieldButtonSnackbarActivity"
             android:exported="false"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/AppTheme"/>
         <activity
             android:name=".compose.bottom_sheet.BottomSheetComposeActivity"
