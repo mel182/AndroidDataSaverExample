@@ -45,7 +45,7 @@ get() {
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun BottomSheetView(activity: AppCompatActivity) {
+fun BottomSheetView() {
     val sheetState = rememberBottomSheetState(
         initialValue = BottomSheetValue.Collapsed,
         animationSpec = spring(

@@ -9,7 +9,7 @@ class BottomSheetComposeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         title = "Bottom sheet compose example"
         setContent {
-            BottomSheetView(this)
+            BottomSheetView()
         }
     }
 }
