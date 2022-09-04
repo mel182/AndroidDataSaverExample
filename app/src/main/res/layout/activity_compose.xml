@@ -84,6 +84,13 @@
                     android:text="Canvas shape Example"
                     tools:ignore="HardcodedText"/>
 
+                <Button
+                    android:id="@+id/detect_touch_input_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Detect touch input Example"
+                    tools:ignore="HardcodedText"/>
+
             </LinearLayout>
 
         </ScrollView>

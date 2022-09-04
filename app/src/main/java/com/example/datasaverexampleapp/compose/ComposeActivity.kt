@@ -13,6 +13,7 @@ import com.example.datasaverexampleapp.compose.screen_orientation.ScreenOrientat
 import com.example.datasaverexampleapp.compose.simple_list.ComposeSimpleListActivity
 import com.example.datasaverexampleapp.compose.tablayout_example.ComposeTabLayoutActivity
 import com.example.datasaverexampleapp.compose.textfield_buttons_snackbar_example.TextFieldButtonSnackbarActivity
+import com.example.datasaverexampleapp.compose.touch_input.ComposeDetectTouchInputActivity
 import com.example.datasaverexampleapp.databinding.ActivityComposeBinding
 import com.example.datasaverexampleapp.type_alias.Layout
 
@@ -70,6 +71,11 @@ class ComposeActivity : AppCompatActivity() {
 
             bottomCanvasExample.setOnClickListener {
                 val intent = Intent(this@ComposeActivity, CanvasShapeActivity::class.java)
+                startActivity(intent)
+            }
+
+            detectTouchInputExample.setOnClickListener {
+                val intent = Intent(this@ComposeActivity, ComposeDetectTouchInputActivity::class.java)
                 startActivity(intent)
             }
         }
