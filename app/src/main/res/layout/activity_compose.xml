@@ -91,6 +91,13 @@
                     android:text="Detect touch input Example"
                     tools:ignore="HardcodedText"/>
 
+                <Button
+                    android:id="@+id/weight_scale_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Weight scale Example"
+                    tools:ignore="HardcodedText"/>
+
             </LinearLayout>
 
         </ScrollView>

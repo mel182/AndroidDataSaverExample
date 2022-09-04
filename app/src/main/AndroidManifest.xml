@@ -47,9 +47,13 @@
         android:theme="@style/Theme.AppSplash"
         tools:ignore="AllowBackup">
         <activity
+            android:name=".compose.weight_scale.WeightScaleExampleActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme"/>
+        <activity
             android:name=".compose.touch_input.ComposeDetectTouchInputActivity"
-            android:theme="@style/AppTheme"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".compose.lifecycle.LifeCycleOwnerActivity"
             android:exported="false"

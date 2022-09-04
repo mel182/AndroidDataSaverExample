@@ -14,6 +14,7 @@ import com.example.datasaverexampleapp.compose.simple_list.ComposeSimpleListActi
 import com.example.datasaverexampleapp.compose.tablayout_example.ComposeTabLayoutActivity
 import com.example.datasaverexampleapp.compose.textfield_buttons_snackbar_example.TextFieldButtonSnackbarActivity
 import com.example.datasaverexampleapp.compose.touch_input.ComposeDetectTouchInputActivity
+import com.example.datasaverexampleapp.compose.weight_scale.WeightScaleExampleActivity
 import com.example.datasaverexampleapp.databinding.ActivityComposeBinding
 import com.example.datasaverexampleapp.type_alias.Layout
 
@@ -76,6 +77,11 @@ class ComposeActivity : AppCompatActivity() {
 
             detectTouchInputExample.setOnClickListener {
                 val intent = Intent(this@ComposeActivity, ComposeDetectTouchInputActivity::class.java)
+                startActivity(intent)
+            }
+
+            weightScaleExample.setOnClickListener {
+                val intent = Intent(this@ComposeActivity, WeightScaleExampleActivity::class.java)
                 startActivity(intent)
             }
         }
