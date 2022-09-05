@@ -3,34 +3,44 @@ package com.example.datasaverexampleapp.compose.weight_scale.ui
 import android.graphics.Color
 import android.graphics.Paint
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.Text
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.graphics.withRotation
-import kotlin.math.PI
-import kotlin.math.abs
-import kotlin.math.cos
-import kotlin.math.sin
+import kotlin.math.*
 
 @Composable
 fun WeightScaleExampleView() {
 
+    var weight by remember {
+        mutableStateOf(80)
+    }
+    
     Box(modifier = Modifier.fillMaxSize()) {
+
+        Column(modifier = Modifier.fillMaxWidth()
+            .align(Alignment.Center)) {
+            Text(text = "Selected weight", fontSize = 25.sp, fontWeight = FontWeight.Bold ,modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
+            Text(text = "$weight kg", fontSize = 25.sp, fontWeight = FontWeight.Bold ,modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
+        }
         Scale(
              style = ScaleStyle(scaleWidth = 150.dp),
              modifier = Modifier
-            .fillMaxWidth()
-            .align(Alignment.Center)) {
+                 .fillMaxWidth()
+                 .height(300.dp)
+                 .align(Alignment.BottomCenter)) {
+            weight = it
         }
     }
 }
@@ -55,7 +65,34 @@ fun Scale(
     var angle by remember {
         mutableStateOf(0f)
     }
-    Canvas(modifier = modifier) {
+    var dragStartAngle by remember {
+        mutableStateOf(0f)
+    }
+    var oldAngle by remember {
+        mutableStateOf(angle)
+    }
+    Canvas(
+        modifier = modifier.pointerInput(true){
+            detectDragGestures(onDragStart = { offset ->
+                dragStartAngle = -atan2(
+                    y = circleCenter.x - offset.x,
+                    x = circleCenter.y - offset.y
+                ) * (180f / PI.toFloat())
+            }, onDragEnd = {
+                oldAngle = angle
+            }) { change, dragAmount ->
+                val touchAngle = -atan2(
+                    y = circleCenter.x - change.position.x,
+                    x = circleCenter.y - change.position.y
+                ) * (180f / PI.toFloat())
+                val newAngle = oldAngle + (touchAngle - dragStartAngle)
+                angle = newAngle.coerceIn(
+                    minimumValue = initialWeight - maxWeight.toFloat(),
+                    maximumValue = initialWeight - minWeight.toFloat()
+                )
+                onWeightChange((initialWeight - angle).roundToInt())
+            }
+        }) {
         center = this.center
         circleCenter = Offset(
             x = center.x,
@@ -141,6 +178,28 @@ fun Scale(
             val middleTop = Offset(
                 x = circleCenter.x,
                 y = circleCenter.y - innerRadius - style.scaleIndicatorLength.toPx()
+            )
+
+            val bottomLeft = Offset(
+                x = circleCenter.x - 10f,
+                y = circleCenter.y - innerRadius
+            )
+
+            val bottomRight = Offset(
+                x = circleCenter.x + 10f,
+                y = circleCenter.y - innerRadius
+            )
+
+            val indicator = Path().apply {
+                moveTo(middleTop.x, middleTop.y)
+                lineTo(bottomLeft.x, bottomLeft.y)
+                lineTo(bottomRight.x, bottomRight.y)
+                lineTo(middleTop.x, middleTop.y)
+            }
+
+            drawPath(
+                path = indicator,
+                color = style.scaleIndicatorColor
             )
         }
     }
