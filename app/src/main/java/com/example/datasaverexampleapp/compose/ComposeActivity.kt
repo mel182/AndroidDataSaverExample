@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil
 import com.example.datasaverexampleapp.compose.bottom_navigation.BottomNavigationActivity
 import com.example.datasaverexampleapp.compose.bottom_sheet.BottomSheetComposeActivity
 import com.example.datasaverexampleapp.compose.canvas.CanvasShapeActivity
+import com.example.datasaverexampleapp.compose.clock_example.ComposeClockExampleActivity
 import com.example.datasaverexampleapp.compose.lifecycle.LifeCycleOwnerActivity
 import com.example.datasaverexampleapp.compose.list_with_paging.ComposeListWithPagingExampleActivity
 import com.example.datasaverexampleapp.compose.list_with_paging.native_paging.ComposeNativePagingExampleActivity
@@ -92,11 +93,6 @@ class ComposeActivity : AppCompatActivity() {
                 startActivity(intent)
             }
 
-            weightScaleExample.setOnClickListener {
-                val intent = Intent(this@ComposeActivity, WeightScaleExampleActivity::class.java)
-                startActivity(intent)
-            }
-
             detectTouchInputExample.setOnClickListener {
                 val intent = Intent(this@ComposeActivity, ComposeDetectTouchInputActivity::class.java)
                 startActivity(intent)
@@ -106,6 +102,13 @@ class ComposeActivity : AppCompatActivity() {
                 val intent = Intent(this@ComposeActivity, WeightScaleExampleActivity::class.java)
                 startActivity(intent)
             }
+
+            analogClockExample.setOnClickListener {
+                val intent = Intent(this@ComposeActivity, ComposeClockExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+            // ComposeClockExampleActivity
         }
     }
 }

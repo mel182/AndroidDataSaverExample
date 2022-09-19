@@ -10,7 +10,7 @@
         <entry key="../DataSaverExample/app/src/main/res/drawable/ic_add.xml" value="0.276" />
         <entry key="../DataSaverExample/app/src/main/res/drawable/ic_bluetooth_disabled.xml" value="0.276" />
         <entry key="../DataSaverExample/app/src/main/res/drawable/ic_walking.xml" value="0.276" />
-        <entry key="../DataSaverExample/app/src/main/res/layout/activity_compose.xml" value="0.22" />
+        <entry key="../DataSaverExample/app/src/main/res/layout/activity_compose.xml" value="0.1" />
         <entry key="../DataSaverExample/app/src/main/res/layout/activity_data_binding_test.xml" value="0.1" />
         <entry key="../DataSaverExample/app/src/main/res/layout/activity_exo_player.xml" value="0.1" />
         <entry key="../DataSaverExample/app/src/main/res/layout/activity_kotlin_flow_advance_example.xml" value="0.15512465373961218" />
