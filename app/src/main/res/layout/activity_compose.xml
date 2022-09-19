@@ -78,6 +78,13 @@
                     tools:ignore="HardcodedText"/>
 
                 <Button
+                    android:id="@+id/list_with_paging_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="List with paging Example"
+                    tools:ignore="HardcodedText"/>
+
+                <Button
                     android:id="@+id/bottom_canvas_example"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

@@ -8,6 +8,7 @@ import com.example.datasaverexampleapp.compose.bottom_navigation.BottomNavigatio
 import com.example.datasaverexampleapp.compose.bottom_sheet.BottomSheetComposeActivity
 import com.example.datasaverexampleapp.compose.canvas.CanvasShapeActivity
 import com.example.datasaverexampleapp.compose.lifecycle.LifeCycleOwnerActivity
+import com.example.datasaverexampleapp.compose.list_with_paging.ComposeListWithPagingExampleActivity
 import com.example.datasaverexampleapp.compose.row_and_column_example.RowAndColumnComposeActivity
 import com.example.datasaverexampleapp.compose.screen_orientation.ScreenOrientationActivity
 import com.example.datasaverexampleapp.compose.simple_list.ComposeSimpleListActivity
@@ -70,8 +71,18 @@ class ComposeActivity : AppCompatActivity() {
                 startActivity(intent)
             }
 
+            listWithPagingExample.setOnClickListener {
+                val intent = Intent(this@ComposeActivity, ComposeListWithPagingExampleActivity::class.java)
+                startActivity(intent)
+            }
+
             bottomCanvasExample.setOnClickListener {
                 val intent = Intent(this@ComposeActivity, CanvasShapeActivity::class.java)
+                startActivity(intent)
+            }
+
+            weightScaleExample.setOnClickListener {
+                val intent = Intent(this@ComposeActivity, WeightScaleExampleActivity::class.java)
                 startActivity(intent)
             }
 

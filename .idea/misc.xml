@@ -6,15 +6,15 @@
         <entry key="../../../../../layout/compose-model-1661355568779.xml" value="0.25" />
         <entry key="../../../../../layout/compose-model-1661718788435.xml" value="0.40083073727933544" />
         <entry key="../../../../../layout/compose-model-1661800208246.xml" value="0.24070945945945946" />
-        <entry key="../../../../../layout/compose-model-1661973570429.xml" value="0.20523648648648649" />
         <entry key="../DataSaverExample/app/src/main/res/drawable/avd_anim.xml" value="0.1" />
         <entry key="../DataSaverExample/app/src/main/res/drawable/ic_add.xml" value="0.276" />
         <entry key="../DataSaverExample/app/src/main/res/drawable/ic_bluetooth_disabled.xml" value="0.276" />
         <entry key="../DataSaverExample/app/src/main/res/drawable/ic_walking.xml" value="0.276" />
-        <entry key="../DataSaverExample/app/src/main/res/layout/activity_compose.xml" value="0.1" />
+        <entry key="../DataSaverExample/app/src/main/res/layout/activity_compose.xml" value="0.22" />
         <entry key="../DataSaverExample/app/src/main/res/layout/activity_data_binding_test.xml" value="0.1" />
         <entry key="../DataSaverExample/app/src/main/res/layout/activity_exo_player.xml" value="0.1" />
         <entry key="../DataSaverExample/app/src/main/res/layout/activity_kotlin_flow_advance_example.xml" value="0.15512465373961218" />
+        <entry key="../DataSaverExample/app/src/main/res/layout/activity_list_with_paging_example.xml" value="0.22864583333333333" />
         <entry key="../DataSaverExample/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="../DataSaverExample/app/src/main/res/layout/activity_motion_layout_example.xml" value="0.1" />
         <entry key="../DataSaverExample/app/src/main/res/layout/activity_paging_example.xml" value="0.1125" />
