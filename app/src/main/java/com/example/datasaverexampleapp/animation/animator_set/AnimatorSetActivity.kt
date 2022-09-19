@@ -66,15 +66,15 @@ class AnimatorSetActivity : AppCompatActivity() {
 
                     addListener(object: Animator.AnimatorListener{
 
-                        override fun onAnimationStart(animation: Animator?) {
+                        override fun onAnimationStart(animation: Animator) {
                             animationImage.rotation = 180.0f
                         }
 
-                        override fun onAnimationEnd(animation: Animator?) { }
+                        override fun onAnimationEnd(animation: Animator) { }
 
-                        override fun onAnimationCancel(animation: Animator?) { }
+                        override fun onAnimationCancel(animation: Animator) { }
 
-                        override fun onAnimationRepeat(animation: Animator?) { }
+                        override fun onAnimationRepeat(animation: Animator) { }
                     })
                 }
 
@@ -94,15 +94,15 @@ class AnimatorSetActivity : AppCompatActivity() {
                     startDelay = 100
                     addListener(object: Animator.AnimatorListener{
 
-                        override fun onAnimationStart(animation: Animator?) {
+                        override fun onAnimationStart(animation: Animator) {
                             animationImage.rotationY = 0.0f
                         }
 
-                        override fun onAnimationEnd(animation: Animator?) { }
+                        override fun onAnimationEnd(animation: Animator) { }
 
-                        override fun onAnimationCancel(animation: Animator?) { }
+                        override fun onAnimationCancel(animation: Animator) { }
 
-                        override fun onAnimationRepeat(animation: Animator?) { }
+                        override fun onAnimationRepeat(animation: Animator) { }
                     })
                 }
 
@@ -130,11 +130,11 @@ class AnimatorSetActivity : AppCompatActivity() {
                         duration = 300
                         interpolator = OvershootInterpolator()
                         addListener(object: Animator.AnimatorListener{
-                            override fun onAnimationStart(animation: Animator?) {
+                            override fun onAnimationStart(animation: Animator) {
                                 favIcon.setImageResource(R.drawable.ic_favorite_red)
                             }
 
-                            override fun onAnimationEnd(animation: Animator?) {
+                            override fun onAnimationEnd(animation: Animator) {
 
                                 CoroutineScope(Dispatchers.Main).launch {
 
@@ -143,9 +143,9 @@ class AnimatorSetActivity : AppCompatActivity() {
                                 }
                             }
 
-                            override fun onAnimationCancel(animation: Animator?) {}
+                            override fun onAnimationCancel(animation: Animator) {}
 
-                            override fun onAnimationRepeat(animation: Animator?) {}
+                            override fun onAnimationRepeat(animation: Animator) {}
 
                         })
                     }

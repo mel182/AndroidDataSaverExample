@@ -79,30 +79,30 @@ class AnimationExampleActivity : AppCompatActivity() {
                         circularRevealTextView.visibility = View.VISIBLE
                         anim.start()
                         anim.addListener(object: Animator.AnimatorListener {
-                            override fun onAnimationStart(animation: Animator?) {
+                            override fun onAnimationStart(animation: Animator) {
 
                             }
 
-                            override fun onAnimationEnd(animation: Animator?) {
+                            override fun onAnimationEnd(animation: Animator) {
                                 circularRevealAnimationButton.text = "Circular reveal hide"
                             }
 
-                            override fun onAnimationCancel(animation: Animator?) {}
-                            override fun onAnimationRepeat(animation: Animator?) {}
+                            override fun onAnimationCancel(animation: Animator) {}
+                            override fun onAnimationRepeat(animation: Animator) {}
                         })
                     } else {
                         val anim = ViewAnimationUtils.createCircularReveal(circularRevealTextView, centerX,centerY,coveringRadius,0F)
                         anim.start()
                         anim.addListener(object: Animator.AnimatorListener {
-                            override fun onAnimationStart(animation: Animator?) {}
+                            override fun onAnimationStart(animation: Animator) {}
 
-                            override fun onAnimationEnd(animation: Animator?) {
+                            override fun onAnimationEnd(animation: Animator) {
                                 circularRevealTextView.visibility = View.INVISIBLE
                                 circularRevealAnimationButton.text = "Circular reveal"
                             }
 
-                            override fun onAnimationCancel(animation: Animator?) {}
-                            override fun onAnimationRepeat(animation: Animator?) {}
+                            override fun onAnimationCancel(animation: Animator) {}
+                            override fun onAnimationRepeat(animation: Animator) {}
                         })
                     }
                 }

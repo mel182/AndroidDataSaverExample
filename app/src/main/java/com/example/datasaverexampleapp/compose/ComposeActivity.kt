@@ -9,6 +9,7 @@ import com.example.datasaverexampleapp.compose.bottom_sheet.BottomSheetComposeAc
 import com.example.datasaverexampleapp.compose.canvas.CanvasShapeActivity
 import com.example.datasaverexampleapp.compose.lifecycle.LifeCycleOwnerActivity
 import com.example.datasaverexampleapp.compose.list_with_paging.ComposeListWithPagingExampleActivity
+import com.example.datasaverexampleapp.compose.list_with_paging.native_paging.ComposeNativePagingExampleActivity
 import com.example.datasaverexampleapp.compose.row_and_column_example.RowAndColumnComposeActivity
 import com.example.datasaverexampleapp.compose.screen_orientation.ScreenOrientationActivity
 import com.example.datasaverexampleapp.compose.simple_list.ComposeSimpleListActivity
@@ -73,6 +74,16 @@ class ComposeActivity : AppCompatActivity() {
 
             listWithPagingExample.setOnClickListener {
                 val intent = Intent(this@ComposeActivity, ComposeListWithPagingExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+            listWithPagingExample.setOnClickListener {
+                val intent = Intent(this@ComposeActivity, ComposeListWithPagingExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+            nativeListWithPagingExample.setOnClickListener {
+                val intent = Intent(this@ComposeActivity, ComposeNativePagingExampleActivity::class.java)
                 startActivity(intent)
             }
 

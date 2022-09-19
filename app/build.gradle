@@ -4,7 +4,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
 
 android {
-    compileSdkVersion 32
+    compileSdkVersion 33
     buildFeatures {
         dataBinding = true
         compose = true
@@ -17,7 +17,7 @@ android {
     defaultConfig {
         applicationId "com.example.datasaverexampleapp"
         minSdkVersion 21
-        targetSdkVersion 32
+        targetSdkVersion 33
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -168,6 +168,8 @@ dependencies {
     implementation "androidx.compose.runtime:runtime:1.2.1"
     // Compose runtime live data
     implementation "androidx.compose.runtime:runtime-livedata:1.2.1"
+
+    implementation("androidx.paging:paging-compose:1.0.0-alpha16")
 
     // UI Tests
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4:1.2.1'

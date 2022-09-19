@@ -37,9 +37,9 @@ class PropertyAnimationActivity : AppCompatActivity() {
                     start()
 
                     this.addListener(object: Animator.AnimatorListener{
-                        override fun onAnimationStart(animation: Animator?) {}
+                        override fun onAnimationStart(animation: Animator) {}
 
-                        override fun onAnimationEnd(animation: Animator?) {
+                        override fun onAnimationEnd(animation: Animator) {
 
                             CoroutineScope(Dispatchers.Main).launch {
 
@@ -52,9 +52,9 @@ class PropertyAnimationActivity : AppCompatActivity() {
                             }
                         }
 
-                        override fun onAnimationCancel(animation: Animator?) {}
+                        override fun onAnimationCancel(animation: Animator) {}
 
-                        override fun onAnimationRepeat(animation: Animator?) {}
+                        override fun onAnimationRepeat(animation: Animator) {}
 
                     })
                 }
@@ -82,15 +82,15 @@ class PropertyAnimationActivity : AppCompatActivity() {
                             start()
 
                             this.addListener(object: Animator.AnimatorListener{
-                                override fun onAnimationStart(animation: Animator?) {}
+                                override fun onAnimationStart(animation: Animator) {}
 
-                                override fun onAnimationEnd(animation: Animator?) {
+                                override fun onAnimationEnd(animation: Animator) {
                                     animationImage.setImageResource(R.drawable.ic_baseline_wifi_24)
                                 }
 
-                                override fun onAnimationCancel(animation: Animator?) {}
+                                override fun onAnimationCancel(animation: Animator) {}
 
-                                override fun onAnimationRepeat(animation: Animator?) {}
+                                override fun onAnimationRepeat(animation: Animator) {}
                             })
                         }
                     }
