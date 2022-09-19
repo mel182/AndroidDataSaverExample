@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.example.datasaverexampleapp.paging.PagingViewModel
@@ -42,6 +43,30 @@ class ComposeNativePagingExampleActivity : AppCompatActivity() {
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             Text(text = it.age.toString())
+                        }
+                    }
+
+                    when(pagingItemList.loadState.append) {
+
+                        is LoadState.NotLoading -> Unit
+                        LoadState.Loading -> {
+                           // Set loading layout
+                        }
+
+                        is LoadState.Error -> {
+                            // Set error layout
+                        }
+                    }
+
+                    // When the user open the view for the first time
+                    when(pagingItemList.loadState.refresh) {
+                        is LoadState.NotLoading -> Unit
+                        LoadState.Loading -> {
+                            // Set loading layout
+                        }
+
+                        is LoadState.Error -> {
+                            // Set error layout
                         }
                     }
                 }
