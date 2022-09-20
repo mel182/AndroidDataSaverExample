@@ -170,6 +170,7 @@ dependencies {
     implementation "androidx.compose.runtime:runtime-livedata:1.2.1"
 
     implementation("androidx.paging:paging-compose:1.0.0-alpha16")
+    implementation "com.google.accompanist:accompanist-swiperefresh:0.26.3-beta"
 
     // UI Tests
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4:1.2.1'
