@@ -1,9 +1,11 @@
 package com.example.datasaverexampleapp.security.keystore
 
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.compose.setContent
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -21,23 +23,28 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
 
+@RequiresApi(Build.VERSION_CODES.M)
 class KeystoreExampleActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         title = "Keystore security example"
         setContent {
-
-            var keystoreValue by remember {
+            val context = LocalContext.current
+            var valueToDecrypt by remember {
                 mutableStateOf("")
             }
 
-            var newKeystoreKey by remember {
+            var valueToEncrypt by remember {
                 mutableStateOf("")
             }
 
-            var newKeystoreValue by remember {
+            var valueToShow by remember {
                 mutableStateOf("")
             }
 
@@ -45,18 +52,36 @@ class KeystoreExampleActivity : AppCompatActivity() {
                 .fillMaxWidth()
                 .padding(all = 10.dp)) {
 
-                Row(modifier = Modifier.padding(all = 10.dp)) {
-                    TextField(value = "", onValueChange = {
+                Row(modifier = Modifier.padding(start = 5.dp, end = 5.dp)) {
+                    TextField(value = valueToEncrypt, onValueChange = {
+                        valueToEncrypt = it
+                    }, placeholder = { Text(text = "Encrypt value") })
+                    Button(onClick = {
+                        if (valueToEncrypt.isNotBlank()) {
+                            val bytes = valueToEncrypt.encodeToByteArray()
+                            val file = File(filesDir,"secret.txt")
+                            if (!file.exists())
+                                file.createNewFile()
 
-                    })
-                    Button(onClick = {  }, modifier = Modifier.padding(start = 10.dp)) {
-                        Text(text = "Get value")
+                            val fileOutputStream = FileOutputStream(file)
+                            val encryptedValue = CryptoManager.encrypt(
+                                bytes = bytes,
+                                outputStream = fileOutputStream
+                            )
+                            valueToEncrypt = ""
+                            valueToShow = encryptedValue.decodeToString()
+                            Toast.makeText(context,"Value encrypted",Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(context,"Value to encrypt is empty",Toast.LENGTH_SHORT).show()
+                        }
+                    }, modifier = Modifier.padding(start = 10.dp)) {
+                        Text(text = "Encrypt", fontSize = 12.sp)
                     }
                 }
 
                 BasicTextField(
-                    value = newKeystoreKey,
-                    onValueChange = { newKeystoreKey = it },
+                    value = valueToDecrypt,
+                    onValueChange = { valueToDecrypt = it },
                     decorationBox = { innerTextField ->
                         Row(
                             Modifier
@@ -65,8 +90,8 @@ class KeystoreExampleActivity : AppCompatActivity() {
                                 .fillMaxWidth()
                         ) {
 
-                            if (newKeystoreKey.isEmpty()) {
-                                Text("Enter keystore key...")
+                            if (valueToDecrypt.isEmpty()) {
+                                Text("Enter value to encrypt...")
                             }
                             // <-- Add this
                             innerTextField()
@@ -74,43 +99,25 @@ class KeystoreExampleActivity : AppCompatActivity() {
                     },
                     modifier = Modifier.padding(all = 10.dp)
                 )
-
-                BasicTextField(
-                    value = newKeystoreValue,
-                    onValueChange = { newKeystoreValue = it },
-                    decorationBox = { innerTextField ->
-                        Row(
-                            Modifier
-                                .background(Color.LightGray, RoundedCornerShape(percent = 30))
-                                .padding(16.dp)
-                                .fillMaxWidth()
-                        ) {
-
-                            if (newKeystoreValue.isEmpty()) {
-                                Text("Enter keystore value...")
-                            }
-                            // <-- Add this
-                            innerTextField()
-                        }
-                    },
-                    modifier = Modifier.padding(all = 10.dp)
-                )
-
-                val context = LocalContext.current
 
                 Button(onClick = {
 
-                    if (newKeystoreKey.isEmpty() || newKeystoreValue.isEmpty()) {
+                    if (valueToDecrypt.isEmpty()) {
                         //context
-                        Toast.makeText(context,"Key or value field is empty",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context,"Values is empty",Toast.LENGTH_SHORT).show()
                     } else {
-                        newKeystoreKey = ""
-                        newKeystoreValue = ""
-                        Toast.makeText(context,"New keystore inserted",Toast.LENGTH_SHORT).show()
+
+                        val file = File(filesDir,"secret.txt")
+                        val decryptedValue = CryptoManager.decrypt(
+                            FileInputStream(file)
+                        )
+                        valueToDecrypt = ""
+                        valueToShow = decryptedValue.decodeToString()
+                        Toast.makeText(context,"New encrypted value inserted",Toast.LENGTH_SHORT).show()
                     }
                 },
                 modifier = Modifier.padding(all = 10.dp)) {
-                    Text(text = "add")
+                    Text(text = "Decrypt", fontSize = 12.sp)
                 }
 
                 Column(
@@ -119,12 +126,12 @@ class KeystoreExampleActivity : AppCompatActivity() {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = "Keystore value",
+                        text = "Value",
                         modifier = Modifier.padding(16.dp),
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = keystoreValue,
+                        text = valueToShow,
                         modifier = Modifier.padding(16.dp)
                     )
                 }
