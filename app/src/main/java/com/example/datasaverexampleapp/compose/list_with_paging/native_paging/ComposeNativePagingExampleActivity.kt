@@ -1,6 +1,7 @@
 package com.example.datasaverexampleapp.compose.list_with_paging.native_paging
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -10,12 +11,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.LinearProgressIndicator
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -23,6 +26,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.datasaverexampleapp.compose.extensions.toPx
 import com.example.datasaverexampleapp.paging.PagingViewModel
 import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
 import com.google.accompanist.swiperefresh.SwipeRefreshState
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
@@ -37,26 +41,28 @@ class ComposeNativePagingExampleActivity : AppCompatActivity() {
 
         setContent {
 
-            Column(modifier = Modifier.fillMaxWidth()) {
+            /*
+            indicator = { state, trigger ->
+                    CustomIndicator(swipeRefreshState = state, refreshTriggerDistance = trigger)
+                }
+            */
 
-                var isRefreshing by remember { mutableStateOf(false) }
-                val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = isRefreshing)
-                val pagingItemList = pagingItemViewModel.pagingItemsList.collectAsLazyPagingItems()
+            Column(modifier = Modifier.fillMaxWidth()) {
+                val isRefreshingPagingList by pagingItemViewModel.isRefreshingPagingList.collectAsState()
+                val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = isRefreshingPagingList)
+                val pagingItemList = pagingItemViewModel.pagingItemsListSource2.collectAsLazyPagingItems()
 
                 SwipeRefresh(state = swipeRefreshState, onRefresh = {
-                    isRefreshing = true
+                    pagingItemViewModel.refreshList()
                     pagingItemList.refresh()
                 }, indicator = { state, trigger ->
-                    CustomIndicator(state,trigger)
+                    SwipeRefreshIndicator(state = state, refreshTriggerDistance = trigger, scale = true, backgroundColor = Color.Green, shape = MaterialTheme.shapes.small)
                 }) {
+
                     LazyColumn(modifier = Modifier.fillMaxWidth()) {
 
                         val itemCount = pagingItemList.itemCount
                         var lastAgeGroup: Int? = null
-
-                        if (isRefreshing) {
-                            isRefreshing = false
-                        }
 
                         for (index in 0 until itemCount) {
 
@@ -146,12 +152,16 @@ class ComposeNativePagingExampleActivity : AppCompatActivity() {
 @Composable
 fun CustomIndicator(swipeRefreshState: SwipeRefreshState, refreshTriggerDistance: Dp, color: Color = Color.LightGray) {
 
+    Log.i("TAG123","custom indicator with state: ${swipeRefreshState}")
+    Log.i("TAG123","refresh trigger distance: ${refreshTriggerDistance}")
+
     if (swipeRefreshState.isRefreshing) {
-        Text(text = "Test", modifier = Modifier.fillMaxWidth())
+        Text(text = "Test", fontWeight = FontWeight.Bold, modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.Red)
+            .height(30.dp))
     }
-
-
-
+    
 //    Box(modifier = Modifier
 //        .drawWithCache {
 //            onDrawBehind {
@@ -180,9 +190,4 @@ fun CustomIndicator(swipeRefreshState: SwipeRefreshState, refreshTriggerDistance
 //            )
 //        }
 //    }
-
-
-
-
-
 }
