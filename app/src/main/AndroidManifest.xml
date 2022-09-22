@@ -47,9 +47,14 @@
         android:theme="@style/Theme.AppSplash"
         tools:ignore="AllowBackup">
         <activity
+            android:name=".security.keystore.KeystoreExampleActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
             android:name=".compose.clock_example.ComposeClockExampleActivity"
             android:exported="false"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".compose.list_with_paging.native_paging.ComposeNativePagingExampleActivity"
             android:exported="false"

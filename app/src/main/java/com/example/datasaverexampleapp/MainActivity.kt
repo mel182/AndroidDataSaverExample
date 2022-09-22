@@ -70,6 +70,7 @@ import com.example.datasaverexampleapp.protocol_oriented_programming_kotlin.Prot
 import com.example.datasaverexampleapp.recycler_view_item_animation.RecyclerViewItemAnimationActivity
 import com.example.datasaverexampleapp.resourceTest.ResourceActivity
 import com.example.datasaverexampleapp.room_db.RoomDBActivity
+import com.example.datasaverexampleapp.security.keystore.KeystoreExampleActivity
 import com.example.datasaverexampleapp.shimmer_animation.ShimmerAnimationActivity
 import com.example.datasaverexampleapp.snackbar.SnackBarActivity
 import com.example.datasaverexampleapp.speech_recognition_example.SpeechRecognitionActivity
@@ -553,6 +554,11 @@ class MainActivity : AppCompatActivity() {
 
             jetpackComposeExample.setOnClickListener {
                 val intent = Intent(this@MainActivity, ComposeActivity::class.java)
+                startActivity(intent)
+            }
+
+            keystoreSecurityExample.setOnClickListener {
+                val intent = Intent(this@MainActivity, KeystoreExampleActivity::class.java)
                 startActivity(intent)
             }
 
