@@ -161,7 +161,7 @@ fun CustomIndicator(swipeRefreshState: SwipeRefreshState, refreshTriggerDistance
             .background(Color.Red)
             .height(30.dp))
     }
-    
+
 //    Box(modifier = Modifier
 //        .drawWithCache {
 //            onDrawBehind {
