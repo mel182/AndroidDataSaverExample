@@ -460,7 +460,7 @@
                     android:id="@+id/keystore_security_example"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Keystore security example"
+                    android:text="Keystore security example (API 24 or newer)"
                     tools:ignore="HardcodedText" />
 
             </LinearLayout>

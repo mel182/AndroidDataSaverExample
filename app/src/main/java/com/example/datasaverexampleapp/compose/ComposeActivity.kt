@@ -11,6 +11,7 @@ import com.example.datasaverexampleapp.compose.clock_example.ComposeClockExample
 import com.example.datasaverexampleapp.compose.lifecycle.LifeCycleOwnerActivity
 import com.example.datasaverexampleapp.compose.list_with_paging.ComposeListWithPagingExampleActivity
 import com.example.datasaverexampleapp.compose.list_with_paging.native_paging.ComposeNativePagingExampleActivity
+import com.example.datasaverexampleapp.compose.navigation.ComposeNavigationActivity
 import com.example.datasaverexampleapp.compose.row_and_column_example.RowAndColumnComposeActivity
 import com.example.datasaverexampleapp.compose.screen_orientation.ScreenOrientationActivity
 import com.example.datasaverexampleapp.compose.simple_list.ComposeSimpleListActivity
@@ -85,6 +86,11 @@ class ComposeActivity : AppCompatActivity() {
 
             nativeListWithPagingExample.setOnClickListener {
                 val intent = Intent(this@ComposeActivity, ComposeNativePagingExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+            composeNavigationExample.setOnClickListener {
+                val intent = Intent(this@ComposeActivity, ComposeNavigationActivity::class.java)
                 startActivity(intent)
             }
 

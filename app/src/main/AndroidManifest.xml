@@ -47,10 +47,15 @@
         android:theme="@style/Theme.AppSplash"
         tools:ignore="AllowBackup">
         <activity
+            android:name=".compose.navigation.ComposeNavigationActivity"
+            android:theme="@style/AppTheme"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
             android:name=".security.keystore.KeystoreExampleActivity"
             android:exported="false"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".compose.clock_example.ComposeClockExampleActivity"
             android:exported="false"

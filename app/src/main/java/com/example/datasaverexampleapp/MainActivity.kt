@@ -557,10 +557,13 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             }
 
-            keystoreSecurityExample.setOnClickListener {
-                val intent = Intent(this@MainActivity, KeystoreExampleActivity::class.java)
-                startActivity(intent)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                keystoreSecurityExample.setOnClickListener {
+                    val intent = Intent(this@MainActivity, KeystoreExampleActivity::class.java)
+                    startActivity(intent)
+                }
             }
+
 
             cancelNotificationIfNeeded(ForegroundService.NOTIFICATION_ID)
         }
