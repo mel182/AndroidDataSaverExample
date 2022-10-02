@@ -126,6 +126,27 @@
                     android:text="Clock example"
                     tools:ignore="HardcodedText"/>
 
+                <Button
+                    android:id="@+id/path_basic_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Path basic Example"
+                    tools:ignore="HardcodedText"/>
+
+                <Button
+                    android:id="@+id/quadratic_bezier_cubic_path_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Quadratic bezier and cubic path Example"
+                    tools:ignore="HardcodedText"/>
+
+                <Button
+                    android:id="@+id/path_stroke_join_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Path stroke join Example"
+                    tools:ignore="HardcodedText"/>
+
             </LinearLayout>
 
         </ScrollView>

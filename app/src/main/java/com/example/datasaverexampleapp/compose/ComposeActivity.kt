@@ -12,6 +12,9 @@ import com.example.datasaverexampleapp.compose.lifecycle.LifeCycleOwnerActivity
 import com.example.datasaverexampleapp.compose.list_with_paging.ComposeListWithPagingExampleActivity
 import com.example.datasaverexampleapp.compose.list_with_paging.native_paging.ComposeNativePagingExampleActivity
 import com.example.datasaverexampleapp.compose.navigation.ComposeNavigationActivity
+import com.example.datasaverexampleapp.compose.path.PathBasicActivity
+import com.example.datasaverexampleapp.compose.path.PathStrokeJoinExampleActivity
+import com.example.datasaverexampleapp.compose.path.QuadraticCubicBezierPathExampleActivity
 import com.example.datasaverexampleapp.compose.row_and_column_example.RowAndColumnComposeActivity
 import com.example.datasaverexampleapp.compose.screen_orientation.ScreenOrientationActivity
 import com.example.datasaverexampleapp.compose.simple_list.ComposeSimpleListActivity
@@ -114,7 +117,24 @@ class ComposeActivity : AppCompatActivity() {
                 startActivity(intent)
             }
 
-            // ComposeClockExampleActivity
+            pathBasicExample.setOnClickListener {
+                val intent = Intent(this@ComposeActivity, PathBasicActivity::class.java)
+                startActivity(intent)
+            }
+
+            quadraticBezierCubicPathExample.setOnClickListener {
+                val intent = Intent(this@ComposeActivity, QuadraticCubicBezierPathExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+            pathStrokeJoinExample.setOnClickListener {
+                val intent = Intent(this@ComposeActivity, PathStrokeJoinExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+
+
+//            PathStrokeJoinExampleActivity
         }
     }
 }

@@ -47,10 +47,26 @@
         android:theme="@style/Theme.AppSplash"
         tools:ignore="AllowBackup">
         <activity
-            android:name=".compose.navigation.ComposeNavigationActivity"
-            android:theme="@style/AppTheme"
+            android:name=".compose.path.PathStrokeJoinExampleActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize"/>
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".compose.path.PathCapExampleActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".compose.path.QuadraticCubicBezierPathExampleActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".compose.path.PathBasicActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".compose.navigation.ComposeNavigationActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".security.keystore.KeystoreExampleActivity"
             android:exported="false"
