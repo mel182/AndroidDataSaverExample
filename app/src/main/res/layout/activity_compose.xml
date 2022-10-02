@@ -169,10 +169,45 @@
                     tools:ignore="HardcodedText"/>
 
                 <Button
-                    android:id="@+id/path_transformations_and_clipping_example"
+                    android:id="@+id/rotate_shape_example"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Path transformations and clipping example"
+                    android:text="Rotate shape example"
+                    tools:ignore="HardcodedText"/>
+
+                <Button
+                    android:id="@+id/rotate_shape_with_animation_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rotate shape with animation example"
+                    tools:ignore="HardcodedText"/>
+
+                <Button
+                    android:id="@+id/translate_shape_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Translate shape example"
+                    tools:ignore="HardcodedText"/>
+
+                <Button
+                    android:id="@+id/translate_shape_with_animation_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Translate shape with animation example"
+                    tools:ignore="HardcodedText"/>
+
+                <Button
+                    android:id="@+id/combine_translate_and_rotate_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Combine translate and rotate example"
+                    tools:ignore="HardcodedText"/>
+
+                <Button
+                    android:id="@+id/combine_translate_and_rotate_with_animation_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Combine translate and rotate with animation example"
                     tools:ignore="HardcodedText"/>
 
             </LinearLayout>

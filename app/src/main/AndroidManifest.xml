@@ -47,13 +47,21 @@
         android:theme="@style/Theme.AppSplash"
         tools:ignore="AllowBackup">
         <activity
+            android:name=".compose.path_transformations_and_clipping.CombineTranslateAndRotateWithAnimationExampleActivity"
+            android:theme="@style/AppTheme"
+            android:exported="false" />
+        <activity
+            android:name=".compose.path_transformations_and_clipping.CombineTranslateAndRotateExampleActivity"
+            android:theme="@style/AppTheme"
+            android:exported="false" />
+        <activity
             android:name=".compose.path_transformations_and_clipping.TranslateRectangleWithAnimationExampleActivity"
             android:exported="false"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".compose.path_transformations_and_clipping.TranslateRectangleExampleActivity"
             android:exported="false"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".compose.path_transformations_and_clipping.RotateRectangleWithAnimationExampleActivity"
             android:exported="false"

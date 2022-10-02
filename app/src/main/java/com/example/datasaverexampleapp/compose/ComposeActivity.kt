@@ -18,6 +18,7 @@ import com.example.datasaverexampleapp.compose.path.QuadraticCubicBezierPathExam
 import com.example.datasaverexampleapp.compose.path_animation.PathAnimationExampleActivity
 import com.example.datasaverexampleapp.compose.path_animation.PathAnimationWithArrowExampleActivity
 import com.example.datasaverexampleapp.compose.path_operations.PathOperationsExampleActivity
+import com.example.datasaverexampleapp.compose.path_transformations_and_clipping.*
 import com.example.datasaverexampleapp.compose.row_and_column_example.RowAndColumnComposeActivity
 import com.example.datasaverexampleapp.compose.screen_orientation.ScreenOrientationActivity
 import com.example.datasaverexampleapp.compose.simple_list.ComposeSimpleListActivity
@@ -147,6 +148,36 @@ class ComposeActivity : AppCompatActivity() {
 
             pathAnimationsWithArrowExample.setOnClickListener {
                 val intent = Intent(this@ComposeActivity, PathAnimationWithArrowExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+            rotateShapeExample.setOnClickListener {
+                val intent = Intent(this@ComposeActivity, RotateRectangleExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+            rotateShapeWithAnimationExample.setOnClickListener {
+                val intent = Intent(this@ComposeActivity, RotateRectangleWithAnimationExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+            translateShapeExample.setOnClickListener {
+                val intent = Intent(this@ComposeActivity, TranslateRectangleExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+            translateShapeWithAnimationExample.setOnClickListener {
+                val intent = Intent(this@ComposeActivity, TranslateRectangleWithAnimationExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+            combineTranslateAndRotateExample.setOnClickListener {
+                val intent = Intent(this@ComposeActivity, CombineTranslateAndRotateExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+            combineTranslateAndRotateWithAnimationExample.setOnClickListener {
+                val intent = Intent(this@ComposeActivity, CombineTranslateAndRotateWithAnimationExampleActivity::class.java)
                 startActivity(intent)
             }
 
