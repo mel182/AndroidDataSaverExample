@@ -154,6 +154,13 @@
                     android:text="Path operations Example"
                     tools:ignore="HardcodedText"/>
 
+                <Button
+                    android:id="@+id/path_animations_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Path animations Example"
+                    tools:ignore="HardcodedText"/>
+
             </LinearLayout>
 
         </ScrollView>
