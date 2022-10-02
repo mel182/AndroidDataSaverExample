@@ -224,6 +224,13 @@
                     android:text="Scale shape with animation example"
                     tools:ignore="HardcodedText"/>
 
+                <Button
+                    android:id="@+id/clipping_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Clipping example"
+                    tools:ignore="HardcodedText"/>
+
             </LinearLayout>
 
         </ScrollView>

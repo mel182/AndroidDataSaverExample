@@ -47,13 +47,17 @@
         android:theme="@style/Theme.AppSplash"
         tools:ignore="AllowBackup">
         <activity
-            android:name=".compose.path_transformations_and_clipping.ScaleShapeWithAnimationExampleActivity"
+            android:name=".compose.path_transformations_and_clipping.ClippingExampleActivity"
             android:exported="false"
             android:theme="@style/AppTheme"/>
         <activity
+            android:name=".compose.path_transformations_and_clipping.ScaleShapeWithAnimationExampleActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".compose.path_transformations_and_clipping.ScaleShapeExampleActivity"
             android:exported="false"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".compose.path_transformations_and_clipping.CombineTranslateAndRotateWithAnimationExampleActivity"
             android:exported="false"

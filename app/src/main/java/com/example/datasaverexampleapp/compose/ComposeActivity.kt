@@ -190,6 +190,11 @@ class ComposeActivity : AppCompatActivity() {
                 val intent = Intent(this@ComposeActivity, ScaleShapeWithAnimationExampleActivity::class.java)
                 startActivity(intent)
             }
+
+            clippingExample.setOnClickListener {
+                val intent = Intent(this@ComposeActivity, ClippingExampleActivity::class.java)
+                startActivity(intent)
+            }
         }
     }
 }
