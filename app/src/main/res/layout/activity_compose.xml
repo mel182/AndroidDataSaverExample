@@ -168,6 +168,13 @@
                     android:text="Path animations with arrow Example"
                     tools:ignore="HardcodedText"/>
 
+                <Button
+                    android:id="@+id/path_transformations_and_clipping_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Path transformations and clipping example"
+                    tools:ignore="HardcodedText"/>
+
             </LinearLayout>
 
         </ScrollView>
