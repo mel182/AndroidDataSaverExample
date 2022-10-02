@@ -38,7 +38,7 @@ class RotateRectangleWithAnimationExampleActivity : AppCompatActivity() {
             }
 
             Canvas(modifier = Modifier.fillMaxSize()) {
-                rotate(degrees = 45f, pivot = Offset(200f,200f)) {
+                rotate(degrees = animateDegrees.value, pivot = Offset(200f,200f)) {
                     drawRect(
                         color = Color.Red,
                         topLeft = Offset(x =100f,y = 100f),
