@@ -181,6 +181,15 @@ class ComposeActivity : AppCompatActivity() {
                 startActivity(intent)
             }
 
+            scaleShapeExample.setOnClickListener {
+                val intent = Intent(this@ComposeActivity, ScaleShapeExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+            scaleShapeWithAnimationExample.setOnClickListener {
+                val intent = Intent(this@ComposeActivity, ScaleShapeWithAnimationExampleActivity::class.java)
+                startActivity(intent)
+            }
         }
     }
 }

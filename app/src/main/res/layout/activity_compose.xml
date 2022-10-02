@@ -210,6 +210,20 @@
                     android:text="Combine translate and rotate with animation example"
                     tools:ignore="HardcodedText"/>
 
+                <Button
+                    android:id="@+id/scale_shape_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Scale shape example"
+                    tools:ignore="HardcodedText"/>
+
+                <Button
+                    android:id="@+id/scale_shape_with_animation_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Scale shape with animation example"
+                    tools:ignore="HardcodedText"/>
+
             </LinearLayout>
 
         </ScrollView>
