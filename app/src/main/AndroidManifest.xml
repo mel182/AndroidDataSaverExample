@@ -47,17 +47,21 @@
         android:theme="@style/Theme.AppSplash"
         tools:ignore="AllowBackup">
         <activity
+            android:name=".compose.path_operations.PathOperationsExampleActivity"
+            android:theme="@style/AppTheme"
+            android:exported="false" />
+        <activity
             android:name=".compose.path.PathStrokeJoinExampleActivity"
             android:exported="false"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".compose.path.PathCapExampleActivity"
             android:exported="false"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".compose.path.QuadraticCubicBezierPathExampleActivity"
             android:exported="false"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".compose.path.PathBasicActivity"
             android:exported="false"
