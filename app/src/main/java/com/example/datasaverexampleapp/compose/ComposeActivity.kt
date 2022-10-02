@@ -16,6 +16,7 @@ import com.example.datasaverexampleapp.compose.path.PathBasicActivity
 import com.example.datasaverexampleapp.compose.path.PathStrokeJoinExampleActivity
 import com.example.datasaverexampleapp.compose.path.QuadraticCubicBezierPathExampleActivity
 import com.example.datasaverexampleapp.compose.path_animation.PathAnimationExampleActivity
+import com.example.datasaverexampleapp.compose.path_animation.PathAnimationWithArrowExampleActivity
 import com.example.datasaverexampleapp.compose.path_operations.PathOperationsExampleActivity
 import com.example.datasaverexampleapp.compose.row_and_column_example.RowAndColumnComposeActivity
 import com.example.datasaverexampleapp.compose.screen_orientation.ScreenOrientationActivity
@@ -141,6 +142,11 @@ class ComposeActivity : AppCompatActivity() {
 
             pathAnimationsExample.setOnClickListener {
                 val intent = Intent(this@ComposeActivity, PathAnimationExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+            pathAnimationsWithArrowExample.setOnClickListener {
+                val intent = Intent(this@ComposeActivity, PathAnimationWithArrowExampleActivity::class.java)
                 startActivity(intent)
             }
 

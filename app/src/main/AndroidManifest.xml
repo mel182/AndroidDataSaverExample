@@ -47,9 +47,13 @@
         android:theme="@style/Theme.AppSplash"
         tools:ignore="AllowBackup">
         <activity
-            android:name=".compose.path_animation.PathAnimationExampleActivity"
+            android:name=".compose.path_animation.PathAnimationWithArrowExampleActivity"
             android:exported="false"
             android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".compose.path_animation.PathAnimationExampleActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".compose.path_operations.PathOperationsExampleActivity"
             android:exported="false"
