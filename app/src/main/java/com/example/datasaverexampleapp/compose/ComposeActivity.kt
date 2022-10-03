@@ -17,6 +17,8 @@ import com.example.datasaverexampleapp.compose.path.PathStrokeJoinExampleActivit
 import com.example.datasaverexampleapp.compose.path.QuadraticCubicBezierPathExampleActivity
 import com.example.datasaverexampleapp.compose.path_animation.PathAnimationExampleActivity
 import com.example.datasaverexampleapp.compose.path_animation.PathAnimationWithArrowExampleActivity
+import com.example.datasaverexampleapp.compose.path_effect.DashPathEffectExampleActivity
+import com.example.datasaverexampleapp.compose.path_effect.DashPathEffectWithAnimationExampleActivity
 import com.example.datasaverexampleapp.compose.path_operations.PathOperationsExampleActivity
 import com.example.datasaverexampleapp.compose.path_transformations_and_clipping.*
 import com.example.datasaverexampleapp.compose.row_and_column_example.RowAndColumnComposeActivity
@@ -193,6 +195,16 @@ class ComposeActivity : AppCompatActivity() {
 
             clippingExample.setOnClickListener {
                 val intent = Intent(this@ComposeActivity, ClippingExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+            pathEffectExample.setOnClickListener {
+                val intent = Intent(this@ComposeActivity, DashPathEffectExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+            pathEffectWithAnimationExample.setOnClickListener {
+                val intent = Intent(this@ComposeActivity, DashPathEffectWithAnimationExampleActivity::class.java)
                 startActivity(intent)
             }
         }

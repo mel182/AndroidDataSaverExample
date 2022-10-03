@@ -231,6 +231,20 @@
                     android:text="Clipping example"
                     tools:ignore="HardcodedText"/>
 
+                <Button
+                    android:id="@+id/path_effect_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dash path effect example"
+                    tools:ignore="HardcodedText"/>
+
+                <Button
+                    android:id="@+id/path_effect_with_animation_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dash path effect with animation example"
+                    tools:ignore="HardcodedText"/>
+
             </LinearLayout>
 
         </ScrollView>
