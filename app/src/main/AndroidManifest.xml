@@ -47,9 +47,13 @@
         android:theme="@style/Theme.AppSplash"
         tools:ignore="AllowBackup">
         <activity
-            android:name=".compose.text_on_path.TextOnPathExampleActivity"
+            android:name=".compose.path_gender_selection.GenderSelectionUsingPathExampleActivity"
             android:exported="false"
             android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".compose.text_on_path.TextOnPathExampleActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".compose.path_effect.DashPathEffectWithAnimationExampleActivity"
             android:exported="false"

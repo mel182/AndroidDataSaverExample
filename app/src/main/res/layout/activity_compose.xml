@@ -252,6 +252,13 @@
                     android:text="Write text on path example"
                     tools:ignore="HardcodedText"/>
 
+                <Button
+                    android:id="@+id/gender_selection_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Gender selection (using path)"
+                    tools:ignore="HardcodedText"/>
+
             </LinearLayout>
 
         </ScrollView>

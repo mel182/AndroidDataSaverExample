@@ -19,6 +19,7 @@ import com.example.datasaverexampleapp.compose.path_animation.PathAnimationExamp
 import com.example.datasaverexampleapp.compose.path_animation.PathAnimationWithArrowExampleActivity
 import com.example.datasaverexampleapp.compose.path_effect.DashPathEffectExampleActivity
 import com.example.datasaverexampleapp.compose.path_effect.DashPathEffectWithAnimationExampleActivity
+import com.example.datasaverexampleapp.compose.path_gender_selection.GenderSelectionUsingPathExampleActivity
 import com.example.datasaverexampleapp.compose.path_operations.PathOperationsExampleActivity
 import com.example.datasaverexampleapp.compose.path_transformations_and_clipping.*
 import com.example.datasaverexampleapp.compose.row_and_column_example.RowAndColumnComposeActivity
@@ -211,6 +212,11 @@ class ComposeActivity : AppCompatActivity() {
 
             writeTextOnPathExample.setOnClickListener {
                 val intent = Intent(this@ComposeActivity, TextOnPathExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+            genderSelectionExample.setOnClickListener {
+                val intent = Intent(this@ComposeActivity, GenderSelectionUsingPathExampleActivity::class.java)
                 startActivity(intent)
             }
 
