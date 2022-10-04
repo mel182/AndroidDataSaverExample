@@ -245,6 +245,13 @@
                     android:text="Dash path effect with animation example"
                     tools:ignore="HardcodedText"/>
 
+                <Button
+                    android:id="@+id/write_text_on_path_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Write text on path example"
+                    tools:ignore="HardcodedText"/>
+
             </LinearLayout>
 
         </ScrollView>

@@ -25,6 +25,7 @@ import com.example.datasaverexampleapp.compose.row_and_column_example.RowAndColu
 import com.example.datasaverexampleapp.compose.screen_orientation.ScreenOrientationActivity
 import com.example.datasaverexampleapp.compose.simple_list.ComposeSimpleListActivity
 import com.example.datasaverexampleapp.compose.tablayout_example.ComposeTabLayoutActivity
+import com.example.datasaverexampleapp.compose.text_on_path.TextOnPathExampleActivity
 import com.example.datasaverexampleapp.compose.textfield_buttons_snackbar_example.TextFieldButtonSnackbarActivity
 import com.example.datasaverexampleapp.compose.touch_input.ComposeDetectTouchInputActivity
 import com.example.datasaverexampleapp.compose.weight_scale.WeightScaleExampleActivity
@@ -207,6 +208,12 @@ class ComposeActivity : AppCompatActivity() {
                 val intent = Intent(this@ComposeActivity, DashPathEffectWithAnimationExampleActivity::class.java)
                 startActivity(intent)
             }
+
+            writeTextOnPathExample.setOnClickListener {
+                val intent = Intent(this@ComposeActivity, TextOnPathExampleActivity::class.java)
+                startActivity(intent)
+            }
+
         }
     }
 }
