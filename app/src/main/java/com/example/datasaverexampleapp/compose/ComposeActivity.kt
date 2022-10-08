@@ -28,6 +28,7 @@ import com.example.datasaverexampleapp.compose.simple_list.ComposeSimpleListActi
 import com.example.datasaverexampleapp.compose.tablayout_example.ComposeTabLayoutActivity
 import com.example.datasaverexampleapp.compose.text_on_path.TextOnPathExampleActivity
 import com.example.datasaverexampleapp.compose.textfield_buttons_snackbar_example.TextFieldButtonSnackbarActivity
+import com.example.datasaverexampleapp.compose.tic_tac_toe_game.TicTacToeGameActivity
 import com.example.datasaverexampleapp.compose.touch_input.ComposeDetectTouchInputActivity
 import com.example.datasaverexampleapp.compose.weight_scale.WeightScaleExampleActivity
 import com.example.datasaverexampleapp.databinding.ActivityComposeBinding
@@ -217,6 +218,11 @@ class ComposeActivity : AppCompatActivity() {
 
             genderSelectionExample.setOnClickListener {
                 val intent = Intent(this@ComposeActivity, GenderSelectionUsingPathExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+            ticTacToeExample.setOnClickListener {
+                val intent = Intent(this@ComposeActivity, TicTacToeGameActivity::class.java)
                 startActivity(intent)
             }
 

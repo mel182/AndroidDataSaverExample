@@ -259,6 +259,13 @@
                     android:text="Gender selection (using path)"
                     tools:ignore="HardcodedText"/>
 
+                <Button
+                    android:id="@+id/tic_tac_toe_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tic tac toe game (using path)"
+                    tools:ignore="HardcodedText"/>
+
             </LinearLayout>
 
         </ScrollView>
