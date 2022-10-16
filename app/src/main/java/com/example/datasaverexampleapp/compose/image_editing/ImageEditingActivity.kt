@@ -9,7 +9,7 @@ class ImageEditingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         title = "Image editing example"
         setContent {
-            
+
         }
     }
 }
