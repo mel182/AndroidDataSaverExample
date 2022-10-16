@@ -266,6 +266,13 @@
                     android:text="Tic tac toe game (using path)"
                     tools:ignore="HardcodedText"/>
 
+                <Button
+                    android:id="@+id/images_editing_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Image editing example"
+                    tools:ignore="HardcodedText"/>
+
             </LinearLayout>
 
         </ScrollView>
