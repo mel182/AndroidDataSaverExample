@@ -9,6 +9,7 @@ import com.example.datasaverexampleapp.compose.bottom_sheet.BottomSheetComposeAc
 import com.example.datasaverexampleapp.compose.canvas.CanvasShapeActivity
 import com.example.datasaverexampleapp.compose.clock_example.ComposeClockExampleActivity
 import com.example.datasaverexampleapp.compose.image_editing.ImageEditingActivity
+import com.example.datasaverexampleapp.compose.image_editing_exercise.ImageEditingExerciseActivity
 import com.example.datasaverexampleapp.compose.lifecycle.LifeCycleOwnerActivity
 import com.example.datasaverexampleapp.compose.list_with_paging.ComposeListWithPagingExampleActivity
 import com.example.datasaverexampleapp.compose.list_with_paging.native_paging.ComposeNativePagingExampleActivity
@@ -229,6 +230,11 @@ class ComposeActivity : AppCompatActivity() {
 
             imagesEditingExample.setOnClickListener {
                 val intent = Intent(this@ComposeActivity, ImageEditingActivity::class.java)
+                startActivity(intent)
+            }
+
+            imagesEditingExercise.setOnClickListener {
+                val intent = Intent(this@ComposeActivity, ImageEditingExerciseActivity::class.java)
                 startActivity(intent)
             }
         }

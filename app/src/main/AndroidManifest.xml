@@ -47,9 +47,13 @@
         android:theme="@style/Theme.AppSplash"
         tools:ignore="AllowBackup">
         <activity
-            android:name=".compose.image_editing.ImageEditingActivity"
+            android:name=".compose.image_editing_exercise.ImageEditingExerciseActivity"
             android:exported="false"
             android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".compose.image_editing.ImageEditingActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".compose.tic_tac_toe_game.TicTacToeGameActivity"
             android:exported="false"
