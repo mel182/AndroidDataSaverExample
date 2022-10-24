@@ -8,6 +8,8 @@ import com.example.datasaverexampleapp.compose.bottom_navigation.BottomNavigatio
 import com.example.datasaverexampleapp.compose.bottom_sheet.BottomSheetComposeActivity
 import com.example.datasaverexampleapp.compose.canvas.CanvasShapeActivity
 import com.example.datasaverexampleapp.compose.clock_example.ComposeClockExampleActivity
+import com.example.datasaverexampleapp.compose.image_editing.ImageEditingActivity
+import com.example.datasaverexampleapp.compose.image_editing_exercise.ImageEditingExerciseActivity
 import com.example.datasaverexampleapp.compose.lifecycle.LifeCycleOwnerActivity
 import com.example.datasaverexampleapp.compose.list_with_paging.ComposeListWithPagingExampleActivity
 import com.example.datasaverexampleapp.compose.list_with_paging.native_paging.ComposeNativePagingExampleActivity
@@ -17,13 +19,18 @@ import com.example.datasaverexampleapp.compose.path.PathStrokeJoinExampleActivit
 import com.example.datasaverexampleapp.compose.path.QuadraticCubicBezierPathExampleActivity
 import com.example.datasaverexampleapp.compose.path_animation.PathAnimationExampleActivity
 import com.example.datasaverexampleapp.compose.path_animation.PathAnimationWithArrowExampleActivity
+import com.example.datasaverexampleapp.compose.path_effect.DashPathEffectExampleActivity
+import com.example.datasaverexampleapp.compose.path_effect.DashPathEffectWithAnimationExampleActivity
+import com.example.datasaverexampleapp.compose.path_gender_selection.GenderSelectionUsingPathExampleActivity
 import com.example.datasaverexampleapp.compose.path_operations.PathOperationsExampleActivity
 import com.example.datasaverexampleapp.compose.path_transformations_and_clipping.*
 import com.example.datasaverexampleapp.compose.row_and_column_example.RowAndColumnComposeActivity
 import com.example.datasaverexampleapp.compose.screen_orientation.ScreenOrientationActivity
 import com.example.datasaverexampleapp.compose.simple_list.ComposeSimpleListActivity
 import com.example.datasaverexampleapp.compose.tablayout_example.ComposeTabLayoutActivity
+import com.example.datasaverexampleapp.compose.text_on_path.TextOnPathExampleActivity
 import com.example.datasaverexampleapp.compose.textfield_buttons_snackbar_example.TextFieldButtonSnackbarActivity
+import com.example.datasaverexampleapp.compose.tic_tac_toe_game.TicTacToeGameActivity
 import com.example.datasaverexampleapp.compose.touch_input.ComposeDetectTouchInputActivity
 import com.example.datasaverexampleapp.compose.weight_scale.WeightScaleExampleActivity
 import com.example.datasaverexampleapp.databinding.ActivityComposeBinding
@@ -193,6 +200,41 @@ class ComposeActivity : AppCompatActivity() {
 
             clippingExample.setOnClickListener {
                 val intent = Intent(this@ComposeActivity, ClippingExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+            pathEffectExample.setOnClickListener {
+                val intent = Intent(this@ComposeActivity, DashPathEffectExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+            pathEffectWithAnimationExample.setOnClickListener {
+                val intent = Intent(this@ComposeActivity, DashPathEffectWithAnimationExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+            writeTextOnPathExample.setOnClickListener {
+                val intent = Intent(this@ComposeActivity, TextOnPathExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+            genderSelectionExample.setOnClickListener {
+                val intent = Intent(this@ComposeActivity, GenderSelectionUsingPathExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+            ticTacToeExample.setOnClickListener {
+                val intent = Intent(this@ComposeActivity, TicTacToeGameActivity::class.java)
+                startActivity(intent)
+            }
+
+            imagesEditingExample.setOnClickListener {
+                val intent = Intent(this@ComposeActivity, ImageEditingActivity::class.java)
+                startActivity(intent)
+            }
+
+            imagesEditingExercise.setOnClickListener {
+                val intent = Intent(this@ComposeActivity, ImageEditingExerciseActivity::class.java)
                 startActivity(intent)
             }
         }

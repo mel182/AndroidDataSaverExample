@@ -231,6 +231,55 @@
                     android:text="Clipping example"
                     tools:ignore="HardcodedText"/>
 
+                <Button
+                    android:id="@+id/path_effect_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dash path effect example"
+                    tools:ignore="HardcodedText"/>
+
+                <Button
+                    android:id="@+id/path_effect_with_animation_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dash path effect with animation example"
+                    tools:ignore="HardcodedText"/>
+
+                <Button
+                    android:id="@+id/write_text_on_path_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Write text on path example"
+                    tools:ignore="HardcodedText"/>
+
+                <Button
+                    android:id="@+id/gender_selection_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Gender selection (using path)"
+                    tools:ignore="HardcodedText"/>
+
+                <Button
+                    android:id="@+id/tic_tac_toe_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tic tac toe game (using path)"
+                    tools:ignore="HardcodedText"/>
+
+                <Button
+                    android:id="@+id/images_editing_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Image editing example"
+                    tools:ignore="HardcodedText"/>
+
+                <Button
+                    android:id="@+id/images_editing_exercise"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Image editing exercise"
+                    tools:ignore="HardcodedText"/>
+
             </LinearLayout>
 
         </ScrollView>
