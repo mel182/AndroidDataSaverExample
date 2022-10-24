@@ -65,6 +65,7 @@ import com.example.datasaverexampleapp.motion_layout.MotionLayoutExampleActivity
 import com.example.datasaverexampleapp.mvvm_coroutine_flow_livedata.MvvMCoroutinesActivity
 import com.example.datasaverexampleapp.notification.NotificationActivity
 import com.example.datasaverexampleapp.paging.PagingExampleActivity
+import com.example.datasaverexampleapp.picture_in_picture_example.PictureInPictureExampleActivity
 import com.example.datasaverexampleapp.preference_datastore.PreferenceDataStoreActivity
 import com.example.datasaverexampleapp.protocol_oriented_programming_kotlin.ProtocolOrientedActivity
 import com.example.datasaverexampleapp.recycler_view_item_animation.RecyclerViewItemAnimationActivity
@@ -564,6 +565,10 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
+            pictureInPictureModeExample.setOnClickListener {
+                val intent = Intent(this@MainActivity, PictureInPictureExampleActivity::class.java)
+                startActivity(intent)
+            }
 
             cancelNotificationIfNeeded(ForegroundService.NOTIFICATION_ID)
         }

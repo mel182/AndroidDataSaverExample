@@ -463,6 +463,13 @@
                     android:text="Keystore security example (API 24 or newer)"
                     tools:ignore="HardcodedText" />
 
+                <Button
+                    android:id="@+id/picture_in_picture_mode_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Picture in picture mode (API 24 or newer)"
+                    tools:ignore="HardcodedText" />
+
             </LinearLayout>
         </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
