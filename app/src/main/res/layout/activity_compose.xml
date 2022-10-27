@@ -280,6 +280,12 @@
                     android:text="Image editing exercise"
                     tools:ignore="HardcodedText"/>
 
+                <Button
+                    android:id="@+id/grid_list_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Grid list example"
+                    tools:ignore="HardcodedText"/>
             </LinearLayout>
 
         </ScrollView>

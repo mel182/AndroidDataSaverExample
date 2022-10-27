@@ -8,6 +8,7 @@ import com.example.datasaverexampleapp.compose.bottom_navigation.BottomNavigatio
 import com.example.datasaverexampleapp.compose.bottom_sheet.BottomSheetComposeActivity
 import com.example.datasaverexampleapp.compose.canvas.CanvasShapeActivity
 import com.example.datasaverexampleapp.compose.clock_example.ComposeClockExampleActivity
+import com.example.datasaverexampleapp.compose.grid_list.ComposeGridListExampleActivity
 import com.example.datasaverexampleapp.compose.image_editing.ImageEditingActivity
 import com.example.datasaverexampleapp.compose.image_editing_exercise.ImageEditingExerciseActivity
 import com.example.datasaverexampleapp.compose.lifecycle.LifeCycleOwnerActivity
@@ -235,6 +236,11 @@ class ComposeActivity : AppCompatActivity() {
 
             imagesEditingExercise.setOnClickListener {
                 val intent = Intent(this@ComposeActivity, ImageEditingExerciseActivity::class.java)
+                startActivity(intent)
+            }
+
+            gridListExample.setOnClickListener {
+                val intent = Intent(this@ComposeActivity, ComposeGridListExampleActivity::class.java)
                 startActivity(intent)
             }
         }

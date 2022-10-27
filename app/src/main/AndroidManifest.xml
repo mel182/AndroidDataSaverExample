@@ -47,15 +47,19 @@
         android:theme="@style/Theme.AppSplash"
         tools:ignore="AllowBackup">
         <activity
-            android:name=".picture_in_picture_example.PictureInPictureExampleActivity"
+            android:name=".compose.grid_list.ComposeGridListExampleActivity"
             android:exported="false"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
-            android:supportsPictureInPicture="true"
             android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".picture_in_picture_example.PictureInPictureExampleActivity"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:exported="false"
+            android:supportsPictureInPicture="true"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".compose.image_editing_exercise.ImageEditingExerciseActivity"
             android:exported="false"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".compose.image_editing.ImageEditingActivity"
             android:exported="false"
@@ -529,7 +533,7 @@
             </intent-filter>
         </receiver>
         <receiver android:name=".location.GeofencingReceiver" />
-        <receiver android:name=".picture_in_picture_example.PictureInPictureExampleActivity$VideoReceiver"/>
+        <receiver android:name=".picture_in_picture_example.PictureInPictureExampleActivity$VideoReceiver" />
 
         <service
             android:name=".notification.MyFirebaseMessagingService"
