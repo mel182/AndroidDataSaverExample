@@ -65,6 +65,9 @@ dependencies {
 
     // -------  Compose dependencies --------
 
+    // splash screen dependency
+    implementation("androidx.core:core-splashscreen:1.0.0")
+
     // Integration with activities
     implementation 'androidx.activity:activity-compose:1.5.1'
     // Compose Material Design
