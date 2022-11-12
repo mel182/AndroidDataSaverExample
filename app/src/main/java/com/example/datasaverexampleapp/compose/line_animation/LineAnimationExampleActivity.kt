@@ -58,14 +58,14 @@ class LineAnimationExampleActivity : AppCompatActivity() {
                 }
 
                 // Fade in
-//                AnimatedVisibility(visible = visible, enter = fadeIn(initialAlpha = 0f, animationSpec = tween(durationMillis = 800))) {
-//                    Image(painter = painterResource(id = Drawable.vi_icon), modifier = Modifier.size(100.dp),contentDescription = null)
-//                }
-
-                // Scale in + expand vertically
-                AnimatedVisibility(visible = visible, enter = scaleIn() + expandVertically(expandFrom = Alignment.CenterVertically)) {
+                AnimatedVisibility(visible = visible, enter = fadeIn(initialAlpha = 0f, animationSpec = tween(durationMillis = 800))) {
                     Image(painter = painterResource(id = Drawable.vi_icon), modifier = Modifier.size(100.dp),contentDescription = null)
                 }
+
+                // Scale in + expand vertically
+//                AnimatedVisibility(visible = visible, enter = scaleIn() + expandVertically(expandFrom = Alignment.CenterVertically)) {
+//                    Image(painter = painterResource(id = Drawable.vi_icon), modifier = Modifier.size(100.dp),contentDescription = null)
+//                }
             }
         }
     }

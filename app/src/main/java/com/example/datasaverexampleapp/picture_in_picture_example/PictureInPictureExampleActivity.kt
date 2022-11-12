@@ -7,19 +7,28 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.graphics.Rect
 import android.graphics.drawable.Icon
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.util.Rational
 import androidx.activity.compose.setContent
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.ui.graphics.Color
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.Checkbox
+import androidx.compose.material.Text
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toAndroidRect
 import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -42,6 +51,8 @@ class PictureInPictureExampleActivity : AppCompatActivity() {
     }
 
     private var videoViewBounds = Rect()
+    private var isChecked by mutableStateOf(false)
+    private var isCheckboxVisible by mutableStateOf(true)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +63,7 @@ class PictureInPictureExampleActivity : AppCompatActivity() {
             Column(modifier = Modifier
                 .fillMaxSize()
                 .background(color = Color.White)) {
-                val videoID = "jJKzW96S4F8"
+                val videoID = "eCEXpukJTIs"
                 AndroidView(factory = { context ->
 
                     YouTubePlayerView(context).apply {
@@ -76,6 +87,21 @@ class PictureInPictureExampleActivity : AppCompatActivity() {
                 }, modifier = Modifier.onGloballyPositioned {
                     videoViewBounds = it.boundsInWindow().toAndroidRect()
                 })
+
+                Row(modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically) {
+
+                    AnimatedVisibility(visible = isCheckboxVisible, exit = fadeOut()) {
+                        Checkbox(checked = isChecked, onCheckedChange = {
+                            isChecked = it
+                            isCheckboxVisible = !it
+                        })
+                    }
+
+                    Text(text = if (isChecked) "Picture in picture enabled" else "Enable picture in picture",
+                         color = if (isChecked) Color.Blue else Color.Black)
+                }
             }
         }
     }
@@ -87,9 +113,9 @@ class PictureInPictureExampleActivity : AppCompatActivity() {
                 .setAspectRatio(Rational(16,9))
                 .setActions(listOf(
                     RemoteAction(
-                        Icon.createWithResource(applicationContext, R.drawable.audiotrack_icon),
-                        "Audio track",
-                        "Audio track",
+                        Icon.createWithResource(applicationContext, R.drawable.video_icon),
+                        "Video track",
+                        "Video track",
                         PendingIntent.getBroadcast(
                             applicationContext,
                             0,
@@ -104,8 +130,15 @@ class PictureInPictureExampleActivity : AppCompatActivity() {
         }
     }
 
-    override fun onUserLeaveHint() {
-        super.onUserLeaveHint()
+    override fun onPause() {
+        super.onPause()
+
+        if (isChecked) {
+            enterPictureInPicture()
+        }
+    }
+
+    private fun enterPictureInPicture() {
         if (!isPictureInPictureSupported)
             return
 
@@ -113,6 +146,22 @@ class PictureInPictureExampleActivity : AppCompatActivity() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 enterPictureInPictureMode(params)
             }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onPictureInPictureModeChanged(
+        isInPictureInPictureMode: Boolean,
+        newConfig: Configuration
+    ) {
+        super.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
+
+        if (isInPictureInPictureMode) {
+            // in picture in picture mode
+            supportActionBar?.hide()
+        } else {
+            //out picture in picture mode
+            supportActionBar?.show()
         }
     }
 
