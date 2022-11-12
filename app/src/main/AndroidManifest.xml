@@ -47,9 +47,14 @@
         android:theme="@style/Theme.AppSplash"
         tools:ignore="AllowBackup">
         <activity
+            android:name=".compose.line_animation.LineAnimationExampleActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme">
+        </activity>
+        <activity
             android:name=".compose.grid_list.ComposeGridListExampleActivity"
             android:exported="false"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".picture_in_picture_example.PictureInPictureExampleActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"

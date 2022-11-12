@@ -12,6 +12,7 @@ import com.example.datasaverexampleapp.compose.grid_list.ComposeGridListExampleA
 import com.example.datasaverexampleapp.compose.image_editing.ImageEditingActivity
 import com.example.datasaverexampleapp.compose.image_editing_exercise.ImageEditingExerciseActivity
 import com.example.datasaverexampleapp.compose.lifecycle.LifeCycleOwnerActivity
+import com.example.datasaverexampleapp.compose.line_animation.LineAnimationExampleActivity
 import com.example.datasaverexampleapp.compose.list_with_paging.ComposeListWithPagingExampleActivity
 import com.example.datasaverexampleapp.compose.list_with_paging.native_paging.ComposeNativePagingExampleActivity
 import com.example.datasaverexampleapp.compose.navigation.ComposeNavigationActivity
@@ -241,6 +242,11 @@ class ComposeActivity : AppCompatActivity() {
 
             gridListExample.setOnClickListener {
                 val intent = Intent(this@ComposeActivity, ComposeGridListExampleActivity::class.java)
+                startActivity(intent)
+            }
+
+            lineAnimationExample.setOnClickListener {
+                val intent = Intent(this@ComposeActivity, LineAnimationExampleActivity::class.java)
                 startActivity(intent)
             }
         }

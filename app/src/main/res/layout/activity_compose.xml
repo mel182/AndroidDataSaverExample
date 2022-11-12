@@ -286,6 +286,14 @@
                     android:layout_height="wrap_content"
                     android:text="Grid list example"
                     tools:ignore="HardcodedText"/>
+
+                <Button
+                    android:id="@+id/line_animation_example"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Line animation example"
+                    tools:ignore="HardcodedText"/>
+
             </LinearLayout>
 
         </ScrollView>
