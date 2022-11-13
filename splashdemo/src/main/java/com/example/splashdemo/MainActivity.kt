@@ -16,6 +16,9 @@ import com.example.splashdemo.ui.theme.DataSaverExampleAppTheme
 
 class MainActivity : ComponentActivity()
 {
+    // More info about the designing a animated icon read this article:
+    // https://proandroiddev.com/sketch-animated-vector-drawable-%EF%B8%8F-41fb63465b61
+
     private val demoViewModel: DemoViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
