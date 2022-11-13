@@ -16,6 +16,8 @@ import com.example.splashdemo.ui.theme.DataSaverExampleAppTheme
 
 class MainActivity : ComponentActivity()
 {
+    // Animated icon size max. 58 x 58
+    // Animated background max. 108 x 108
     // More info about the designing a animated icon read this article:
     // https://proandroiddev.com/sketch-animated-vector-drawable-%EF%B8%8F-41fb63465b61
 
