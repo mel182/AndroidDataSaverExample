@@ -15,6 +15,7 @@
             <option value="$PROJECT_DIR$/contentProviderApp" />
             <option value="$PROJECT_DIR$/navigationcompose" />
             <option value="$PROJECT_DIR$/splashdemo" />
+            <option value="$PROJECT_DIR$/webviewnavigation" />
           </set>
         </option>
       </GradleProjectSettings>
