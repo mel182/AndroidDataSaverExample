@@ -12,6 +12,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/composemotionlayout" />
             <option value="$PROJECT_DIR$/contentProviderApp" />
             <option value="$PROJECT_DIR$/navigationcompose" />
             <option value="$PROJECT_DIR$/splashdemo" />
