@@ -100,6 +100,7 @@ fun ReversePagingView(viewModel: Lazy<ReversePagingViewModel<*>>, loadingView: @
                         setLastVisibleItem(viewModel.value.state.items[index])
                         loadHistoryItems()
                     }
+                }
 
                     Column(
                         modifier = Modifier
@@ -143,20 +144,19 @@ fun ReversePagingView(viewModel: Lazy<ReversePagingViewModel<*>>, loadingView: @
                         }
                     }
                 }
-            }
-            // ---- lazy column
-
-            item {
-                AnimatedVisibility(
-                    visible = viewModel.value.state.showInitialLoadingView,
-                    enter = fadeIn(),
-                    exit = fadeOut(
-                        animationSpec = tween(durationMillis = 500)
-                    )
-                ) {
-                    generalLoadingView()
-                }
-            }
         }
-    }
+
+        // ---- lazy column
+        AnimatedVisibility(
+                visible = viewModel.value.state.showInitialLoadingView,
+                enter = fadeIn(),
+                exit = fadeOut(
+                    animationSpec = tween(durationMillis = 500)
+                )
+            ) {
+                generalLoadingView()
+            }
+
+
+        }
 }
