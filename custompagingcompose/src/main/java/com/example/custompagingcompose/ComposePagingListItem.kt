@@ -1,3 +1,3 @@
 package com.example.custompagingcompose
 
-data class ComposePagingListItem(val id:String, val title:String = "", val description:String = "")
+data class ComposePagingListItem(val id:String, val category:String, val title:String = "", val description:String = "")

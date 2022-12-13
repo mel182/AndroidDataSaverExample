@@ -9,6 +9,7 @@ object ComposePagingListRepository : ReversePagingRepository<Long,ComposePagingL
         ComposePagingListItem(
             id = it.toString(),
             title = "Item $it",
+            category = "Future",
             description = "Description $it"
         )
     }
@@ -29,61 +30,73 @@ object ComposePagingListRepository : ReversePagingRepository<Long,ComposePagingL
             ComposePagingListItem(
                 id = "h1",
                 title = "History Item 1",
+                category = "History",
                 description = "History description 1"
             ),
             ComposePagingListItem(
                 id = "h2",
                 title = "History Item 2",
+                category = "History",
                 description = "History description 2"
             ),
             ComposePagingListItem(
                 id = "h3",
                 title = "History Item 3",
+                category = "History",
                 description = "History description 3"
             ),
             ComposePagingListItem(
                 id = "h4",
                 title = "History Item 4",
+                category = "History",
                 description = "History description 4"
             ),
             ComposePagingListItem(
                 id = "h5",
                 title = "History Item 5",
+                category = "History",
                 description = "History description 5"
             ),
             ComposePagingListItem(
                 id = "h6",
                 title = "History Item 6",
+                category = "History",
                 description = "History description 6"
             ),
             ComposePagingListItem(
                 id = "h7",
                 title = "History Item 7",
+                category = "History",
                 description = "History description 7"
             ),
             ComposePagingListItem(
                 id = "h8",
                 title = "History Item 8",
+                category = "History",
                 description = "History description 8"
             ),
             ComposePagingListItem(
                 id = "h9",
                 title = "History Item 9",
+                category = "History",
                 description = "History description 9"
             ),
             ComposePagingListItem(
                 id = "h10",
                 title = "History Item 10",
+                category = "History",
                 description = "History description 10"
             ),
             ComposePagingListItem(
                 id = "h11",
                 title = "History Item 11",
+                category = "History",
                 description = "History description 11"
             ),
             ComposePagingListItem(
                 id = "h12",
                 title = "History Item 12",
+                category = "History",
                 description = "History description 12"
             ),
         )

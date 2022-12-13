@@ -9,6 +9,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -59,6 +60,7 @@ class MainActivity : ComponentActivity()
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ReversePagingView(viewModel: Lazy<ReversePagingViewModel<*>>, loadingView: @Composable () -> Unit, generalLoadingView: @Composable () -> Unit) {
 
@@ -67,6 +69,7 @@ fun ReversePagingView(viewModel: Lazy<ReversePagingViewModel<*>>, loadingView: @
         // ---- lazy column
         val scope = rememberCoroutineScope()
         val listState = rememberLazyListState()
+
 
         LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
 
@@ -81,7 +84,19 @@ fun ReversePagingView(viewModel: Lazy<ReversePagingViewModel<*>>, loadingView: @
                     loadingView()
                 }
             }
+
+            val itemCount = viewModel.value.state.items.size
+            var lastCategoryShown: String = "start"
+
+            stickyHeader {
+                Text(text = "Test sticky header", modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color.LightGray)
+                    .padding(16.dp))
+            }
             
+            // Original implementation without sticky header
+
             items(viewModel.value.state.items.size, key = { index ->
                 val item = viewModel.value.state.items[index]
                 item.id
@@ -90,6 +105,10 @@ fun ReversePagingView(viewModel: Lazy<ReversePagingViewModel<*>>, loadingView: @
                 Log.i("TAG55", "Item index: ${index}")
 
                 val item = viewModel.value.state.items[index]
+
+                if (item.category != lastCategoryShown) {
+                    lastCategoryShown = item.category
+                }
 
                 // Detect when to load next items
                 if (index >= viewModel.value.state.items.size - 1 && !viewModel.value.state.futureEndReached && !viewModel.value.state.isLoading) {
@@ -118,6 +137,7 @@ fun ReversePagingView(viewModel: Lazy<ReversePagingViewModel<*>>, loadingView: @
                     Text(text = item.description)
                 }
             }
+            // Original implementation without sticky header
 
             item {
                 AnimatedVisibility(
