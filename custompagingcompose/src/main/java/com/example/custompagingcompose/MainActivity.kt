@@ -22,7 +22,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity()
@@ -82,8 +81,11 @@ fun ReversePagingView(viewModel: Lazy<ReversePagingViewModel<*>>, loadingView: @
                     loadingView()
                 }
             }
-
-            items(viewModel.value.state.items.size) { index ->
+            
+            items(viewModel.value.state.items.size, key = { index ->
+                val item = viewModel.value.state.items[index]
+                item.id
+            }) { index ->
 
                 Log.i("TAG55", "Item index: ${index}")
 
@@ -102,61 +104,71 @@ fun ReversePagingView(viewModel: Lazy<ReversePagingViewModel<*>>, loadingView: @
                     }
                 }
 
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp)
-                    ) {
-                        Text(
-                            text = item.title,
-                            fontSize = 20.sp,
-                            color = Color.Black
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(text = item.description)
-                    }
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                ) {
+                    Text(
+                        text = item.title,
+                        fontSize = 20.sp,
+                        color = Color.Black
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(text = item.description)
                 }
+            }
 
-                scope.launch {
-                    if (viewModel.value.state.isInitialLoad) {
-                        scope.launch {
-                            viewModel.value.state.items.asSequence().filter { it.title == "Item 8" }
-                                .firstOrNull()?.let { index_of_test ->
-                                val index = viewModel.value.state.items.indexOf(index_of_test)
-                                //delay(2000)
-                                listState.animateScrollToItem(index)
-                                viewModel.value.setInitialLoadState(initialLoad = false)
-                                Log.i(
-                                    "TAG45",
-                                    "initial load after: ${viewModel.value.state.isInitialLoad}"
-                                )
-                            }
+            item {
+                AnimatedVisibility(
+                    visible = viewModel.value.state.isLoading,
+                    enter = fadeIn(),
+                    exit = fadeOut(
+                        animationSpec = tween(durationMillis = 500)
+                    )
+                ) {
+                    loadingView()
+                }
+            }
+
+            scope.launch {
+                if (viewModel.value.state.isInitialLoad) {
+                    scope.launch {
+                        viewModel.value.state.items.asSequence().filter { it.title == "Item 8" }
+                            .firstOrNull()?.let { index_of_test ->
+                            val index = viewModel.value.state.items.indexOf(index_of_test)
+                            //delay(2000)
+                            listState.animateScrollToItem(index)
+                            viewModel.value.setInitialLoadState(initialLoad = false)
+                            Log.i(
+                                "TAG45",
+                                "initial load after: ${viewModel.value.state.isInitialLoad}"
+                            )
                         }
-                    } else if (viewModel.value.state.isHistoryData) {
-                        Log.i("TAG45", "is history data!")
-                        viewModel.value.state.lastVisibleItem?.let { lastVisibleItem ->
-                            val itemIndex = viewModel.value.state.items.indexOf(lastVisibleItem)
-                            Log.i("TAG45", "last visible item index: ${itemIndex}")
-                            if (itemIndex != -1) {
-                                listState.scrollToItem(itemIndex)
-                                viewModel.value.setLastVisibleItem()
-                            }
+                    }
+                } else if (viewModel.value.state.isHistoryData) {
+                    Log.i("TAG45", "is history data!")
+                    viewModel.value.state.lastVisibleItem?.let { lastVisibleItem ->
+                        val itemIndex = viewModel.value.state.items.indexOf(lastVisibleItem)
+                        Log.i("TAG45", "last visible item index: ${itemIndex}")
+                        if (itemIndex != -1) {
+                            listState.scrollToItem(itemIndex)
+                            viewModel.value.setLastVisibleItem()
                         }
                     }
                 }
+            }
         }
 
         // ---- lazy column
         AnimatedVisibility(
-                visible = viewModel.value.state.showInitialLoadingView,
-                enter = fadeIn(),
-                exit = fadeOut(
-                    animationSpec = tween(durationMillis = 500)
-                )
-            ) {
-                generalLoadingView()
-            }
-
-
+            visible = viewModel.value.state.showInitialLoadingView,
+            enter = fadeIn(),
+            exit = fadeOut(
+                animationSpec = tween(durationMillis = 500)
+            )
+        ) {
+            generalLoadingView()
         }
+    }
 }
