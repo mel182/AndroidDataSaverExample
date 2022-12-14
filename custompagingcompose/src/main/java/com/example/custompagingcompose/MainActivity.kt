@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,6 +37,7 @@ class MainActivity : ComponentActivity()
 
             ReversePagingView(
                 viewModel = viewModel,
+                showStickyHeader = true,
                 loadingView = {
                     Row(modifier = Modifier
                         .fillMaxWidth()
@@ -50,8 +52,8 @@ class MainActivity : ComponentActivity()
                     Column(horizontalAlignment = Alignment.CenterHorizontally,
                            verticalArrangement = Arrangement.Center,
                            modifier = Modifier
-                                .fillMaxSize()
-                                .background(color = Color.LightGray)) {
+                               .fillMaxSize()
+                               .background(color = Color.LightGray)) {
                         CircularProgressIndicator()
                     }
                 }
@@ -62,7 +64,9 @@ class MainActivity : ComponentActivity()
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ReversePagingView(viewModel: Lazy<ReversePagingViewModel<*>>, loadingView: @Composable () -> Unit, generalLoadingView: @Composable () -> Unit) {
+fun ReversePagingView(viewModel: Lazy<ReversePagingViewModel<*>>, showStickyHeader:Boolean = false, loadingView: @Composable () -> Unit, generalLoadingView: @Composable () -> Unit) {
+
+    val stickyHeaderTitle = viewModel.value.stickyHeaderTitle.collectAsState()
 
     Box(modifier = Modifier.fillMaxSize()) {
 
@@ -85,16 +89,20 @@ fun ReversePagingView(viewModel: Lazy<ReversePagingViewModel<*>>, loadingView: @
                 }
             }
 
-            val itemCount = viewModel.value.state.items.size
-            var lastCategoryShown: String = "start"
+            var lastCategoryShown = ""
 
-            stickyHeader {
-                Text(text = "Test sticky header", modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color.LightGray)
-                    .padding(16.dp))
+            if (showStickyHeader) {
+                val stickyTitle = stickyHeaderTitle.value
+                if (stickyTitle.isNotBlank()) {
+                    stickyHeader {
+                        Text(text = stickyTitle, modifier = Modifier
+                            .fillMaxWidth()
+                            .background(Color.LightGray)
+                            .padding(16.dp))
+                    }
+                }
             }
-            
+
             // Original implementation without sticky header
 
             items(viewModel.value.state.items.size, key = { index ->
@@ -102,12 +110,14 @@ fun ReversePagingView(viewModel: Lazy<ReversePagingViewModel<*>>, loadingView: @
                 item.id
             }) { index ->
 
-                Log.i("TAG55", "Item index: ${index}")
-
                 val item = viewModel.value.state.items[index]
 
-                if (item.category != lastCategoryShown) {
-                    lastCategoryShown = item.category
+                if (showStickyHeader) {
+                    val topItem = viewModel.value.state.items[listState.firstVisibleItemIndex]
+                    if (topItem.category != lastCategoryShown) {
+                        lastCategoryShown = topItem.category
+                        viewModel.value.setStickyHeaderTitle(topItem.category)
+                    }
                 }
 
                 // Detect when to load next items
@@ -157,13 +167,8 @@ fun ReversePagingView(viewModel: Lazy<ReversePagingViewModel<*>>, loadingView: @
                         viewModel.value.state.items.asSequence().filter { it.title == "Item 8" }
                             .firstOrNull()?.let { index_of_test ->
                             val index = viewModel.value.state.items.indexOf(index_of_test)
-                            //delay(2000)
                             listState.animateScrollToItem(index)
                             viewModel.value.setInitialLoadState(initialLoad = false)
-                            Log.i(
-                                "TAG45",
-                                "initial load after: ${viewModel.value.state.isInitialLoad}"
-                            )
                         }
                     }
                 } else if (viewModel.value.state.isHistoryData) {
