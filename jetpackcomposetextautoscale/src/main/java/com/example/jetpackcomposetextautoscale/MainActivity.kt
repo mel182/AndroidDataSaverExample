@@ -18,7 +18,7 @@ import com.example.jetpackcomposetextautoscale.ui.theme.DataSaverExampleAppTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
+        this@MainActivity.setContent {
             DataSaverExampleAppTheme {
 
                 val width:Dp = 250.dp
