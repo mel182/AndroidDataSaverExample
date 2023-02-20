@@ -2,7 +2,6 @@ package com.example.draganddropexample
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
@@ -21,6 +20,7 @@ import androidx.compose.ui.input.pointer.consumeAllChanges
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -29,60 +29,63 @@ class MainActivity : ComponentActivity()
 {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(
+            ComposeView(this).apply {
+                setContent {
 
-        setContent {
+                    LongPressedDraggable(modifier = Modifier.fillMaxSize().background(color = Color(0xFF6DC5FF))) {
 
-            LongPressedDraggable(modifier = Modifier.fillMaxSize().background(color = Color(0xFF6DC5FF))) {
+                        ConstraintLayout(modifier = Modifier.fillMaxSize()) {
 
-                ConstraintLayout(modifier = Modifier.fillMaxSize()) {
+                            val (content,placeholder) = createRefs()
 
-                    val (content,placeholder) = createRefs()
+                            val dragInfo = LocalDragTargetInfo.current
 
-                    val dragInfo = LocalDragTargetInfo.current
+                            DropTarget<String>(modifier = Modifier
+                                .size(80.dp)
+                                .constrainAs(placeholder) {
+                                    start.linkTo(parent.start)
+                                    end.linkTo(parent.end)
+                                    top.linkTo(parent.top, 20.dp)
+                                }) { isInBound, data ->
 
-                    DropTarget<String>(modifier = Modifier
-                        .size(80.dp)
-                        .constrainAs(placeholder) {
-                            start.linkTo(parent.start)
-                            end.linkTo(parent.end)
-                            top.linkTo(parent.top, 20.dp)
-                        }) { isInBound, data ->
+                                val backgroundColor = if (isInBound || dragInfo.dropBoundReached) { Color(0xFF5632E8) } else { Color(0x66000000) }
+                                val borderColor = if (isInBound || dragInfo.dropBoundReached) { Color(0xFFACEC41) } else { Color.White }
 
-                        val backgroundColor = if (isInBound || dragInfo.dropBoundReached) { Color(0xFF5632E8) } else { Color(0x66000000) }
-                        val borderColor = if (isInBound || dragInfo.dropBoundReached) { Color(0xFFACEC41) } else { Color.White }
-
-                        Box(modifier = Modifier
-                            .size(80.dp)
-                            .border(width = 2.dp, color = borderColor, shape = RoundedCornerShape(8.dp))
-                            .background(color = backgroundColor, shape = RoundedCornerShape(8.dp)),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            if (isInBound && dragInfo.dataToDrop.isNotBlank()){
-                                dragInfo.dropBoundReached = true
+                                Box(modifier = Modifier
+                                    .size(80.dp)
+                                    .border(width = 2.dp, color = borderColor, shape = RoundedCornerShape(8.dp))
+                                    .background(color = backgroundColor, shape = RoundedCornerShape(8.dp)),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    if (isInBound && dragInfo.dataToDrop.isNotBlank()){
+                                        dragInfo.dropBoundReached = true
+                                    }
+                                }
                             }
-                        }
-                    }
 
-                    DragTarget(modifier = Modifier
-                        .size(80.dp)
-                        .constrainAs(content) {
-                            top.linkTo(parent.top)
-                            bottom.linkTo(parent.bottom)
-                            start.linkTo(parent.start)
-                            end.linkTo(parent.end)
-                        }, dataToDrop = "Toppie")
-                    {
-                        Box(modifier = Modifier
-                            .size(80.dp)
-                            .border(width = 2.dp, color = Color.White, shape = RoundedCornerShape(8.dp))
-                            .background(color = Color(0x66000000), shape = RoundedCornerShape(8.dp)),
-                            contentAlignment = Alignment.Center
-                        ) {
+                            DragTarget(modifier = Modifier
+                                .size(80.dp)
+                                .constrainAs(content) {
+                                    top.linkTo(parent.top)
+                                    bottom.linkTo(parent.bottom)
+                                    start.linkTo(parent.start)
+                                    end.linkTo(parent.end)
+                                }, dataToDrop = "Toppie")
+                            {
+                                Box(modifier = Modifier
+                                    .size(80.dp)
+                                    .border(width = 2.dp, color = Color.White, shape = RoundedCornerShape(8.dp))
+                                    .background(color = Color(0x66000000), shape = RoundedCornerShape(8.dp)),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                }
+                            }
                         }
                     }
                 }
             }
-        }
+        )
     }
 }
 
