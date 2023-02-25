@@ -12,6 +12,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/alarmmanagerexample" />
+            <option value="$PROJECT_DIR$/animatedcounterexample" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/composemotionlayout" />
             <option value="$PROJECT_DIR$/contentProviderApp" />
