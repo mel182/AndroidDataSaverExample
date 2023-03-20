@@ -7,6 +7,7 @@ import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.text.TextUtils.replace
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.example.datasaverexampleapp.base_classes.BaseActivity
@@ -44,8 +45,8 @@ class PictureCameraActivity : BaseActivity(Layout.activity_picture_camera)
                         {
                             container?.let { containerId ->
                                 supportFragmentManager?.beginTransaction()
-                                    .replace(containerId.id, PictureCameraFragment(cameraId.toString()))
-                                    .commit()
+                                    ?.replace(containerId.id, PictureCameraFragment(cameraId.toString()))
+                                    ?.commit()
                             }
                         } else {
                             Toast.makeText(this@PictureCameraActivity, "Permission denied!", Toast.LENGTH_SHORT).show()
