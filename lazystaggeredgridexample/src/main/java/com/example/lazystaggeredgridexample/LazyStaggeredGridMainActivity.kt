@@ -30,7 +30,7 @@ class LazyStaggeredGridMainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             DataSaverExampleAppTheme {
-                
+
                 val dummyData = (1..100).map {
                     StaggeredListItem(
                         height = Random.nextInt(100,300).dp,
