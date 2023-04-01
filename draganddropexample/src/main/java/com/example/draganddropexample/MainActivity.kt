@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -16,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.input.pointer.consumeAllChanges
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -35,11 +36,13 @@ class MainActivity : ComponentActivity()
             ComposeView(this).apply {
                 setContent {
 
-                    LongPressedDraggable(modifier = Modifier.fillMaxSize().background(color = Color(0xFF6DC5FF))) {
+                    LongPressedDraggable(modifier = Modifier
+                        .fillMaxSize()
+                        .background(color = Color(0xFF6DC5FF))) {
 
                         ConstraintLayout(modifier = Modifier.fillMaxSize()) {
 
-                            val (content,placeholder) = createRefs()
+                            val (content,placeholder,overlay) = createRefs()
 
                             val dragInfo = LocalDragTargetInfo.current
 
@@ -56,8 +59,15 @@ class MainActivity : ComponentActivity()
 
                                 Box(modifier = Modifier
                                     .size(boxSize)
-                                    .border(width = 2.dp, color = borderColor, shape = RoundedCornerShape(8.dp))
-                                    .background(color = backgroundColor, shape = RoundedCornerShape(8.dp)),
+                                    .border(
+                                        width = 2.dp,
+                                        color = borderColor,
+                                        shape = RoundedCornerShape(8.dp)
+                                    )
+                                    .background(
+                                        color = backgroundColor,
+                                        shape = RoundedCornerShape(8.dp)
+                                    ),
                                     contentAlignment = Alignment.Center
                                 ) {
                                     if (isInBound && dragInfo.dataToDrop.isNotBlank()){
@@ -76,8 +86,15 @@ class MainActivity : ComponentActivity()
                             {
                                 Box(modifier = Modifier
                                     .size(boxSize)
-                                    .border(width = 2.dp, color = Color.White, shape = RoundedCornerShape(8.dp))
-                                    .background(color = Color(0x66000000), shape = RoundedCornerShape(8.dp)),
+                                    .border(
+                                        width = 2.dp,
+                                        color = Color.White,
+                                        shape = RoundedCornerShape(8.dp)
+                                    )
+                                    .background(
+                                        color = Color(0x66000000),
+                                        shape = RoundedCornerShape(8.dp)
+                                    ),
                                     contentAlignment = Alignment.Center
                                 ) {
                                 }
@@ -132,32 +149,66 @@ fun <T>DragTarget(modifier: Modifier,
                   dataToDrop: T,
                   content: @Composable (() -> Unit)
 ) {
-
     var currentPosition by remember { mutableStateOf(Offset.Zero) }
     val currentState = LocalDragTargetInfo.current
+    val removeOverlay = remember { mutableStateOf(false) }
+    val canDrag = remember { mutableStateOf(false) }
 
-    Box(modifier = modifier
-        .onGloballyPositioned {
-            currentPosition = it.localToWindow(Offset.Zero)
+    Box(modifier = modifier) {
+
+        Box(modifier = modifier
+            .background(color = Color.Red)
+            .onGloballyPositioned {
+                currentPosition = it.localToWindow(Offset.Zero)
+            }
+            .pointerInput(true) {
+
+                detectDragGesturesAfterLongPress(onDragStart = {
+
+                    if (canDrag.value) {
+                        currentState.dataToDrop = "Toppie"
+                        currentState.isDragging = true
+                        currentState.dragPosition = currentPosition + it
+                        currentState.draggableComposable = content
+                    }
+
+                }, onDrag = { change, dragAmount ->
+
+                    if (canDrag.value) {
+                        change.consume()
+                        currentState.dragOffset += Offset(dragAmount.x, dragAmount.y)
+                    }
+
+                }, onDragEnd = {
+                    currentState.isDragging = false
+                    currentState.dragOffset = Offset.Zero
+                    removeOverlay.value = false
+                    canDrag.value = false
+                }, onDragCancel = {
+                    currentState.dragOffset = Offset.Zero
+                    currentState.isDragging = false
+                    canDrag.value = false
+                })
+
+            }.pointerInput(!canDrag.value){
+                awaitEachGesture {
+
+                    awaitFirstDown()
+
+                    do {
+                        val event = awaitPointerEvent()
+                        val pointerCount = event.changes.size
+                        if (pointerCount == 3) {
+                            canDrag.value = true
+                        }
+
+                    } while (event.changes.any { it.pressed })
+
+                }
+            }
+        ) {
+            content()
         }
-        .pointerInput(Unit) {
-            detectDragGesturesAfterLongPress(onDragStart = {
-                currentState.dataToDrop = "Toppie"
-                currentState.isDragging = true
-                currentState.dragPosition = currentPosition + it
-                currentState.draggableComposable = content
-            }, onDrag = { change, dragAmount ->
-                change.consumeAllChanges()
-                currentState.dragOffset += Offset(dragAmount.x, dragAmount.y)
-            }, onDragEnd = {
-                currentState.isDragging = false
-                currentState.dragOffset = Offset.Zero
-            }, onDragCancel = {
-                currentState.dragOffset = Offset.Zero
-                currentState.isDragging = false
-            })
-        }) {
-        content()
     }
 }
 
