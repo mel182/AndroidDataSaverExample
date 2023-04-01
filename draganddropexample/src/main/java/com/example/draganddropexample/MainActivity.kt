@@ -27,6 +27,8 @@ import androidx.constraintlayout.compose.ConstraintLayout
 
 class MainActivity : ComponentActivity()
 {
+    private val boxSize = 200.dp
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(
@@ -42,7 +44,7 @@ class MainActivity : ComponentActivity()
                             val dragInfo = LocalDragTargetInfo.current
 
                             DropTarget<String>(modifier = Modifier
-                                .size(80.dp)
+                                .size(boxSize)
                                 .constrainAs(placeholder) {
                                     start.linkTo(parent.start)
                                     end.linkTo(parent.end)
@@ -53,7 +55,7 @@ class MainActivity : ComponentActivity()
                                 val borderColor = if (isInBound || dragInfo.dropBoundReached) { Color(0xFFACEC41) } else { Color.White }
 
                                 Box(modifier = Modifier
-                                    .size(80.dp)
+                                    .size(boxSize)
                                     .border(width = 2.dp, color = borderColor, shape = RoundedCornerShape(8.dp))
                                     .background(color = backgroundColor, shape = RoundedCornerShape(8.dp)),
                                     contentAlignment = Alignment.Center
@@ -65,16 +67,15 @@ class MainActivity : ComponentActivity()
                             }
 
                             DragTarget(modifier = Modifier
-                                .size(80.dp)
+                                .size(boxSize)
                                 .constrainAs(content) {
-                                    top.linkTo(parent.top)
-                                    bottom.linkTo(parent.bottom)
+                                    bottom.linkTo(parent.bottom, 20.dp)
                                     start.linkTo(parent.start)
                                     end.linkTo(parent.end)
                                 }, dataToDrop = "Toppie")
                             {
                                 Box(modifier = Modifier
-                                    .size(80.dp)
+                                    .size(boxSize)
                                     .border(width = 2.dp, color = Color.White, shape = RoundedCornerShape(8.dp))
                                     .background(color = Color(0x66000000), shape = RoundedCornerShape(8.dp)),
                                     contentAlignment = Alignment.Center
