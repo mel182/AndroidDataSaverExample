@@ -31,7 +31,7 @@ import com.custom.http.client.constant.DEFAULT_BOOLEAN
 @Target(AnnotationTarget.VALUE_PARAMETER)
 annotation class Header(
     /** The query parameter name.  */
-    val value: String,
+    val value: Array<String>,
     /**
      * Specifies whether the parameter [name][.value] and value are already URL encoded.
      */
