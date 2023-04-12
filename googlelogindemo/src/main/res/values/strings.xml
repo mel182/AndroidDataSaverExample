@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">GoogleLoginDemo</string>
+    <string name="web_client_id">203312359721-93o3v197o25vvrtl30s722ds913j6ole.apps.googleusercontent.com</string>
 </resources>
