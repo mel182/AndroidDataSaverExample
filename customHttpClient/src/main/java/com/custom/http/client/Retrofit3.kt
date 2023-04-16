@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.Executor
 
 class Retrofit3(private val callFactory: Call.Factory? = null,
-                private val baseUrl: okhttp3.HttpUrl? = null,
+                val baseUrl: okhttp3.HttpUrl? = null,
                 private val converterFactories: List<Converter.Factory>? = null,
                 private val defaultConverterFactoriesSize:Int = DEFAULT_INT,
                 private val callAdapterFactories: List<CallAdapter.Factory>? = null,

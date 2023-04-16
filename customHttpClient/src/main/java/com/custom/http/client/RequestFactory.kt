@@ -19,22 +19,67 @@ import kotlin.coroutines.Continuation
 
 class RequestFactory(private val builder: Builder) {
 
+    private val method: Method = builder.method
+    private val baseUrl: HttpUrl? = builder.retrofit3.baseUrl
+    val httpMethod: String = builder.httpMethod
 
-    private var parameterHandlers: Array<ParameterHandler<*>> = emptyArray()
+    private var relativeUrl: String = builder.relativeUrl
+    private var headers: okhttp3.Headers? = builder.headers
+    private var contentType: MediaType? = builder.contentType
+    private var hasBody = builder.hasBody
+    private var isFormEncoded = builder.isFormEncoded
+    private var isMultipart = builder.isMultiPart
+    private var parameterHandlers: Array<ParameterHandler<*>> = builder.parameterHandlers
+    val isKotlinSuspendFunction = builder.isKotlinSuspendFunction
 
-    companion object {
-        fun parseAnnotations(retrofit3: Retrofit3, method:Method): RequestFactory {
-            return RequestFactory()
+    @Throws(IOException::class)
+    fun create(args: Array<Any>): Request? {
+
+        // It is an error to invoke a method with the wrong arg types.
+        @Suppress("UNCHECKED_CAST")
+        val handlers:Array<ParameterHandler<Any>> = parameterHandlers as Array<ParameterHandler<Any>>
+
+        var argumentCount = args.size
+        require(argumentCount != handlers.size) {
+            ("Argument count ($argumentCount) doesn't match expected count (${handlers.size})")
         }
 
-        class Builder(private val retrofit3: Retrofit3, private val method: Method) {
+        val requestBuilder = RequestBuilder(
+            httpMethod,
+            baseUrl,
+            relativeUrl,
+            headers,
+            contentType,
+            hasBody,
+            isFormEncoded,
+            isMultipart
+        )
+
+        if (isKotlinSuspendFunction) {
+            // The Continuation is the last parameter and the handlers array contains null at that index.
+            argumentCount--
+        }
+
+        val argumentList: MutableList<Any> = ArrayList(argumentCount)
+        for (p in 0 until argumentCount) {
+            argumentList.add(args[p])
+            handlers[p].apply(requestBuilder, args[p])
+        }
+
+        return requestBuilder.get()?.tag(type = Invocation::class.java, tag = Invocation(method = method, arguments = argumentList))?.build()
+    }
+
+    companion object {
+        fun parseAnnotations(retrofit3: Retrofit3, method:Method): RequestFactory = Builder(retrofit3 = retrofit3, method = method).build()
+
+        class Builder(val retrofit3: Retrofit3, val method: Method) {
 
             private val PARAM = "[a-zA-Z][a-zA-Z0-9_-]*"
             private val PARAM_URL_REGEX = Pattern.compile("\\{($PARAM)\\}")
             private val PARAM_NAME_REGEX = Pattern.compile(PARAM)
-            private var methodAnnotations: Array<Annotation> = emptyArray()
-            private var parameterAnnotationsArray: Array<Array<Annotation>> = emptyArray()
-            private var parameterTypes: Array<Type> = emptyArray()
+            private var methodAnnotations: Array<Annotation> = method.annotations
+            private var parameterAnnotationsArray: Array<Array<Annotation>> = method.parameterAnnotations
+            private var parameterTypes: Array<Type> = method.genericExceptionTypes
 
             private var gotField:Boolean = DEFAULT_BOOLEAN
             private var gotPart:Boolean = DEFAULT_BOOLEAN
@@ -44,26 +89,64 @@ class RequestFactory(private val builder: Builder) {
             private var gotQueryName:Boolean = DEFAULT_BOOLEAN
             private var gotQueryMap:Boolean = DEFAULT_BOOLEAN
             private var gotUrl:Boolean = DEFAULT_BOOLEAN
+            private var baseUrl:HttpUrl? = null
             var httpMethod:String = BLANK_STRING
             private set
 
-            private var hasBody:Boolean = DEFAULT_BOOLEAN
-            private var isFormEncoded:Boolean = DEFAULT_BOOLEAN
-            private var isMultiPart:Boolean = DEFAULT_BOOLEAN
-
-            private var relativeUrl:String = BLANK_STRING
-            private var headers:Headers? = null
-            private var contentType: MediaType? = null
+            var hasBody:Boolean = DEFAULT_BOOLEAN
+                private set
+            var isFormEncoded:Boolean = DEFAULT_BOOLEAN
+                private set
+            var isMultiPart:Boolean = DEFAULT_BOOLEAN
+                private set
+            var relativeUrl:String = BLANK_STRING
+                private set
+            var headers:okhttp3.Headers? = null
+                private set
+            var contentType: MediaType? = null
+                private set
             var relativeUrlParamNames: Set<String>? = null
             private set
 
             var parameterHandlers: Array<ParameterHandler<*>> = emptyArray()
-            private var isKotlinSuspendFunction:Boolean = DEFAULT_BOOLEAN
+            var isKotlinSuspendFunction:Boolean = DEFAULT_BOOLEAN
+                private set
 
-            init {
-                this.methodAnnotations = method.annotations
-                this.parameterTypes = method.genericExceptionTypes
-                this.parameterAnnotationsArray = method.parameterAnnotations
+            @Throws(IOException::class)
+            fun create(args: Array<Any>): Request? {
+
+                // It is an error to invoke a method with the wrong arg types.
+                @Suppress("UNCHECKED_CAST")
+                val handlers:Array<ParameterHandler<Any>> = parameterHandlers as Array<ParameterHandler<Any>>
+
+                var argumentCount = args.size
+                require(argumentCount != handlers.size) {
+                    ("Argument count ( $argumentCount) doesn't match expected count (${handlers.size})")
+                }
+
+                val requestBuilder = RequestBuilder(
+                    httpMethod,
+                    baseUrl,
+                    relativeUrl,
+                    headers,
+                    contentType,
+                    hasBody,
+                    isFormEncoded,
+                    isMultiPart
+                )
+
+                if (isKotlinSuspendFunction) {
+                    // The Continuation is the last parameter and the handlers array contains null at that index.
+                    argumentCount--
+                }
+
+                val argumentList: MutableList<Any> = ArrayList(argumentCount)
+                for (p in 0 until argumentCount) {
+                    argumentList.add(args[p])
+                    handlers[p].apply(requestBuilder, args[p])
+                }
+
+                return requestBuilder.get()?.tag(type = Invocation::class.java, tag = Invocation(method = method, arguments = argumentList))?.build()
             }
 
             fun build(): RequestFactory {
@@ -121,7 +204,7 @@ class RequestFactory(private val builder: Builder) {
                     is PUT -> parseHttpMethodAndPath(httpMethod = "PUT", value = annotation.value, hasBody = true)
                     is OPTIONS -> parseHttpMethodAndPath(httpMethod = "OPTIONS", value = annotation.value, hasBody = false)
                     is HTTP -> parseHttpMethodAndPath(httpMethod = annotation.method, value = annotation.path, hasBody = annotation.hasBody)
-                    is Header -> {
+                    is com.custom.http.client.annotation.http.call_properties.Headers -> {
                         val headersToParse = annotation.value
                         if (headersToParse.isEmpty())
                             throw Utils.methodError(method,"@Headers annotation is empty")
@@ -160,7 +243,7 @@ class RequestFactory(private val builder: Builder) {
                     val queryParams = value.substring(questions + 1)
                     val queryParamMatcher = PARAM_URL_REGEX.matcher(queryParams)
                     if (queryParamMatcher.find())
-                        throw Utils.methodError(method,"URL query string \"%s\" must not have replace block. For dynamic query parameters use @Query.")
+                        throw Utils.methodError(method,"URL query string \"$queryParams\" must not have replace block. For dynamic query parameters use @Query.")
 
                 }
 
@@ -168,9 +251,9 @@ class RequestFactory(private val builder: Builder) {
                 this.relativeUrlParamNames = parsePathParameters(value)
             }
 
-            private fun parseHeaders(headers: Array<String>, allowUnsafeNonAsciiValues:Boolean) : Headers {
+            private fun parseHeaders(headers: Array<String>, allowUnsafeNonAsciiValues:Boolean) : okhttp3.Headers {
 
-                return Headers.Builder().apply {
+                return okhttp3.Headers.Builder().apply {
 
                     for (header in headers) {
                         val colon = header.indexOf(':')
@@ -266,7 +349,7 @@ class RequestFactory(private val builder: Builder) {
 
                         gotUrl = true
 
-                        if (type == HttpUrl::class.java || type == String::class.java || type == URI::class.java || type == URI::class.java || type::class.java.name == "android.net.Uri") {
+                        if (type == HttpUrl::class.java || type == String::class.java || type == URI::class.java || type::class.java.name == "android.net.Uri") {
                             return ParameterHandler.Companion.RelativeUrl(method = method, parameter = parameter)
                         } else {
                             throw Utils.parameterError(method = method, p = parameter, message = "@Url must be okhttp3.HttpUrl, String, java.net.URI, or android.net.Uri type.")
@@ -304,7 +387,7 @@ class RequestFactory(private val builder: Builder) {
                         validateResolvableType(parameter = parameter, type = type)
 
                         val name = annotation.value
-                        val rawParameterType = Utils.getRawType(type)?: throw Utils.parameterError(method = method, p = parameter, message = "Unable to retrieve raw query type ")
+                        val rawParameterType = Utils.getRawType(type)
                         gotQuery = true
 
                         if (Iterable::class.java.isAssignableFrom(rawParameterType)) {
@@ -312,12 +395,13 @@ class RequestFactory(private val builder: Builder) {
                             if (type !is ParameterizedType)
                                 throw Utils.parameterError(method = method, p = parameter, message = "${rawParameterType.simpleName} must include generic type (e.g., ${rawParameterType.simpleName}<String>)")
 
-                            val converter = retrofit3.stringConverter<Any>(type, annotations)
+                            val iterableType = Utils.getParameterUpperBound(0, type)
+                            val converter = retrofit3.stringConverter<Any>(iterableType, annotations)
                             ParameterHandler.Companion.Query(name = name, valueConverter = converter, encoded = annotation.encoded).iterable()
                         } else if (rawParameterType.isArray) {
                             val arrayComponentType: Class<*> = boxIfPrimitive(rawParameterType.componentType)
                             val converter = retrofit3.stringConverter<Any>(arrayComponentType, annotations)
-                            ParameterHandler.Companion.Query(name = name, valueConverter = converter, encoded = annotation.encoded)
+                            ParameterHandler.Companion.Query(name = name, valueConverter = converter, encoded = annotation.encoded).array()
                         } else {
                             val converter = retrofit3.stringConverter<Any>(type, annotations)
                             ParameterHandler.Companion.Query(name = name, valueConverter = converter, encoded = annotation.encoded)
@@ -342,7 +426,7 @@ class RequestFactory(private val builder: Builder) {
                         } else if (rawParameterType.isArray) {
                             val arrayComponentType = boxIfPrimitive(rawParameterType.componentType)
                             val converter = retrofit3.stringConverter<Any>(arrayComponentType, annotations)
-                            ParameterHandler.Companion.QueryName(nameConverter = converter, encoded = annotation.encoded)
+                            ParameterHandler.Companion.QueryName(nameConverter = converter, encoded = annotation.encoded).array()
                         } else {
                             val converter = retrofit3.stringConverter<Any>(type, annotations)
                             ParameterHandler.Companion.QueryName(nameConverter = converter, encoded = annotation.encoded)
@@ -368,7 +452,7 @@ class RequestFactory(private val builder: Builder) {
                         if (String::class.java != keyType)
                             throw Utils.parameterError(method = method, p = parameter, message = "@QueryMap keys must be of type String: $keyType")
 
-                        val valueType: Type = Utils.getParameterUpperBound(1, parameterizedType)
+                        val valueType = Utils.getParameterUpperBound(1, parameterizedType)
                         val valueConverter: Converter<*, String> = retrofit3.stringConverter<Any>(valueType, annotations)
                         ParameterHandler.Companion.QueryMap(method = method, parameter = parameter, valueConverter = valueConverter, encoded = annotation.encoded)
                     }
@@ -380,14 +464,14 @@ class RequestFactory(private val builder: Builder) {
                         val rawParameterType = Utils.getRawType(type)
                         val name:String = annotation.value
 
-                        if (!Map::class.java.isAssignableFrom(rawParameterType)) {
+                        if (!Iterable::class.java.isAssignableFrom(rawParameterType)) {
 
                             if (type !is ParameterizedType)
-                                throw Utils.parameterError(method = method, p = parameter, message = "${rawParameterType?.simpleName} must include generic type (e.g., ${rawParameterType?.simpleName}<String>)")
+                                throw Utils.parameterError(method = method, p = parameter, message = "${rawParameterType.simpleName} must include generic type (e.g., ${rawParameterType.simpleName}<String>)")
 
                             val iterableType: Type = Utils.getParameterUpperBound(0, type)
                             val converter = retrofit3.stringConverter<Any>(iterableType, annotations)
-                            ParameterHandler.Companion.Header(name = name, valueConverter = converter, allowUnsafeNonAsciiValues = annotation.allowUnsafeNonAsciiValues)
+                            ParameterHandler.Companion.Header(name = name, valueConverter = converter, allowUnsafeNonAsciiValues = annotation.allowUnsafeNonAsciiValues).iterable()
                         } else if (rawParameterType.isArray) {
                             val arrayComponentType = boxIfPrimitive(rawParameterType.componentType)
                             val converter = retrofit3.stringConverter<Any>(arrayComponentType, annotations)
@@ -445,7 +529,7 @@ class RequestFactory(private val builder: Builder) {
                         } else if (rawParameterType.isArray) {
                             val arrayComponentType = boxIfPrimitive(rawParameterType.componentType)
                             val converter = retrofit3.stringConverter<Any>(arrayComponentType, annotations)
-                            ParameterHandler.Companion.Field(name = name, valueConverter = converter, encoded = annotation.encoded)
+                            ParameterHandler.Companion.Field(name = name, valueConverter = converter, encoded = annotation.encoded).array()
                         } else {
                             val converter = retrofit3.stringConverter<Any>(type, annotations)
                             ParameterHandler.Companion.Field(name = name, valueConverter = converter, encoded = annotation.encoded)
@@ -460,7 +544,7 @@ class RequestFactory(private val builder: Builder) {
                             throw Utils.parameterError(method = method, p = parameter, message = "@FieldMap parameters can only be used with form encoding.")
 
                         val rawParameterType = Utils.getRawType(type)
-                        if (!MutableMap::class.java.isAssignableFrom(rawParameterType))
+                        if (!Map::class.java.isAssignableFrom(rawParameterType))
                             throw Utils.parameterError(method = method, p = parameter, message = "@FieldMap parameter type must be Map.")
 
                         val mapType: Type = Utils.getSupertype(type, rawParameterType, Map::class.java) as? ParameterizedType
@@ -529,8 +613,9 @@ class RequestFactory(private val builder: Builder) {
                                     throw Utils.parameterError(method = method, p = parameter, message = "${rawParameterType.simpleName} must include generic type (e.g., ${rawParameterType.simpleName}<String>)")
 
                                 val iterableType = Utils.getParameterUpperBound(0, type)
-                                if (!MutableMap::class.java.isAssignableFrom(Utils.getRawType(iterableType)))
-                                    throw Utils.parameterError(method = method, p = parameter, message = "@Part parameters using the MultipartBody. Part must not include a part name in the annotation.")
+
+                                if (MultipartBody.Part::class.java.isAssignableFrom(Utils.getRawType(iterableType)))
+                                    throw Utils.parameterError(method = method, p = parameter, message = "@Part parameters using the MultipartBody.Part must not include a part name in the annotation.")
 
                                 val converter = retrofit3.requestBodyConverter<Any>(iterableType, annotations, methodAnnotations)
 
@@ -561,8 +646,8 @@ class RequestFactory(private val builder: Builder) {
                         gotPart = true
 
                         val rawParameterType = Utils.getRawType(type)
-                        if (Map::class.java.isAssignableFrom(rawParameterType))
-                            throw Utils.parameterError(method = method, p = parameter, message = "@Part parameters using the MultipartBody.Part must not include a part name in the annotation.")
+                        if (!Map::class.java.isAssignableFrom(rawParameterType))
+                            throw Utils.parameterError(method = method, p = parameter, message = "@PartMap parameter type must be Map.")
 
                         val mapType = Utils.getSupertype(type, rawParameterType, Map::class.java)
                         if (mapType !is ParameterizedType)
@@ -608,7 +693,7 @@ class RequestFactory(private val builder: Builder) {
 
                             val otherHandler: ParameterHandler<*> = parameterHandlers[index]
                             if (otherHandler is ParameterHandler.Companion.Tag && otherHandler.cls == tagType)
-                                throw Utils.parameterError(method = method, p = parameter, message = "@Tag type ${tagType.getName()} is duplicate of parameter # ${(index + 1)} and would always overwrite its value.")
+                                throw Utils.parameterError(method = method, p = parameter, message = "@Tag type ${tagType.name} is duplicate of parameter # ${(index + 1)} and would always overwrite its value.")
                         }
 
                        ParameterHandler.Companion.Tag(tagType)
@@ -634,57 +719,20 @@ class RequestFactory(private val builder: Builder) {
                     throw Utils.parameterError(method = method, p = parameter, message = "URL \"$relativeUrl\" does not contain \"{$name}\".")
             }
 
-            private fun boxIfPrimitive(type: Class<*>?): Class<*> {
-                if (Boolean::class.javaPrimitiveType == type) return Boolean::class.java
-                if (Byte::class.javaPrimitiveType == type) return Byte::class.java
-                if (Char::class.javaPrimitiveType == type) return Char::class.java
-                if (Double::class.javaPrimitiveType == type) return Double::class.java
-                if (Float::class.javaPrimitiveType == type) return Float::class.java
-                if (Int::class.javaPrimitiveType == type) return Int::class.java
-                if (Long::class.javaPrimitiveType == type) return Long::class.java
-                return if (Short::class.javaPrimitiveType == type) Short::class.java else type
+            private fun boxIfPrimitive(type: Class<*>): Class<*> {
+
+                return when {
+                    Boolean::class.javaPrimitiveType == type -> Boolean::class.java
+                    Byte::class.javaPrimitiveType == type -> Byte::class.java
+                    Char::class.javaPrimitiveType == type -> Char::class.java
+                    Double::class.javaPrimitiveType == type -> Double::class.java
+                    Float::class.javaPrimitiveType == type -> Float::class.java
+                    Int::class.javaPrimitiveType == type -> Int::class.java
+                    Long::class.javaPrimitiveType == type -> Long::class.java
+                    Short::class.javaPrimitiveType == type -> Short::class.java
+                    else -> type
+                }
             }
         }
-
-
-
     }
-
-
-
-    @Throws(IOException::class)
-    fun create(args: Array<Any>): Request {
-        //val handlers:  Array<ParameterHandler<Any>> = parameterHandlers as Array<ParameterHandler<Any>>
-
-        // It is an error to invoke a method with the wrong arg types.
-        @Suppress("UNCHECKED_CAST")
-        val handlers:Array<ParameterHandler<Any>> = parameterHandlers as Array<ParameterHandler<Any>>
-
-        var argumentCount = args.size
-        require(argumentCount != handlers.size) {
-            ("Argument count ( $argumentCount) doesn't match expected count (${handlers.size})")
-        }
-        val requestBuilder = RequestBuilder(
-             httpMethod,
-            baseUrl,
-            relativeUrl,
-            headers,
-            contentType,
-            hasBody,
-            isFormEncoded,
-            isMultipart
-        )
-        if (isKotlinSuspendFunction) {
-            // The Continuation is the last parameter and the handlers array contains null at that index.
-            argumentCount--
-        }
-        val argumentList: MutableList<Any> = ArrayList(argumentCount)
-        for (p in 0 until argumentCount) {
-            argumentList.add(args[p])
-            handlers[p].apply(requestBuilder, args[p])
-        }
-        return requestBuilder.get()
-            .tag<Invocation>(Invocation::class.java, Invocation(method, argumentList)).build()
-    }
-
 }
