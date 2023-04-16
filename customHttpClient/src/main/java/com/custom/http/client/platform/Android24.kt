@@ -3,12 +3,12 @@ package com.custom.http.client.platform
 import android.annotation.TargetApi
 import android.os.Build
 import androidx.annotation.ChecksSdkIntAtLeast
-import com.custom.http.client.CallAdapter
-import com.custom.http.client.Converter
+import com.custom.http.client.*
 import com.custom.http.client.annotation.util.IgnoreJRERequirement
-import java.lang.invoke.MethodHandles
+import java.lang.invoke.MethodHandles.Lookup
 import java.lang.reflect.Constructor
 import java.lang.reflect.Method
+import java.util.*
 import java.util.concurrent.Executor
 
 @IgnoreJRERequirement
@@ -20,33 +20,37 @@ class Android24 : Platform() {
         fun isSupported(): Boolean = Build.VERSION.SDK_INT >= 24
     }
 
-    private val lookupConstructor: Constructor<MethodHandles.Lookup>? = null
+    private var lookupConstructor: Constructor<Lookup>? = null
 
     override fun defaultCallbackExecutor(): Executor = MainThreadExecutor.INSTANCE
 
-    override fun createDefaultCallAdapterFactories(callbackExecutor: Executor?): List<CallAdapter.Factory?> {
-
-        //TODO: Work in progress
+    override fun createDefaultCallAdapterFactories(callbackExecutor: Executor?): List<CallAdapter.Factory> {
         return listOf(
-
+            CompletableFutureCallAdapterFactory(),
+            DefaultCallAdapterFactory(callbackExecutor = callbackExecutor)
         )
-
     }
 
-    override fun createDefaultConverterFactories(): List<Converter.Factory?>? {
-        TODO("Not yet implemented")
-    }
+    override fun createDefaultConverterFactories(): List<Converter.Factory>? = Collections.singletonList(OptionalConverterFactory())
 
-    override fun isDefaultMethod(method: Method?): Boolean {
-        TODO("Not yet implemented")
-    }
+    override fun isDefaultMethod(method: Method?): Boolean = method?.isDefault ?: false
 
-    override fun invokeDefaultMethod(
-        method: Method?,
-        declaringClass: Class<*>?,
-        proxy: Any?,
-        vararg args: Any?
-    ): Any? {
-        TODO("Not yet implemented")
+    override fun invokeDefaultMethod(method: Method?, declaringClass: Class<*>?, proxy: Any?, vararg args: Any?): Any? {
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O)
+            throw UnsupportedOperationException("Calling default methods on API 24 and 25 is not supported")
+
+        if (this.lookupConstructor == null)
+        {
+            lookupConstructor = Lookup::class.java.getDeclaredConstructor(Class::class.java, Int::class.javaPrimitiveType).also {
+                it.isAccessible = true
+            }
+        }
+
+        return lookupConstructor
+            ?.newInstance(declaringClass, -1)
+            ?.unreflectSpecial(method,declaringClass)
+            ?.bindTo(proxy)
+            ?.invoke(args)
     }
 }

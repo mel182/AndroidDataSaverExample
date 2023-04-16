@@ -4,7 +4,7 @@ import java.lang.reflect.Method
 
 abstract class MethodService<T> {
 
-    open fun <T> parseAnnotations(retrofit: HttpModified, method: Method): MethodService<T>? {
+    open fun <T> parseAnnotations(retrofit: Retrofit3, method: Method): MethodService<T>? {
         val requestFactory: RequestFactory = RequestFactory.parseAnnotations(retrofit, method)
         val returnType = method.genericReturnType
         if (Utils.hasUnresolvableType(returnType)) {
@@ -21,7 +21,5 @@ abstract class MethodService<T> {
     }
 
     abstract operator fun invoke(args: Array<Any?>?): T?
-
-
 
 }

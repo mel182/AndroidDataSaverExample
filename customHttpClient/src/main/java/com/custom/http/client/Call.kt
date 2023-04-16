@@ -43,7 +43,7 @@ interface Call<T> : Cloneable {
      * Create a new, identical call to this one which can be enqueued or executed even if this call
      * has already been.
      */
-    override fun clone(): Call<T>
+    public override fun clone(): Call<T>
 
     /**
      * The original HTTP request.

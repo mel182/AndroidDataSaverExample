@@ -7,7 +7,7 @@ interface CallAdapter<R,T> {
 
     fun responseType(): Type?
 
-    fun adapt(call: Call<R>?): T
+    fun adapt(call: Call<R>): T
 
     abstract class Factory {
 
@@ -15,7 +15,7 @@ interface CallAdapter<R,T> {
          * Returns a call adapter for interface methods that return {@code returnType}, or null if it
          * cannot be handled by this factory.
          */
-        abstract operator fun get(returnType: Type?, annotations: Array<Annotation?>?, retrofit: Retrofit3?): CallAdapter<*, *>?
+        abstract operator fun get(returnType: Type?, annotations: Array<Annotation>?, retrofit: Retrofit3?): CallAdapter<*, *>?
 
         /**
          * Extract the upper bound of the generic parameter at {@code index} from {@code type}. For

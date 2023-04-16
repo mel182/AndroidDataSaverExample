@@ -2,6 +2,7 @@ package com.custom.http.client
 
 import com.custom.http.client.constant.BLANK_STRING
 import java.lang.reflect.*
+import java.util.*
 
 class Utils {
 
@@ -88,6 +89,35 @@ class Utils {
                 paramType.upperBounds[0]
             } else paramType
         }
+        fun getParameterLowerBound(index: Int, type: ParameterizedType): Type {
+            val paramType = type.actualTypeArguments[index]
+            return if (paramType is WildcardType) {
+                paramType.lowerBounds[0]
+            } else paramType
+        }
+
+        private var checkForKotlinUnit = true
+
+        fun isUnit(type: Type?): Boolean {
+
+            return if (checkForKotlinUnit) {
+                try {
+                    type === Unit::class.java
+                }catch (ignored: NoClassDefFoundError) {
+                    checkForKotlinUnit = false
+                    false
+                }
+            } else false
+        }
+
+        fun isAnnotationPresent(annotations: Array<Annotation>, cls: Class<out Annotation?>): Boolean {
+            for (annotation in annotations) {
+                if (cls.isInstance(annotation)) {
+                    return true
+                }
+            }
+            return false
+        }
 
         fun getRawType(type: Type?): Class<*> {
 
@@ -144,6 +174,90 @@ class Utils {
                 getGenericSupertype(context, contextRawType, supertype)
             )
         }
+
+        fun checkNotPrimitive(type: Type?) {
+            require(!(type is Class<*> && type.isPrimitive))
+        }
+
+        fun equals(a: Type?, b: Type?): Boolean {
+
+            return when {
+
+                a == b -> true
+                a is Class<*> -> a == b
+                a is ParameterizedType -> {
+                    if (b !is ParameterizedType)
+                        false
+
+                    val parameterizedB = b as ParameterizedType
+                    val ownerA = a.ownerType
+                    val ownerB = parameterizedB.ownerType
+
+                    return ownerA === ownerB || ownerA != null
+                            && ownerA == ownerB
+                            && parameterizedB.rawType == parameterizedB.rawType
+                            && Arrays.equals(a.actualTypeArguments, a.actualTypeArguments)
+                }
+                a is GenericArrayType -> {
+                    if (b !is GenericArrayType)
+                        false
+
+                    val genericTypeB = b as GenericArrayType
+                    equals(a.genericComponentType, genericTypeB.genericComponentType)
+                }
+                a is WildcardType -> {
+                    if (b !is WildcardType)
+                        false
+
+                    val wildcardTypeB = b as WildcardType
+
+                    Arrays.equals(a.upperBounds, wildcardTypeB.upperBounds) &&
+                            Arrays.equals(a.lowerBounds, wildcardTypeB.lowerBounds)
+                }
+                a is TypeVariable<*> -> {
+                    if (b !is TypeVariable<*>)
+                        false
+
+                    val typeVariableB = b as TypeVariable<*>
+                    a.genericDeclaration == typeVariableB.genericDeclaration && a.name.equals(typeVariableB.name)
+                }
+                else -> false
+            }
+
+
+
+        }
+
+        internal class ParameterizedTypeImpl(private val ownerType: Type? = null, private val rawType:Type, private val typeArguments: Array<Type>) : ParameterizedType {
+
+            init {
+                // Require an owner type if the raw type needs it.
+                require(!(rawType is Class<*> && ownerType == null != (rawType.enclosingClass == null)))
+
+                for (typeArgument in typeArguments) {
+                    checkNotPrimitive(typeArgument)
+                }
+            }
+
+            override fun getActualTypeArguments(): Array<Type>  = this.typeArguments.clone()
+
+            override fun getRawType(): Type = rawType
+
+            override fun getOwnerType(): Type? = ownerType
+
+            override fun equals(other: Any?): Boolean {
+
+                if (other !is ParameterizedType)
+                    return false
+
+                return Utils.equals(
+                    this,
+                    other as ParameterizedType
+                )
+            }
+
+        }
+
 
         fun resolve(context: Type?, contextRawType: Class<*>?, toResolve: Type?): Type {
             TODO("Need to be implemented")

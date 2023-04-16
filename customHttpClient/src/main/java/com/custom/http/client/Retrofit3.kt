@@ -2,8 +2,10 @@ package com.custom.http.client
 
 import com.custom.http.client.constant.DEFAULT_BOOLEAN
 import com.custom.http.client.constant.DEFAULT_INT
+import com.custom.http.client.platform.Platform
 import okhttp3.Call
 import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import java.lang.reflect.*
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
@@ -80,13 +82,17 @@ class Retrofit3(private val callFactory: Call.Factory? = null,
             Collections.addAll(check, *candidate.interfaces)
         }
         if (validateEagerly) {
-            val platform: retrofit2.Platform = retrofit2.Platform.get()
+            val platform: Platform = Platform.get()
             for (method in service.declaredMethods) {
                 if (!platform.isDefaultMethod(method) && !Modifier.isStatic(method.modifiers)) {
                     loadServiceMethod(method)
                 }
             }
         }
+    }
+
+    fun callAdapter(returnType: Type?, annotations: Array<Annotation>?): CallAdapter<*, *>? {
+        return nextCallAdapter(null, returnType, annotations)
     }
 
     fun loadServiceMethod(method: Method?): MethodService<*>? {
@@ -101,6 +107,106 @@ class Retrofit3(private val callFactory: Call.Factory? = null,
             }
         }
         return result
+    }
+
+    fun nextCallAdapter(skipPast: CallAdapter.Factory?, returnType: Type?, annotations: Array<Annotation>?): CallAdapter<*, *>? {
+
+        requireNotNull(returnType) { "returnType == null" }
+        requireNotNull(annotations) { "annotations == null" }
+
+        var resultingAdapter: CallAdapter<*,*>? = null
+
+        callAdapterFactories?.apply {
+            val start = callAdapterFactories.indexOf(skipPast) + 1
+
+            for (index in start until size) {
+
+                val adapter = get(index).get(returnType = returnType, annotations = annotations, retrofit = this@Retrofit3)
+
+                if (adapter != null && resultingAdapter == null)
+                    resultingAdapter = adapter
+            }
+
+            if (resultingAdapter == null) {
+
+                val builder = StringBuilder("Could not locate call adapter for ").append(returnType).append(".\n")
+                if (skipPast != null) {
+                    builder.append("  Skipped")
+                    for (index in 0..start) {
+                        builder.append("\n   * ").append(this[index].javaClass.name)
+                    }
+                    builder.append('\n')
+                }
+                builder.append("   Tried")
+                for (index in start until size) {
+                    builder.append("\n   * ").append(this[index].javaClass.name)
+                }
+
+                throw IllegalArgumentException(builder.toString())
+            }
+        }
+
+        return resultingAdapter
+    }
+
+    /**
+     * Returns a [Converter] for [ResponseBody] to `type` from the available
+     * [factories][.converterFactories].
+     *
+     * @throws IllegalArgumentException if no converter available for `type`.
+     */
+    fun <T> responseBodyConverter(type: Type?, annotations: Array<Annotation>?): Converter<ResponseBody, T>? {
+        return nextResponseBodyConverter<T>(null, type, annotations)
+    }
+
+    /**
+     * Returns a [Converter] for [ResponseBody] to `type` from the available
+     * [factories][.converterFactories] except `skipPast`.
+     *
+     * @throws IllegalArgumentException if no converter available for `type`.
+     */
+    fun <T> nextResponseBodyConverter(skipPast: Converter.Factory?, type: Type?, annotations: Array<Annotation>?): Converter<ResponseBody, T>? {
+
+        requireNotNull(type){ "type == null" }
+        requireNotNull(annotations){ "annotations == null" }
+
+        var resultingConverter: Converter<ResponseBody,T>? = null
+
+        converterFactories?.apply {
+
+            val start = this.indexOf(skipPast) + 1
+
+            for (index in start until size) {
+
+                val converter = get(index).responseBodyConverter(type = type, annotations = annotations, retrofit = this@Retrofit3)
+
+                if (converter != null && resultingConverter == null)
+                    resultingConverter = converter as Converter<ResponseBody, T>
+            }
+
+            if (resultingConverter == null) {
+
+                val builder = StringBuilder("Could not locate ResponseBody converter for ")
+                    .append(type)
+                    .append(".\n")
+
+                if (skipPast != null) {
+                    builder.append("  Skipped:")
+                    for (index in 0..start) {
+                        builder.append("\n   * ").append(converterFactories[index].javaClass.name)
+                    }
+                    builder.append('\n')
+                }
+                builder.append("   Tried:")
+                for (index in start until size) {
+                    builder.append("\n   * ").append(converterFactories[index].javaClass.name)
+                }
+
+                throw IllegalArgumentException(builder.toString())
+            }
+        }
+
+        return resultingConverter
     }
 
 

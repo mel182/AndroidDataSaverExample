@@ -13,7 +13,7 @@ interface Converter<F, T> {
 
     abstract class Factory {
 
-        open fun responseBodyConverter(type: Type?, annotations: Array<Annotation?>?, retrofit: Retrofit3?): Converter<ResponseBody?, *>? = null
+        open fun responseBodyConverter(type: Type?, annotations: Array<Annotation>?, retrofit: Retrofit3?): Converter<ResponseBody, *>? = null
 
         open fun requestBodyConverter(type: Type?, parameterAnnotations: Array<Annotation?>?, methodAnnotations: Array<Annotation?>?, retrofit: Retrofit3?): Converter<*, RequestBody?>? = null
 
