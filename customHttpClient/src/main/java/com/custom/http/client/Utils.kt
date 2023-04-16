@@ -77,7 +77,7 @@ class Utils {
             )
         }
 
-        fun getParameterUpperBound(index: Int, type: ParameterizedType?): Type? {
+        fun getParameterUpperBound(index: Int, type: ParameterizedType?): Type {
 
             require(type != null) { "type == null" }
 
@@ -89,7 +89,7 @@ class Utils {
             } else paramType
         }
 
-        fun getRawType(type: Type?): Class<*>? {
+        fun getRawType(type: Type?): Class<*> {
 
             requireNotNull(type) {"type == null"}
 
@@ -136,6 +136,22 @@ class Utils {
             }
         }
 
+        fun getSupertype(context: Type?, contextRawType: Class<*>?, supertype: Class<*>): Type {
+            require(supertype.isAssignableFrom(contextRawType))
+            return resolve(
+                context,
+                contextRawType,
+                getGenericSupertype(context, contextRawType, supertype)
+            )
+        }
+
+        fun resolve(context: Type?, contextRawType: Class<*>?, toResolve: Type?): Type {
+            TODO("Need to be implemented")
+        }
+
+        fun getGenericSupertype(context: Type?, rawType: Class<*>?, toResolve: Class<*>?): Type? {
+            TODO("Need to be implemented")
+        }
 
 
     }

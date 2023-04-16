@@ -1,19 +1,18 @@
 package com.custom.http.client
 
+import com.custom.http.client.ParameterHandler.Companion.Headers
 import com.custom.http.client.annotation.http.HTTP
-import com.custom.http.client.annotation.http.call_properties.FormUrlEncoded
-import com.custom.http.client.annotation.http.call_properties.Header
-import com.custom.http.client.annotation.http.call_properties.Multipart
+import com.custom.http.client.annotation.http.call_properties.*
 import com.custom.http.client.annotation.http.method.*
 import com.custom.http.client.constant.BLANK_STRING
 import com.custom.http.client.constant.DEFAULT_BOOLEAN
-import okhttp3.Headers
-import okhttp3.MediaType
+import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.Request
 import java.io.IOException
 import java.lang.reflect.Method
+import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
+import java.net.URI
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 import kotlin.coroutines.Continuation
@@ -228,7 +227,7 @@ class RequestFactory(private val builder: Builder) {
                     }
                     throw Utils.parameterError(method,parameter,"No Retrofit annotation found.")
                 }
-                
+
                 return result
             }
 
@@ -243,13 +242,415 @@ class RequestFactory(private val builder: Builder) {
 
             private fun parseParameterAnnotation(parameter: Int, type: Type, annotations: Array<Annotation>, annotation: Annotation): ParameterHandler<*>? {
 
-                TODO("Not implemented yet")
+                return when(annotation) {
+
+                    is Url -> {
+                        validateResolvableType(parameter = parameter, type = type)
+                        if (gotUrl)
+                            throw Utils.parameterError(method = method, p = parameter, message = "Multiple @Url method annotations found.")
+
+                        if (gotPath)
+                            throw Utils.parameterError(method = method, p = parameter, message = "@Path parameters may not be used with @Url.")
+
+                        if (gotQuery)
+                            throw Utils.parameterError(method = method, p = parameter, message = "A @Url parameter must not come after a @Query.")
+
+                        if (gotQueryName)
+                            throw Utils.parameterError(method = method, p = parameter, message = "A @Url parameter must not come after a @QueryName.")
+
+                        if (gotQueryMap)
+                            throw Utils.parameterError(method = method, p = parameter, message = "A @Url parameter must not come after a @QueryMap.")
+
+                        if (relativeUrl.isNotBlank())
+                            throw Utils.parameterError(method = method, p = parameter, message = "@Url cannot be used with @$httpMethod URL")
+
+                        gotUrl = true
+
+                        if (type == HttpUrl::class.java || type == String::class.java || type == URI::class.java || type == URI::class.java || type::class.java.name == "android.net.Uri") {
+                            return ParameterHandler.Companion.RelativeUrl(method = method, parameter = parameter)
+                        } else {
+                            throw Utils.parameterError(method = method, p = parameter, message = "@Url must be okhttp3.HttpUrl, String, java.net.URI, or android.net.Uri type.")
+                        }
+                    }
+
+                    is Path -> {
+                        validateResolvableType(parameter = parameter, type = type)
+
+                        if (gotQuery)
+                            throw Utils.parameterError(method = method, p = parameter, message = "A @Path parameter must not come after a @Query.")
+
+                        if (gotQueryName)
+                            throw Utils.parameterError(method = method, p = parameter, message = "A @Path parameter must not come after a @QueryName.")
+
+                        if (gotQueryMap)
+                            throw Utils.parameterError(method = method, p = parameter, message = "A @Path parameter must not come after a @QueryMap.")
+
+                        if (gotUrl)
+                            throw Utils.parameterError(method = method, p = parameter, message = "@Path parameters may not be used with @Url.")
+
+                        if (relativeUrl.isBlank())
+                            throw Utils.parameterError(method = method, p = parameter, message = "@Path can only be used with relative url on @$httpMethod")
+
+                        gotPath = true
+
+                        validatePathName(parameter = parameter, name = annotation.value)
+
+                        val converter: Converter<Any, String> = retrofit3.stringConverter(type, annotations)
+
+                        ParameterHandler.Companion.Path(method = method, parameter = parameter, name = annotation.value, valueConverter = converter, encoded = annotation.encoded)
+                    }
+
+                    is Query -> {
+                        validateResolvableType(parameter = parameter, type = type)
+
+                        val name = annotation.value
+                        val rawParameterType = Utils.getRawType(type)?: throw Utils.parameterError(method = method, p = parameter, message = "Unable to retrieve raw query type ")
+                        gotQuery = true
+
+                        if (Iterable::class.java.isAssignableFrom(rawParameterType)) {
+
+                            if (type !is ParameterizedType)
+                                throw Utils.parameterError(method = method, p = parameter, message = "${rawParameterType.simpleName} must include generic type (e.g., ${rawParameterType.simpleName}<String>)")
+
+                            val converter = retrofit3.stringConverter<Any>(type, annotations)
+                            ParameterHandler.Companion.Query(name = name, valueConverter = converter, encoded = annotation.encoded).iterable()
+                        } else if (rawParameterType.isArray) {
+                            val arrayComponentType: Class<*> = boxIfPrimitive(rawParameterType.componentType)
+                            val converter = retrofit3.stringConverter<Any>(arrayComponentType, annotations)
+                            ParameterHandler.Companion.Query(name = name, valueConverter = converter, encoded = annotation.encoded)
+                        } else {
+                            val converter = retrofit3.stringConverter<Any>(type, annotations)
+                            ParameterHandler.Companion.Query(name = name, valueConverter = converter, encoded = annotation.encoded)
+                        }
+                    }
+
+                    is QueryName -> {
+
+                        validateResolvableType(parameter = parameter, type = type)
+
+                        val rawParameterType = Utils.getRawType(type)
+                        gotQueryName = true
+
+                        if (Iterable::class.java.isAssignableFrom(rawParameterType)) {
+
+                            if (type !is ParameterizedType)
+                                throw Utils.parameterError(method = method, p = parameter, message = "${rawParameterType?.simpleName} must include generic type (e.g., ${rawParameterType?.simpleName}<String>)")
+
+                            val iterableType = Utils.getParameterUpperBound(index = 0, type = type)
+                            val converter = retrofit3.stringConverter<Any>(iterableType, annotations)
+                            ParameterHandler.Companion.QueryName(nameConverter = converter, encoded = annotation.encoded).iterable()
+                        } else if (rawParameterType.isArray) {
+                            val arrayComponentType = boxIfPrimitive(rawParameterType.componentType)
+                            val converter = retrofit3.stringConverter<Any>(arrayComponentType, annotations)
+                            ParameterHandler.Companion.QueryName(nameConverter = converter, encoded = annotation.encoded)
+                        } else {
+                            val converter = retrofit3.stringConverter<Any>(type, annotations)
+                            ParameterHandler.Companion.QueryName(nameConverter = converter, encoded = annotation.encoded)
+                        }
+                    }
+
+                    is QueryMap -> {
+
+                        validateResolvableType(parameter = parameter, type = type)
+
+                        val rawParameterType = Utils.getRawType(type)
+                        gotQueryMap = true
+
+                        if (!Map::class.java.isAssignableFrom(rawParameterType))
+                            throw Utils.parameterError(method = method, p = parameter, message = "@QueryMap parameter type must be Map.")
+
+                        val mapType = Utils.getSupertype(type, rawParameterType, Map::class.java)
+                        if (type !is ParameterizedType)
+                            throw Utils.parameterError(method = method, p = parameter, message = "Map must include generic types (e.g., Map<String, String>)")
+
+                        val parameterizedType = mapType as ParameterizedType
+                        val keyType = Utils.getParameterUpperBound(0, parameterizedType)
+                        if (String::class.java != keyType)
+                            throw Utils.parameterError(method = method, p = parameter, message = "@QueryMap keys must be of type String: $keyType")
+
+                        val valueType: Type = Utils.getParameterUpperBound(1, parameterizedType)
+                        val valueConverter: Converter<*, String> = retrofit3.stringConverter<Any>(valueType, annotations)
+                        ParameterHandler.Companion.QueryMap(method = method, parameter = parameter, valueConverter = valueConverter, encoded = annotation.encoded)
+                    }
+
+                    is Header -> {
+
+                        validateResolvableType(parameter = parameter, type = type)
+
+                        val rawParameterType = Utils.getRawType(type)
+                        val name:String = annotation.value
+
+                        if (!Map::class.java.isAssignableFrom(rawParameterType)) {
+
+                            if (type !is ParameterizedType)
+                                throw Utils.parameterError(method = method, p = parameter, message = "${rawParameterType?.simpleName} must include generic type (e.g., ${rawParameterType?.simpleName}<String>)")
+
+                            val iterableType: Type = Utils.getParameterUpperBound(0, type)
+                            val converter = retrofit3.stringConverter<Any>(iterableType, annotations)
+                            ParameterHandler.Companion.Header(name = name, valueConverter = converter, allowUnsafeNonAsciiValues = annotation.allowUnsafeNonAsciiValues)
+                        } else if (rawParameterType.isArray) {
+                            val arrayComponentType = boxIfPrimitive(rawParameterType.componentType)
+                            val converter = retrofit3.stringConverter<Any>(arrayComponentType, annotations)
+                            ParameterHandler.Companion.Header(name = name, valueConverter = converter, allowUnsafeNonAsciiValues = annotation.allowUnsafeNonAsciiValues).array()
+                        } else {
+                            val converter = retrofit3.stringConverter<Any>(type, annotations)
+                            ParameterHandler.Companion.Header(name = name, valueConverter = converter, allowUnsafeNonAsciiValues = annotation.allowUnsafeNonAsciiValues)
+                        }
+                    }
+
+                    is HeaderMap -> {
+
+                        if (type === Headers::class.java)
+                            ParameterHandler.Companion.Headers(method = method, parameter = parameter)
+
+                        validateResolvableType(parameter = parameter, type = type)
+
+                        val rawParameterType = Utils.getRawType(type)
+                        if (!Map::class.java.isAssignableFrom(rawParameterType))
+                            throw Utils.parameterError(method = method, p = parameter, message = "@HeaderMap parameter type must be Map or Headers.")
+
+                        val mapType = Utils.getSupertype(type, rawParameterType, Map::class.java)
+                        if (mapType !is ParameterizedType)
+                            throw Utils.parameterError(method = method, p = parameter, message = "Map must include generic types (e.g., Map<String, String>)")
+
+                        val keyType: Type = Utils.getParameterUpperBound(0, mapType)
+                        if (String::class.java != keyType)
+                            throw Utils.parameterError(method = method, p = parameter, message = "@HeaderMap keys must be of type String: $keyType")
+
+                        val valueType: Type = Utils.getParameterUpperBound(1, mapType)
+                        val valueConverter: Converter<*, String> = retrofit3.stringConverter<Any>(valueType, annotations)
+
+                        ParameterHandler.Companion.HeaderMap(method = method, parameter = parameter, valueConverter = valueConverter, allowUnsafeNonAsciiValues = annotation.allowUnsafeNonAsciiValues)
+                    }
+
+                    is Field -> {
+
+                        validateResolvableType(parameter = parameter, type = type)
+
+                        if (!isFormEncoded)
+                            throw Utils.parameterError(method = method, p = parameter, message = "@Field parameters can only be used with form encoding.")
+
+                        gotField = true
+
+                        val rawParameterType = Utils.getRawType(type)
+                        val name = annotation.value
+                        if (Iterable::class.java.isAssignableFrom(rawParameterType)) {
+
+                            if (type !is ParameterizedType)
+                                throw Utils.parameterError(method = method, p = parameter, message = "${rawParameterType.simpleName} must include generic type (e.g., ${rawParameterType.simpleName}<String>)")
+
+                            val iterableType: Type = Utils.getParameterUpperBound(0, type)
+                            val converter = retrofit3.stringConverter<Any>(iterableType, annotations)
+                            ParameterHandler.Companion.Field(name = name, valueConverter = converter, encoded = annotation.encoded).iterable()
+                        } else if (rawParameterType.isArray) {
+                            val arrayComponentType = boxIfPrimitive(rawParameterType.componentType)
+                            val converter = retrofit3.stringConverter<Any>(arrayComponentType, annotations)
+                            ParameterHandler.Companion.Field(name = name, valueConverter = converter, encoded = annotation.encoded)
+                        } else {
+                            val converter = retrofit3.stringConverter<Any>(type, annotations)
+                            ParameterHandler.Companion.Field(name = name, valueConverter = converter, encoded = annotation.encoded)
+                        }
+                    }
+
+                    is FieldMap -> {
+
+                        validateResolvableType(parameter = parameter, type = type)
+
+                        if (!isFormEncoded)
+                            throw Utils.parameterError(method = method, p = parameter, message = "@FieldMap parameters can only be used with form encoding.")
+
+                        val rawParameterType = Utils.getRawType(type)
+                        if (!MutableMap::class.java.isAssignableFrom(rawParameterType))
+                            throw Utils.parameterError(method = method, p = parameter, message = "@FieldMap parameter type must be Map.")
+
+                        val mapType: Type = Utils.getSupertype(type, rawParameterType, Map::class.java) as? ParameterizedType
+                            ?: throw Utils.parameterError(method = method, p = parameter, message = "Map must include generic types (e.g., Map<String, String>)")
+
+                        val keyType = Utils.getParameterUpperBound(0, mapType as ParameterizedType)
+                        if (String::class.java != keyType)
+                            throw Utils.parameterError(method = method, p = parameter, message = "@FieldMap keys must be of type String: $keyType")
+
+                        val valueType: Type = Utils.getParameterUpperBound(1, mapType)
+                        val valueConverter = retrofit3.stringConverter<Any>(valueType, annotations)
+
+                        gotField = true
+
+                        ParameterHandler.Companion.FieldMap(method = method, parameter = parameter, valueConverter = valueConverter, encoded = annotation.encoded)
+                    }
+
+                    is Part -> {
+
+                        validateResolvableType(parameter = parameter, type = type)
+
+                        if (!isMultiPart)
+                            throw Utils.parameterError(method = method, p = parameter, message = "@Part parameters can only be used with multipart encoding.")
+
+                        gotPart = true
+
+                        val partName = annotation.value
+                        val rawParameterType = Utils.getRawType(type)
+
+                        if (partName.isEmpty()) {
+
+                            if (Iterable::class.java.isAssignableFrom(rawParameterType)) {
+
+                                if (type !is ParameterizedType)
+                                    throw Utils.parameterError(method = method, p = parameter, message = "${rawParameterType.simpleName} must include generic type (e.g., ${rawParameterType.simpleName}<String>)")
+
+                                val iterableType: Type = Utils.getParameterUpperBound(0, type)
+                                if (!MultipartBody.Part::class.java.isAssignableFrom(Utils.getRawType(iterableType)))
+                                    throw Utils.parameterError(method = method, p = parameter, message = "@Part annotation must supply a name or use MultipartBody.Part parameter type.")
+
+                                ParameterHandler.Companion.RawPart.INSTANCE.iterable()
+                            } else if (rawParameterType.isArray) {
+
+                                val arrayComponentType = rawParameterType.componentType
+
+                                if (!MultipartBody.Part::class.java.isAssignableFrom(arrayComponentType))
+                                    throw Utils.parameterError(method = method, p = parameter, message = "@Part annotation must supply a name or use MultipartBody.Part parameter type.")
+
+                                ParameterHandler.Companion.RawPart.INSTANCE.array()
+
+                            } else if (MultipartBody.Part::class.java.isAssignableFrom(rawParameterType)) {
+                                ParameterHandler.Companion.RawPart.INSTANCE
+                            } else {
+                                throw Utils.parameterError(method = method, p = parameter, message = "@Part annotation must supply a name or use MultipartBody.Part parameter type.")
+                            }
+                        } else {
+                            val headers = okhttp3.Headers.headersOf("Content-Disposition",
+                                "form-data; name=\"$partName\"",
+                                "Content-Transfer-Encoding",
+                                annotation.encoding
+                            )
+
+                            if (Iterable::class.java.isAssignableFrom(rawParameterType)) {
+
+                                if (type !is ParameterizedType)
+                                    throw Utils.parameterError(method = method, p = parameter, message = "${rawParameterType.simpleName} must include generic type (e.g., ${rawParameterType.simpleName}<String>)")
+
+                                val iterableType = Utils.getParameterUpperBound(0, type)
+                                if (!MutableMap::class.java.isAssignableFrom(Utils.getRawType(iterableType)))
+                                    throw Utils.parameterError(method = method, p = parameter, message = "@Part parameters using the MultipartBody. Part must not include a part name in the annotation.")
+
+                                val converter = retrofit3.requestBodyConverter<Any>(iterableType, annotations, methodAnnotations)
+
+                                ParameterHandler.Companion.Part(method = method, parameter = parameter, headers = headers, converter = converter).iterable()
+                            } else if (rawParameterType.isArray) {
+
+                                val arrayComponentType = boxIfPrimitive(rawParameterType.componentType)
+                                if (MultipartBody.Part::class.java.isAssignableFrom(arrayComponentType))
+                                    throw Utils.parameterError(method = method, p = parameter, message = "@Part parameters using the MultipartBody.Part must not include a part name in the annotation.")
+
+                                val converter = retrofit3.requestBodyConverter<Any>(arrayComponentType, annotations, methodAnnotations)
+                                ParameterHandler.Companion.Part(method = method, parameter = parameter, headers = headers, converter = converter).array()
+                            } else if (MultipartBody.Part::class.java.isAssignableFrom(rawParameterType)) {
+                                throw Utils.parameterError(method = method, p = parameter, message = "@Part parameters using the MultipartBody. Part must not include a part name in the annotation.")
+                            } else {
+                                val converter = retrofit3.requestBodyConverter<Any>(type, annotations, methodAnnotations)
+                                ParameterHandler.Companion.Part(method = method, parameter = parameter, headers = headers, converter = converter)
+                            }
+                        }
+                    }
+
+                    is PartMap -> {
+                        validateResolvableType(parameter = parameter, type = type)
+
+                        if (!isMultiPart)
+                            throw Utils.parameterError(method = method, p = parameter, message = "@PartMap parameters can only be used with multipart encoding.")
+
+                        gotPart = true
+
+                        val rawParameterType = Utils.getRawType(type)
+                        if (Map::class.java.isAssignableFrom(rawParameterType))
+                            throw Utils.parameterError(method = method, p = parameter, message = "@Part parameters using the MultipartBody.Part must not include a part name in the annotation.")
+
+                        val mapType = Utils.getSupertype(type, rawParameterType, Map::class.java)
+                        if (mapType !is ParameterizedType)
+                            throw Utils.parameterError(method = method, p = parameter, message = "Map must include generic types (e.g., Map<String, String>)")
+
+                        val keyType = Utils.getParameterUpperBound(0, mapType)
+                        if (String::class.java != keyType)
+                            throw Utils.parameterError(method = method, p = parameter, message = "@PartMap keys must be of type String: $keyType")
+
+                        val valueType = Utils.getParameterUpperBound(1, mapType)
+                        if (MultipartBody.Part::class.java.isAssignableFrom(Utils.getRawType(valueType)))
+                            throw Utils.parameterError(method = method, p = parameter, message = "@PartMap values cannot be MultipartBody.Part. Use @Part List<Part> or a different value type instead.")
+
+                        val valueConverter = retrofit3.requestBodyConverter<Any>(valueType, annotations, methodAnnotations)
+                        ParameterHandler.Companion.PartMap(method = method, parameter = parameter, valueConverter = valueConverter, transferEncoding = annotation.encoding)
+                    }
+
+                    is Body -> {
+                        validateResolvableType(parameter = parameter, type = type)
+
+                        if (isFormEncoded || isMultiPart)
+                            throw Utils.parameterError(method = method, p = parameter, message = "@Body parameters cannot be used with form or multi-part encoding.")
+
+                        if (gotBody)
+                            throw Utils.parameterError(method = method, p = parameter, message = "Multiple @Body method annotations found.")
+
+                        val converter: Converter<Any, RequestBody> = try {
+                            retrofit3.requestBodyConverter(type = type, parameterAnnotations = annotations, methodAnnotations = methodAnnotations)
+                        }catch (e:RuntimeException) {
+                            throw Utils.parameterError(method = method, cause = e, p = parameter, message = "Unable to create @Body converter for $type")
+                        }
+
+                        gotBody = true
+
+                        ParameterHandler.Companion.Body(method = method, parameter = parameter, converter = converter)
+                    }
+
+                    is Tag -> {
+                        validateResolvableType(parameter = parameter, type = type)
+
+                        val tagType = Utils.getRawType(type)
+                        for (index in parameter - 1 downTo 0) {
+
+                            val otherHandler: ParameterHandler<*> = parameterHandlers[index]
+                            if (otherHandler is ParameterHandler.Companion.Tag && otherHandler.cls == tagType)
+                                throw Utils.parameterError(method = method, p = parameter, message = "@Tag type ${tagType.getName()} is duplicate of parameter # ${(index + 1)} and would always overwrite its value.")
+                        }
+
+                       ParameterHandler.Companion.Tag(tagType)
+                    }
+
+                    else -> null // Not a Retrofit annotation.
+                }
             }
 
+            private fun validateResolvableType(parameter:Int, type:Type) {
+
+                if (Utils.hasUnresolvableType(type))
+                    throw Utils.parameterError(method = method,p = parameter,"Parameter type must not include a type variable or wildcard: $type")
+
+            }
+
+            private fun validatePathName(parameter:Int, name:String) {
+
+                if (PARAM_NAME_REGEX.matcher(name).matches())
+                    throw Utils.parameterError(method = method, p = parameter, message = "@Path parameter name must match ${PARAM_NAME_REGEX.pattern()}. Found: $name")
+
+                if (relativeUrlParamNames?.contains(name) ?: DEFAULT_BOOLEAN)
+                    throw Utils.parameterError(method = method, p = parameter, message = "URL \"$relativeUrl\" does not contain \"{$name}\".")
+            }
+
+            private fun boxIfPrimitive(type: Class<*>?): Class<*> {
+                if (Boolean::class.javaPrimitiveType == type) return Boolean::class.java
+                if (Byte::class.javaPrimitiveType == type) return Byte::class.java
+                if (Char::class.javaPrimitiveType == type) return Char::class.java
+                if (Double::class.javaPrimitiveType == type) return Double::class.java
+                if (Float::class.javaPrimitiveType == type) return Float::class.java
+                if (Int::class.javaPrimitiveType == type) return Int::class.java
+                if (Long::class.javaPrimitiveType == type) return Long::class.java
+                return if (Short::class.javaPrimitiveType == type) Short::class.java else type
+            }
         }
 
 
+
     }
+
+
 
     @Throws(IOException::class)
     fun create(args: Array<Any>): Request {

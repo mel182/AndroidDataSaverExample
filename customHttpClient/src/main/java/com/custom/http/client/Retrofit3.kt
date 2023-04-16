@@ -3,10 +3,8 @@ package com.custom.http.client
 import com.custom.http.client.constant.DEFAULT_BOOLEAN
 import com.custom.http.client.constant.DEFAULT_INT
 import okhttp3.Call
-import java.lang.reflect.InvocationHandler
-import java.lang.reflect.Method
-import java.lang.reflect.Modifier
-import java.lang.reflect.Proxy
+import okhttp3.RequestBody
+import java.lang.reflect.*
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.Executor
@@ -48,6 +46,20 @@ class Retrofit3(private val callFactory: Call.Factory? = null,
                 }
             }) as T
     }
+
+    fun <T> stringConverter(type: Type?, annotations: Array<Annotation>?): Converter<T, String>
+    {
+        TODO("Need to be implemented")
+    }
+
+    fun <T> requestBodyConverter(type: Type?, parameterAnnotations: Array<Annotation>?, methodAnnotations: Array<Annotation>?
+    ): Converter<T, RequestBody> {
+
+        TODO("Need to be implemented")
+
+        //return nextRequestBodyConverter<T>(null, type, parameterAnnotations, methodAnnotations)
+    }
+
 
     private fun validateServiceInterface(service: Class<*>) {
 

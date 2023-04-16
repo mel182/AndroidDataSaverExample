@@ -65,7 +65,7 @@ class RequestBuilder(private val method:String,
         headersBuilder?.addAll(headers)
     }
 
-    fun addPathParam(name: String, value: String, encoded: Boolean) {
+    fun addPathParam(name: String?, value: String, encoded: Boolean) {
         if (relativeUrl == null) {
             // The relative URL is cleared when the first query parameter is set.
             throw AssertionError()
@@ -133,7 +133,7 @@ class RequestBuilder(private val method:String,
         }
     }
 
-    fun addQueryParam(name: String, value: String, encoded: Boolean) {
+    fun addQueryParam(name: String, value: String?, encoded: Boolean) {
         if (relativeUrl != null) {
             // Do a one-time combination of the built relative URL and the base URL.
             require(relativeUrl?.isBlank() ?: true) {
@@ -147,6 +147,12 @@ class RequestBuilder(private val method:String,
             urlBuilder?.addEncodedQueryParameter(name, value)
         } else {
             urlBuilder?.addQueryParameter(name, value)
+        }
+    }
+
+    fun setRelativeUrl(relative_url: Any?) {
+        relative_url?.let {
+            relativeUrl = it.toString()
         }
     }
 
