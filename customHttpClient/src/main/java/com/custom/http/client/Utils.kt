@@ -1,6 +1,10 @@
 package com.custom.http.client
 
 import com.custom.http.client.constant.BLANK_STRING
+import okhttp3.ResponseBody
+import okhttp3.ResponseBody.Companion.asResponseBody
+import okio.Buffer
+import java.io.IOException
 import java.lang.reflect.*
 import java.util.*
 
@@ -223,10 +227,15 @@ class Utils {
                 }
                 else -> false
             }
-
-
-
         }
+
+        @Throws(IOException::class)
+        fun buffer(body: ResponseBody): ResponseBody {
+            val buffer = Buffer()
+            body.source().readAll(buffer)
+            return buffer.asResponseBody(body.contentType(), body.contentLength())
+        }
+
 
         internal class ParameterizedTypeImpl(private val ownerType: Type? = null, private val rawType:Type, private val typeArguments: Array<Type>) : ParameterizedType {
 

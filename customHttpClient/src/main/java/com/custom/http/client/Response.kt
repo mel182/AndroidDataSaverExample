@@ -1,10 +1,10 @@
 package com.custom.http.client
 
+import com.custom.http.client.ok_http_call.NoContentResponseBody
 import okhttp3.*
-import okhttp3.Response
 import java.util.*
 
-class Response<T>(val rawResponse: Response, val body: T?, val errorBody:ResponseBody?) {
+class Response<T>(val rawResponse: okhttp3.Response, val body: T?, val errorBody:ResponseBody?) {
 
     val message: String = rawResponse.message
     val headers: Headers = rawResponse.headers
@@ -12,6 +12,25 @@ class Response<T>(val rawResponse: Response, val body: T?, val errorBody:Respons
     val code: Int = rawResponse.code
 
     companion object {
+
+        fun <T> success(body: T?): Response<T>? {
+            return success<T>(
+                body,
+                okhttp3.Response.Builder() //
+                    .code(200)
+                    .message("OK")
+                    .protocol(Protocol.HTTP_1_1)
+                    .request(Request.Builder().url("http://localhost/").build())
+                    .build()
+            )
+        }
+
+        fun <T> success(body: T?, rawResponse: okhttp3.Response): Response<T> {
+            Objects.requireNonNull(rawResponse, "rawResponse == null")
+            require(rawResponse.isSuccessful) { "rawResponse must be successful response" }
+            return Response(rawResponse, body, null)
+        }
+
 
         /*
     public static <T> Response<T> error(ResponseBody body, okhttp3.Response rawResponse) {
@@ -27,12 +46,12 @@ class Response<T>(val rawResponse: Response, val body: T?, val errorBody:Respons
         //fun error(body: ResponseBody, rawResponse: okhttp3.Response)
 
 
-        fun <T> error(code: Int, body: ResponseBody): com.custom.http.client.Response<T>? {
+        fun <T> error(code: Int, body: ResponseBody): Response<T>? {
             Objects.requireNonNull(body, "body == null")
             require(code >= 400) { "code < 400: $code" }
             return error<T>(
                 body,
-                Response.Builder()
+                okhttp3.Response.Builder()
                     .body(   NoContentResponseBody(body.contentType(), body.contentLength()))
                     .code(code)
                     .message("Response.error()")
