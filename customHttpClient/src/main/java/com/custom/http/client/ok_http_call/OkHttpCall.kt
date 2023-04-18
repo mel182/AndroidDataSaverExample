@@ -179,7 +179,8 @@ class OkHttpCall<T>(private val requestFactory: RequestFactory, private val args
         if (canceled) {
             return true
         }
-        synchronized(this) { return rawCall != null && rawCall!!.isCanceled() }
+
+        synchronized(this) { return rawCall?.isCanceled() ?: true }
     }
 
     @Throws(IOException::class)
@@ -199,19 +200,19 @@ class OkHttpCall<T>(private val requestFactory: RequestFactory, private val args
             return rawBody.use { rawBody ->
                 // Buffer the entire body to avoid future I/O.
                 val bufferedBody: ResponseBody = Utils.buffer(rawBody)
-                com.custom.http.client.Response.error<T>(bufferedBody, rawResponse)
+                com.custom.http.client.Response.error(bufferedBody, rawResponse)
             }
         }
 
         if (code == 204 || code == 205) {
             rawBody.close()
-            return com.custom.http.client.Response.success<T>(null, raw_response)
+            return com.custom.http.client.Response.success(null, raw_response)
         }
 
         val catchingBody = ExceptionCatchingResponseBody(rawBody)
         return try {
             val body = responseConverter.convert(catchingBody)
-            com.custom.http.client.Response.success<T>(body, rawResponse)
+            com.custom.http.client.Response.success(body, rawResponse)
         } catch (e: java.lang.RuntimeException) {
             // If the underlying source threw an exception, propagate that rather than indicating it was
             // a runtime exception.
