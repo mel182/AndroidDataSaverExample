@@ -1,5 +1,7 @@
-package com.custom.http.client
+package com.custom.http.client.http_service_method
 
+import com.custom.http.client.*
+import com.custom.http.client.ok_http_call.OkHttpCall
 import okhttp3.ResponseBody
 import java.lang.reflect.Method
 import java.lang.reflect.ParameterizedType
@@ -8,7 +10,7 @@ import java.lang.reflect.Type
 /**
  * Adapts an invocation of an interface method into an HTTP call.
  */
-abstract class HttpServiceMethod<ResponseT, ReturnT> : MethodService<ReturnT>() {
+abstract class HttpServiceMethod<ResponseT, ReturnT>(private val requestFactory:RequestFactory, private val callFactory: okhttp3.Call.Factory, private val responseConverter: Converter<ResponseBody, ResponseT>) : MethodService<ReturnT>() {
     /**
      * Inspects the annotations on an interface method to construct a reusable service method that
      * speaks HTTP. This requires potentially-expensive reflection so it is best to build each service
@@ -26,7 +28,10 @@ abstract class HttpServiceMethod<ResponseT, ReturnT> : MethodService<ReturnT>() 
             val adapterType: Type
             if (isKotlinSuspendFunction) {
                 val parameterTypes = method.genericParameterTypes
-                var responseType: Type = Utils.getParameterLowerBound(0, parameterTypes[parameterTypes.size - 1] as ParameterizedType)
+                var responseType: Type = Utils.getParameterLowerBound(
+                    0,
+                    parameterTypes[parameterTypes.size - 1] as ParameterizedType
+                )
 
                 if (Utils.getRawType(responseType) == Response::class.java && responseType is ParameterizedType) {
                     // Unwrap the actual body type from Response<T>.
@@ -40,7 +45,11 @@ abstract class HttpServiceMethod<ResponseT, ReturnT> : MethodService<ReturnT>() 
                     // Determine if return type is nullable or not
                 }
 
-                adapterType = Utils.Companion.ParameterizedTypeImpl(ownerType = null, rawType = Call::class.java, typeArguments = arrayOf(responseType))
+                adapterType = Utils.Companion.ParameterizedTypeImpl(
+                    ownerType = null,
+                    rawType = Call::class.java,
+                    typeArguments = arrayOf(responseType)
+                )
                 annotations = SkipCallbackExecutorImpl.ensurePresent(annotations)
             } else {
                 adapterType = method.genericReturnType
@@ -48,25 +57,33 @@ abstract class HttpServiceMethod<ResponseT, ReturnT> : MethodService<ReturnT>() 
             val callAdapter: CallAdapter<ResponseT, ReturnT> = createCallAdapter(retrofit, method, adapterType, annotations)
             val responseType: Type? = callAdapter.responseType()
             if (responseType === okhttp3.Response::class.java)
-                throw Utils.methodError(method = method, message = "'${Utils.getRawType(responseType).name}' is not a valid response body type. Did you mean ResponseBody?")
+                throw Utils.methodError(
+                    method = method,
+                    message = "'${Utils.getRawType(responseType).name}' is not a valid response body type. Did you mean ResponseBody?"
+                )
 
             if (responseType === Response::class.java)
-                throw Utils.methodError(method = method, message = "Response must include generic type (e.g., Response<String>)")
+                throw Utils.methodError(
+                    method = method,
+                    message = "Response must include generic type (e.g., Response<String>)"
+                )
 
-            if ((requestFactory.httpMethod == "HEAD") && Void::class.java != responseType && !Utils.isUnit(responseType))
-                throw Utils.methodError(method = method, message = "HEAD method must use Void or Unit as response type.")
+            if ((requestFactory.httpMethod == "HEAD") && Void::class.java != responseType && !Utils.isUnit(
+                    responseType
+                )
+            )
+                throw Utils.methodError(
+                    method = method,
+                    message = "HEAD method must use Void or Unit as response type."
+                )
 
             // TODO support Unit for Kotlin?
 //            val responseConverter =
 
 
-            val responseConverter: retrofit2.Converter<okhttp3.ResponseBody, ResponseT> =
-                retrofit2.HttpServiceMethod.createResponseConverter<ResponseT>(
-                    retrofit,
-                    method,
-                    responseType
-                )
-            val callFactory: Factory = retrofit.callFactory
+            val responseConverter: Converter<ResponseBody, ResponseT> = createResponseConverter(retrofit, method, responseType)
+
+            val callFactory: okhttp3.Call.Factory = retrofit.callFactory
             if (!isKotlinSuspendFunction) {
                 return CallAdapted<ResponseT, ReturnT>(
                     requestFactory,
@@ -98,21 +115,42 @@ abstract class HttpServiceMethod<ResponseT, ReturnT> : MethodService<ReturnT>() 
             return try {
                 retrofit.callAdapter(returnType, annotations) as CallAdapter<ResponseT, ReturnT>
             } catch (e: RuntimeException) { // Wide exception range because factories are user code.
-                throw Utils.methodError(method = method, cause = e, message = "Unable to create call adapter for %s", returnType)
+                throw Utils.methodError(
+                    method = method,
+                    cause = e,
+                    message = "Unable to create call adapter for %s",
+                    returnType
+                )
             }
         }
 
-        private fun <ResponseT> createResponseConverter(retrofit: Retrofit3, method: Method, responseType: Type): Converter<ResponseBody?, ResponseT>? {
+        private fun <ResponseT> createResponseConverter(retrofit: Retrofit3, method: Method, responseType: Type?): Converter<ResponseBody, ResponseT> {
             val annotations = method.annotations
             return try {
-                retrofit.responseBodyConverter<ResponseT>(responseType, annotations)
+                retrofit.responseBodyConverter(responseType, annotations)!!
             } catch (e: java.lang.RuntimeException) { // Wide exception range because factories are user code.
-                throw Utils.methodError(method = method, cause = e, message = "Unable to create converter for %s", responseType)
+                throw Utils.methodError(
+                    method = method,
+                    cause = e,
+                    message = "Unable to create converter for %s",
+                    responseType
+                )
+            } catch (e: java.lang.Exception) { // Wide exception range because factories are user code.
+                throw Utils.methodError(
+                    method = method,
+                    cause = e,
+                    message = "Unable to create converter for %s",
+                    responseType
+                )
             }
         }
-
-
     }
 
+    override fun invoke(args: Array<Any>?): ReturnT? {
+        val call: Call<ResponseT> = OkHttpCall(requestFactory, args ?: emptyArray(), callFactory, responseConverter)
+        return adapt(call, args ?: emptyArray())
+    }
+
+    protected abstract fun adapt(call: Call<ResponseT>?, args: Array<Any>): ReturnT?
 
 }

@@ -1,11 +1,13 @@
 package com.custom.http.client
 
+import com.custom.http.client.http_service_method.HttpServiceMethod
 import java.lang.reflect.Method
 
 abstract class MethodService<T> {
 
     open fun <T> parseAnnotations(retrofit: Retrofit3, method: Method): MethodService<T>? {
         val requestFactory: RequestFactory = RequestFactory.parseAnnotations(retrofit, method)
+
         val returnType = method.genericReturnType
         if (Utils.hasUnresolvableType(returnType)) {
             throw Utils.methodError(
@@ -20,6 +22,6 @@ abstract class MethodService<T> {
         return HttpServiceMethod.parseAnnotations<Any, Any>(retrofit, method, requestFactory)
     }
 
-    abstract operator fun invoke(args: Array<Any?>?): T?
+    abstract operator fun invoke(args: Array<Any>?): T?
 
 }

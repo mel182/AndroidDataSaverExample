@@ -1,5 +1,6 @@
 package com.custom.http.client
 
+import com.custom.http.client.http_service_method.HttpServiceMethod
 import java.lang.reflect.Method
 
 class AnnotationParser {

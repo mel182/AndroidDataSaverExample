@@ -7,7 +7,7 @@ interface CallAdapter<R,T> {
 
     fun responseType(): Type?
 
-    fun adapt(call: Call<R>): T
+    fun adapt(call: Call<R>?): T
 
     abstract class Factory {
 

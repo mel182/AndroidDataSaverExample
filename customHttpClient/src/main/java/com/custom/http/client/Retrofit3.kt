@@ -11,14 +11,15 @@ import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.Executor
 
-class Retrofit3(private val callFactory: Call.Factory? = null,
-                val baseUrl: okhttp3.HttpUrl? = null,
-                private val converterFactories: List<Converter.Factory>? = null,
-                private val defaultConverterFactoriesSize:Int = DEFAULT_INT,
-                private val callAdapterFactories: List<CallAdapter.Factory>? = null,
-                private val defaultCallAdapterFactoriesSize:Int = DEFAULT_INT,
-                private val callbackExecutor: Executor? = null,
-                private val validateEagerly:Boolean = DEFAULT_BOOLEAN
+class Retrofit3(
+    val callFactory: Call.Factory,
+    val baseUrl: okhttp3.HttpUrl? = null,
+    private val converterFactories: List<Converter.Factory>? = null,
+    private val defaultConverterFactoriesSize:Int = DEFAULT_INT,
+    private val callAdapterFactories: List<CallAdapter.Factory>? = null,
+    private val defaultCallAdapterFactoriesSize:Int = DEFAULT_INT,
+    private val callbackExecutor: Executor? = null,
+    private val validateEagerly:Boolean = DEFAULT_BOOLEAN
 ) {
 
     private val serviceMethodCache: ConcurrentHashMap<Method, MethodService<*>> = ConcurrentHashMap<Method, MethodService<*>>()
@@ -28,26 +29,99 @@ class Retrofit3(private val callFactory: Call.Factory? = null,
         return Proxy.newProxyInstance(
             service.classLoader, arrayOf<Class<*>>(service),
             object : InvocationHandler {
-                private val emptyArgs = arrayOfNulls<Any>(0)
+                private val emptyArgs = arrayOf<Any>(0)
 
                 @Throws(Throwable::class)
                 override fun invoke(proxy: Any, method: Method, args: Array<Any>?): Any? {
                     // If the method is a method from Object then defer to normal invocation.
-                    var args = args
+                    val _args = args ?: emptyArgs
                     if (method.declaringClass == Any::class.java) {
-                        return method.invoke(this, *args)
+                        return method.invoke(this, *_args)
                     }
-                    args = args ?: emptyArgs
-                    val platform: retrofit2.Platform = retrofit2.Platform.get()
+                    //args = args ?: emptyArgs
+                    val platform: Platform = Platform.get()
                     return if (platform.isDefaultMethod(method)) platform.invokeDefaultMethod(
                         method,
                         service,
                         proxy,
-                        *args
-                    ) else loadServiceMethod(method).invoke(args)
+                        *_args
+                    ) else loadServiceMethod(method)?.invoke(_args)
                 }
             }) as T
     }
+
+    private fun validateServiceInterface(service: Class<*>) {
+
+        require(service.isInterface) { "API declarations must be interfaces." }
+
+        val check: Deque<Class<*>> = ArrayDeque(1)
+        check.add(service)
+        while (!check.isEmpty()) {
+            val candidate = check.removeFirst()
+            if (candidate.typeParameters.isNotEmpty()) {
+                val message = StringBuilder("Type parameters are unsupported on ").apply {
+                    append(candidate.name)
+
+                    if (candidate != service) {
+                        append(" which is an interface of ").append(service.name)
+                    }
+                }
+
+                throw IllegalArgumentException(message.toString())
+            }
+            Collections.addAll(check, *candidate.interfaces)
+        }
+
+        if (validateEagerly) {
+            val platform: Platform = Platform.get()
+            for (method in service.declaredMethods) {
+                if (!platform.isDefaultMethod(method) && !Modifier.isStatic(method.modifiers)) {
+                    loadServiceMethod(method)
+                }
+            }
+        }
+    }
+
+    fun loadServiceMethod(method: Method): MethodService<*>? {
+        var result: MethodService<*>? = serviceMethodCache[method]
+        if (result != null) return result
+        synchronized(serviceMethodCache) {
+            result = serviceMethodCache[method]
+            if (result == null) {
+                result = MethodService.parseAnnotations<Any>(this, method)
+                serviceMethodCache[method] = result
+            }
+        }
+        return result
+    }
+
+
+//    private fun validateServiceInterface(service: Class<*>) {
+//        require(service.isInterface) { "API declarations must be interfaces." }
+//        val check: Deque<Class<*>> = ArrayDeque(1)
+//        check.add(service)
+//        while (!check.isEmpty()) {
+//            val candidate = check.removeFirst()
+//            if (candidate.typeParameters.size != 0) {
+//                val message = java.lang.StringBuilder("Type parameters are unsupported on ")
+//                    .append(candidate.name)
+//                if (candidate != service) {
+//                    message.append(" which is an interface of ").append(service.name)
+//                }
+//                throw java.lang.IllegalArgumentException(message.toString())
+//            }
+//            Collections.addAll(check, *candidate.interfaces)
+//        }
+//        if (validateEagerly) {
+//            val platform: retrofit2.Platform = retrofit2.Platform.get()
+//            for (method in service.declaredMethods) {
+//                if (!platform.isDefaultMethod(method) && !Modifier.isStatic(method.modifiers)) {
+//                    loadServiceMethod(method)
+//                }
+//            }
+//        }
+//    }
+
 
     fun <T> stringConverter(type: Type?, annotations: Array<Annotation>?): Converter<T, String>
     {
@@ -63,33 +137,7 @@ class Retrofit3(private val callFactory: Call.Factory? = null,
     }
 
 
-    private fun validateServiceInterface(service: Class<*>) {
 
-        require(service.isInterface) { "API declarations must be interfaces." }
-
-        val check: Deque<Class<*>> = ArrayDeque(1)
-        check.add(service)
-        while (!check.isEmpty()) {
-            val candidate = check.removeFirst()
-            if (candidate.typeParameters.isNotEmpty()) {
-                val message =
-                    StringBuilder("Type parameters are unsupported on ").append(candidate.name)
-                if (candidate != service) {
-                    message.append(" which is an interface of ").append(service.name)
-                }
-                throw IllegalArgumentException(message.toString())
-            }
-            Collections.addAll(check, *candidate.interfaces)
-        }
-        if (validateEagerly) {
-            val platform: Platform = Platform.get()
-            for (method in service.declaredMethods) {
-                if (!platform.isDefaultMethod(method) && !Modifier.isStatic(method.modifiers)) {
-                    loadServiceMethod(method)
-                }
-            }
-        }
-    }
 
     fun callAdapter(returnType: Type?, annotations: Array<Annotation>?): CallAdapter<*, *>? {
         return nextCallAdapter(null, returnType, annotations)
