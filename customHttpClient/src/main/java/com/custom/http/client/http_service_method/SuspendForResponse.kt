@@ -8,7 +8,7 @@ import okhttp3.Call
 import okhttp3.ResponseBody
 import kotlin.coroutines.Continuation
 
-internal class SuspendForResponse<ResponseT>(requestFactory: RequestFactory, callFactory: Call.Factory, responseConverter: Converter<ResponseBody, ResponseT>, private val callAdapter: CallAdapter<ResponseT, ResponseT>) : HttpServiceMethod<ResponseT, Any?>(requestFactory = requestFactory, callFactory = callFactory, responseConverter = responseConverter) {
+internal class SuspendForResponse<ResponseT>(requestFactory: RequestFactory, callFactory: Call.Factory, responseConverter: Converter<ResponseBody, ResponseT>, private val callAdapter: CallAdapter<ResponseT, com.custom.http.client.Call<ResponseT>>) : HttpServiceMethod<ResponseT, Any?>(requestFactory = requestFactory, callFactory = callFactory, responseConverter = responseConverter) {
 
     override fun adapt(call: com.custom.http.client.Call<ResponseT>?, args: Array<Any>): Any? {
 

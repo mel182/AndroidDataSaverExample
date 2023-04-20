@@ -6,7 +6,7 @@ public class SkipCallbackExecutorImpl implements SkipCallbackExecutor {
 
     private static final SkipCallbackExecutor INSTANCE = new SkipCallbackExecutorImpl();
 
-    static Annotation[] ensurePresent(Annotation[] annotations) {
+    public static Annotation[] ensurePresent(Annotation[] annotations) {
         if (Utils.Companion.isAnnotationPresent(annotations, SkipCallbackExecutor.class)) {
             return annotations;
         }

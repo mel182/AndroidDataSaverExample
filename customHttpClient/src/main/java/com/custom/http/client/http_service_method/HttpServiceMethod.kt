@@ -18,7 +18,7 @@ abstract class HttpServiceMethod<ResponseT, ReturnT>(private val requestFactory:
      */
     companion object {
 
-        fun <ResponseT, ReturnT> parseAnnotations(retrofit: Retrofit3, method: Method, requestFactory: RequestFactory): HttpServiceMethod<ResponseT, ReturnT> {
+        fun <ResponseT, ReturnT> parseAnnotations(retrofit: Retrofit3, method: Method, requestFactory: RequestFactory): HttpServiceMethod<ResponseT, ReturnT>? {
             val isKotlinSuspendFunction: Boolean = requestFactory.isKotlinSuspendFunction
             var continuationWantsResponse = false
             val continuationBodyNullable = false
@@ -68,23 +68,17 @@ abstract class HttpServiceMethod<ResponseT, ReturnT>(private val requestFactory:
                     message = "Response must include generic type (e.g., Response<String>)"
                 )
 
-            if ((requestFactory.httpMethod == "HEAD") && Void::class.java != responseType && !Utils.isUnit(
-                    responseType
-                )
-            )
+            if ((requestFactory.httpMethod == "HEAD") && Void::class.java != responseType && !Utils.isUnit(responseType))
                 throw Utils.methodError(
                     method = method,
                     message = "HEAD method must use Void or Unit as response type."
                 )
 
-            // TODO support Unit for Kotlin?
-//            val responseConverter =
-
-
             val responseConverter: Converter<ResponseBody, ResponseT> = createResponseConverter(retrofit, method, responseType)
 
             val callFactory: okhttp3.Call.Factory = retrofit.callFactory
             if (!isKotlinSuspendFunction) {
+                //noinspection unchecked Kotlin compiler guarantees ReturnT to be Object.
                 return CallAdapted<ResponseT, ReturnT>(
                     requestFactory,
                     callFactory,
@@ -92,24 +86,25 @@ abstract class HttpServiceMethod<ResponseT, ReturnT>(private val requestFactory:
                     callAdapter
                 )
             } else return if (continuationWantsResponse) {
-                SuspendForResponse<ResponseT>(
+                //noinspection unchecked Kotlin compiler guarantees ReturnT to be Object.
+                SuspendForResponse(
                     requestFactory,
                     callFactory,
                     responseConverter,
-                    callAdapter as CallAdapter<ResponseT, retrofit2.Call<ResponseT>?>
-                ) as retrofit2.HttpServiceMethod<ResponseT, ReturnT>?
+                    callAdapter as CallAdapter<ResponseT, Call<ResponseT>>
+                ) as HttpServiceMethod<ResponseT, ReturnT>
             } else {
-                SuspendForBody<ResponseT>(
+                //noinspection unchecked Kotlin compiler guarantees ReturnT to be Object.
+                SuspendForBody(
                     requestFactory,
                     callFactory,
                     responseConverter,
-                    callAdapter as CallAdapter<ResponseT, retrofit2.Call<ResponseT>?>,
+                    callAdapter as CallAdapter<ResponseT, Call<ResponseT>>,
                     continuationBodyNullable,
                     continuationIsUnit
-                ) as retrofit2.HttpServiceMethod<ResponseT, ReturnT>?
+                ) as HttpServiceMethod<ResponseT, ReturnT>?
             }
         }
-
 
         private fun <ResponseT, ReturnT> createCallAdapter(retrofit: Retrofit3, method: Method, returnType: Type, annotations: Array<Annotation>): CallAdapter<ResponseT, ReturnT> {
             return try {

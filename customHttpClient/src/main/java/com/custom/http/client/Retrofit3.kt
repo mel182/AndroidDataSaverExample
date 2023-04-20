@@ -89,7 +89,7 @@ class Retrofit3(
             result = serviceMethodCache[method]
             if (result == null) {
                 result = MethodService.parseAnnotations<Any>(this, method)
-                serviceMethodCache[method] = result
+                serviceMethodCache[method] = result as MethodService<*>
             }
         }
         return result
