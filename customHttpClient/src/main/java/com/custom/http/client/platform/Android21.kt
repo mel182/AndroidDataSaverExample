@@ -1,7 +1,7 @@
 package com.custom.http.client.platform
 
-import com.custom.http.client.Converter
 import com.custom.http.client.call.CallAdapter
+import com.custom.http.client.converters.Converter
 import com.custom.http.client.default_call_adapter_factory.DefaultCallAdapterFactory
 import java.lang.reflect.Method
 import java.util.*

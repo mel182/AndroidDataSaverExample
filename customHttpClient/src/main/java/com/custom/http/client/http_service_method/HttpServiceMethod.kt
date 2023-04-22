@@ -1,12 +1,15 @@
 package com.custom.http.client.http_service_method
 
-import com.custom.http.client.*
+import com.custom.http.client.MethodService
+import com.custom.http.client.Retrofit3
 import com.custom.http.client.call.Call
 import com.custom.http.client.call.CallAdapter
+import com.custom.http.client.converters.Converter
 import com.custom.http.client.ok_http_call.OkHttpCall
 import com.custom.http.client.request.RequestFactory
 import com.custom.http.client.response.Response
 import com.custom.http.client.skip_callback_executor.SkipCallbackExecutorImpl
+import com.custom.http.client.utils.ParameterizedTypeImpl
 import com.custom.http.client.utils.Utils
 import okhttp3.ResponseBody
 import java.lang.reflect.Method
@@ -51,7 +54,7 @@ abstract class HttpServiceMethod<ResponseT, ReturnT>(private val requestFactory:
                     // Determine if return type is nullable or not
                 }
 
-                adapterType = Utils.Companion.ParameterizedTypeImpl(
+                adapterType = ParameterizedTypeImpl(
                     ownerType = null,
                     rawType = Call::class.java,
                     typeArguments = arrayOf(responseType)

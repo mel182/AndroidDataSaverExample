@@ -1,7 +1,7 @@
 package com.custom.http.client.platform
 
-import com.custom.http.client.Converter
 import com.custom.http.client.call.CallAdapter
+import com.custom.http.client.converters.Converter
 import java.lang.reflect.Method
 import java.util.concurrent.Executor
 
@@ -15,15 +15,25 @@ abstract class Platform {
         private fun createPlatform(): Platform {
 
             return when (System.getProperty("java.vm.name")) {
+
                 "Dalvik" -> {
                     if (Android24.isSupported()) {
                         Android24()
                     } else Android21()
                 }
+
                 "RoboVM" -> RoboVm()
-                else -> if (Android24.isSupported()) {
-                    Android24()
-                } else Android21()
+
+                else -> {
+
+                    if (Java16.isSupported())
+                        return Java16()
+
+                    if (Java14.isSupported())
+                        return Java14()
+
+                    return Java8()
+                }
             }
         }
     }

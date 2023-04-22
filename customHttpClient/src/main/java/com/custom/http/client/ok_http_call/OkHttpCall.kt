@@ -5,6 +5,7 @@ import com.custom.http.client.*
 import com.custom.http.client.call.Call
 import com.custom.http.client.call.Callback
 import com.custom.http.client.constant.DEFAULT_BOOLEAN
+import com.custom.http.client.converters.Converter
 import com.custom.http.client.request.RequestFactory
 import com.custom.http.client.utils.Utils
 import okhttp3.Request
@@ -33,12 +34,14 @@ class OkHttpCall<T>(private val requestFactory: RequestFactory, private val args
         responseConverter = responseConverter
     )
 
+    @Synchronized
     override fun request(): Request =  try {
         getRawCall().request()
     }catch (e:IOException) {
         throw RuntimeException("Unable to create request.", e)
     }
 
+    @Synchronized
     override fun timeout(): Timeout = try {
         getRawCall().timeout()
     }catch (e:IOException) {
@@ -49,6 +52,7 @@ class OkHttpCall<T>(private val requestFactory: RequestFactory, private val args
      * Returns the raw call, initializing it if necessary. Throws if initializing the raw call throws,
      * or has thrown in previous attempts to create it.
      */
+    @GuardedBy("this")
     @Throws(IOException::class)
     private fun getRawCall(): okhttp3.Call {
 
@@ -188,7 +192,7 @@ class OkHttpCall<T>(private val requestFactory: RequestFactory, private val args
 
     @Throws(IOException::class)
     fun parseResponse(rawResponse: Response): com.custom.http.client.response.Response<T> {
-        //var rawResponse = rawResponse
+
         val rawBody = rawResponse.body
 
         // Remove the body's source (the only stateful object) so we can pass the response along.
@@ -229,66 +233,5 @@ class OkHttpCall<T>(private val requestFactory: RequestFactory, private val args
         return requestFactory.create(args)?.let { callFactory?.newCall(it) }
             ?: throw NullPointerException("Call.Factory returned null.")
     }
-
-
-    /*
-    @GuardedBy("this")
-  private okhttp3.Call getRawCall() throws IOException {
-    okhttp3.Call call = rawCall;
-    if (call != null) return call;
-
-    // Re-throw previous failures if this isn't the first attempt.
-    if (creationFailure != null) {
-      if (creationFailure instanceof IOException) {
-        throw (IOException) creationFailure;
-      } else if (creationFailure instanceof RuntimeException) {
-        throw (RuntimeException) creationFailure;
-      } else {
-        throw (Error) creationFailure;
-      }
-    }
-
-    // Create and remember either the success or the failure.
-    try {
-      return rawCall = createRawCall();
-    } catch (RuntimeException | Error | IOException e) {
-      throwIfFatal(e); // Do not assign a fatal error to creationFailure.
-      creationFailure = e;
-      throw e;
-    }
-  }
-
-    */
-
-
-    /*
-    private final RequestFactory requestFactory;
-  private final Object[] args;
-  private final okhttp3.Call.Factory callFactory;
-  private final Converter<ResponseBody, T> responseConverter;
-
-  private volatile boolean canceled;
-
-  @GuardedBy("this")
-  private @Nullable okhttp3.Call rawCall;
-
-  @GuardedBy("this") // Either a RuntimeException, non-fatal Error, or IOException.
-  private @Nullable Throwable creationFailure;
-
-  @GuardedBy("this")
-  private boolean executed;
-
-  OkHttpCall(
-      RequestFactory requestFactory,
-      Object[] args,
-      okhttp3.Call.Factory callFactory,
-      Converter<ResponseBody, T> responseConverter) {
-    this.requestFactory = requestFactory;
-    this.args = args;
-    this.callFactory = callFactory;
-    this.responseConverter = responseConverter;
-  }
-
-    */
 
 }

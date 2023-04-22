@@ -1,11 +1,11 @@
 package com.custom.http.client.platform
 
-import android.os.Build
-import androidx.annotation.RequiresApi
+import android.annotation.SuppressLint
 import com.custom.http.client.*
 import com.custom.http.client.annotation.util.IgnoreJRERequirement
 import com.custom.http.client.call.CallAdapter
 import com.custom.http.client.completable_future_call_adapter_factory.CompletableFutureCallAdapterFactory
+import com.custom.http.client.converters.Converter
 import com.custom.http.client.default_call_adapter_factory.DefaultCallAdapterFactory
 import com.custom.http.client.optional_converter.OptionalConverterFactory
 import java.lang.invoke.MethodHandles
@@ -15,7 +15,7 @@ import java.util.*
 import java.util.concurrent.Executor
 
 @IgnoreJRERequirement // Only used on JVM and Java 14.
-@RequiresApi(Build.VERSION_CODES.O)
+@SuppressWarnings("NewApi") // Not used for Android.
 class Java14 : Platform() {
 
     companion object {
@@ -48,6 +48,7 @@ class Java14 : Platform() {
         return Collections.singletonList(OptionalConverterFactory())
     }
 
+    @SuppressLint("NewApi")
     override fun isDefaultMethod(method: Method?): Boolean = method?.isDefault ?: false
 
 

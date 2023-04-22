@@ -21,6 +21,20 @@ class RequestBuilder(private val method:String,
 {
     private val HEX_DIGITS = charArrayOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F')
     private val PATH_SEGMENT_ALWAYS_ENCODE_SET = " \"<>^`{}|\\?#"
+
+    /**
+     * Matches strings that contain {@code .} or {@code ..} as a complete path segment. This also
+     * matches dots in their percent-encoded form, {@code %2E}.
+     *
+     * <p>It is okay to have these strings within a larger path segment (like {@code a..z} or {@code
+     * index.html}) but when alone they have a special meaning. A single dot resolves to no path
+     * segment so {@code /one/./three/} becomes {@code /one/three/}. A double-dot pops the preceding
+     * directory, so {@code /one/../three/} becomes {@code /three/}.
+     *
+     * <p>We forbid these in Retrofit paths because they're likely to have the unintended effect. For
+     * example, passing {@code ..} to {@code DELETE /account/book/{isbn}/} yields {@code DELETE
+     * /account/}.
+     */
     private val PATH_TRAVERSAL = Pattern.compile("(.*/)?(\\.|%2e|%2E){1,2}(/.*)?")
 
     private var requestBuilder: Request.Builder? = null
@@ -29,7 +43,6 @@ class RequestBuilder(private val method:String,
     private var formBuilder: FormBody.Builder? = null
     private var urlBuilder: HttpUrl.Builder? = null
     private var body: RequestBody? = null
-    //private var httpBaseUrl: HttpUrl? = null
 
     init {
 

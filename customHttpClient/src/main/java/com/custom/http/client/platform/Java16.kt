@@ -1,10 +1,10 @@
 package com.custom.http.client.platform
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import com.custom.http.client.*
+import com.custom.http.client.annotation.util.IgnoreJRERequirement
 import com.custom.http.client.call.CallAdapter
 import com.custom.http.client.completable_future_call_adapter_factory.CompletableFutureCallAdapterFactory
+import com.custom.http.client.converters.Converter
 import com.custom.http.client.default_call_adapter_factory.DefaultCallAdapterFactory
 import com.custom.http.client.optional_converter.OptionalConverterFactory
 import java.lang.reflect.InvocationHandler
@@ -13,7 +13,8 @@ import java.lang.reflect.Method
 import java.util.*
 import java.util.concurrent.Executor
 
-@RequiresApi(Build.VERSION_CODES.O)
+@IgnoreJRERequirement // Only used on JVM and Java 16.
+@SuppressWarnings("NewApi") // Not used for Android.
 class Java16 : Platform() {
 
     private var invokeDefaultMethod: Method? = null

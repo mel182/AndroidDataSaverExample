@@ -3,7 +3,7 @@
 package com.custom.http.client.http_service_method
 
 import com.custom.http.client.call.CallAdapter
-import com.custom.http.client.Converter
+import com.custom.http.client.converters.Converter
 import com.custom.http.client.request.RequestFactory
 import okhttp3.Call
 import okhttp3.ResponseBody

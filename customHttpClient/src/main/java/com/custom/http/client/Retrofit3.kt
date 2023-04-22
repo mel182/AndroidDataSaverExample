@@ -4,11 +4,14 @@ import com.custom.http.client.annotation.parser.AnnotationParser
 import com.custom.http.client.call.CallAdapter
 import com.custom.http.client.constant.DEFAULT_BOOLEAN
 import com.custom.http.client.constant.DEFAULT_INT
+import com.custom.http.client.converters.BuiltInConverters
+import com.custom.http.client.converters.Converter
+import com.custom.http.client.converters.converter_types.ToStringConverter
 import com.custom.http.client.platform.Platform
-import okhttp3.Call
-import okhttp3.RequestBody
-import okhttp3.ResponseBody
+import okhttp3.*
+import okhttp3.HttpUrl.Companion.toHttpUrl
 import java.lang.reflect.*
+import java.net.URL
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.Executor
@@ -97,49 +100,71 @@ class Retrofit3(
         return result
     }
 
-
-//    private fun validateServiceInterface(service: Class<*>) {
-//        require(service.isInterface) { "API declarations must be interfaces." }
-//        val check: Deque<Class<*>> = ArrayDeque(1)
-//        check.add(service)
-//        while (!check.isEmpty()) {
-//            val candidate = check.removeFirst()
-//            if (candidate.typeParameters.size != 0) {
-//                val message = java.lang.StringBuilder("Type parameters are unsupported on ")
-//                    .append(candidate.name)
-//                if (candidate != service) {
-//                    message.append(" which is an interface of ").append(service.name)
-//                }
-//                throw java.lang.IllegalArgumentException(message.toString())
-//            }
-//            Collections.addAll(check, *candidate.interfaces)
-//        }
-//        if (validateEagerly) {
-//            val platform: retrofit2.Platform = retrofit2.Platform.get()
-//            for (method in service.declaredMethods) {
-//                if (!platform.isDefaultMethod(method) && !Modifier.isStatic(method.modifiers)) {
-//                    loadServiceMethod(method)
-//                }
-//            }
-//        }
-//    }
-
-
-    fun <T> stringConverter(type: Type?, annotations: Array<Annotation>?): Converter<T, String>
+    fun <T> stringConverter(type: Type?, annotations: Array<Annotation?>?): Converter<T, String>
     {
-        TODO("Need to be implemented")
+        requireNotNull(type){ "type == null" }
+        requireNotNull(annotations){ "annotations == null" }
+
+        converterFactories?.let {
+
+            for (index in it.indices) {
+
+                val converter = converterFactories[index].stringConverter(type = type, annotations = annotations, retrofit = this)
+                if (converter != null)
+                    return converter as Converter<T, String>
+            }
+        }
+
+        return ToStringConverter.INSTANCE as Converter<T, String>
     }
 
     fun <T> requestBodyConverter(type: Type?, parameterAnnotations: Array<Annotation>?, methodAnnotations: Array<Annotation>?
     ): Converter<T, RequestBody> {
-
-        TODO("Need to be implemented")
-
-        //return nextRequestBodyConverter<T>(null, type, parameterAnnotations, methodAnnotations)
+        return nextRequestBodyConverter(skipPast = null, type = type, parameterAnnotations = parameterAnnotations, methodAnnotations = methodAnnotations)
     }
 
+    fun <T> nextRequestBodyConverter(
+        skipPast: Converter.Factory?,
+        type: Type?,
+        parameterAnnotations: Array<Annotation>?,
+        methodAnnotations: Array<Annotation>?
+    ): Converter<T, RequestBody> {
 
+        requireNotNull(type) { "type == null" }
+        requireNotNull(parameterAnnotations) { "parameterAnnotations == null" }
+        requireNotNull(methodAnnotations) { "methodAnnotations == null" }
 
+        converterFactories?.let {
+
+            val start = it.indexOf(skipPast) + 1
+            for (index in it.indices) {
+                val factory = it[index]
+                val converter = factory.requestBodyConverter(type = type, parameterAnnotations = parameterAnnotations, methodAnnotations = methodAnnotations, retrofit = this)
+                if (converter != null)
+                    return converter as Converter<T, RequestBody>
+            }
+
+            val builder = java.lang.StringBuilder("Could not locate RequestBody converter for ").apply {
+                if (skipPast != null)
+                    append("  Skipped:")
+
+                for (i in 0 until start) {
+                    append("\n   * ").append(converterFactories[i].javaClass.name)
+                }
+
+                append('\n')
+                append("  Tried:")
+                for (index in it.indices) {
+                    append("\n   * ")
+                    append(converterFactories[index]::class.java.name)
+                }
+            }
+
+            throw IllegalArgumentException(builder.toString())
+        }?: kotlin.run {
+            throw IllegalArgumentException("converterFactories is null")
+        }
+    }
 
     fun callAdapter(returnType: Type?, annotations: Array<Annotation>?): CallAdapter<*, *>? {
         return nextCallAdapter(null, returnType, annotations)
@@ -209,6 +234,8 @@ class Retrofit3(
         return nextResponseBodyConverter<T>(null, type, annotations)
     }
 
+    fun newBuilder(): Builder = Builder(this)
+
     /**
      * Returns a [Converter] for [ResponseBody] to `type` from the available
      * [factories][.converterFactories] except `skipPast`.
@@ -220,7 +247,7 @@ class Retrofit3(
         requireNotNull(type){ "type == null" }
         requireNotNull(annotations){ "annotations == null" }
 
-        var resultingConverter: Converter<ResponseBody,T>? = null
+        var resultingConverter: Converter<ResponseBody, T>? = null
 
         converterFactories?.apply {
 
@@ -259,5 +286,213 @@ class Retrofit3(
         return resultingConverter
     }
 
+    inner class Builder(retrofit3: Retrofit3? = null) {
 
+        private var callFactory: Call.Factory? = retrofit3?.callFactory
+        private var baseUrl: HttpUrl? = retrofit3?.baseUrl
+        private var callbackExecutor:Executor? = retrofit3?.callbackExecutor
+        private var validateEagerly:Boolean = retrofit3?.validateEagerly ?: DEFAULT_BOOLEAN
+        val callAdapterFactories: ArrayList<CallAdapter.Factory> = ArrayList()
+        val converterFactories: ArrayList<Converter.Factory> = ArrayList()
+
+        init {
+
+            retrofit3?.let { retrofit ->
+
+                // Do not add the default BuiltIntConverters and platform-aware converters added by build().
+                val size = retrofit.converterFactories?.size?.minus(retrofit.defaultConverterFactoriesSize) ?: 0
+
+                for (index in 0 until size) {
+                    retrofit.converterFactories?.get(index)?.let {
+                        converterFactories.add(it)
+                    }
+                }
+
+                // Do not add the default, platform-aware call adapters added by build().
+                val callAdapterSize = retrofit.callAdapterFactories?.size?.minus(retrofit.defaultCallAdapterFactoriesSize) ?: 0
+                for (index in 0 until callAdapterSize) {
+                    retrofit.callAdapterFactories?.get(index)?.let {
+                        callAdapterFactories.add(it)
+                    }
+                }
+            }
+        }
+
+        /**
+         * The HTTP client used for requests.
+         *
+         * <p>This is a convenience method for calling {@link #callFactory}.
+         */
+        fun client(client: OkHttpClient): Builder {
+            return callFactory(Objects.requireNonNull(client, "client == null"))
+        }
+
+        /**
+         * Specify a custom call factory for creating {@link Call} instances.
+         *
+         * <p>Note: Calling {@link #client} automatically sets this value.
+         */
+        fun callFactory(factory: Call.Factory?): Builder {
+            requireNotNull(factory) { "factory == null" }
+            this.callFactory = factory
+            return this
+        }
+
+        fun baseUrl(baseUrl: URL?): Builder {
+            requireNotNull(baseUrl) { "baseUrl == null" }
+            return baseUrl(baseUrl.toString().toHttpUrl())
+        }
+
+        /**
+         * Set the API base URL.
+         *
+         * @see #baseUrl(HttpUrl)
+         */
+        fun baseUrl(baseUrl: String?): Builder {
+            requireNotNull(baseUrl) { "baseUrl == null" }
+            return baseUrl(baseUrl.toHttpUrl())
+        }
+
+        /**
+         * Set the API base URL.
+         *
+         * <p>The specified endpoint values (such as with {@link GET @GET}) are resolved against this
+         * value using {@link HttpUrl#resolve(String)}. The behavior of this matches that of an {@code
+         * <a href="">} link on a website resolving on the current URL.
+         *
+         * <p><b>Base URLs should always end in {@code /}.</b>
+         *
+         * <p>A trailing {@code /} ensures that endpoints values which are relative paths will correctly
+         * append themselves to a base which has path components.
+         *
+         * <p><b>Correct:</b><br>
+         * Base URL: http://example.com/api/<br>
+         * Endpoint: foo/bar/<br>
+         * Result: http://example.com/api/foo/bar/
+         *
+         * <p><b>Incorrect:</b><br>
+         * Base URL: http://example.com/api<br>
+         * Endpoint: foo/bar/<br>
+         * Result: http://example.com/foo/bar/
+         *
+         * <p>This method enforces that {@code baseUrl} has a trailing {@code /}.
+         *
+         * <p><b>Endpoint values which contain a leading {@code /} are absolute.</b>
+         *
+         * <p>Absolute values retain only the host from {@code baseUrl} and ignore any specified path
+         * components.
+         *
+         * <p>Base URL: http://example.com/api/<br>
+         * Endpoint: /foo/bar/<br>
+         * Result: http://example.com/foo/bar/
+         *
+         * <p>Base URL: http://example.com/<br>
+         * Endpoint: /foo/bar/<br>
+         * Result: http://example.com/foo/bar/
+         *
+         * <p><b>Endpoint values may be a full URL.</b>
+         *
+         * <p>Values which have a host replace the host of {@code baseUrl} and values also with a scheme
+         * replace the scheme of {@code baseUrl}.
+         *
+         * <p>Base URL: http://example.com/<br>
+         * Endpoint: https://github.com/square/retrofit/<br>
+         * Result: https://github.com/square/retrofit/
+         *
+         * <p>Base URL: http://example.com<br>
+         * Endpoint: //github.com/square/retrofit/<br>
+         * Result: http://github.com/square/retrofit/ (note the scheme stays 'http')
+         */
+        fun baseUrl(baseUrl: HttpUrl?): Builder {
+            requireNotNull(baseUrl) { "baseUrl == null" }
+            val pathSegments = baseUrl.pathSegments
+            require(pathSegments.last().isNotBlank()) { "baseUrl must end in /: $baseUrl" }
+            this.baseUrl = baseUrl
+            return this
+        }
+
+        /**
+         * Add converter factory for serialization and deserialization of objects.
+         */
+        fun addConverterFactory(factory: Converter.Factory?): Builder {
+            requireNotNull(factory) { "factory == null" }
+            converterFactories.add(factory)
+            return this
+        }
+
+        /**
+         * Add a call adapter factory for supporting service method return types other than {@link
+         * Call}.
+         */
+        fun addCallAdapterFactory(factory: CallAdapter.Factory?): Builder {
+            requireNotNull(factory) { "factory == null" }
+            callAdapterFactories.add(factory)
+            return this
+        }
+
+        /**
+         * The executor on which {@link Callback} methods are invoked when returning {@link Call} from
+         * your service method.
+         *
+         * <p>Note: {@code executor} is not used for {@linkplain #addCallAdapterFactory custom method
+         * return types}.
+         */
+        fun callbackExecutor(executor: Executor?): Builder {
+            requireNotNull(executor)
+            this.callbackExecutor = executor
+            return this
+        }
+
+        /**
+         * When calling {@link #create} on the resulting {@link Retrofit} instance, eagerly validate the
+         * configuration of all methods in the supplied interface.
+         */
+        fun validateEagerly(validateEagerly: Boolean): Builder {
+            this.validateEagerly = validateEagerly
+            return this
+        }
+
+        /**
+         * Create the {@link Retrofit} instance using the configured values.
+         *
+         * <p>Note: If neither {@link #client} nor {@link #callFactory} is called a default {@link
+         * OkHttpClient} will be created and used.
+         */
+        fun build(): Retrofit3 {
+            checkNotNull(baseUrl) { "Base URL required." }
+            //checkNotNull(callFactory) { "CallFactory required." }
+
+            val platform: Platform = Platform.get()
+            val call_factory = this.callFactory ?: OkHttpClient()
+            val call_back_executor = this.callbackExecutor ?: platform.defaultCallbackExecutor()
+
+            // Make a defensive copy of the adapters and add the default Call adapter.
+            val callAdapterFactories = ArrayList(this.callAdapterFactories)
+            val defaultCallAdapterFactories: List<CallAdapter.Factory?> = platform.createDefaultCallAdapterFactories(callbackExecutor)
+            callAdapterFactories.addAll(defaultCallAdapterFactories)
+
+            // Make a defensive copy of the converters.
+            val defaultConverterFactories: List<Converter.Factory> =
+                platform.createDefaultConverterFactories() ?: emptyList()
+            val defaultConverterFactoriesSize = defaultConverterFactories.size
+            val converterFactories: ArrayList<Converter.Factory> = ArrayList<Converter.Factory>().apply {
+                // Add the built-in converter factory first. This prevents overriding its behavior but also
+                // ensures correct behavior when using converters that consume all types.
+                add(BuiltInConverters())
+                addAll(this@Builder.converterFactories)
+                addAll(defaultConverterFactories)
+            }
+
+            return Retrofit3(
+                call_factory,
+                baseUrl,
+                converterFactories.toList(),
+                defaultConverterFactoriesSize,
+                callAdapterFactories.toList(),
+                defaultCallAdapterFactories.size,
+                call_back_executor,
+                validateEagerly
+            )
+        }
+    }
 }

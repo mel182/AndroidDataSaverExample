@@ -9,7 +9,7 @@ class Invocation(val method:Method, val arguments:List<*>) {
         fun of(method:Method?, arguments:List<*>?): Invocation {
             requireNotNull(method) { "method == null" }
             requireNotNull(arguments) { "arguments == null" }
-            return Invocation(method = method, arguments = arguments)
+            return Invocation(method = method, arguments = arguments) // Defensive copy.
         }
 
     }

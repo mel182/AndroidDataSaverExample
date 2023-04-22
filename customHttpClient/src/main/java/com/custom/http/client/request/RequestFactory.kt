@@ -6,6 +6,7 @@ import com.custom.http.client.annotation.http.call_properties.*
 import com.custom.http.client.annotation.http.method.*
 import com.custom.http.client.constant.BLANK_STRING
 import com.custom.http.client.constant.DEFAULT_BOOLEAN
+import com.custom.http.client.converters.Converter
 import com.custom.http.client.request.parameter.ParameterHandler
 import com.custom.http.client.request.parameter.ParameterHandler.Companion.Headers
 import com.custom.http.client.utils.Utils
