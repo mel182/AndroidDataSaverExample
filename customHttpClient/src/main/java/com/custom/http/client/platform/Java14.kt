@@ -5,6 +5,7 @@ import androidx.annotation.RequiresApi
 import com.custom.http.client.*
 import com.custom.http.client.annotation.util.IgnoreJRERequirement
 import com.custom.http.client.completable_future_call_adapter_factory.CompletableFutureCallAdapterFactory
+import com.custom.http.client.default_call_adapter_factory.DefaultCallAdapterFactory
 import java.lang.invoke.MethodHandles
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method

@@ -2,7 +2,7 @@ package com.custom.http.client.platform
 
 import com.custom.http.client.CallAdapter
 import com.custom.http.client.Converter
-import com.custom.http.client.DefaultCallAdapterFactory
+import com.custom.http.client.default_call_adapter_factory.DefaultCallAdapterFactory
 import java.lang.reflect.Method
 import java.util.Collections
 import java.util.concurrent.Executor
