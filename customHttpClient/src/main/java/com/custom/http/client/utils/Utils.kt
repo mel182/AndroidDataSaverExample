@@ -12,8 +12,6 @@ class Utils {
 
     companion object {
 
-        val EMPTY_TYPE_ARRAY:Array<Type> = emptyArray()
-
         fun methodError(
             method: Method?,
             message: String?,
