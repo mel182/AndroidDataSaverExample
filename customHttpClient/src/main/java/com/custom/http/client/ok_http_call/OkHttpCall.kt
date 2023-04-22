@@ -6,6 +6,7 @@ import com.custom.http.client.call.Call
 import com.custom.http.client.call.Callback
 import com.custom.http.client.constant.DEFAULT_BOOLEAN
 import com.custom.http.client.request.RequestFactory
+import com.custom.http.client.utils.Utils
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.ResponseBody

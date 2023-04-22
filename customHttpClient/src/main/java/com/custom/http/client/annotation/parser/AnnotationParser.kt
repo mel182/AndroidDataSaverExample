@@ -3,7 +3,7 @@ package com.custom.http.client.annotation.parser
 import com.custom.http.client.MethodService
 import com.custom.http.client.request.RequestFactory
 import com.custom.http.client.Retrofit3
-import com.custom.http.client.Utils
+import com.custom.http.client.utils.Utils
 import com.custom.http.client.http_service_method.HttpServiceMethod
 import java.lang.reflect.Method
 

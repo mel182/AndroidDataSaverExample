@@ -1,5 +1,7 @@
 package com.custom.http.client;
 
+import com.custom.http.client.utils.Utils;
+
 import java.lang.annotation.Annotation;
 
 public class SkipCallbackExecutorImpl implements SkipCallbackExecutor {

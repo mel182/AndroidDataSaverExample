@@ -1,7 +1,7 @@
 package com.custom.http.client.request.parameter
 
 import com.custom.http.client.Converter
-import com.custom.http.client.Utils
+import com.custom.http.client.utils.Utils
 import com.custom.http.client.constant.BLANK_STRING
 import com.custom.http.client.constant.DEFAULT_BOOLEAN
 import com.custom.http.client.request.RequestBuilder

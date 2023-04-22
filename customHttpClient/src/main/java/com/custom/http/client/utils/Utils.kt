@@ -1,4 +1,4 @@
-package com.custom.http.client
+package com.custom.http.client.utils
 
 import com.custom.http.client.constant.BLANK_STRING
 import okhttp3.ResponseBody
@@ -171,11 +171,14 @@ class Utils {
         }
 
         fun getSupertype(context: Type?, contextRawType: Class<*>?, supertype: Class<*>): Type {
+            requireNotNull(context){ "get supertype context == null" }
+            requireNotNull(contextRawType){ "get supertype contextRawType == null" }
             require(supertype.isAssignableFrom(contextRawType))
+
             return resolve(
                 context,
                 contextRawType,
-                getGenericSupertype(context, contextRawType, supertype)
+                getGenericSupertype(context, contextRawType, supertype)!!
             )
         }
 
@@ -236,49 +239,159 @@ class Utils {
             return buffer.asResponseBody(body.contentType(), body.contentLength())
         }
 
+        fun resolve(context: Type, contextRawType: Class<*>, toResolve: Type): Type {
+            // This implementation is made a little more complicated in an attempt to avoid object-creation.
+            while (true) {
+                if (toResolve is TypeVariable<*>) {
 
-        internal class ParameterizedTypeImpl(private val ownerType: Type? = null, private val rawType:Type, private val typeArguments: Array<Type>) : ParameterizedType {
+                    val to_resolve = resolveTypeVariable(context = context, contextRawType = contextRawType, unknown = toResolve)
 
-            init {
-                // Require an owner type if the raw type needs it.
-                require(!(rawType is Class<*> && ownerType == null != (rawType.enclosingClass == null)))
+                    if (to_resolve == toResolve)
+                        return to_resolve
 
-                for (typeArgument in typeArguments) {
-                    checkNotPrimitive(typeArgument)
+                } else if (toResolve is Class<*> && toResolve.isArray) {
+                    val original = toResolve
+                    val componentType: Type = original.componentType
+                    val newComponentType: Type = resolve(context, contextRawType, componentType)
+                    return if (componentType === newComponentType) original else GenericArrayTypeImpl(
+                        newComponentType
+                    )
+                } else if (toResolve is GenericArrayType) {
+                    val original = toResolve
+                    val componentType = original.genericComponentType
+                    val newComponentType: Type = resolve(context, contextRawType, componentType)
+                    return if (componentType === newComponentType) original else GenericArrayTypeImpl(newComponentType)
+                } else if (toResolve is ParameterizedType) {
+                    val original = toResolve
+                    val ownerType = original.ownerType
+                    val newOwnerType: Type = resolve(context, contextRawType, ownerType)
+                    var changed = newOwnerType !== ownerType
+                    var args = original.actualTypeArguments
+                    var t = 0
+                    val length = args.size
+                    while (t < length) {
+                        val resolvedTypeArgument: Type = resolve(context, contextRawType, args[t])
+                        if (resolvedTypeArgument !== args[t]) {
+                            if (!changed) {
+                                args = args.clone()
+                                changed = true
+                            }
+                            args[t] = resolvedTypeArgument
+                        }
+                        t++
+                    }
+
+                    return if (changed)
+                        ParameterizedTypeImpl(newOwnerType, original.rawType, args)
+                    else
+                        original
+
+                } else if (toResolve is WildcardType) {
+                    val original = toResolve
+                    val originalLowerBound = original.lowerBounds
+                    val originalUpperBound = original.upperBounds
+                    if (originalLowerBound.size == 1) {
+                        val lowerBound: Type = resolve(
+                            context, contextRawType,
+                            originalLowerBound[0]
+                        )
+                        if (lowerBound !== originalLowerBound[0]) {
+                            return WildcardTypeImpl(
+                                arrayOf(Any::class.java),
+                                arrayOf(lowerBound)
+                            )
+                        }
+                    } else if (originalUpperBound.size == 1) {
+                        val upperBound: Type = resolve(
+                            context, contextRawType,
+                            originalUpperBound[0]
+                        )
+                        if (upperBound !== originalUpperBound[0]) {
+                            return WildcardTypeImpl(
+                                arrayOf(upperBound),
+                                emptyArray()
+                            )
+                        }
+                    }
+                    return original
+                } else {
+                    return toResolve
+                }
+            }
+        }
+
+        private fun resolveTypeVariable(context: Type, contextRawType: Class<*>, unknown: TypeVariable<*>): Type? {
+
+            // If class is null, we can't reduce this further.
+            val declaredByRaw: Class<*> = declaringClassOf(unknown) ?: return unknown
+            val declaredBy: Type? = getGenericSupertype(context, contextRawType, declaredByRaw)
+
+            if (declaredBy is ParameterizedType) {
+                val index: Int = indexOf(declaredByRaw.typeParameters, unknown)
+                return declaredBy.actualTypeArguments[index]
+            }
+            return unknown
+        }
+
+        /**
+         * Returns the declaring class of {@code typeVariable}, or {@code null} if it was not declared by
+         * a class.
+         */
+        private fun declaringClassOf(typeVariable: TypeVariable<*>): Class<*>? {
+            val genericDeclaration = typeVariable.genericDeclaration
+            return if (genericDeclaration is Class<*>) genericDeclaration else null
+        }
+
+        fun getGenericSupertype(context: Type?, rawType: Class<*>?, toResolve: Class<*>): Type? {
+
+            if (toResolve == rawType)
+                return context
+
+            // We skip searching through interfaces if unknown is an interface.
+            rawType?.apply {
+
+                if (toResolve.isInterface) {
+
+                    for (clazzItemIndex in interfaces.indices) {
+                        val clazzFound = interfaces[clazzItemIndex]
+                        if (clazzFound == toResolve) {
+                            return genericInterfaces[clazzItemIndex]
+                        } else if (toResolve.isAssignableFrom(clazzFound)) {
+                            return getGenericSupertype(genericInterfaces[clazzItemIndex], interfaces[clazzItemIndex], toResolve)
+                        }
+                    }
+                }
+
+                // Check our supertypes.
+                if (!isInterface) {
+
+                    while (this != Any::class.java) {
+
+                        val rawSuperType = superclass
+                        if (rawSuperType == toResolve) {
+                            return genericSuperclass
+                        } else if (toResolve.isAssignableFrom(rawSuperType)) {
+                            return getGenericSupertype(genericSuperclass, rawSuperType, toResolve)
+                        }
+                    }
                 }
             }
 
-            override fun getActualTypeArguments(): Array<Type>  = this.typeArguments.clone()
+            // We can't resolve this further.
+            return toResolve
+        }
 
-            override fun getRawType(): Type = rawType
+        private fun indexOf(array: Array<*>?, toFind: Any): Int {
 
-            override fun getOwnerType(): Type? = ownerType
-
-            override fun equals(other: Any?): Boolean {
-
-                if (other !is ParameterizedType)
-                    return false
-
-                return Utils.equals(
-                    this,
-                    other as ParameterizedType
-                )
+            val itemArray = array ?: Array(0){}
+            for (i in itemArray.indices) {
+                if (toFind == itemArray[i]) return i
             }
 
+            throw NoSuchElementException()
         }
 
-
-        fun resolve(context: Type?, contextRawType: Class<*>?, toResolve: Type?): Type {
-            TODO("Need to be implemented")
-        }
-
-        fun getGenericSupertype(context: Type?, rawType: Class<*>?, toResolve: Class<*>?): Type? {
-            TODO("Need to be implemented")
-        }
-
+        fun typeToString(type: Type?): String? = if (type is Class<*>) type.name else type.toString()
 
     }
-
-
-
 }

@@ -1,5 +1,6 @@
 package com.custom.http.client
 
+import com.custom.http.client.utils.Utils
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import java.io.IOException

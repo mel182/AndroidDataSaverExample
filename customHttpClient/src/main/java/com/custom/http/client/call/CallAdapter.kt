@@ -1,7 +1,7 @@
 package com.custom.http.client.call
 
 import com.custom.http.client.Retrofit3
-import com.custom.http.client.Utils
+import com.custom.http.client.utils.Utils
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 

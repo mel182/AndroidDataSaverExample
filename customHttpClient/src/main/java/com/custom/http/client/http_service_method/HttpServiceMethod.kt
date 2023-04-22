@@ -6,6 +6,7 @@ import com.custom.http.client.call.CallAdapter
 import com.custom.http.client.ok_http_call.OkHttpCall
 import com.custom.http.client.request.RequestFactory
 import com.custom.http.client.response.Response
+import com.custom.http.client.utils.Utils
 import okhttp3.ResponseBody
 import java.lang.reflect.Method
 import java.lang.reflect.ParameterizedType
