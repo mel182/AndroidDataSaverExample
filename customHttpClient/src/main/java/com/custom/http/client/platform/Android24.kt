@@ -5,6 +5,7 @@ import android.os.Build
 import androidx.annotation.ChecksSdkIntAtLeast
 import com.custom.http.client.*
 import com.custom.http.client.annotation.util.IgnoreJRERequirement
+import com.custom.http.client.completable_future_call_adapter_factory.CompletableFutureCallAdapterFactory
 import java.lang.invoke.MethodHandles.Lookup
 import java.lang.reflect.Constructor
 import java.lang.reflect.Method

@@ -1,7 +1,11 @@
-package com.custom.http.client
+package com.custom.http.client.completable_future_call_adapter_factory
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.custom.http.client.BodyCallback
+import com.custom.http.client.Call
+import com.custom.http.client.CallAdapter
+import com.custom.http.client.CallCancelCompletableFuture
 import com.custom.http.client.annotation.util.IgnoreJRERequirement
 import java.lang.reflect.Type
 import java.util.concurrent.CompletableFuture
