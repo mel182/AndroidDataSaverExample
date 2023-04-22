@@ -100,7 +100,7 @@ class Retrofit3(
         return result
     }
 
-    fun <T> stringConverter(type: Type?, annotations: Array<Annotation?>?): Converter<T, String>
+    fun <T> stringConverter(type: Type?, annotations: Array<Annotation>?): Converter<T, String>
     {
         requireNotNull(type){ "type == null" }
         requireNotNull(annotations){ "annotations == null" }

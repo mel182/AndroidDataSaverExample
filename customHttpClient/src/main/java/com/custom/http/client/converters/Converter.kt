@@ -19,7 +19,7 @@ interface Converter<F, T> {
 
         open fun requestBodyConverter(type: Type, parameterAnnotations: Array<Annotation>, methodAnnotations: Array<Annotation>, retrofit: Retrofit3): Converter<*, RequestBody?>? = null
 
-        open fun stringConverter(type: Type?, annotations: Array<Annotation?>?, retrofit: Retrofit3?): Converter<*, String?>? = null
+        open fun stringConverter(type: Type?, annotations: Array<Annotation>?, retrofit: Retrofit3?): Converter<*, String?>? = null
 
         protected open fun getParameterUpperBound(index: Int, type: ParameterizedType?): Type? = Utils.getParameterUpperBound(index, type)
 
