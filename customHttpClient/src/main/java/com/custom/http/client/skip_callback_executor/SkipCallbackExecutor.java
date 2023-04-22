@@ -1,8 +1,9 @@
-package com.custom.http.client;
+package com.custom.http.client.skip_callback_executor;
 
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+import com.custom.http.client.Retrofit3;
 import com.custom.http.client.call.Call;
 import com.custom.http.client.call.CallAdapter;
 import com.custom.http.client.call.Callback;
