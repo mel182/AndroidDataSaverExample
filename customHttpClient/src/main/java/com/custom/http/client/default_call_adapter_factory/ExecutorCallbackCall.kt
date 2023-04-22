@@ -1,14 +1,15 @@
 package com.custom.http.client.default_call_adapter_factory
 
-import com.custom.http.client.Call
-import com.custom.http.client.Callback
-import com.custom.http.client.Response
+import com.custom.http.client.call.Call
+import com.custom.http.client.call.Callback
+import com.custom.http.client.response.Response
 import okhttp3.Request
 import okio.Timeout
 import java.io.IOException
 import java.util.concurrent.Executor
 
-class ExecutorCallbackCall<T>(private val callbackExecutor: Executor, private val delegate:Call<T>): Call<T> {
+class ExecutorCallbackCall<T>(private val callbackExecutor: Executor, private val delegate: Call<T>):
+    Call<T> {
 
     override fun enqueue(callback: Callback<T>?) {
 

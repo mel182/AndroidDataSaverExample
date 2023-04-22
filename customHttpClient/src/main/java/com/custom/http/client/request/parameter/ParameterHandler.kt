@@ -1,7 +1,10 @@
-package com.custom.http.client
+package com.custom.http.client.request.parameter
 
+import com.custom.http.client.Converter
+import com.custom.http.client.Utils
 import com.custom.http.client.constant.BLANK_STRING
 import com.custom.http.client.constant.DEFAULT_BOOLEAN
+import com.custom.http.client.request.RequestBuilder
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.IOException
@@ -57,7 +60,11 @@ abstract class ParameterHandler<T : Any> {
                 value?.let {
                     builder?.setRelativeUrl(it)
                 }?: kotlin.run {
-                    throw Utils.parameterError(method = method, p = parameter, message = "@Url parameter is null.")
+                    throw Utils.parameterError(
+                        method = method,
+                        p = parameter,
+                        message = "@Url parameter is null."
+                    )
                 }
             }
         }
@@ -88,7 +95,11 @@ abstract class ParameterHandler<T : Any> {
                 value?.let {
                     builder?.addPathParam(name = name ?: BLANK_STRING, value = valueConverter?.convert(value) ?: BLANK_STRING, encoded)
                 }?: kotlin.run {
-                    throw Utils.parameterError(method = method, p = parameter, message = "Path parameter \"$name\" value must not be null.")
+                    throw Utils.parameterError(
+                        method = method,
+                        p = parameter,
+                        message = "Path parameter \"$name\" value must not be null."
+                    )
                 }
             }
         }
@@ -121,18 +132,34 @@ abstract class ParameterHandler<T : Any> {
             override fun apply(builder: RequestBuilder?, value: Map<String?, T>?) {
 
                 if (value == null)
-                    throw Utils.parameterError(method = method, p = parameter, message = "Query map was null")
+                    throw Utils.parameterError(
+                        method = method,
+                        p = parameter,
+                        message = "Query map was null"
+                    )
 
                 for (entry in value.entries) {
 
                     val entryKey = entry.key
-                        ?: throw Utils.parameterError(method = method, p = parameter, message = "Query map contained null key.")
+                        ?: throw Utils.parameterError(
+                            method = method,
+                            p = parameter,
+                            message = "Query map contained null key."
+                        )
 
                     val entryValue = entry.value
-                        ?: throw Utils.parameterError(method = method, p = parameter, message = "Query map contained null value for key '$entryKey'.")
+                        ?: throw Utils.parameterError(
+                            method = method,
+                            p = parameter,
+                            message = "Query map contained null value for key '$entryKey'."
+                        )
 
                     val convertedEntryValue = valueConverter?.convert(entryValue)
-                        ?: throw Utils.parameterError(method = method, p = parameter, message = "Query map value '$entryKey' converted to null by ${valueConverter?.javaClass?.name} for key '$entryKey'.")
+                        ?: throw Utils.parameterError(
+                            method = method,
+                            p = parameter,
+                            message = "Query map value '$entryKey' converted to null by ${valueConverter?.javaClass?.name} for key '$entryKey'."
+                        )
 
                     builder?.addQueryParam(name = entryKey, value = convertedEntryValue, encoded = encoded)
                 }
@@ -143,15 +170,27 @@ abstract class ParameterHandler<T : Any> {
             override fun apply(builder: RequestBuilder?, value: Map<String?, T>?) {
 
                 if (value == null)
-                    throw Utils.parameterError(method = method, p = parameter, message = "Header map was null.")
+                    throw Utils.parameterError(
+                        method = method,
+                        p = parameter,
+                        message = "Header map was null."
+                    )
 
                 for (entry in value.entries) {
 
                     val headerName = entry.key
-                        ?: throw Utils.parameterError(method = method, p = parameter, message = "Header map contained null key.")
+                        ?: throw Utils.parameterError(
+                            method = method,
+                            p = parameter,
+                            message = "Header map contained null key."
+                        )
 
                     val headerValue = entry.value
-                        ?: throw Utils.parameterError(method = method, p = parameter, message = "Header map contained null value for key '$headerName'.")
+                        ?: throw Utils.parameterError(
+                            method = method,
+                            p = parameter,
+                            message = "Header map contained null value for key '$headerName'."
+                        )
 
                     builder?.addHeader(name = headerName, value = valueConverter?.convert(headerValue) ?: BLANK_STRING, allowUnsafeNonAsciiValues = allowUnsafeNonAsciiValues)
                 }
@@ -162,7 +201,11 @@ abstract class ParameterHandler<T : Any> {
             override fun apply(builder: RequestBuilder?, headers: okhttp3.Headers?) {
 
                 if (headers == null)
-                    throw Utils.parameterError(method = method, p = parameter, message = "Headers parameter must not be null.")
+                    throw Utils.parameterError(
+                        method = method,
+                        p = parameter,
+                        message = "Headers parameter must not be null."
+                    )
 
                 builder?.addHeaders(headers)
             }
@@ -188,15 +231,31 @@ abstract class ParameterHandler<T : Any> {
             override fun apply(builder: RequestBuilder?, value: Map<String?, T>?) {
 
                 if (value == null)
-                    throw Utils.parameterError(method = method, p = parameter, message = "Field map was null.")
+                    throw Utils.parameterError(
+                        method = method,
+                        p = parameter,
+                        message = "Field map was null."
+                    )
 
                 for (entry in value.entries) {
 
-                    val entryKey = entry.key ?: throw Utils.parameterError(method = method, p = parameter, message = "Field map contained null key.")
+                    val entryKey = entry.key ?: throw Utils.parameterError(
+                        method = method,
+                        p = parameter,
+                        message = "Field map contained null key."
+                    )
 
-                    val entryValue = entry.value ?: throw Utils.parameterError(method = method, p = parameter, message = "Field map contained null value for key '$entryKey'.")
+                    val entryValue = entry.value ?: throw Utils.parameterError(
+                        method = method,
+                        p = parameter,
+                        message = "Field map contained null value for key '$entryKey'."
+                    )
 
-                    val fieldEntry = valueConverter?.convert(entryValue) ?: throw Utils.parameterError(method = method, p = parameter, message = "Field map value '$entryKey' converted to null by ${valueConverter?.javaClass?.name} for key '$entryKey'.")
+                    val fieldEntry = valueConverter?.convert(entryValue) ?: throw Utils.parameterError(
+                        method = method,
+                        p = parameter,
+                        message = "Field map value '$entryKey' converted to null by ${valueConverter?.javaClass?.name} for key '$entryKey'."
+                    )
 
                     builder?.addFormField(entryKey, fieldEntry, encoded)
                 }
@@ -211,10 +270,20 @@ abstract class ParameterHandler<T : Any> {
                     val requestBody = try {
                         converter?.convert(it)
                     }catch (e:IOException) {
-                        throw Utils.parameterError(method = method, p = parameter, message = "Unable to convert $value to RequestBody", e)
+                        throw Utils.parameterError(
+                            method = method,
+                            p = parameter,
+                            message = "Unable to convert $value to RequestBody",
+                            e
+                        )
                     }
 
-                    builder?.addPart(headers, requestBody ?: throw Utils.parameterError(method = method, p = parameter, message = "Request body is null"))
+                    builder?.addPart(headers, requestBody ?: throw Utils.parameterError(
+                        method = method,
+                        p = parameter,
+                        message = "Request body is null"
+                    )
+                    )
                 }
             }
         }
@@ -237,13 +306,25 @@ abstract class ParameterHandler<T : Any> {
             override fun apply(builder: RequestBuilder?, value: Map<String?, T>?) {
 
                 if (value == null)
-                    throw Utils.parameterError(method = method, p = parameter, message = "Part map was null.")
+                    throw Utils.parameterError(
+                        method = method,
+                        p = parameter,
+                        message = "Part map was null."
+                    )
 
                 for (entry in value.entries) {
 
-                    val entryKey = entry.key ?: throw Utils.parameterError(method = method, p = parameter, message = "Part map contained null key.")
+                    val entryKey = entry.key ?: throw Utils.parameterError(
+                        method = method,
+                        p = parameter,
+                        message = "Part map contained null key."
+                    )
 
-                    val entryValue = entry.value ?: throw Utils.parameterError(method = method, p = parameter, message = "Part map contained null value for key '$entryKey'.")
+                    val entryValue = entry.value ?: throw Utils.parameterError(
+                        method = method,
+                        p = parameter,
+                        message = "Part map contained null value for key '$entryKey'."
+                    )
 
                     val headers = okhttp3.Headers.headersOf(
                         "Content-Disposition",
@@ -252,7 +333,12 @@ abstract class ParameterHandler<T : Any> {
                         transferEncoding
                     )
 
-                    builder?.addPart(headers = headers, valueConverter?.convert(entryValue) ?: throw Utils.parameterError(method = method, p = parameter, message = "Request body is null"))
+                    builder?.addPart(headers = headers, valueConverter?.convert(entryValue) ?: throw Utils.parameterError(
+                        method = method,
+                        p = parameter,
+                        message = "Request body is null"
+                    )
+                    )
                 }
             }
         }
@@ -262,12 +348,21 @@ abstract class ParameterHandler<T : Any> {
             override fun apply(builder: RequestBuilder?, value: T?) {
 
                 if (value == null)
-                    throw Utils.parameterError(method = method, p = parameter, message = "Body parameter value must not be null.")
+                    throw Utils.parameterError(
+                        method = method,
+                        p = parameter,
+                        message = "Body parameter value must not be null."
+                    )
 
                 val body = try {
                     converter?.convert(value) ?: throw IOException("Unable to convert $value to RequestBody")
                 } catch (e:IOException) {
-                    throw Utils.parameterError(method = method, cause = e, p = parameter, message = "Unable to convert $value to RequestBody")
+                    throw Utils.parameterError(
+                        method = method,
+                        cause = e,
+                        p = parameter,
+                        message = "Unable to convert $value to RequestBody"
+                    )
                 }
 
                 builder?.setBody(body = body)

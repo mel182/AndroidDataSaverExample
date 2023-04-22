@@ -3,6 +3,7 @@
 package com.custom.http.client
 
 import com.custom.http.client.http_service_method.HttpServiceMethod
+import com.custom.http.client.request.RequestFactory
 import java.lang.reflect.Method
 
 abstract class MethodService<T> {

@@ -3,6 +3,11 @@ package com.custom.http.client;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+import com.custom.http.client.call.Call;
+import com.custom.http.client.call.CallAdapter;
+import com.custom.http.client.call.Callback;
+import com.custom.http.client.response.Response;
+
 import java.lang.annotation.Annotation;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;

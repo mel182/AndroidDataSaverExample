@@ -2,15 +2,17 @@ package com.custom.http.client.ok_http_call
 
 import androidx.annotation.GuardedBy
 import com.custom.http.client.*
+import com.custom.http.client.call.Call
+import com.custom.http.client.call.Callback
 import com.custom.http.client.constant.DEFAULT_BOOLEAN
+import com.custom.http.client.request.RequestFactory
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.ResponseBody
 import okio.Timeout
 import java.io.IOException
 
-class OkHttpCall<T>(private val requestFactory: RequestFactory, private val args: Array<Any>, private val callFactory: okhttp3.Call.Factory?, private val responseConverter: Converter<ResponseBody, T>):
-    Call<T> {
+class OkHttpCall<T>(private val requestFactory: RequestFactory, private val args: Array<Any>, private val callFactory: okhttp3.Call.Factory?, private val responseConverter: Converter<ResponseBody, T>): Call<T> {
 
     @Volatile
     private var canceled = false
@@ -116,7 +118,7 @@ class OkHttpCall<T>(private val requestFactory: RequestFactory, private val args
             rawCall?.enqueue(object : okhttp3.Callback {
 
                 override fun onResponse(call: okhttp3.Call, response: Response) {
-                    val rawResponse: com.custom.http.client.Response<T>
+                    val rawResponse: com.custom.http.client.response.Response<T>
                     try {
                         rawResponse = parseResponse(response)
                     } catch (e: Throwable) {
@@ -149,7 +151,7 @@ class OkHttpCall<T>(private val requestFactory: RequestFactory, private val args
         }
     }
 
-    override fun execute(): com.custom.http.client.Response<T> {
+    override fun execute(): com.custom.http.client.response.Response<T> {
         var call: okhttp3.Call
 
         synchronized(this) {
@@ -184,7 +186,7 @@ class OkHttpCall<T>(private val requestFactory: RequestFactory, private val args
     }
 
     @Throws(IOException::class)
-    fun parseResponse(rawResponse: Response): com.custom.http.client.Response<T> {
+    fun parseResponse(rawResponse: Response): com.custom.http.client.response.Response<T> {
         //var rawResponse = rawResponse
         val rawBody = rawResponse.body
 
@@ -200,19 +202,19 @@ class OkHttpCall<T>(private val requestFactory: RequestFactory, private val args
             return rawBody.use { rawBody ->
                 // Buffer the entire body to avoid future I/O.
                 val bufferedBody: ResponseBody = Utils.buffer(rawBody)
-                com.custom.http.client.Response.error(bufferedBody, rawResponse)
+                com.custom.http.client.response.Response.error(bufferedBody, rawResponse)
             }
         }
 
         if (code == 204 || code == 205) {
             rawBody.close()
-            return com.custom.http.client.Response.success(null, raw_response)
+            return com.custom.http.client.response.Response.success(null, raw_response)
         }
 
         val catchingBody = ExceptionCatchingResponseBody(rawBody)
         return try {
             val body = responseConverter.convert(catchingBody)
-            com.custom.http.client.Response.success(body, rawResponse)
+            com.custom.http.client.response.Response.success(body, rawResponse)
         } catch (e: java.lang.RuntimeException) {
             // If the underlying source threw an exception, propagate that rather than indicating it was
             // a runtime exception.

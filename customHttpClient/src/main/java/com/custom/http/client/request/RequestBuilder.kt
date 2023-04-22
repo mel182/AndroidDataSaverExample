@@ -1,5 +1,6 @@
-package com.custom.http.client
+package com.custom.http.client.request
 
+import com.custom.http.client.ContentTypeOverridingRequestBody
 import com.custom.http.client.constant.BLANK_STRING
 import com.custom.http.client.constant.DEFAULT_BOOLEAN
 import okhttp3.*

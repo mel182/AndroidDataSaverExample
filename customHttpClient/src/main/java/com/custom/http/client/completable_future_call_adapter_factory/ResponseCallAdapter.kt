@@ -2,15 +2,16 @@ package com.custom.http.client.completable_future_call_adapter_factory
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.custom.http.client.Call
-import com.custom.http.client.CallAdapter
-import com.custom.http.client.CallCancelCompletableFuture
-import com.custom.http.client.Response
+import com.custom.http.client.call.Call
+import com.custom.http.client.call.CallAdapter
+import com.custom.http.client.call.CallCancelCompletableFuture
+import com.custom.http.client.response.Response
 import java.lang.reflect.Type
 import java.util.concurrent.CompletableFuture
 
 @RequiresApi(Build.VERSION_CODES.N)
-class ResponseCallAdapter<R>(private val responseType:Type): CallAdapter<R, CompletableFuture<Response<R>>> {
+class ResponseCallAdapter<R>(private val responseType:Type):
+    CallAdapter<R, CompletableFuture<Response<R>>> {
 
     override fun responseType(): Type = responseType
 

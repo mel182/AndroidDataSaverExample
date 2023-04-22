@@ -1,6 +1,6 @@
 package com.custom.http.client.exceptions
 
-import com.custom.http.client.Response
+import com.custom.http.client.response.Response
 
 class HttpException(@Transient val response: Response<*>?): RuntimeException(getMessage(response)) {
 

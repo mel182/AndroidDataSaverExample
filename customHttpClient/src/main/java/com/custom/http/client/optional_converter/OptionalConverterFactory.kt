@@ -1,6 +1,8 @@
-package com.custom.http.client
+package com.custom.http.client.optional_converter
 
 import android.annotation.TargetApi
+import com.custom.http.client.Converter
+import com.custom.http.client.Retrofit3
 import com.custom.http.client.annotation.util.IgnoreJRERequirement
 import okhttp3.ResponseBody
 import java.lang.reflect.ParameterizedType

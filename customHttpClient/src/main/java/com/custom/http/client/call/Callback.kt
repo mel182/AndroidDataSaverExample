@@ -1,4 +1,6 @@
-package com.custom.http.client
+package com.custom.http.client.call
+
+import com.custom.http.client.response.Response
 
 /**
  * Communicates responses from a server or offline requests. One and only one method will be invoked

@@ -1,7 +1,7 @@
 package com.custom.http.client.platform
 
-import com.custom.http.client.CallAdapter
 import com.custom.http.client.Converter
+import com.custom.http.client.call.CallAdapter
 import java.lang.reflect.Method
 import java.util.concurrent.Executor
 
@@ -21,7 +21,9 @@ abstract class Platform {
                     } else Android21()
                 }
                 "RoboVM" -> RoboVm()
-                else -> Android21()
+                else -> if (Android24.isSupported()) {
+                    Android24()
+                } else Android21()
             }
         }
     }

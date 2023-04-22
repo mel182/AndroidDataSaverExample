@@ -1,5 +1,7 @@
 package com.custom.http.client
 
+import com.custom.http.client.annotation.parser.AnnotationParser
+import com.custom.http.client.call.CallAdapter
 import com.custom.http.client.constant.DEFAULT_BOOLEAN
 import com.custom.http.client.constant.DEFAULT_INT
 import com.custom.http.client.platform.Platform
@@ -162,7 +164,7 @@ class Retrofit3(
         requireNotNull(returnType) { "returnType == null" }
         requireNotNull(annotations) { "annotations == null" }
 
-        var resultingAdapter: CallAdapter<*,*>? = null
+        var resultingAdapter: CallAdapter<*, *>? = null
 
         callAdapterFactories?.apply {
             val start = callAdapterFactories.indexOf(skipPast) + 1

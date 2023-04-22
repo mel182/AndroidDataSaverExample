@@ -5,8 +5,10 @@ import android.os.Build
 import androidx.annotation.ChecksSdkIntAtLeast
 import com.custom.http.client.*
 import com.custom.http.client.annotation.util.IgnoreJRERequirement
+import com.custom.http.client.call.CallAdapter
 import com.custom.http.client.completable_future_call_adapter_factory.CompletableFutureCallAdapterFactory
 import com.custom.http.client.default_call_adapter_factory.DefaultCallAdapterFactory
+import com.custom.http.client.optional_converter.OptionalConverterFactory
 import java.lang.invoke.MethodHandles.Lookup
 import java.lang.reflect.Constructor
 import java.lang.reflect.Method
@@ -33,7 +35,9 @@ class Android24 : Platform() {
         )
     }
 
-    override fun createDefaultConverterFactories(): List<Converter.Factory>? = Collections.singletonList(OptionalConverterFactory())
+    override fun createDefaultConverterFactories(): List<Converter.Factory>? = Collections.singletonList(
+        OptionalConverterFactory()
+    )
 
     override fun isDefaultMethod(method: Method?): Boolean = method?.isDefault ?: false
 

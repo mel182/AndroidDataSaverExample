@@ -1,5 +1,6 @@
-package com.custom.http.client
+package com.custom.http.client.call
 
+import com.custom.http.client.response.Response
 import okhttp3.Request
 import okio.Timeout
 import java.io.IOException

@@ -1,7 +1,11 @@
 package com.custom.http.client.http_service_method
 
 import com.custom.http.client.*
+import com.custom.http.client.call.Call
+import com.custom.http.client.call.CallAdapter
 import com.custom.http.client.ok_http_call.OkHttpCall
+import com.custom.http.client.request.RequestFactory
+import com.custom.http.client.response.Response
 import okhttp3.ResponseBody
 import java.lang.reflect.Method
 import java.lang.reflect.ParameterizedType
@@ -10,7 +14,7 @@ import java.lang.reflect.Type
 /**
  * Adapts an invocation of an interface method into an HTTP call.
  */
-abstract class HttpServiceMethod<ResponseT, ReturnT>(private val requestFactory:RequestFactory, private val callFactory: okhttp3.Call.Factory, private val responseConverter: Converter<ResponseBody, ResponseT>) : MethodService<ReturnT>() {
+abstract class HttpServiceMethod<ResponseT, ReturnT>(private val requestFactory: RequestFactory, private val callFactory: okhttp3.Call.Factory, private val responseConverter: Converter<ResponseBody, ResponseT>) : MethodService<ReturnT>() {
     /**
      * Inspects the annotations on an interface method to construct a reusable service method that
      * speaks HTTP. This requires potentially-expensive reflection so it is best to build each service

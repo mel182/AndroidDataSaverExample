@@ -1,4 +1,4 @@
-package com.custom.http.client
+package com.custom.http.client.call
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -7,7 +7,7 @@ import java.util.concurrent.CompletableFuture
 
 @RequiresApi(Build.VERSION_CODES.N)
 @IgnoreJRERequirement
-class CallCancelCompletableFuture<T>(private val call:Call<*>): CompletableFuture<T>() {
+class CallCancelCompletableFuture<T>(private val call: Call<*>): CompletableFuture<T>() {
 
     override fun cancel(mayInterruptIfRunning: Boolean): Boolean {
 

@@ -1,9 +1,12 @@
-package com.custom.http.client
+package com.custom.http.client.request.body
 
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.custom.http.client.annotation.util.IgnoreJRERequirement
+import com.custom.http.client.call.Call
+import com.custom.http.client.call.Callback
 import com.custom.http.client.exceptions.HttpException
+import com.custom.http.client.response.Response
 import java.util.concurrent.CompletableFuture
 
 @RequiresApi(Build.VERSION_CODES.N)

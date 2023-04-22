@@ -1,6 +1,8 @@
 package com.custom.http.client.default_call_adapter_factory
 
 import com.custom.http.client.*
+import com.custom.http.client.call.Call
+import com.custom.http.client.call.CallAdapter
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 import java.util.concurrent.Executor

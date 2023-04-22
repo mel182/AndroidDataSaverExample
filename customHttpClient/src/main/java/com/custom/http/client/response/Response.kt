@@ -1,4 +1,4 @@
-package com.custom.http.client
+package com.custom.http.client.response
 
 import com.custom.http.client.ok_http_call.NoContentResponseBody
 import okhttp3.Headers

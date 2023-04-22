@@ -1,5 +1,7 @@
-package com.custom.http.client
+package com.custom.http.client.call
 
+import com.custom.http.client.Retrofit3
+import com.custom.http.client.Utils
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 
@@ -21,7 +23,8 @@ interface CallAdapter<R,T> {
          * Extract the upper bound of the generic parameter at {@code index} from {@code type}. For
          * example, index 1 of {@code Map<String, ? extends Runnable>} returns {@code Runnable}.
          */
-        protected open fun getParameterUpperBound(index: Int, type: ParameterizedType?): Type = Utils.getParameterUpperBound(index, type)
+        protected open fun getParameterUpperBound(index: Int, type: ParameterizedType?): Type =
+            Utils.getParameterUpperBound(index, type)
 
         /**
          * Extract the raw class type from {@code type}. For example, the type representing {@code

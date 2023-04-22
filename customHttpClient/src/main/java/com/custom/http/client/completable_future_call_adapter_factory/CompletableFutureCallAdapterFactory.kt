@@ -1,8 +1,8 @@
 package com.custom.http.client.completable_future_call_adapter_factory
 
 import android.annotation.TargetApi
-import com.custom.http.client.CallAdapter
-import com.custom.http.client.Response
+import com.custom.http.client.call.CallAdapter
+import com.custom.http.client.response.Response
 import com.custom.http.client.Retrofit3
 import com.custom.http.client.annotation.util.IgnoreJRERequirement
 import java.lang.reflect.ParameterizedType
