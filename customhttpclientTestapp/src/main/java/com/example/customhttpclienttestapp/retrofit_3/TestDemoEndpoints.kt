@@ -5,7 +5,7 @@ import com.custom.http.client.annotation.http.method.GET
 
 interface TestDemoEndpoints {
 
-    @GET("/todos/{amount}")
+    @GET("todos/{amount}")
     suspend fun getDemoDataAsync(@Path("amount") amount:Int): DemoModel
 
 }

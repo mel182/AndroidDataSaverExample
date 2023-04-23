@@ -18,7 +18,6 @@
             <option value="$PROJECT_DIR$/composemotionlayout" />
             <option value="$PROJECT_DIR$/contentProviderApp" />
             <option value="$PROJECT_DIR$/contextmenuexample" />
-            <option value="$PROJECT_DIR$/customHttpClient" />
             <option value="$PROJECT_DIR$/customhttpclienttestapp" />
             <option value="$PROJECT_DIR$/custompagingcompose" />
             <option value="$PROJECT_DIR$/datetimeapiexample" />
@@ -31,6 +30,8 @@
             <option value="$PROJECT_DIR$/lazystaggeredgridexample" />
             <option value="$PROJECT_DIR$/navigationcompose" />
             <option value="$PROJECT_DIR$/permissionhandlingguide" />
+            <option value="$PROJECT_DIR$/retrofit3" />
+            <option value="$PROJECT_DIR$/retrofit3/retrofit3-converter" />
             <option value="$PROJECT_DIR$/searchwithflowoperatorexample" />
             <option value="$PROJECT_DIR$/shimmereffectexample" />
             <option value="$PROJECT_DIR$/splashdemo" />
