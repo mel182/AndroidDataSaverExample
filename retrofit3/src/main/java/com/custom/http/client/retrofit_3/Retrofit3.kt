@@ -199,6 +199,8 @@ class Retrofit3(
 
     fun nextCallAdapter(skipPast: CallAdapter.Factory?, returnType: Type?, annotations: Array<Annotation>?): CallAdapter<*, *>? {
         Log.i("TAG55","nextCallAdapter called!")
+        Log.i("TAG55","return type: $returnType")
+        Log.i("TAG55","annotations: $annotations")
         requireNotNull(returnType) { "returnType == null" }
         requireNotNull(annotations) { "annotations == null" }
 
@@ -207,17 +209,29 @@ class Retrofit3(
         callAdapterFactories?.apply {
             val start = callAdapterFactories.indexOf(skipPast) + 1
 
+            Log.i("TAG55","start: $start")
+            Log.i("TAG55","size: $size")
+
             for (index in start until size) {
 
+                Log.i("TAG55","index: $index")
+
+                val rawadapter = get(index)
+                Log.i("TAG55","raw adapter: $rawadapter")
                 val adapter = get(index).get(returnType = returnType, annotations = annotations, retrofit = this@Retrofit3)
+                Log.i("TAG55","adapter: $adapter")
+
 
                 if (adapter != null && resultingAdapter == null)
                     resultingAdapter = adapter
             }
 
+            Log.i("TAG55","resultingAdapter: $resultingAdapter")
+
             if (resultingAdapter == null) {
 
                 val builder = StringBuilder("Could not locate call adapter for ").append(returnType).append(".\n")
+                Log.i("TAG55","builder: $builder")
                 if (skipPast != null) {
                     builder.append("  Skipped")
                     for (index in 0..start) {
@@ -229,6 +243,8 @@ class Retrofit3(
                 for (index in start until size) {
                     builder.append("\n   * ").append(this[index].javaClass.name)
                 }
+
+                Log.i("TAG","exception message: ${builder.toString()}")
 
                 throw IllegalArgumentException(builder.toString())
             }
