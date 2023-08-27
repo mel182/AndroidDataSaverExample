@@ -1,13 +1,23 @@
 package com.example.graphexample
 
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -21,8 +31,11 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipRect
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import com.example.graphexample.ui.theme.DataSaverExampleAppTheme
 
 class GraphLineGoogleExampleMainActivity : ComponentActivity() {
@@ -63,9 +76,68 @@ fun LineGraphView(graphData: List<Int> = listOf(0, 10, 40, 60, 20, 80, 90, 110))
         .fillMaxSize()
     ) {
 
-        Spacer(
-            modifier = Modifier
-                .padding(all = 8.dp)
+        ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
+
+            val (graph, y_axis_numbers) = createRefs()
+
+            /*
+            Surface(modifier = Modifier
+                .constrainAs(y_axis_numbers) {
+                    top.linkTo(parent.top)
+                    start.linkTo(parent.start)
+                    bottom.linkTo(parent.bottom)
+                    end.linkTo(graph.start)
+                    height = Dimension.fillToConstraints
+                }
+            ) {
+
+                Keyboard.Row(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .background(color = backgroundColor)
+                ) {
+
+                    Column(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .width(24.dp),
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        AndroidView(factory = { context ->
+
+                            VerticalTextView(context).apply {
+                                text = "Left text"
+                                setTextColor(Color.WHITE)
+                            }
+                        })
+                    }
+
+                    Column(
+                        modifier = Modifier
+                            .padding(horizontal = 6.dp)
+                            .fillMaxHeight(),
+                        verticalArrangement = Arrangement.SpaceBetween,
+                        horizontalAlignment = Alignment.End
+                    ) {
+                        Text(text = "110", fontSize = 12.sp)
+                        Text(text = "84", fontSize = 12.sp)
+                        Text(text = "56", fontSize = 12.sp)
+                        Text(text = "28", fontSize = 12.sp)
+                        Text(text = "0", fontSize = 12.sp)
+                    }
+                }
+            }
+            */
+
+            Spacer(modifier = Modifier
+                .padding(vertical = 8.dp)
+                .constrainAs(graph) {
+                    top.linkTo(parent.top)
+                    start.linkTo(y_axis_numbers.end)
+                    end.linkTo(parent.end)
+                    bottom.linkTo(parent.bottom)
+                    width = Dimension.fillToConstraints
+                }
                 .aspectRatio(3 / 2f)
                 .fillMaxSize()
                 .drawWithCache {
@@ -124,7 +196,8 @@ fun LineGraphView(graphData: List<Int> = listOf(0, 10, 40, 60, 20, 80, 90, 110))
                         }
                     }
                 }
-        )
+            )
+        }
     }
 }
 
@@ -147,4 +220,32 @@ private fun generatePath(data: List<Int>, size: Size): Path {
     }
 
     return path
+}
+
+@Preview
+@Composable
+fun Main() {
+    Column(
+        modifier = Modifier
+            .width(200.dp)
+
+    ) {
+        MyText(text = "Financial Advice")
+        MyText(text = "Strategy and Marketing")
+        MyText(text = "Information Technology")
+    }
+}
+
+@Composable
+fun MyText(text: String) {
+    Text(
+        text = text,
+        modifier = Modifier
+            .padding(4.dp)
+            .fillMaxWidth()
+            .background(MaterialTheme.colors.secondary)
+            .padding(16.dp),
+        textAlign = TextAlign.Center,
+        maxLines = 1
+    )
 }
