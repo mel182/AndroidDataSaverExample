@@ -7,7 +7,7 @@
         <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleJvm" value="16" />
+        <option name="gradleJvm" value="17" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
@@ -33,6 +33,7 @@
             <option value="$PROJECT_DIR$/lazycolumnpersistentlysavepositionexample" />
             <option value="$PROJECT_DIR$/lazystaggeredgridexample" />
             <option value="$PROJECT_DIR$/material3buttonsexample" />
+            <option value="$PROJECT_DIR$/material3textfield" />
             <option value="$PROJECT_DIR$/multilinewithhintexample" />
             <option value="$PROJECT_DIR$/navigationcompose" />
             <option value="$PROJECT_DIR$/permissionhandlingguide" />
