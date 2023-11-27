@@ -1,6 +1,6 @@
 import org.gradle.api.artifacts.dsl.DependencyHandler
 
-object Dependencies: AndroidDependencies, GoogleMaterialDependencies, KotlinXDependencies, GooglePlayDependencies, FirebaseDependencies, AndroidTestDependencies, AndroidDebugDependencies {
+object Dependencies: AndroidDependencies, GoogleMaterialDependencies, KotlinXDependencies, GooglePlayDependencies, FirebaseDependencies, AndroidTestDependencies, AndroidDebugDependencies, DesugaringDependencies {
 
     // Kotlin verion
     const val kotlinVersion = "androidx.core:core-ktx:1.9.0"
@@ -120,6 +120,10 @@ fun DependencyHandler.androidMaterial() {
 
 fun DependencyHandler.androidPaging() {
     implementation(Dependencies.androidListPagingLibrary)
+}
+
+fun DependencyHandler.androidToolsDesugarJdkLibs() {
+    coreLibraryDesugaring(Dependencies.androidTools_JDK_DesugaringLibs)
 }
 
 fun DependencyHandler.androidSwipeToRefresh() {
