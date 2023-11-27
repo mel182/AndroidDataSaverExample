@@ -1,4 +1,4 @@
 interface GoogleMaterialDependencies {
     val googleMaterial
-        get() = "com.google.android.material:material:1.8.0"
+        get() = "androidx.compose.material:material:1.3.1"
 }

@@ -1,6 +1,6 @@
 import org.gradle.api.artifacts.dsl.DependencyHandler
 
-object Dependencies: AndroidDependencies, GoogleMaterialDependencies, KotlinXDependencies, GooglePlayDependencies, FirebaseDependencies, AndroidTestDependencies {
+object Dependencies: AndroidDependencies, GoogleMaterialDependencies, KotlinXDependencies, GooglePlayDependencies, FirebaseDependencies, AndroidTestDependencies, AndroidDebugDependencies {
 
     // Kotlin verion
     const val kotlinVersion = "androidx.core:core-ktx:1.9.0"
@@ -62,6 +62,10 @@ fun DependencyHandler.androidXDatabinding() {
     kapt(Dependencies.androidDatabinding)
 }
 
+fun DependencyHandler.androidXLifecycleRuntime() {
+    kapt(Dependencies.androidLifecycleRuntimeKtx)
+}
+
 fun DependencyHandler.androidXDependenciesExtended() {
     implementation(Dependencies.kotlinVersion)
     implementation(Dependencies.androidxAppCompat)
@@ -99,6 +103,16 @@ fun DependencyHandler.androidXDependenciesExtended() {
     implementation(Dependencies.composeRuntimeLiveData)
     implementation(Dependencies.composePaging)
 }
+
+fun DependencyHandler.compose() {
+    implementation(Dependencies.activityCompose)
+    implementation(Dependencies.composeUITooling)
+    implementation(Dependencies.composeToolingPreview)
+    implementation(Dependencies.composeLifecycleViewmodel)
+    debugImplementation(Dependencies.composeUiToolingDebug)
+    debugImplementation(Dependencies.composeUiTestManifestDebug)
+}
+
 
 fun DependencyHandler.androidMaterial() {
     implementation(Dependencies.googleMaterial)

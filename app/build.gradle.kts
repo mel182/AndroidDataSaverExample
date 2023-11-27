@@ -48,11 +48,10 @@ android {
 
     packagingOptions {
         resources {
-            exclude("/META-INF/{AL2.0,LGPL2.1}")
-            exclude("META-INF/LICENSE.md")
-            exclude("META-INF/LICENSE-notice.md")
-            exclude("META-INF/NOTICE.md")
-            exclude("META-INF/gradle/incremental.annotation.processors")
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "META-INF/LICENSE.md"
+            excludes += "META-INF/LICENSE-notice.md"
+            excludes += "META-INF/gradle/incremental.annotation.processors"
         }
     }
 

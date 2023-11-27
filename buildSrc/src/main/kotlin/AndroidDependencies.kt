@@ -38,6 +38,9 @@ interface AndroidDependencies {
     val androidDatabindingMultiDex
         get() = "androidx.multidex:multidex:${Versions.multiDexVersion}"
 
+    val androidLifecycleRuntimeKtx
+        get() = "androidx.lifecycle:lifecycle-runtime-ktx:2.6.0"
+
     // Work manager
     // Kotlin + coroutines
     val androidxWorkManagerRuntimeKtx
