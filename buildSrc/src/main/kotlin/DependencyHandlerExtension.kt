@@ -13,7 +13,7 @@ fun DependencyHandler.androidTest(dependency:String) {
 }
 
 fun DependencyHandler.kapt(dependency:String) {
-    add("implementation", dependency)
+    add("kapt", dependency)
 }
 
 fun DependencyHandler.addPlatform(dependency:String) {
