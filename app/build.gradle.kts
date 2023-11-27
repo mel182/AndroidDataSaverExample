@@ -44,6 +44,18 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
+    configurations { implementation.get().exclude(mapOf("group" to "org.jetbrains", "module" to "annotations")) }
+
+    packagingOptions {
+        resources {
+            exclude("/META-INF/{AL2.0,LGPL2.1}")
+            exclude("META-INF/LICENSE.md")
+            exclude("META-INF/LICENSE-notice.md")
+            exclude("META-INF/NOTICE.md")
+            exclude("META-INF/gradle/incremental.annotation.processors")
+        }
+    }
+
     kotlinOptions {
         jvmTarget = "1.8"
     }
