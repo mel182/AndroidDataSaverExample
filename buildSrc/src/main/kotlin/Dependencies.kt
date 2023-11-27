@@ -1,39 +1,9 @@
-import Dependencies.accompanistPager
-import Dependencies.accompanistPagerIndicator
-import Dependencies.activityCompose
-import Dependencies.androidArchLifeCycleExtensions
-import Dependencies.androidComposeNavigation
-import Dependencies.androidDatabinding
-import Dependencies.androidDatabindingMultiDex
-import Dependencies.androidxActivity
-import Dependencies.androidxAppCompat
-import Dependencies.androidxCardView
-import Dependencies.androidxConstraintLayout
-import Dependencies.androidxCoordinatorLayout
-import Dependencies.androidxDatastore
-import Dependencies.androidxFragment
-import Dependencies.androidxLegacySupport
-import Dependencies.androidxNavigationFragmentKtx
-import Dependencies.androidxNavigationUIKtx
-import Dependencies.androidxRecyclerView
-import Dependencies.androidxWorkManagerGCMSupport
-import Dependencies.androidxWorkManagerRuntimeKtx
-import Dependencies.composeAnimation
-import Dependencies.composeAppCompatTheme
-import Dependencies.composeLifecycleViewmodel
-import Dependencies.composeMaterialDesign
-import Dependencies.composePaging
-import Dependencies.composeRuntime
-import Dependencies.composeRuntimeLiveData
-import Dependencies.composeThemeAdapter
-import Dependencies.composeToolingPreview
-import Dependencies.composeUITooling
-import Dependencies.constraintLayoutCompose
-import Dependencies.preferenceDatastore
-import Dependencies.splashScreen
 import org.gradle.api.artifacts.dsl.DependencyHandler
 
 object Dependencies: AndroidDependencies, GoogleMaterialDependencies, KotlinXDependencies, GooglePlayDependencies, FirebaseDependencies, AndroidTestDependencies {
+
+    // Kotlin verion
+    const val kotlinVersion = "androidx.core:core-ktx:1.9.0"
 
     // Swipe to refresh
     const val swipeToRefreshAccompanist = "com.google.accompanist:accompanist-swiperefresh:0.26.3-beta"
@@ -79,7 +49,21 @@ fun DependencyHandler.room() {
     androidTestImplementation(Dependencies.roomDatabaseTest)
 }
 
-fun DependencyHandler.androidXDependencies() {
+fun DependencyHandler.androidXDependenciesDefault() {
+    implementation(Dependencies.kotlinVersion)
+    implementation(Dependencies.androidxAppCompat)
+    implementation(Dependencies.googleMaterial)
+    implementation(Dependencies.androidxConstraintLayout)
+    implementation(Dependencies.kotlinXCoroutine)
+    androidTests()
+}
+
+fun DependencyHandler.androidXDatabinding() {
+    kapt(Dependencies.androidDatabinding)
+}
+
+fun DependencyHandler.androidXDependenciesExtended() {
+    implementation(Dependencies.kotlinVersion)
     implementation(Dependencies.androidxAppCompat)
     implementation(Dependencies.androidxActivity)
     implementation(Dependencies.androidxFragment)
@@ -90,7 +74,7 @@ fun DependencyHandler.androidXDependencies() {
     implementation(Dependencies.androidxConstraintLayout)
     implementation(Dependencies.androidxCoordinatorLayout)
     implementation(Dependencies.androidArchLifeCycleExtensions)
-    kapt(Dependencies.androidDatabinding)
+    androidXDatabinding()
     implementation(Dependencies.androidDatabindingMultiDex)
     implementation(Dependencies.androidxWorkManagerRuntimeKtx)
     implementation(Dependencies.androidxWorkManagerGCMSupport)

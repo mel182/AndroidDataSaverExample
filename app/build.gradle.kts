@@ -63,9 +63,8 @@ android {
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    implementation("androidx.core:core-ktx:1.9.0")
 
-    androidXDependencies()
+    androidXDependenciesExtended()
     androidMaterial()
     kotlinXCorountines()
     googlePlay()
