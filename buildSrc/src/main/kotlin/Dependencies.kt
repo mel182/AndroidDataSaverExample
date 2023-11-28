@@ -61,15 +61,9 @@ fun DependencyHandler.androidXDependenciesDefault() {
     androidTests()
 }
 
-fun DependencyHandler.androidComposeProjectDefaultDependencies(includeMaterial3:Boolean = false) {
+fun DependencyHandler.androidComposeProjectDefaultDependencies() {
     androidXDependenciesDefault()
-
-
-    if (includeMaterial3)
-        androidMaterial3()
-    else
-        androidMaterial()
-
+    androidMaterial()
     androidXLifecycleRuntime()
     compose()
 }

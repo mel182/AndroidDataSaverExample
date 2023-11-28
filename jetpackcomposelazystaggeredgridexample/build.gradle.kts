@@ -50,6 +50,6 @@ android {
 
 dependencies {
 
-    androidComposeProjectDefaultDependencies(includeMaterial3 = false)
+    androidComposeProjectDefaultDependencies()
 
 }
