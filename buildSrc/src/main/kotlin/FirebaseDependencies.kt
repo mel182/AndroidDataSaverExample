@@ -11,6 +11,7 @@ interface FirebaseDependencies {
     // Import the BoM for the Firebase platform
     val firebaseBOM
         get() = "com.google.firebase:firebase-bom:26.3.0"
+
     val firebaseBOM_26_1_1
         get() = "com.google.firebase:firebase-bom:26.1.1"
     val firebaseDbKtx

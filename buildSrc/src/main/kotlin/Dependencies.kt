@@ -64,6 +64,7 @@ fun DependencyHandler.androidXDependenciesDefault() {
 fun DependencyHandler.androidComposeProjectDefaultDependencies() {
     androidXDependenciesDefault()
     androidMaterial()
+    androidMaterial3()
     androidXLifecycleRuntime()
     compose()
 }
@@ -78,6 +79,11 @@ fun DependencyHandler.androidXLifecycleRuntime() {
 
 fun DependencyHandler.androidComposeConstraintLayout() {
     implementation(Dependencies.constraintLayoutCompose)
+}
+
+fun DependencyHandler.composeBOM() {
+    addPlatform(Dependencies.composeBOM)
+    androidTestPlatform(Dependencies.composeBOM)
 }
 
 fun DependencyHandler.androidXDependenciesExtended() {
@@ -120,6 +126,8 @@ fun DependencyHandler.androidXDependenciesExtended() {
 
 fun DependencyHandler.compose() {
     implementation(Dependencies.activityCompose)
+    implementation(Dependencies.composeUI)
+    implementation(Dependencies.composeUIGraphics)
     implementation(Dependencies.composeUITooling)
     implementation(Dependencies.composeToolingPreview)
     implementation(Dependencies.composeLifecycleViewmodel)
@@ -138,6 +146,10 @@ fun DependencyHandler.composeNavigation() {
 
 fun DependencyHandler.androidMaterial() {
     implementation(Dependencies.googleMaterial)
+}
+
+fun DependencyHandler.androidMaterial3() {
+    implementation(Dependencies.googleMaterial3)
 }
 
 fun DependencyHandler.coilKt() {
@@ -174,6 +186,11 @@ fun DependencyHandler.googlePlay() {
     implementation(Dependencies.googlePlayAwareness)
     implementation(Dependencies.googlePlayMaps)
     implementation(Dependencies.googlePlayLocation)
+}
+
+fun DependencyHandler.googlePlayUpdate() {
+    implementation(Dependencies.googlePlayAppUpdateKtx)
+    implementation(Dependencies.googlePlayAppUpdate)
 }
 
 fun DependencyHandler.googlePlayAuth() {

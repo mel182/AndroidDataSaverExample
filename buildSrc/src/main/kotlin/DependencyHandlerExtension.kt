@@ -28,6 +28,10 @@ fun DependencyHandler.androidTestImplementation(dependency:String) {
     add("androidTestImplementation", dependency)
 }
 
+fun DependencyHandler.androidTestPlatform(dependency:String) {
+    add("androidTestImplementation", platform(dependency))
+}
+
 fun DependencyHandler.debugImplementation(dependency:String) {
     add("debugImplementation", dependency)
 }
