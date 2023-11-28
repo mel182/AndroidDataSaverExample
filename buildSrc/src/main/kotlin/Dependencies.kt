@@ -73,6 +73,10 @@ fun DependencyHandler.androidXLifecycleRuntime() {
     kapt(Dependencies.androidLifecycleRuntimeKtx)
 }
 
+fun DependencyHandler.androidComposeConstraintLayout() {
+    implementation(Dependencies.constraintLayoutCompose)
+}
+
 fun DependencyHandler.androidXDependenciesExtended() {
     implementation(Dependencies.kotlinVersion)
     implementation(Dependencies.androidxAppCompat)
