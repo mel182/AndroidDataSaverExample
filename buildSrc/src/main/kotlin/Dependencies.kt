@@ -58,6 +58,13 @@ fun DependencyHandler.androidXDependenciesDefault() {
     androidTests()
 }
 
+fun DependencyHandler.androidComposeProjectDefaultDependencies() {
+    androidXDependenciesDefault()
+    androidMaterial()
+    androidXLifecycleRuntime()
+    compose()
+}
+
 fun DependencyHandler.androidXDatabinding() {
     kapt(Dependencies.androidDatabinding)
 }

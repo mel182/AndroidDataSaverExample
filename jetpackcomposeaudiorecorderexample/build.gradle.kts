@@ -49,9 +49,6 @@ android {
 }
 
 dependencies {
-    
-    androidXDependenciesDefault()
-    androidMaterial()
-    androidXLifecycleRuntime()
-    compose()
+
+    androidComposeProjectDefaultDependencies()
 }
