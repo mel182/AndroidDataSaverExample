@@ -6,6 +6,8 @@ interface FirebaseDependencies {
         get() = "com.google.firebase:firebase-messaging-ktx"
     val firebaseAuth
         get() = "com.google.firebase:firebase-auth:21.0.1"
+    val firebaseAuthKtx
+        get() = "com.google.firebase:firebase-auth-ktx:21.2.0"
     // Import the BoM for the Firebase platform
     val firebaseBOM
         get() = "com.google.firebase:firebase-bom:26.3.0"

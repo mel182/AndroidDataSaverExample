@@ -83,7 +83,10 @@ interface AndroidDependencies {
         get() = "androidx.compose.ui:ui-tooling-preview:1.3.3"
     // Integration with ViewModels
     val composeLifecycleViewmodel
-        get() = "androidx.lifecycle:lifecycle-viewmodel-compose:2.6.0"
+        get() = "androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1"
+    val composeLifecycleRuntime
+        get() = "androidx.lifecycle:lifecycle-runtime-compose:2.6.1"
+
     // When using a MDC theme
     val composeThemeAdapter
         get() = "com.google.android.material:compose-theme-adapter:1.2.1"
@@ -97,7 +100,7 @@ interface AndroidDependencies {
         get() = "com.google.accompanist:accompanist-pager-indicators:0.25.1"
     // Bottom navigation compose dependency
     val androidComposeNavigation
-        get() = "androidx.navigation:navigation-compose:2.5.1"
+        get() = "androidx.navigation:navigation-compose:2.5.3"
     // Constraint layout compose
     val constraintLayoutCompose
         get() = "androidx.constraintlayout:constraintlayout-compose:1.0.1"

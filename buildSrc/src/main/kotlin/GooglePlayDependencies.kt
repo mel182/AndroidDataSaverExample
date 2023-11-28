@@ -9,4 +9,6 @@ interface GooglePlayDependencies {
     // newer versions of the SDK, you must update the dependency node accordingly
     val googlePlayLocation
         get() = "com.google.android.gms:play-services-location:19.0.1"
+    val googlePlayServicesAuth
+        get() = "com.google.android.gms:play-services-auth:20.5.0"
 }

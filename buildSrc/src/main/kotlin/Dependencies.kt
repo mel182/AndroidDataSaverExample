@@ -39,6 +39,9 @@ object Dependencies: AndroidDependencies, GoogleMaterialDependencies, KotlinXDep
 
     // Pier frances cosoffritti android youtube player
     const val pierFrancesCosoffrittiYouTubePlayer = "com.pierfrancescosoffritti.androidyoutubeplayer:core:11.1.0"
+
+    // Coil compose io
+    const val composeCoilKt = "io.coil-kt:coil-compose:2.2.2"
 }
 
 fun DependencyHandler.room() {
@@ -124,9 +127,21 @@ fun DependencyHandler.compose() {
     debugImplementation(Dependencies.composeUiTestManifestDebug)
 }
 
+fun DependencyHandler.composeViewModel() {
+    implementation(Dependencies.composeLifecycleViewmodel)
+    implementation(Dependencies.composeLifecycleRuntime)
+}
+
+fun DependencyHandler.composeNavigation() {
+    implementation(Dependencies.androidComposeNavigation)
+}
 
 fun DependencyHandler.androidMaterial() {
     implementation(Dependencies.googleMaterial)
+}
+
+fun DependencyHandler.coilKt() {
+    implementation(Dependencies.composeCoilKt)
 }
 
 fun DependencyHandler.androidPaging() {
@@ -161,6 +176,10 @@ fun DependencyHandler.googlePlay() {
     implementation(Dependencies.googlePlayLocation)
 }
 
+fun DependencyHandler.googlePlayAuth() {
+    implementation(Dependencies.googlePlayServicesAuth)
+}
+
 fun DependencyHandler.retrofit() {
     implementation(Dependencies.retrofit2)
     implementation(Dependencies.retrofit2GsonConverter)
@@ -176,6 +195,10 @@ fun DependencyHandler.firebase() {
     implementation(Dependencies.firebaseDbKtx)
     implementation(Dependencies.firebaseMessaging)
     implementation(Dependencies.firebaseAnalytics)
+}
+
+fun DependencyHandler.firebaseAuthKtx() {
+    implementation(Dependencies.firebaseAuthKtx)
 }
 
 fun DependencyHandler.lifeCycleLiveDataKtx() {
