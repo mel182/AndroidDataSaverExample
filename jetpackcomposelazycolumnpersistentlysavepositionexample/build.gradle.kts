@@ -52,5 +52,5 @@ dependencies {
 
     androidComposeProjectDefaultDependencies()
     composeBOM()
-    
+
 }
