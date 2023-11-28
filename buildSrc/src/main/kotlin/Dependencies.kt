@@ -98,6 +98,10 @@ fun DependencyHandler.composeBOM() {
     androidTestPlatform(Dependencies.composeBOM)
 }
 
+fun DependencyHandler.kotlinBOM() {
+    addPlatform(Dependencies.kotlinBOM)
+}
+
 fun DependencyHandler.androidXDependenciesExtended() {
     implementation(Dependencies.kotlinVersion)
     implementation(Dependencies.androidxAppCompat)
