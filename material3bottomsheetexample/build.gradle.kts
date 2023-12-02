@@ -53,5 +53,4 @@ dependencies {
     androidComposeMaterial3DefaultDependencies()
     composeBOM()
     kotlinBOM()
-
 }
