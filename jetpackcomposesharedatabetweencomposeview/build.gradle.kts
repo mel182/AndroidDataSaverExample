@@ -54,5 +54,5 @@ dependencies {
     composeBOM()
     composeViewModel()
     composeNavigation()
-    
+
 }
