@@ -61,6 +61,10 @@ fun DependencyHandler.androidXDependenciesDefault() {
     androidTests()
 }
 
+fun DependencyHandler.kotlinVersion() {
+    implementation(Dependencies.kotlinVersion)
+}
+
 fun DependencyHandler.androidComposeProjectDefaultDependencies() {
     androidXDependenciesDefault()
     androidMaterial()

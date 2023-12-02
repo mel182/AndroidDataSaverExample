@@ -112,7 +112,7 @@ interface AndroidDependencies {
     val constraintLayoutCompose
         get() = "androidx.constraintlayout:constraintlayout-compose:1.0.1"
     val composeBOM
-        get() = "androidx.compose:compose-bom:2022.10.00"
+        get() = "androidx.compose:compose-bom:2023.06.01"
 
     // Compose runtime
     val composeRuntime
