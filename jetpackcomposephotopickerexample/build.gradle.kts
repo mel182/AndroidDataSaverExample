@@ -49,7 +49,7 @@ android {
 }
 
 dependencies {
-    
+
     androidComposeProjectDefaultDependencies()
     coilKt()
 }
