@@ -285,3 +285,16 @@ fun DependencyHandler.facebookShimmer() {
 fun DependencyHandler.pierFrancesCosoffritiYouTubePlayer() {
     implementation(Dependencies.pierFrancesCosoffrittiYouTubePlayer)
 }
+
+fun DependencyHandler.glanceAppWidget() {
+    implementation(Dependencies.glanceAppWidget)
+}
+
+fun DependencyHandler.glance() {
+    implementation(Dependencies.glance)
+}
+
+fun DependencyHandler.glanceLibrary() {
+    glanceAppWidget()
+    glance()
+}
