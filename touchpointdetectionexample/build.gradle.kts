@@ -51,5 +51,5 @@ android {
 dependencies {
 
     androidComposeProjectDefaultDependencies()
-    
+
 }
