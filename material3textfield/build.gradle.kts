@@ -54,5 +54,5 @@ dependencies {
     composeBOM()
     googleMaterialExtendedIcons()
     kotlinBOM()
-    
+
 }
