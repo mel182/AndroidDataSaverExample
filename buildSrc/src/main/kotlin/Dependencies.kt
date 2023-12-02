@@ -1,6 +1,6 @@
 import org.gradle.api.artifacts.dsl.DependencyHandler
 
-object Dependencies: AndroidDependencies, GoogleMaterialDependencies, KotlinXDependencies, GooglePlayDependencies, FirebaseDependencies, AndroidTestDependencies, AndroidDebugDependencies, DesugaringDependencies {
+object Dependencies: AndroidDependencies, GoogleMaterialDependencies, KotlinXDependencies, GooglePlayDependencies, FirebaseDependencies, AndroidTestDependencies, AndroidDebugDependencies, DesugaringDependencies, GoogleDependencies {
 
     // Kotlin verion
     const val kotlinVersion = "androidx.core:core-ktx:1.9.0"
@@ -154,6 +154,22 @@ fun DependencyHandler.composeNavigation() {
     implementation(Dependencies.androidComposeNavigation)
 }
 
+fun DependencyHandler.composeThemeAdapter() {
+    implementation(Dependencies.composeThemeAdapter)
+}
+
+fun DependencyHandler.composeRuntime() {
+    implementation(Dependencies.composeRuntime)
+}
+
+fun DependencyHandler.composeRuntimeLivedata() {
+    implementation(Dependencies.composeRuntimeLiveData)
+}
+
+fun DependencyHandler.composePaging() {
+    implementation(Dependencies.composePaging)
+}
+
 fun DependencyHandler.androidMaterial() {
     implementation(Dependencies.googleMaterial)
 }
@@ -188,6 +204,10 @@ fun DependencyHandler.androidTests() {
     androidTestImplementation(Dependencies.debugComposeUiTooling)
 }
 
+fun DependencyHandler.androidCoreSplashScreen() {
+    implementation(Dependencies.androidCoreSplashScreen)
+}
+
 fun DependencyHandler.kotlinXCorountines() {
     implementation(Dependencies.kotlinXCoroutine)
 }
@@ -205,6 +225,22 @@ fun DependencyHandler.googlePlayUpdate() {
 
 fun DependencyHandler.googlePlayAuth() {
     implementation(Dependencies.googlePlayServicesAuth)
+}
+
+fun DependencyHandler.googleAppCompatTheme() {
+    implementation(Dependencies.googleAppCompatTheme)
+}
+
+fun DependencyHandler.googleAccompanistPager() {
+    implementation(Dependencies.accompanistPager)
+}
+
+fun DependencyHandler.googleSwipeRefresh() {
+    implementation(Dependencies.googleSwipeRefresh)
+}
+
+fun DependencyHandler.googleAccompanistPagerIndicator() {
+    implementation(Dependencies.accompanistPagerIndicator)
 }
 
 fun DependencyHandler.retrofit() {

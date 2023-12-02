@@ -41,6 +41,9 @@ interface AndroidDependencies {
     val androidLifecycleRuntimeKtx
         get() = "androidx.lifecycle:lifecycle-runtime-ktx:2.6.1"
 
+    val androidCoreSplashScreen
+        get() = "androidx.core:core-splashscreen:1.0.0"
+
     // Work manager
     // Kotlin + coroutines
     val androidxWorkManagerRuntimeKtx
