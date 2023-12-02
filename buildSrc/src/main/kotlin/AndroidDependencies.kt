@@ -123,7 +123,6 @@ interface AndroidDependencies {
     // Compose paging
     val composePaging
         get() = "androidx.paging:paging-compose:1.0.0-alpha16"
-
     val glanceAppWidget
         get() = "androidx.glance:glance-appwidget:1.0.0-beta01"
     val glance

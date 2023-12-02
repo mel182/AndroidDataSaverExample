@@ -243,6 +243,10 @@ fun DependencyHandler.googleAccompanistPagerIndicator() {
     implementation(Dependencies.accompanistPagerIndicator)
 }
 
+fun DependencyHandler.googleMaterialExtendedIcons() {
+    implementation(Dependencies.googleMaterialExtendedIcons)
+}
+
 fun DependencyHandler.retrofit() {
     implementation(Dependencies.retrofit2)
     implementation(Dependencies.retrofit2GsonConverter)

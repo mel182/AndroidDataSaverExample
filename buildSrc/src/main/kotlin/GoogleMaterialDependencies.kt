@@ -4,4 +4,8 @@ interface GoogleMaterialDependencies {
 
     val googleMaterial3
         get() = "androidx.compose.material3:material3"
+
+    val googleMaterialExtendedIcons
+        get() = "androidx.compose.material:material-icons-extended-android:1.5.0"
+
 }
