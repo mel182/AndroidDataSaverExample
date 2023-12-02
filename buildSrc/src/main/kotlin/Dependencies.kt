@@ -1,6 +1,6 @@
 import org.gradle.api.artifacts.dsl.DependencyHandler
 
-object Dependencies: AndroidDependencies, GoogleMaterialDependencies, KotlinXDependencies, GooglePlayDependencies, FirebaseDependencies, AndroidTestDependencies, AndroidDebugDependencies, DesugaringDependencies, GoogleDependencies {
+object Dependencies: AndroidDependencies, GoogleMaterialDependencies, KotlinXDependencies, GooglePlayDependencies, FirebaseDependencies, AndroidTestDependencies, AndroidDebugDependencies, DesugaringDependencies, GoogleDependencies, AndroidWearDependencies {
 
     // Kotlin verion
     const val kotlinVersion = "androidx.core:core-ktx:1.9.0"
@@ -84,6 +84,10 @@ fun DependencyHandler.androidXDatabinding() {
 }
 
 fun DependencyHandler.androidXLifecycleRuntime() {
+    kapt(Dependencies.androidLifecycleRuntimeKtx)
+}
+
+fun DependencyHandler.androidXLifecycleRuntimeImplementation() {
     kapt(Dependencies.androidLifecycleRuntimeKtx)
 }
 
@@ -249,6 +253,22 @@ fun DependencyHandler.googleAccompanistPagerIndicator() {
 
 fun DependencyHandler.googleMaterialExtendedIcons() {
     implementation(Dependencies.googleMaterialExtendedIcons)
+}
+
+fun DependencyHandler.wearOSComposeMaterial() {
+    implementation(Dependencies.wearComposeMaterial)
+}
+
+fun DependencyHandler.wearOSFoundation() {
+    implementation(Dependencies.wearFoundation)
+}
+
+fun DependencyHandler.googleServiceWearable() {
+    implementation(Dependencies.googleServiceWearable)
+}
+
+fun DependencyHandler.androidWearableComposeUI() {
+    implementation(Dependencies.androidWearableComposeUI)
 }
 
 fun DependencyHandler.retrofit() {

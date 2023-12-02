@@ -1,5 +1,3 @@
-import org.gradle.api.artifacts.dsl.DependencyHandler
-
 interface AndroidDependencies {
     //const val androidKotlinCore = "androidx.core:core-ktx:1.9.0"
     val androidxAppCompat

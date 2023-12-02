@@ -11,4 +11,5 @@ object Versions {
     const val exoPlayerVersion = "2.18.0"
     const val pagingLibraryVersion = "3.1.0"
     const val multiDexVersion = "2.0.1"
+    const val wearOSComposeVersion = "1.1.2"
 }
