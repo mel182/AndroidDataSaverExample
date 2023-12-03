@@ -4,6 +4,7 @@ import dependencies.AndroidDebugDependencies
 import dependencies.AndroidDependencies
 import dependencies.AndroidTestDependencies
 import dependencies.AndroidWearDependencies
+import dependencies.TensorFlowLiteDependencies
 import extensions.addPlatform
 import extensions.androidTestImplementation
 import extensions.androidTestPlatform
@@ -16,7 +17,7 @@ import org.gradle.api.artifacts.dsl.DependencyHandler
 
 object Dependencies: AndroidDependencies, GoogleMaterialDependencies, KotlinXDependencies, GooglePlayDependencies, FirebaseDependencies,
     AndroidTestDependencies, AndroidDebugDependencies, DesugaringDependencies, GoogleDependencies,
-    AndroidWearDependencies, AndroidCameraXDependencies {
+    AndroidWearDependencies, AndroidCameraXDependencies, TensorFlowLiteDependencies {
 
     // Kotlin verion
     const val kotlinVersion = "androidx.core:core-ktx:1.9.0"
@@ -311,6 +312,12 @@ fun DependencyHandler.firebase() {
     implementation(Dependencies.firebaseDbKtx)
     implementation(Dependencies.firebaseMessaging)
     implementation(Dependencies.firebaseAnalytics)
+}
+
+fun DependencyHandler.tensorflowLite() {
+    implementation(Dependencies.tensorFlowLiteGpuDelegatePlugin)
+    implementation(Dependencies.tensorFlowLiteGpu)
+    implementation(Dependencies.tensorFlowLiteTaskVision)
 }
 
 fun DependencyHandler.firebaseAuthKtx() {
