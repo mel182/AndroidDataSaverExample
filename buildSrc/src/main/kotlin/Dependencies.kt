@@ -1,3 +1,5 @@
+
+import dependencies.AndroidCameraXDependencies
 import dependencies.AndroidDebugDependencies
 import dependencies.AndroidDependencies
 import dependencies.AndroidTestDependencies
@@ -7,14 +9,14 @@ import extensions.androidTestImplementation
 import extensions.androidTestPlatform
 import extensions.coreLibraryDesugaring
 import extensions.debugImplementation
+import extensions.implementation
 import extensions.kapt
 import extensions.testImplementation
-import extensions.implementation
 import org.gradle.api.artifacts.dsl.DependencyHandler
 
 object Dependencies: AndroidDependencies, GoogleMaterialDependencies, KotlinXDependencies, GooglePlayDependencies, FirebaseDependencies,
     AndroidTestDependencies, AndroidDebugDependencies, DesugaringDependencies, GoogleDependencies,
-    AndroidWearDependencies {
+    AndroidWearDependencies, AndroidCameraXDependencies {
 
     // Kotlin verion
     const val kotlinVersion = "androidx.core:core-ktx:1.9.0"
@@ -289,6 +291,15 @@ fun DependencyHandler.retrofit() {
     implementation(Dependencies.retrofit2)
     implementation(Dependencies.retrofit2GsonConverter)
     implementation(Dependencies.retrofit2LoggingInterceptor)
+}
+
+fun DependencyHandler.cameraX() {
+    implementation(Dependencies.cameraXCore)
+    implementation(Dependencies.cameraXCamera2)
+    implementation(Dependencies.cameraXLifeCycle)
+    implementation(Dependencies.cameraXVideo)
+    implementation(Dependencies.cameraXView)
+    implementation(Dependencies.cameraXExtensions)
 }
 
 fun DependencyHandler.firebase() {

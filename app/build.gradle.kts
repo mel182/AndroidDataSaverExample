@@ -7,12 +7,12 @@ plugins {
 
 android {
     namespace = "com.example.datasaverexampleapp"
-    compileSdk = 33
+    compileSdk = ProjectConfig.compileSdk
 
     defaultConfig {
         applicationId = "com.example.datasaverexampleapp"
-        minSdk = 21
-        targetSdk = 33
+        minSdk = ProjectConfig.minSdk
+        targetSdk = ProjectConfig.targetSdk
         versionCode = 1
         versionName = "1.0"
         multiDexEnabled = true
@@ -23,8 +23,7 @@ android {
     }
 
     composeOptions {
-        val compose_version = rootProject.extra["compose_version"]
-        kotlinCompilerExtensionVersion = "$compose_version"
+        kotlinCompilerExtensionVersion = ProjectConfig.composeVersion
     }
 
     buildFeatures {
