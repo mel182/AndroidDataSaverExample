@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.graphexample"
-    compileSdk = 33
+    namespace = "com.jetpackcompose.imagecaching"
+    compileSdk = ProjectConfig.compileSdk
 
     defaultConfig {
-        applicationId = "com.example.graphexample"
+        applicationId = "com.jetpackcompose.imagecaching"
         minSdk = ProjectConfig.minSdk
         targetSdk = ProjectConfig.targetSdk
         versionCode = 1
@@ -22,9 +22,12 @@ android {
     }
 
     buildTypes {
-        getByName("release") {
+        release {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
@@ -49,8 +52,8 @@ android {
 
 dependencies {
 
-    androidComposeProjectDefaultDependencies()
-    androidXLifecycleRuntime()
-    androidComposeConstraintLayout()
+    androidComposeMaterial3DefaultDependencies()
+    composeBOM()
+    coilKt()
 
 }

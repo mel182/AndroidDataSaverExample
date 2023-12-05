@@ -58,7 +58,7 @@ object Dependencies: AndroidDependencies, GoogleMaterialDependencies, KotlinXDep
     const val pierFrancesCosoffrittiYouTubePlayer = "com.pierfrancescosoffritti.androidyoutubeplayer:core:11.1.0"
 
     // Coil compose io
-    const val composeCoilKt = "io.coil-kt:coil-compose:2.2.2"
+    const val composeCoilKt = "io.coil-kt:coil-compose:2.4.0"
 }
 
 fun DependencyHandler.room() {
