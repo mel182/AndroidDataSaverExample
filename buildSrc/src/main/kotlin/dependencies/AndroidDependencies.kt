@@ -109,7 +109,7 @@ interface AndroidDependencies {
         get() = "com.google.accompanist:accompanist-pager-indicators:0.25.1"
     // Bottom navigation compose dependency
     val androidComposeNavigation
-        get() = "androidx.navigation:navigation-compose:2.5.3"
+        get() = "androidx.navigation:navigation-compose:2.7.5"
     // Constraint layout compose
     val constraintLayoutCompose
         get() = "androidx.constraintlayout:constraintlayout-compose:1.0.1"
