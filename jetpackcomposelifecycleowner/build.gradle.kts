@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.jetpackcompose.imageediting2"
+    namespace = "com.jetpackcompose.lifecycleowner"
     compileSdk = ProjectConfig.compileSdk
 
     defaultConfig {
-        applicationId = "com.jetpackcompose.imageediting2"
+        applicationId = "com.jetpackcompose.lifecycleowner"
         minSdk = ProjectConfig.minSdk
         targetSdk = ProjectConfig.targetSdk
         versionCode = 1
@@ -54,5 +54,5 @@ dependencies {
 
     androidComposeMaterial3DefaultDependencies()
     composeBOM()
-
+    androidComposeConstraintLayout()
 }
