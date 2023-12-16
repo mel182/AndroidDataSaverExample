@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.graphexample"
+    namespace = "com.jetpackcompose.canvas"
     compileSdk = ProjectConfig.compileSdk
 
     defaultConfig {
-        applicationId = "com.example.graphexample"
+        applicationId = "com.jetpackcompose.canvas"
         minSdk = ProjectConfig.minSdk
         targetSdk = ProjectConfig.targetSdk
         versionCode = 1
@@ -22,9 +22,12 @@ android {
     }
 
     buildTypes {
-        getByName("release") {
+        release {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
@@ -49,8 +52,7 @@ android {
 
 dependencies {
 
-    androidComposeProjectDefaultDependencies()
-    androidXLifecycleRuntime()
-    androidComposeConstraintLayout()
+    androidComposeMaterial3DefaultDependencies()
+    composeBOM()
 
 }
