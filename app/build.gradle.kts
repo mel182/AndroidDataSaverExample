@@ -29,6 +29,7 @@ android {
     buildFeatures {
         dataBinding = true
         compose = true
+        buildConfig = true
     }
 
     buildTypes {
@@ -45,7 +46,7 @@ android {
 
     configurations { implementation.get().exclude(mapOf("group" to "org.jetbrains", "module" to "annotations")) }
 
-    packagingOptions {
+    packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
             excludes += "META-INF/LICENSE.md"

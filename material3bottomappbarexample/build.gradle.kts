@@ -41,9 +41,9 @@ android {
         val compose_version = rootProject.extra["compose_version"]
         kotlinCompilerExtensionVersion = "$compose_version"
     }
-    packagingOptions {
+    packaging {
         resources {
-            exclude("/META-INF/{AL2.0,LGPL2.1}")
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
 }
