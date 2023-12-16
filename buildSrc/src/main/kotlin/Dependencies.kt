@@ -82,6 +82,7 @@ fun DependencyHandler.kotlinVersion() {
     implementation(Dependencies.kotlinVersion)
 }
 
+//implementation(Dependencies.androidxConstraintLayout)
 fun DependencyHandler.androidComposeProjectDefaultDependencies() {
     androidXDependenciesDefault()
     androidMaterial()
@@ -173,6 +174,10 @@ fun DependencyHandler.compose() {
 fun DependencyHandler.composeViewModel() {
     implementation(Dependencies.composeLifecycleViewmodel)
     implementation(Dependencies.composeLifecycleRuntime)
+}
+
+fun DependencyHandler.composeRuntimeLiveData() {
+    implementation(Dependencies.composeRuntimeLiveData)
 }
 
 fun DependencyHandler.composeNavigation() {

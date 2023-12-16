@@ -54,6 +54,12 @@ android {
 dependencies {
 
     androidComposeMaterial3DefaultDependencies()
+    androidComposeConstraintLayout()
     composeBOM()
+    composeNavigation()
+    googleAccompanistPager()
+    googleAccompanistPagerIndicator()
+    retrofit()
     androidMaterial()
+    composeRuntimeLiveData()
 }
