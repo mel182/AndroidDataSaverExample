@@ -35,6 +35,9 @@
       <entry key="jetpackcomposemultiplebackstack">
         <State />
       </entry>
+      <entry key="jetpackcomposepaginglist">
+        <State />
+      </entry>
     </value>
   </component>
 </project>
