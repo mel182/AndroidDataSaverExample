@@ -12,7 +12,8 @@
             android:name=".JetpackComposeSnackBarExampleMainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.DataSaverExampleApp">
+            android:theme="@style/Theme.DataSaverExampleApp"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

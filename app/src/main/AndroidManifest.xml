@@ -33,6 +33,9 @@
     <permission android:name="com.example.datasaverexampleapp.provider.ACCESS_PERMISSION" />
 
     <uses-feature android:name="android.hardware.camera" />
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
 
     <application
         android:name=".application.AppContext"
@@ -46,183 +49,17 @@
         android:theme="@style/Theme.AppSplash"
         tools:ignore="AllowBackup">
         <activity
-            android:name=".compose.line_animation.LineAnimationExampleActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme">
-        </activity>
-        <activity
-            android:name=".compose.grid_list.ComposeGridListExampleActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme" />
-        <activity
             android:name=".picture_in_picture_example.PictureInPictureExampleActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
             android:exported="false"
             android:supportsPictureInPicture="true"
             android:theme="@style/AppTheme" />
-        <activity
-            android:name=".compose.image_editing_exercise.ImageEditingExerciseActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".compose.image_editing.ImageEditingActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".compose.tic_tac_toe_game.TicTacToeGameActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".compose.path_gender_selection.GenderSelectionUsingPathExampleActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".compose.text_on_path.TextOnPathExampleActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".compose.path_effect.DashPathEffectWithAnimationExampleActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".compose.path_effect.DashPathEffectExampleActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".compose.path_transformations_and_clipping.ClippingExampleActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".compose.path_transformations_and_clipping.ScaleShapeWithAnimationExampleActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".compose.path_transformations_and_clipping.ScaleShapeExampleActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".compose.path_transformations_and_clipping.CombineTranslateAndRotateWithAnimationExampleActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".compose.path_transformations_and_clipping.CombineTranslateAndRotateExampleActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".compose.path_transformations_and_clipping.TranslateRectangleWithAnimationExampleActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".compose.path_transformations_and_clipping.TranslateRectangleExampleActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".compose.path_transformations_and_clipping.RotateRectangleWithAnimationExampleActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".compose.path_transformations_and_clipping.RotateRectangleExampleActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".compose.path_animation.PathAnimationWithArrowExampleActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".compose.path_animation.PathAnimationExampleActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".compose.path_operations.PathOperationsExampleActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".compose.path.PathStrokeJoinExampleActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".compose.path.PathCapExampleActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".compose.path.QuadraticCubicBezierPathExampleActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".compose.path.PathBasicActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".compose.navigation.ComposeNavigationActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustResize" />
+
         <activity
             android:name=".security.keystore.KeystoreExampleActivity"
             android:exported="false"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".compose.clock_example.ComposeClockExampleActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".compose.list_with_paging.native_paging.ComposeNativePagingExampleActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".compose.list_with_paging.ComposeListWithPagingExampleActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".compose.weight_scale.WeightScaleExampleActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".compose.touch_input.ComposeDetectTouchInputActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".compose.lifecycle.LifeCycleOwnerActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".compose.screen_orientation.ScreenOrientationActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".compose.simple_list.ComposeSimpleListActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".compose.textfield_buttons_snackbar_example.TextFieldButtonSnackbarActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".compose.bottom_sheet.BottomSheetComposeActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".compose.canvas.CanvasShapeActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".compose.bottom_navigation.BottomNavigationActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".compose.tablayout_example.ComposeTabLayoutActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".compose.row_and_column_example.RowAndColumnComposeActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".compose.ComposeActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme" />
         <activity
             android:name=".motion_layout.MotionLayoutExampleActivity"
             android:exported="false"
