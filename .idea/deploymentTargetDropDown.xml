@@ -59,6 +59,9 @@
       <entry key="jetpackcomposepathexample">
         <State />
       </entry>
+      <entry key="jetpackcomposepathoperation">
+        <State />
+      </entry>
     </value>
   </component>
 </project>
