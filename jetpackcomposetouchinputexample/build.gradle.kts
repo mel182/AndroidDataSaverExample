@@ -54,5 +54,5 @@ dependencies {
 
     androidComposeMaterial3DefaultDependencies()
     composeBOM()
-    
+
 }
