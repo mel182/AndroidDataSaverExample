@@ -24,6 +24,7 @@
             <option value="$PROJECT_DIR$/buildSrc" />
             <option value="$PROJECT_DIR$/contentProviderApp" />
             <option value="$PROJECT_DIR$/custompagingcompose" />
+            <option value="$PROJECT_DIR$/jetpackcomposePathExample" />
             <option value="$PROJECT_DIR$/jetpackcomposealarmmanagerexample" />
             <option value="$PROJECT_DIR$/jetpackcomposeanimatedcounterexample" />
             <option value="$PROJECT_DIR$/jetpackcomposeaudiorecorderexample" />

@@ -2,6 +2,12 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="jetpackcomposeBasicPathExample">
+        <State />
+      </entry>
+      <entry key="jetpackcomposePathExample">
+        <State />
+      </entry>
       <entry key="jetpackcomposebottomnavigtion">
         <State />
       </entry>
@@ -39,6 +45,9 @@
         <State />
       </entry>
       <entry key="jetpackcomposepaginglist">
+        <State />
+      </entry>
+      <entry key="jetpackcomposepathexample">
         <State />
       </entry>
     </value>
