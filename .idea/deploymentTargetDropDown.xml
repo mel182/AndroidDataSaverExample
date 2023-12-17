@@ -62,6 +62,9 @@
       <entry key="jetpackcomposepathoperation">
         <State />
       </entry>
+      <entry key="jetpackcomposepathtransformationandclipping">
+        <State />
+      </entry>
     </value>
   </component>
 </project>
