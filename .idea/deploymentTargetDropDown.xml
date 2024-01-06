@@ -20,6 +20,9 @@
       <entry key="jetpackcomposeclockexample">
         <State />
       </entry>
+      <entry key="jetpackcomposedeeplink">
+        <State />
+      </entry>
       <entry key="jetpackcomposegenderselectionexample">
         <State />
       </entry>
@@ -42,6 +45,9 @@
         <State />
       </entry>
       <entry key="jetpackcomposemultiplebackstack">
+        <State />
+      </entry>
+      <entry key="jetpackcomposenavigatewithresult">
         <State />
       </entry>
       <entry key="jetpackcomposenavigationexample">
