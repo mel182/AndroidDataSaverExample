@@ -2,6 +2,9 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="TestAlpha">
+        <State />
+      </entry>
       <entry key="jetpackcomposeBasicPathExample">
         <State />
       </entry>
@@ -75,6 +78,9 @@
         <State />
       </entry>
       <entry key="jetpackcomposescreenorientationexample">
+        <State />
+      </entry>
+      <entry key="jetpackcomposesecretmodifier">
         <State />
       </entry>
       <entry key="jetpackcomposesimplelistexample">
