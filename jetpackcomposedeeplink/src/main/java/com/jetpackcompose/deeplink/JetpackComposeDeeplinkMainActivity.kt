@@ -1,5 +1,9 @@
+@file:OptIn(ExperimentalPermissionsApi::class)
+
 package com.jetpackcompose.deeplink
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -9,7 +13,9 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,15 +26,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.NotificationCompat
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
+import com.jetpackcompose.deeplink.extensions.openAppSettings
 import com.jetpackcompose.deeplink.ui.theme.DataSaverExampleAppTheme
 
 class JetpackComposeDeeplinkMainActivity : ComponentActivity() {
+
+    @SuppressLint("InlinedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -48,7 +61,24 @@ class JetpackComposeDeeplinkMainActivity : ComponentActivity() {
         setContent {
             DataSaverExampleAppTheme {
                 // A surface container using the 'background' color from the theme
+
+                val viewModel = viewModel<DeeplinkTestViewModel>()
                 val navController = rememberNavController()
+                val notificationPermissionState = rememberPermissionState(Manifest.permission.POST_NOTIFICATIONS)
+                val dialogQueue = viewModel.visiblePermissionDialogQueue
+
+                val notificationPermissionResultLauncher = rememberLauncherForActivityResult(
+                    contract = ActivityResultContracts.RequestPermission(),
+                    onResult = { isGranted ->
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                            viewModel.onPermissionResult(
+                                Manifest.permission.POST_NOTIFICATIONS,
+                                isGranted = isGranted
+                            )
+                        }
+                    }
+                )
+
                 Box(modifier = Modifier.fillMaxSize()) {
                     NavHost(navController = navController, startDestination = "home") {
 
@@ -59,6 +89,17 @@ class JetpackComposeDeeplinkMainActivity : ComponentActivity() {
                                 verticalArrangement = Arrangement.Center
                             ) {
                                 Button(onClick = {
+
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+
+                                        if (!notificationPermissionState.status.isGranted) {
+                                            notificationPermissionResultLauncher.launch(
+                                                Manifest.permission.POST_NOTIFICATIONS
+                                            )
+                                            return@Button
+                                        }
+                                    }
+
                                     val notificationID = 134
                                     val intent = Intent(
                                         Intent.ACTION_VIEW,
@@ -107,6 +148,25 @@ class JetpackComposeDeeplinkMainActivity : ComponentActivity() {
                                 Text(text = "The ID is $id")
                             }
                         }
+                    }
+                }
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    dialogQueue.reversed().forEach { permission ->
+                        PermissionDialog(
+                            permissionTextProvider = when (permission) {
+                                Manifest.permission.POST_NOTIFICATIONS -> NotificationPermissionTextProvider()
+                                else -> return@forEach
+                            },
+                            isPermanentlyDeclined = !shouldShowRequestPermissionRationale(
+                                permission
+                            ),
+                            onDismiss = viewModel::dismissDialog,
+                            onOkClicked = {
+                                viewModel.dismissDialog()
+                            },
+                            onGoToAppSettingsClicked = this::openAppSettings
+                        )
                     }
                 }
             }

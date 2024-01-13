@@ -55,5 +55,6 @@ dependencies {
     androidComposeMaterial3DefaultDependencies()
     composeBOM()
     kotlinBOM()
+    composePermissions()
     composeNavigation()
 }

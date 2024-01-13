@@ -111,6 +111,8 @@ interface AndroidDependencies {
     val androidComposeNavigation
         get() = "androidx.navigation:navigation-compose:2.7.5"
     // Constraint layout compose
+    val accompanistPermissions
+        get() = "com.google.accompanist:accompanist-permissions:0.32.0"
     val constraintLayoutCompose
         get() = "androidx.constraintlayout:constraintlayout-compose:1.0.1"
     val composeBOM

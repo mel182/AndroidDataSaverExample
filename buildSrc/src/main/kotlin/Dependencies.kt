@@ -176,6 +176,11 @@ fun DependencyHandler.composeViewModel() {
     implementation(Dependencies.composeLifecycleRuntime)
 }
 
+//implementation(Dependencies.accompanistPermissions)
+fun DependencyHandler.composePermissions() {
+    implementation(Dependencies.accompanistPermissions)
+}
+
 fun DependencyHandler.composeRuntimeLiveData() {
     implementation(Dependencies.composeRuntimeLiveData)
 }
