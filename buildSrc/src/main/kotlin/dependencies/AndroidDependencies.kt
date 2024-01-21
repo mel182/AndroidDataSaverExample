@@ -131,5 +131,11 @@ interface AndroidDependencies {
         get() = "androidx.glance:glance-appwidget:1.0.0-beta01"
     val glance
         get() = "androidx.glance:glance:1.0.0-beta01"
+    val localSearchAppSearch
+        get() = "androidx.appsearch:appsearch:1.1.0-alpha03"
+    val localSearchCompiler
+        get() = "androidx.appsearch:appsearch-compiler:1.1.0-alpha03"
+    val localSearchAppSearchLocalStorage
+        get() = "androidx.appsearch:appsearch-local-storage:1.1.0-alpha03"
 }
 

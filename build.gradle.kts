@@ -6,7 +6,7 @@ buildscript {
         set("compiler_version","1.4.3")
         set("lifecycle_version","2.4.1")
         set("room_version","2.5.0")
-        set("compose_version","1.4.5")
+        set("compose_version","1.5.7")
         set("compose_ui_version","1.4.0-rc01")
         set("wear_compose_version","1.1.2")
         set("work_version","2.8.0")
@@ -23,7 +23,7 @@ buildscript {
     }
     dependencies {
         classpath("com.android.tools.build:gradle:8.2.0")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.20")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.21")
         classpath("com.google.gms:google-services:4.3.15")
 
         // NOTE: Do not place your application dependencies here; they belong

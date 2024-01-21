@@ -7,7 +7,7 @@ object ProjectConfig {
     const val targetSdk = 34
     const val versionCode = 1
     const val versionName = "1.0"
-    const val composeVersion = "1.4.5"
+    const val composeVersion = "1.5.7"
     const val jvmTarget = "17"
     val javaVersion = JavaVersion.VERSION_17
 }

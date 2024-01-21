@@ -294,6 +294,12 @@ fun DependencyHandler.googleServiceWearable() {
     implementation(Dependencies.googleServiceWearable)
 }
 
+fun DependencyHandler.googleLocalSearch() {
+    implementation(Dependencies.localSearchAppSearch)
+    kapt(Dependencies.localSearchCompiler)
+    implementation(Dependencies.localSearchAppSearchLocalStorage)
+}
+
 fun DependencyHandler.androidWearableComposeUI() {
     implementation(Dependencies.androidWearableComposeUI)
 }
