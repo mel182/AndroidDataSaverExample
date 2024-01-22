@@ -1,6 +1,7 @@
 package com.jetpackcompose.localsearch
 
 import android.content.Context
+import android.util.Log
 import androidx.appsearch.app.AppSearchSession
 import androidx.appsearch.app.PutDocumentsRequest
 import androidx.appsearch.app.SearchSpec
@@ -33,7 +34,31 @@ class TodoSearchManager(private val appContext: Context) {
     }
 
     suspend fun putTodos(todos: List<Todo>): Boolean {
+
         return withContext(Dispatchers.IO) {
+
+            val rawList = ArrayList(todos)
+            val refineList = ArrayList<Todo>()
+
+            rawList.forEach { itemFound ->
+
+                val result = searchTodos(query = itemFound.title)
+                if (result.isEmpty())
+                    refineList.add(itemFound)
+            }
+
+            session?.putAsync(
+                PutDocumentsRequest.Builder()
+                    .addDocuments(todos)
+                    .build()
+            )?.get()?.isSuccess == true
+        }
+    }
+
+    suspend fun updateTodos(todos: List<Todo>): Boolean {
+
+        return withContext(Dispatchers.IO) {
+
             session?.putAsync(
                 PutDocumentsRequest.Builder()
                     .addDocuments(todos)
@@ -49,9 +74,13 @@ class TodoSearchManager(private val appContext: Context) {
                 .addFilterNamespaces("my_todos")
                 .setRankingStrategy(SearchSpec.RANKING_STRATEGY_USAGE_COUNT)
                 .build()
-            val result = session?.search(query,searchSpec) ?: return@withContext emptyList()
+            val result = session?.search(query.ifBlank { "Todo" },searchSpec) ?: return@withContext emptyList()
+
+            Log.i("TAG88", "Search result: ${result}")
 
             val page = result.nextPageAsync.get()
+            Log.i("TAG88", "Page: ${page}")
+            Log.i("TAG88", "Page size: ${page.size}")
             page.mapNotNull {
                 if (it.genericDocument.schemaType == Todo::class.java.simpleName) {
                     it.getDocument(Todo::class.java)

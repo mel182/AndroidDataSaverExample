@@ -21,18 +21,21 @@ class MainViewModel(private val todoSearchManager: TodoSearchManager) : ViewMode
 
     init {
         viewModelScope.launch {
-            todoSearchManager.init()
-            val todos = (1..100).map {
-                Todo(
-                    namespaces = "my_todos",
-                    id = UUID.randomUUID().toString(),
-                    score = 1,
-                    title = "Todo $it",
-                    text = "Description $it",
-                    isDone = Random.nextBoolean()
-                )
+            todoSearchManager.apply {
+                init()
+                val todos = (1..100).map {
+                    Todo(
+                        namespaces = "my_todos",
+                        id = UUID.randomUUID().toString(),
+                        score = 1,
+                        title = "Todo $it",
+                        text = "Description $it",
+                        isDone = Random.nextBoolean()
+                    )
+                }
+                putTodos(todos)
+                state = state.copy(todos = todos)
             }
-            todoSearchManager.putTodos(todos)
         }
     }
 
@@ -49,9 +52,10 @@ class MainViewModel(private val todoSearchManager: TodoSearchManager) : ViewMode
 
     fun onDoneChanged(todo: Todo, isDone: Boolean) {
         viewModelScope.launch {
-            todoSearchManager.putTodos(
+            val doneResult = todoSearchManager.updateTodos(
                 listOf(todo.copy(isDone = isDone))
             )
+            Log.i("TAG88","done result: $doneResult")
             state = state.copy(
                 todos = state.todos.map {
                     if (it.id == todo.id) {
