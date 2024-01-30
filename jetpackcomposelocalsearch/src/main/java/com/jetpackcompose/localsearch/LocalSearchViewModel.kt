@@ -1,6 +1,5 @@
 package com.jetpackcompose.localsearch
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -13,7 +12,7 @@ import java.util.UUID
 import kotlin.random.Random
 import kotlin.time.Duration.Companion.milliseconds
 
-class MainViewModel(private val todoSearchManager: TodoSearchManager) : ViewModel() {
+class LocalSearchViewModel(private val todoSearchManager: TodoSearchManager) : ViewModel() {
 
     var state by mutableStateOf(TodoListState())
 
@@ -45,7 +44,6 @@ class MainViewModel(private val todoSearchManager: TodoSearchManager) : ViewMode
         searchJob = viewModelScope.launch {
             delay(500.milliseconds)
             val todos = todoSearchManager.searchTodos(query)
-            Log.i("TAG88","Todo list: ${todos}")
             state = state.copy(todos = todos)
         }
     }
@@ -55,7 +53,6 @@ class MainViewModel(private val todoSearchManager: TodoSearchManager) : ViewMode
             val doneResult = todoSearchManager.updateTodos(
                 listOf(todo.copy(isDone = isDone))
             )
-            Log.i("TAG88","done result: $doneResult")
             state = state.copy(
                 todos = state.todos.map {
                     if (it.id == todo.id) {

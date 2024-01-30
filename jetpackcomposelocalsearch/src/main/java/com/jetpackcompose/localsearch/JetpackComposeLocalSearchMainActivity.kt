@@ -27,11 +27,11 @@ import com.jetpackcompose.localsearch.ui.theme.DataSaverExampleAppTheme
 
 class JetpackComposeLocalSearchMainActivity : ComponentActivity() {
 
-    private val mainViewModel: MainViewModel by viewModels(
+    private val localSearchViewModel: LocalSearchViewModel by viewModels(
         factoryProducer = {
             object : ViewModelProvider.Factory {
                 override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                    return MainViewModel(TodoSearchManager(applicationContext)) as T
+                    return LocalSearchViewModel(TodoSearchManager(applicationContext)) as T
                 }
             }
         }
@@ -41,12 +41,12 @@ class JetpackComposeLocalSearchMainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             DataSaverExampleAppTheme {
-                val state = mainViewModel.state
+                val state = localSearchViewModel.state
                 // A surface container using the 'background' color from the theme
                 Column(modifier = Modifier.fillMaxSize()) {
                     TextField(
                         value = state.searchQuery,
-                        onValueChange = mainViewModel::onSearchQueryChange,
+                        onValueChange = localSearchViewModel::onSearchQueryChange,
                         modifier = Modifier
                             .padding(8.dp)
                             .background(color = Color.LightGray)
@@ -62,7 +62,7 @@ class JetpackComposeLocalSearchMainActivity : ComponentActivity() {
                                 TodoItem(
                                     todo = todo,
                                     onDoneChange = { isDone ->
-                                        mainViewModel.onDoneChanged(todo = todo, isDone = isDone)
+                                        localSearchViewModel.onDoneChanged(todo = todo, isDone = isDone)
                                     }
                                 )
                             }

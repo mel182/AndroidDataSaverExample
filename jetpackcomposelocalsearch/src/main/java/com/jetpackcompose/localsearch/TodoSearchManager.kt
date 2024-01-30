@@ -1,7 +1,6 @@
 package com.jetpackcompose.localsearch
 
 import android.content.Context
-import android.util.Log
 import androidx.appsearch.app.AppSearchSession
 import androidx.appsearch.app.PutDocumentsRequest
 import androidx.appsearch.app.SearchSpec
@@ -47,11 +46,16 @@ class TodoSearchManager(private val appContext: Context) {
                     refineList.add(itemFound)
             }
 
-            session?.putAsync(
-                PutDocumentsRequest.Builder()
-                    .addDocuments(todos)
-                    .build()
-            )?.get()?.isSuccess == true
+            if (refineList.isEmpty())
+            {
+                true
+            } else {
+                session?.putAsync(
+                    PutDocumentsRequest.Builder()
+                        .addDocuments(refineList)
+                        .build()
+                )?.get()?.isSuccess == true
+            }
         }
     }
 
@@ -76,11 +80,7 @@ class TodoSearchManager(private val appContext: Context) {
                 .build()
             val result = session?.search(query.ifBlank { "Todo" },searchSpec) ?: return@withContext emptyList()
 
-            Log.i("TAG88", "Search result: ${result}")
-
             val page = result.nextPageAsync.get()
-            Log.i("TAG88", "Page: ${page}")
-            Log.i("TAG88", "Page size: ${page.size}")
             page.mapNotNull {
                 if (it.genericDocument.schemaType == Todo::class.java.simpleName) {
                     it.getDocument(Todo::class.java)
