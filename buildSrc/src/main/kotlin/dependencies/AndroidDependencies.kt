@@ -82,7 +82,9 @@ interface AndroidDependencies {
     val composeAnimation
         get() = "androidx.compose.animation:animation:1.3.3"
     val composeUI
-        get() = "androidx.compose.ui:ui"
+        get() = "androidx.compose.ui:ui:1.7.0-alpha03"
+    val composeFoundation
+        get() = "androidx.compose.foundation:foundation:1.7.0-alpha03"
     val composeUIGraphics
         get() = "androidx.compose.ui:ui-graphics"
     // Tooling support (Previews, etc.)
@@ -116,11 +118,11 @@ interface AndroidDependencies {
     val constraintLayoutCompose
         get() = "androidx.constraintlayout:constraintlayout-compose:1.0.1"
     val composeBOM
-        get() = "androidx.compose:compose-bom:2023.06.01"
+        get() = "androidx.compose:compose-bom:2024.01.00"
 
     // Compose runtime
     val composeRuntime
-        get() = "androidx.compose.runtime:runtime:1.2.1"
+        get() = "androidx.compose.runtime:runtime:1.6.2"
     // Compose runtime live data
     val composeRuntimeLiveData
         get() = "androidx.compose.runtime:runtime-livedata:1.2.1"

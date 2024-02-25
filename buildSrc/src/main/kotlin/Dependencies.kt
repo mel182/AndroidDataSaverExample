@@ -58,7 +58,8 @@ object Dependencies: AndroidDependencies, GoogleMaterialDependencies, KotlinXDep
     const val pierFrancesCosoffrittiYouTubePlayer = "com.pierfrancescosoffritti.androidyoutubeplayer:core:11.1.0"
 
     // Coil compose io
-    const val composeCoilKt = "io.coil-kt:coil-compose:2.4.0"
+    const val composeCoilKt = "io.coil-kt:coil-compose:2.5.0"
+    const val composeCoilGifKt = "io.coil-kt:coil-gif:2.5.0"
 }
 
 fun DependencyHandler.room() {
@@ -163,6 +164,7 @@ fun DependencyHandler.androidXDependenciesExtended() {
 fun DependencyHandler.compose() {
     implementation(Dependencies.activityCompose)
     implementation(Dependencies.composeUI)
+    implementation(Dependencies.composeFoundation)
     implementation(Dependencies.composeUIGraphics)
     implementation(Dependencies.composeUITooling)
     implementation(Dependencies.composeToolingPreview)
@@ -215,6 +217,7 @@ fun DependencyHandler.androidMaterial3() {
 
 fun DependencyHandler.coilKt() {
     implementation(Dependencies.composeCoilKt)
+    implementation(Dependencies.composeCoilGifKt)
 }
 
 fun DependencyHandler.androidPaging() {
