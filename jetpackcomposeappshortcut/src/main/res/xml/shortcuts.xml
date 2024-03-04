@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="static"
+        android:enabled="true"
+        android:icon="@drawable/airport_shuttle"
+        android:shortcutShortLabel="@string/short_label"
+        android:shortcutLongLabel="@string/long_label"
+        android:shortcutDisabledMessage="@string/disabled_message"
+        tools:targetApi="n_mr1">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.jetpackcompose.appshortcut"
+            android:targetClass="com.jetpackcompose.appshortcut.JetpackComposeAppShortCutMainActivity">
+            <extra android:name="shortcut_id" android:value="static-shortcut"/>
+        </intent>
+    </shortcut>
+</shortcuts>

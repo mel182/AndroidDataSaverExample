@@ -1,6 +1,11 @@
 package com.jetpackcompose.appshortcut
 
+import android.app.PendingIntent
 import android.content.Intent
+import android.content.pm.ShortcutInfo
+import android.content.pm.ShortcutManager
+import android.graphics.drawable.Icon
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -15,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.core.content.getSystemService
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
@@ -42,7 +48,7 @@ class JetpackComposeAppShortCutMainActivity : ComponentActivity() {
                             Alignment.CenterVertically
                         )
                     ) {
-                        when(viewModel.shortcutType) {
+                        when (viewModel.shortcutType) {
                             ShortcutType.STATIC -> Text(text = "Static shortcut clicked")
                             ShortcutType.DYNAMIC -> Text(text = "Dynamic shortcut clicked")
                             ShortcutType.PINNED -> Text(text = "Pinned shortcut clicked")
@@ -54,8 +60,52 @@ class JetpackComposeAppShortCutMainActivity : ComponentActivity() {
                         ) {
                             Text(text = "Add dynamic shortcut")
                         }
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            Button(
+                                onClick = ::addPinnedShortcut
+                            ) {
+                                Text(text = "Add pinned shortcut")
+                            }
+                        }
                     }
                 }
+            }
+        }
+    }
+
+    private fun addPinnedShortcut() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O)
+            return
+
+        getSystemService<ShortcutManager>()?.let { shortcutManager ->
+            if (shortcutManager.isRequestPinShortcutSupported) {
+                val shortcut = ShortcutInfo.Builder(applicationContext, "pinned")
+                    .setShortLabel("Send message")
+                    .setLongLabel("This send a message to a friend")
+                    .setIcon(
+                        Icon.createWithResource(
+                            applicationContext,
+                            R.drawable.airport_shuttle
+                        )
+                    )
+                    .setIntent(
+                        Intent(
+                            applicationContext,
+                            JetpackComposeAppShortCutMainActivity::class.java
+                        ).apply {
+                            action = Intent.ACTION_VIEW
+                            putExtra("shortcut_id", "pinned")
+                        }
+                    ).build()
+
+                val callbackIntent = shortcutManager.createShortcutResultIntent(shortcut)
+                val successPendingIntent = PendingIntent.getBroadcast(
+                    applicationContext,
+                    0,
+                    callbackIntent,
+                    PendingIntent.FLAG_IMMUTABLE
+                )
+                shortcutManager.requestPinShortcut(shortcut, successPendingIntent.intentSender)
             }
         }
     }
@@ -71,9 +121,12 @@ class JetpackComposeAppShortCutMainActivity : ComponentActivity() {
                         R.drawable.airport_shuttle
                     )
                 ).setIntent(
-                    Intent(applicationContext, JetpackComposeAppShortCutMainActivity::class.java).apply {
+                    Intent(
+                        applicationContext,
+                        JetpackComposeAppShortCutMainActivity::class.java
+                    ).apply {
                         action = Intent.ACTION_VIEW
-                        putExtra("shortcut_id","dynamic")
+                        putExtra("shortcut_id", "dynamic")
                     }
                 ).build()
         ShortcutManagerCompat.pushDynamicShortcut(applicationContext, shortcut)
@@ -86,7 +139,7 @@ class JetpackComposeAppShortCutMainActivity : ComponentActivity() {
 
     private fun handleIntent(intent: Intent?) {
         intent?.let {
-            when(intent.getStringExtra("shortcut_id")) {
+            when (intent.getStringExtra("shortcut_id")) {
                 "static" -> viewModel.onShortcutClicked(ShortcutType.STATIC)
                 "dynamic" -> viewModel.onShortcutClicked(ShortcutType.DYNAMIC)
                 "pinned" -> viewModel.onShortcutClicked(ShortcutType.PINNED)
