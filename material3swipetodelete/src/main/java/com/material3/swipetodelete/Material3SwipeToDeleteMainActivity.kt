@@ -10,6 +10,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -40,6 +41,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewFontScale
+import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import com.material3.swipetodelete.ui.theme.DataSaverExampleAppTheme
 import kotlinx.coroutines.delay
@@ -91,7 +95,10 @@ class Material3SwipeToDeleteMainActivity : ComponentActivity() {
                                             .background(MaterialTheme.colorScheme.background)
                                             .padding(all = 16.dp)
                                     )
-                                    Divider(color = Color.LightGray.copy(alpha = 0.5f), thickness = 1.dp)
+                                    Divider(
+                                        color = Color.LightGray.copy(alpha = 0.5f),
+                                        thickness = 1.dp
+                                    )
                                 }
                             }
                         }
@@ -172,5 +179,21 @@ fun DeleteBackground(
             contentDescription = null,
             tint = Color.White
         )
+    }
+}
+
+
+@PreviewScreenSizes
+@PreviewFontScale
+@Preview
+@Composable
+fun TestNewPreview() {
+
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(text = "Test title")
     }
 }

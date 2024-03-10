@@ -60,6 +60,10 @@ object Dependencies: AndroidDependencies, GoogleMaterialDependencies, KotlinXDep
     // Coil compose io
     const val composeCoilKt = "io.coil-kt:coil-compose:2.5.0"
     const val composeCoilGifKt = "io.coil-kt:coil-gif:2.5.0"
+
+    // Realm io
+    const val realmIOKt = "io.realm.kotlin:library-base:1.11.0"
+
 }
 
 fun DependencyHandler.room() {
@@ -218,6 +222,10 @@ fun DependencyHandler.androidMaterial3() {
 fun DependencyHandler.coilKt() {
     implementation(Dependencies.composeCoilKt)
     implementation(Dependencies.composeCoilGifKt)
+}
+
+fun DependencyHandler.realm() {
+    implementation(Dependencies.realmIOKt)
 }
 
 fun DependencyHandler.androidPaging() {
