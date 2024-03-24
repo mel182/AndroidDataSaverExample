@@ -64,6 +64,9 @@ object Dependencies: AndroidDependencies, GoogleMaterialDependencies, KotlinXDep
     // Realm io
     const val realmIOKt = "io.realm.kotlin:library-base:1.11.0"
 
+    // ML Kit document scanner
+    const val mlKitDocumentScanner = "com.google.android.gms:play-services-mlkit-document-scanner:16.0.0-beta1"
+
 }
 
 fun DependencyHandler.room() {
@@ -313,6 +316,10 @@ fun DependencyHandler.googleLocalSearch() {
 
 fun DependencyHandler.androidWearableComposeUI() {
     implementation(Dependencies.androidWearableComposeUI)
+}
+
+fun DependencyHandler.mlKitDocumentScanner() {
+    implementation(Dependencies.mlKitDocumentScanner)
 }
 
 fun DependencyHandler.retrofit() {
