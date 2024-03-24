@@ -2,6 +2,9 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="SpeechBubblePreview">
+        <State />
+      </entry>
       <entry key="TestAlpha">
         <State />
       </entry>
@@ -27,6 +30,9 @@
         <State />
       </entry>
       <entry key="jetpackcomposecopypaste">
+        <State />
+      </entry>
+      <entry key="jetpackcomposecustomshape">
         <State />
       </entry>
       <entry key="jetpackcomposedeeplink">
