@@ -185,7 +185,6 @@ fun DependencyHandler.composeViewModel() {
     implementation(Dependencies.composeLifecycleRuntime)
 }
 
-//implementation(Dependencies.accompanistPermissions)
 fun DependencyHandler.composePermissions() {
     implementation(Dependencies.accompanistPermissions)
 }
@@ -216,6 +215,10 @@ fun DependencyHandler.composePaging() {
 
 fun DependencyHandler.androidMaterial() {
     implementation(Dependencies.googleMaterial)
+}
+
+fun DependencyHandler.androidBiometric() {
+    implementation(Dependencies.biometric)
 }
 
 fun DependencyHandler.androidMaterial3() {

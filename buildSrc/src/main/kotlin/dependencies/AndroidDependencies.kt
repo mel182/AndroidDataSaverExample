@@ -119,6 +119,8 @@ interface AndroidDependencies {
         get() = "androidx.constraintlayout:constraintlayout-compose:1.0.1"
     val composeBOM
         get() = "androidx.compose:compose-bom:2024.01.00"
+    val biometric
+        get() = "androidx.biometric:biometric:1.1.0"
 
     // Compose runtime
     val composeRuntime
