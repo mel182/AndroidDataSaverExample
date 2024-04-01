@@ -2,6 +2,9 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="CircularProgressIndicatorPreview">
+        <State />
+      </entry>
       <entry key="SpeechBubblePreview">
         <State />
       </entry>
@@ -27,6 +30,9 @@
         <State />
       </entry>
       <entry key="jetpackcomposecanvas">
+        <State />
+      </entry>
+      <entry key="jetpackcomposecircularindicatordraggable">
         <State />
       </entry>
       <entry key="jetpackcomposeclockexample">
