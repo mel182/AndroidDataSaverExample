@@ -2,22 +2,28 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="CircularProgressIndicatorPreview">
+      <entry key="app">
         <State />
       </entry>
-      <entry key="SpeechBubblePreview">
+      <entry key="contentProviderApp">
         <State />
       </entry>
-      <entry key="TestAlpha">
-        <State />
-      </entry>
-      <entry key="jetpackcomposeBasicPathExample">
+      <entry key="custompagingcompose">
         <State />
       </entry>
       <entry key="jetpackcomposePathExample">
         <State />
       </entry>
+      <entry key="jetpackcomposealarmmanagerexample">
+        <State />
+      </entry>
+      <entry key="jetpackcomposeanimatedcounterexample">
+        <State />
+      </entry>
       <entry key="jetpackcomposeappshortcut">
+        <State />
+      </entry>
+      <entry key="jetpackcomposeaudiorecorderexample">
         <State />
       </entry>
       <entry key="jetpackcomposebiometricauth">
@@ -29,6 +35,9 @@
       <entry key="jetpackcomposecameraaiexample">
         <State />
       </entry>
+      <entry key="jetpackcomposecameraxexample">
+        <State />
+      </entry>
       <entry key="jetpackcomposecanvas">
         <State />
       </entry>
@@ -38,10 +47,16 @@
       <entry key="jetpackcomposeclockexample">
         <State />
       </entry>
+      <entry key="jetpackcomposecontextmenuexample">
+        <State />
+      </entry>
       <entry key="jetpackcomposecopypaste">
         <State />
       </entry>
       <entry key="jetpackcomposecustomshape">
+        <State />
+      </entry>
+      <entry key="jetpackcomposedatetimeapiexample">
         <State />
       </entry>
       <entry key="jetpackcomposedeeplink">
@@ -50,16 +65,40 @@
       <entry key="jetpackcomposedocumentscanner">
         <State />
       </entry>
+      <entry key="jetpackcomposedownloadmanagerexample">
+        <State />
+      </entry>
+      <entry key="jetpackcomposedraganddropexample">
+        <State />
+      </entry>
       <entry key="jetpackcomposegenderselectionexample">
         <State />
       </entry>
+      <entry key="jetpackcomposegooglelogindemo">
+        <State />
+      </entry>
+      <entry key="jetpackcomposegraphexample">
+        <State />
+      </entry>
       <entry key="jetpackcomposegridlistexample">
+        <State />
+      </entry>
+      <entry key="jetpackcomposeimagecaching">
         <State />
       </entry>
       <entry key="jetpackcomposeimageediting">
         <State />
       </entry>
       <entry key="jetpackcomposeimageediting2">
+        <State />
+      </entry>
+      <entry key="jetpackcomposeinappupdateexample">
+        <State />
+      </entry>
+      <entry key="jetpackcomposelazycolumnpersistentlysavepositionexample">
+        <State />
+      </entry>
+      <entry key="jetpackcomposelazystaggeredgridexample">
         <State />
       </entry>
       <entry key="jetpackcomposelifecycleowner">
@@ -74,10 +113,19 @@
       <entry key="jetpackcomposemotionlayout">
         <State />
       </entry>
+      <entry key="jetpackcomposemultilinewithhintexample">
+        <State />
+      </entry>
       <entry key="jetpackcomposemultiplebackstack">
         <State />
       </entry>
+      <entry key="jetpackcomposenavdrawer">
+        <State />
+      </entry>
       <entry key="jetpackcomposenavigatewithresult">
+        <State />
+      </entry>
+      <entry key="jetpackcomposenavigation">
         <State />
       </entry>
       <entry key="jetpackcomposenavigationexample">
@@ -92,13 +140,19 @@
       <entry key="jetpackcomposepatheffect">
         <State />
       </entry>
-      <entry key="jetpackcomposepathexample">
-        <State />
-      </entry>
       <entry key="jetpackcomposepathoperation">
         <State />
       </entry>
       <entry key="jetpackcomposepathtransformationandclipping">
+        <State />
+      </entry>
+      <entry key="jetpackcomposepermissionhandlingguide">
+        <State />
+      </entry>
+      <entry key="jetpackcomposephotopickerexample">
+        <State />
+      </entry>
+      <entry key="jetpackcomposepinchzoongesture">
         <State />
       </entry>
       <entry key="jetpackcomposerealmdbexample">
@@ -110,7 +164,16 @@
       <entry key="jetpackcomposescreenorientationexample">
         <State />
       </entry>
+      <entry key="jetpackcomposesearchwithflowoperatorexample">
+        <State />
+      </entry>
       <entry key="jetpackcomposesecretmodifier">
+        <State />
+      </entry>
+      <entry key="jetpackcomposesharedatabetweencomposeview">
+        <State />
+      </entry>
+      <entry key="jetpackcomposeshimmereffectexample">
         <State />
       </entry>
       <entry key="jetpackcomposesimplelistexample">
@@ -119,13 +182,22 @@
       <entry key="jetpackcomposesnackbarexample">
         <State />
       </entry>
+      <entry key="jetpackcomposesplashdemo">
+        <State />
+      </entry>
       <entry key="jetpackcomposestableandinmutableannotation">
+        <State />
+      </entry>
+      <entry key="jetpackcomposeswipableimagesliderexample">
         <State />
       </entry>
       <entry key="jetpackcomposeswipetorefresh2">
         <State />
       </entry>
       <entry key="jetpackcomposetablayoutexample">
+        <State />
+      </entry>
+      <entry key="jetpackcomposetextautoscale">
         <State />
       </entry>
       <entry key="jetpackcomposetextonpath">
@@ -137,17 +209,69 @@
       <entry key="jetpackcomposetouchinputexample">
         <State />
       </entry>
+      <entry key="jetpackcomposewebviewnavigation">
+        <State />
+      </entry>
       <entry key="jetpackcomposeweightscaleexample">
         <State />
       </entry>
-      <entry key="material3Basictextfield2">
+      <entry key="jetpackcomposewidgetexample">
         <State />
       </entry>
       <entry key="material3basictextfield2">
         <State />
       </entry>
+      <entry key="material3bottomappbarexample">
+        <State />
+      </entry>
+      <entry key="material3bottomnavigation">
+        <State />
+      </entry>
+      <entry key="material3bottomsheetexample">
+        <State />
+      </entry>
+      <entry key="material3buttonsexample">
+        <State />
+      </entry>
+      <entry key="material3navigationdrawer">
+        <State />
+      </entry>
+      <entry key="material3selectioncomponent">
+        <State />
+      </entry>
+      <entry key="material3swipeabletabrows">
+        <State />
+      </entry>
       <entry key="material3swipetodelete">
         <State />
+      </entry>
+      <entry key="material3textfield">
+        <State />
+      </entry>
+      <entry key="material3topbarexample">
+        <State />
+      </entry>
+      <entry key="touchpointdetectionexample">
+        <State />
+      </entry>
+      <entry key="vicomposecustomdialog">
+        <State />
+      </entry>
+      <entry key="wearosexample">
+        <State>
+          <runningDeviceTargetSelectedWithDropDown>
+            <Target>
+              <type value="RUNNING_DEVICE_TARGET" />
+              <deviceKey>
+                <Key>
+                  <type value="SERIAL_NUMBER" />
+                  <value value="RF8M222C6VY" />
+                </Key>
+              </deviceKey>
+            </Target>
+          </runningDeviceTargetSelectedWithDropDown>
+          <timeTargetWasSelectedWithDropDown value="2024-04-14T12:03:17.487163300Z" />
+        </State>
       </entry>
     </value>
   </component>

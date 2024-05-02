@@ -30,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlin.math.PI
+import kotlin.math.abs
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.roundToInt
@@ -61,6 +62,10 @@ fun CustomCircularProgressIndicator(
     }
 
     var dragStartedAngle by remember {
+        mutableStateOf(0f)
+    }
+
+    var oldDragAngle by remember {
         mutableStateOf(0f)
     }
 
@@ -101,6 +106,17 @@ fun CustomCircularProgressIndicator(
                                 Log.i("TAG12","position value: $positionValue")
                                 Log.i("TAG12","current angle: $currentAngle")
                             }
+
+                            val diff = abs(oldDragAngle - dragStartedAngle)
+                            if (diff > 180) {
+                                dragStartedAngle = if (touchAngle < 180) {
+                                    360.0f
+                                } else {
+                                    0.0f
+                                }
+                            }
+
+                            oldDragAngle = dragStartedAngle
 
                         },
                         onDragEnd = {
