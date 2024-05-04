@@ -237,12 +237,12 @@ fun ProgressBarCircular(
                 start = center + Offset(
                     (radius - 10) * kotlin.math.cos((-90 + abs(appliedAngle)) * PI / 180f)
                         .toFloat(),
-                    (radius - 10) * kotlin.math.sin((-90 + abs(appliedAngle)) * PI / 180f).toFloat()
+                    (radius - 10) * sin((-90 + abs(appliedAngle)) * PI / 180f).toFloat()
                 ),
                 end = center + Offset(
                     (radius + 10) * kotlin.math.cos((-90 + abs(appliedAngle)) * PI / 180f)
                         .toFloat(),
-                    (radius + 10) * kotlin.math.sin((-90 + abs(appliedAngle)) * PI / 180f).toFloat()
+                    (radius + 10) * sin((-90 + abs(appliedAngle)) * PI / 180f).toFloat()
                 )
             )
         }
@@ -472,23 +472,23 @@ private fun DrawCircleAt0(
                 cap = cap
             )
         )
-//        drawCircle(
-//            color = ProgressBarTint,
-//            radius = stroke,
-//            center = center + Offset(
-//                radius * kotlin.math.cos((-90 + abs(appliedAngle)) * PI / 180f).toFloat(),
-//                radius * kotlin.math.sin((-90 + abs(appliedAngle)) * PI / 180f).toFloat()
-//            )
-//        )
+        drawCircle(
+            color = ProgressBarTint,
+            radius = stroke,
+            center = center + Offset(
+                radius * cos((abs(appliedAngle)) * PI / 180f).toFloat(),
+                radius * sin((abs(appliedAngle)) * PI / 180f).toFloat()
+            )
+        )
 
-//        drawCircle(
-//            color = ColorPrimary,
-//            radius = ((stroke*2.0)/3.0).toFloat(),
-//            center = center + Offset(
-//                radius * kotlin.math.cos((-90 + abs(appliedAngle)) * PI / 180f).toFloat(),
-//                radius * kotlin.math.sin((-90 + abs(appliedAngle)) * PI / 180f).toFloat()
-//            )
-//        )
+        drawCircle(
+            color = ColorPrimary,
+            radius = ((stroke*2.0)/3.0).toFloat(),
+            center = center + Offset(
+                radius * cos((abs(appliedAngle)) * PI / 180f).toFloat(),
+                radius * sin((abs(appliedAngle)) * PI / 180f).toFloat()
+            )
+        )
 
 
         if (oldProgressValue == 0.0) {
@@ -546,7 +546,7 @@ private fun DrawCircleAt0(
 
             val startY =
                 (outerRadius * sin(angleInRadius) + circleCenter.y + yGapAdjustment).toFloat()
-            
+
             Log.i("TAG60", "start Y: $startY")
             Log.i("TAG60", "sin angle in radius: $angleInRadius")
 
@@ -712,23 +712,24 @@ private fun DrawCircleAt90(
                 cap = cap
             )
         )
-//        drawCircle(
-//            color = ProgressBarTint,
-//            radius = stroke,
-//            center = center + Offset(
-//                radius * kotlin.math.cos((-90 + abs(appliedAngle)) * PI / 180f).toFloat(),
-//                radius * kotlin.math.sin((-90 + abs(appliedAngle)) * PI / 180f).toFloat()
-//            )
-//        )
 
-//        drawCircle(
-//            color = ColorPrimary,
-//            radius = ((stroke*2.0)/3.0).toFloat(),
-//            center = center + Offset(
-//                radius * kotlin.math.cos((-90 + abs(appliedAngle)) * PI / 180f).toFloat(),
-//                radius * kotlin.math.sin((-90 + abs(appliedAngle)) * PI / 180f).toFloat()
-//            )
-//        )
+        drawCircle(
+            color = ProgressBarTint,
+            radius = stroke,
+            center = center + Offset(
+                radius * kotlin.math.cos((-90 + abs(appliedAngle)) * PI / 180f).toFloat(),
+                radius * kotlin.math.sin((-90 + abs(appliedAngle)) * PI / 180f).toFloat()
+            )
+        )
+
+        drawCircle(
+            color = ColorPrimary,
+            radius = ((stroke*2.0)/3.0).toFloat(),
+            center = center + Offset(
+                radius * kotlin.math.cos((-90 + abs(appliedAngle)) * PI / 180f).toFloat(),
+                radius * kotlin.math.sin((-90 + abs(appliedAngle)) * PI / 180f).toFloat()
+            )
+        )
 
 
         if (oldProgressValue == 0.0) {
@@ -737,12 +738,12 @@ private fun DrawCircleAt90(
                 start = center + Offset(
                     (radius - 10) * kotlin.math.cos((-90 + abs(appliedAngle)) * PI / 180f)
                         .toFloat(),
-                    (radius - 10) * kotlin.math.sin((-90 + abs(appliedAngle)) * PI / 180f).toFloat()
+                    (radius - 10) * sin((-90 + abs(appliedAngle)) * PI / 180f).toFloat()
                 ),
                 end = center + Offset(
                     (radius + 10) * kotlin.math.cos((-90 + abs(appliedAngle)) * PI / 180f)
                         .toFloat(),
-                    (radius + 10) * kotlin.math.sin((-90 + abs(appliedAngle)) * PI / 180f).toFloat()
+                    (radius + 10) * sin((-90 + abs(appliedAngle)) * PI / 180f).toFloat()
                 )
             )
         }
@@ -969,23 +970,23 @@ private fun DrawCircleAt180(
                 cap = cap
             )
         )
-//        drawCircle(
-//            color = ProgressBarTint,
-//            radius = stroke,
-//            center = center + Offset(
-//                radius * kotlin.math.cos((-90 + abs(appliedAngle)) * PI / 180f).toFloat(),
-//                radius * kotlin.math.sin((-90 + abs(appliedAngle)) * PI / 180f).toFloat()
-//            )
-//        )
+        drawCircle(
+            color = ProgressBarTint,
+            radius = stroke,
+            center = center + Offset(
+                radius * kotlin.math.cos((-180 + abs(appliedAngle)) * PI / 180f).toFloat(),
+                radius * kotlin.math.sin((-180 + abs(appliedAngle)) * PI / 180f).toFloat()
+            )
+        )
 
-//        drawCircle(
-//            color = ColorPrimary,
-//            radius = ((stroke*2.0)/3.0).toFloat(),
-//            center = center + Offset(
-//                radius * kotlin.math.cos((-90 + abs(appliedAngle)) * PI / 180f).toFloat(),
-//                radius * kotlin.math.sin((-90 + abs(appliedAngle)) * PI / 180f).toFloat()
-//            )
-//        )
+        drawCircle(
+            color = ColorPrimary,
+            radius = ((stroke*2.0)/3.0).toFloat(),
+            center = center + Offset(
+                radius * kotlin.math.cos((-180 + abs(appliedAngle)) * PI / 180f).toFloat(),
+                radius * kotlin.math.sin((-180 + abs(appliedAngle)) * PI / 180f).toFloat()
+            )
+        )
 
 
         if (oldProgressValue == 0.0) {
@@ -1229,23 +1230,23 @@ private fun DrawCircleAt270(
                 cap = cap
             )
         )
-//        drawCircle(
-//            color = ProgressBarTint,
-//            radius = stroke,
-//            center = center + Offset(
-//                radius * kotlin.math.cos((-90 + abs(appliedAngle)) * PI / 180f).toFloat(),
-//                radius * kotlin.math.sin((-90 + abs(appliedAngle)) * PI / 180f).toFloat()
-//            )
-//        )
+        drawCircle(
+            color = ProgressBarTint,
+            radius = stroke,
+            center = center + Offset(
+                radius * kotlin.math.cos((-270 + abs(appliedAngle)) * PI / 180f).toFloat(),
+                radius * kotlin.math.sin((-270 + abs(appliedAngle)) * PI / 180f).toFloat()
+            )
+        )
 
-//        drawCircle(
-//            color = ColorPrimary,
-//            radius = ((stroke*2.0)/3.0).toFloat(),
-//            center = center + Offset(
-//                radius * kotlin.math.cos((-90 + abs(appliedAngle)) * PI / 180f).toFloat(),
-//                radius * kotlin.math.sin((-90 + abs(appliedAngle)) * PI / 180f).toFloat()
-//            )
-//        )
+        drawCircle(
+            color = ColorPrimary,
+            radius = ((stroke*2.0)/3.0).toFloat(),
+            center = center + Offset(
+                radius * kotlin.math.cos((-270 + abs(appliedAngle)) * PI / 180f).toFloat(),
+                radius * kotlin.math.sin((-270 + abs(appliedAngle)) * PI / 180f).toFloat()
+            )
+        )
 
 
         if (oldProgressValue == 0.0) {
