@@ -36,7 +36,7 @@ class JetpackComposeDraggableCircularIndicatorMainActivity : ComponentActivity()
                             modifier = Modifier
                                 .size(300.dp)
                                 .align(Alignment.Center),
-                            startAngle = StartAngle.degree_180
+                            startAngle = StartAngle.degree_0
                             ,
                             onProgressChanged = {
 
