@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlin.math.PI
 import kotlin.math.abs
@@ -51,23 +52,40 @@ fun ProgressBarCircular(
     initialAngle: Double = 0.0,
     onProgressChanged: (progress: Double) -> Unit
 ) {
-    var width by remember { mutableStateOf(0) }
-    var height by remember { mutableStateOf(0) }
-    var radius by remember { mutableStateOf(0f) }
-    var center by remember { mutableStateOf(Offset.Zero) }
+//    var width by remember { mutableStateOf(0) }
+//    var height by remember { mutableStateOf(0) }
+//    var radius by remember { mutableStateOf(0f) }
+//    var center by remember { mutableStateOf(Offset.Zero) }
+//
+//    var appliedAngle by remember {
+//        mutableStateOf(initialAngle)
+//    }
+//    var lastAngle by remember {
+//        mutableStateOf(0.0)
+//    }
+//    var circleCenter by remember {
+//        mutableStateOf(Offset.Zero)
+//    }
+//    var oldProgressValue by remember {
+//        mutableStateOf(initialAngle)
+//    }
 
-    var appliedAngle by remember {
-        mutableStateOf(initialAngle)
+    DrawCircularProgressBar(
+        modifier = modifier,
+        startAngle = startAngle,
+        progressBarColor = ProgressBarBg,
+        trackColor = ProgressBarProgress,
+        numbOuterColor = ProgressBarTint,
+        numbInnerColor = ColorPrimary,
+        startPositionIndicatorColor = Color.Green,
+        outerIndicatorLineColorUnSelected = Color.Blue.copy(alpha = 0.3f),
+        showProgressNumb = true,
+        outerIndicatorLineColorSelected = Color.Red
+    ) {
+
     }
-    var lastAngle by remember {
-        mutableStateOf(0.0)
-    }
-    var circleCenter by remember {
-        mutableStateOf(Offset.Zero)
-    }
-    var oldProgressValue by remember {
-        mutableStateOf(initialAngle)
-    }
+
+    return
 
     when (startAngle) {
         StartAngle.degree_0 -> DrawCircleAt0(
@@ -117,7 +135,7 @@ fun ProgressBarCircular(
 
     return
 
-
+    /*
     Canvas(modifier = modifier
         .size(270.dp)
         .onGloballyPositioned {
@@ -326,6 +344,7 @@ fun ProgressBarCircular(
             }
         }
     }
+    */
 }
 
 fun deltaAngle(x: Float, y: Float): Double {
@@ -392,8 +411,10 @@ private fun DrawCircleAt0(
                     val touchAngle = -atan2(
                         x = center.y - it.y,
                         y = center.x - it.x
-                    ) * (180f/PI).toFloat()
-                    appliedAngle = (touchAngle + 270f).mod(360f).toDouble()
+                    ) * (180f / PI).toFloat()
+                    appliedAngle = (touchAngle + 270f)
+                        .mod(360f)
+                        .toDouble()
                     Log.i("touch", "applied angle 12: $appliedAngle")
 
 
@@ -444,7 +465,7 @@ private fun DrawCircleAt0(
         }
     ) {
 
-        Log.i("TAG34","Angle applied initial: $appliedAngle")
+        Log.i("TAG34", "Angle applied initial: $appliedAngle")
 
         drawArc(
             color = ProgressBarBg,
@@ -483,7 +504,7 @@ private fun DrawCircleAt0(
 
         drawCircle(
             color = ColorPrimary,
-            radius = ((stroke*2.0)/3.0).toFloat(),
+            radius = ((stroke * 2.0) / 3.0).toFloat(),
             center = center + Offset(
                 radius * cos((abs(appliedAngle)) * PI / 180f).toFloat(),
                 radius * sin((abs(appliedAngle)) * PI / 180f).toFloat()
@@ -585,7 +606,7 @@ private fun DrawCircleAt90(
     stroke: Float = 35f,
     cap: StrokeCap = StrokeCap.Round,
     minValue: Int = 0,
-    rotate:Float = 0.0f,
+    rotate: Float = 0.0f,
     maxValue: Int = 100,
     initialAngle: Double = 0.0,
     onProgressChanged: (progress: Double) -> Unit
@@ -610,7 +631,8 @@ private fun DrawCircleAt90(
     }
 
     Canvas(modifier = modifier
-        .size(270.dp).then(
+        .size(270.dp)
+        .then(
             if (rotate != 0.0f) {
                 Modifier.rotate(rotate)
             } else {
@@ -644,10 +666,12 @@ private fun DrawCircleAt90(
                     val touchAngle = -atan2(
                         x = center.y - it.y,
                         y = center.x - it.x
-                    ) * (180f/PI).toFloat()
+                    ) * (180f / PI).toFloat()
                     //) * (180f / PI).toFloat()
                     //val appliedAngle12 = (touchAngle + 180f).mod(360f).toDouble()
-                    appliedAngle = (touchAngle).mod(360f).toDouble()
+                    appliedAngle = (touchAngle)
+                        .mod(360f)
+                        .toDouble()
                     Log.i("touch", "applied angle 12: $appliedAngle")
 
                     Log.i("TAG51", "last angle: $lastAngle")
@@ -717,17 +741,17 @@ private fun DrawCircleAt90(
             color = ProgressBarTint,
             radius = stroke,
             center = center + Offset(
-                radius * kotlin.math.cos((-90 + abs(appliedAngle)) * PI / 180f).toFloat(),
-                radius * kotlin.math.sin((-90 + abs(appliedAngle)) * PI / 180f).toFloat()
+                radius * cos((-90 + abs(appliedAngle)) * PI / 180f).toFloat(),
+                radius * sin((-90 + abs(appliedAngle)) * PI / 180f).toFloat()
             )
         )
 
         drawCircle(
             color = ColorPrimary,
-            radius = ((stroke*2.0)/3.0).toFloat(),
+            radius = ((stroke * 2.0) / 3.0).toFloat(),
             center = center + Offset(
-                radius * kotlin.math.cos((-90 + abs(appliedAngle)) * PI / 180f).toFloat(),
-                radius * kotlin.math.sin((-90 + abs(appliedAngle)) * PI / 180f).toFloat()
+                radius * cos((-90 + abs(appliedAngle)) * PI / 180f).toFloat(),
+                radius * sin((-90 + abs(appliedAngle)) * PI / 180f).toFloat()
             )
         )
 
@@ -829,6 +853,7 @@ private fun DrawCircleAt90(
     }
 }
 
+
 @Composable
 private fun DrawCircleAt180(
     modifier: Modifier = Modifier,
@@ -836,7 +861,7 @@ private fun DrawCircleAt180(
     stroke: Float = 35f,
     cap: StrokeCap = StrokeCap.Round,
     minValue: Int = 0,
-    rotate:Float = 0.0f,
+    rotate: Float = 0.0f,
     maxValue: Int = 100,
     initialAngle: Double = 0.0,
     onProgressChanged: (progress: Double) -> Unit
@@ -861,7 +886,8 @@ private fun DrawCircleAt180(
     }
 
     Canvas(modifier = modifier
-        .size(270.dp).then(
+        .size(270.dp)
+        .then(
             if (rotate != 0.0f) {
                 Modifier.rotate(rotate)
             } else {
@@ -897,10 +923,12 @@ private fun DrawCircleAt180(
                     val touchAngle = -atan2(
                         x = center.y - it.y,
                         y = center.x - it.x
-                    ) * (180f/PI).toFloat()
+                    ) * (180f / PI).toFloat()
                     //) * (180f / PI).toFloat()
                     //val appliedAngle12 = (touchAngle + 180f).mod(360f).toDouble()
-                    appliedAngle = (touchAngle + 90f).mod(360f).toDouble()
+                    appliedAngle = (touchAngle + 90f)
+                        .mod(360f)
+                        .toDouble()
                     Log.i("touch", "applied angle 12: $appliedAngle")
 
 
@@ -974,17 +1002,17 @@ private fun DrawCircleAt180(
             color = ProgressBarTint,
             radius = stroke,
             center = center + Offset(
-                radius * kotlin.math.cos((-180 + abs(appliedAngle)) * PI / 180f).toFloat(),
-                radius * kotlin.math.sin((-180 + abs(appliedAngle)) * PI / 180f).toFloat()
+                radius * cos((-180 + abs(appliedAngle)) * PI / 180f).toFloat(),
+                radius * sin((-180 + abs(appliedAngle)) * PI / 180f).toFloat()
             )
         )
 
         drawCircle(
             color = ColorPrimary,
-            radius = ((stroke*2.0)/3.0).toFloat(),
+            radius = ((stroke * 2.0) / 3.0).toFloat(),
             center = center + Offset(
-                radius * kotlin.math.cos((-180 + abs(appliedAngle)) * PI / 180f).toFloat(),
-                radius * kotlin.math.sin((-180 + abs(appliedAngle)) * PI / 180f).toFloat()
+                radius * cos((-180 + abs(appliedAngle)) * PI / 180f).toFloat(),
+                radius * sin((-180 + abs(appliedAngle)) * PI / 180f).toFloat()
             )
         )
 
@@ -1094,7 +1122,7 @@ private fun DrawCircleAt270(
     stroke: Float = 35f,
     cap: StrokeCap = StrokeCap.Round,
     minValue: Int = 0,
-    rotate:Float = 0.0f,
+    rotate: Float = 0.0f,
     maxValue: Int = 100,
     initialAngle: Double = 0.0,
     onProgressChanged: (progress: Double) -> Unit
@@ -1119,7 +1147,8 @@ private fun DrawCircleAt270(
     }
 
     Canvas(modifier = modifier
-        .size(270.dp).then(
+        .size(270.dp)
+        .then(
             if (rotate != 0.0f) {
                 Modifier.rotate(rotate)
             } else {
@@ -1156,7 +1185,9 @@ private fun DrawCircleAt270(
                         x = center.y - it.y,
                         y = center.x - it.x
                     ) * (180f / PI).toFloat()
-                    appliedAngle = (touchAngle + 180f).mod(360f).toDouble()
+                    appliedAngle = (touchAngle + 180f)
+                        .mod(360f)
+                        .toDouble()
 
                     Log.i("touch", "|----------------------|")
                     Log.i("touch", "Touch angle: $appliedAngle")
@@ -1234,17 +1265,17 @@ private fun DrawCircleAt270(
             color = ProgressBarTint,
             radius = stroke,
             center = center + Offset(
-                radius * kotlin.math.cos((-270 + abs(appliedAngle)) * PI / 180f).toFloat(),
-                radius * kotlin.math.sin((-270 + abs(appliedAngle)) * PI / 180f).toFloat()
+                radius * cos((-270 + abs(appliedAngle)) * PI / 180f).toFloat(),
+                radius * sin((-270 + abs(appliedAngle)) * PI / 180f).toFloat()
             )
         )
 
         drawCircle(
             color = ColorPrimary,
-            radius = ((stroke*2.0)/3.0).toFloat(),
+            radius = ((stroke * 2.0) / 3.0).toFloat(),
             center = center + Offset(
-                radius * kotlin.math.cos((-270 + abs(appliedAngle)) * PI / 180f).toFloat(),
-                radius * kotlin.math.sin((-270 + abs(appliedAngle)) * PI / 180f).toFloat()
+                radius * cos((-270 + abs(appliedAngle)) * PI / 180f).toFloat(),
+                radius * sin((-270 + abs(appliedAngle)) * PI / 180f).toFloat()
             )
         )
 
@@ -1345,5 +1376,365 @@ private fun DrawCircleAt270(
             }
         }
     }
+}
+
+
+@Composable
+private fun DrawCircularProgressBar(
+    modifier: Modifier = Modifier,
+    padding: Float = 50f,
+    stroke: Float = 35f,
+    startAngle: StartAngle,
+    progressBarColor: Color,
+    trackColor: Color,
+    showProgressNumb: Boolean,
+    numbOuterColor: Color,
+    numbInnerColor: Color,
+    startPositionIndicatorColor: Color,
+    startPositionIndicatorStrokeWidth: Dp = 2.dp,
+    showOuterIndicatorLines: Boolean = false,
+    outerIndicatorLineColorUnSelected: Color,
+    outerIndicatorLineColorSelected: Color,
+    cap: StrokeCap = StrokeCap.Round,
+    minValue: Int = 0,
+    rotate: Float = 0.0f,
+    maxValue: Int = 100,
+    initialAngle: Double = 0.0,
+    onProgressChanged: (progress: Double) -> Unit
+) {
+
+    var width by remember { mutableStateOf(0) }
+    var height by remember { mutableStateOf(0) }
+    var radius by remember { mutableStateOf(0f) }
+    var center by remember { mutableStateOf(Offset.Zero) }
+
+    var appliedAngle by remember {
+        mutableStateOf(initialAngle)
+    }
+    var lastAngle by remember {
+        mutableStateOf(0.0)
+    }
+    var circleCenter by remember {
+        mutableStateOf(Offset.Zero)
+    }
+    var oldProgressValue by remember {
+        mutableStateOf(initialAngle)
+    }
+
+    Canvas(modifier = modifier
+        .then(
+            if (rotate != 0.0f) {
+                Modifier.rotate(rotate)
+            } else {
+                Modifier
+            }
+        )
+        .onGloballyPositioned {
+            width = it.size.width
+            height = it.size.height
+            center = Offset(width / 2f, height / 2f)
+            radius = min(width.toFloat(), height.toFloat()) / 2f - padding - stroke / 2f
+        }
+        .pointerInteropFilter {
+            when (it.action) {
+
+                MotionEvent.ACTION_DOWN -> Unit
+
+                MotionEvent.ACTION_UP -> Unit
+
+                MotionEvent.ACTION_MOVE -> {
+                    Log.i("TAG51", "")
+                    Log.i(
+                        "TAG51",
+                        "delta angle: ${deltaAngle(center.x - it.x, center.y - it.y)}"
+                    )
+                    Log.i("TAG34", "")
+                    Log.i("TAG34", "|-------------------|")
+                    Log.i("TAG34", "center X: ${center.x}")
+                    Log.i("TAG34", "it X: ${it.x}")
+                    Log.i("TAG34", "center Y: ${center.y}")
+                    Log.i("TAG34", "it Y: ${it.y}")
+
+                    when (startAngle) {
+                        StartAngle.degree_0 -> {
+                            val touchAngle = -atan2(
+                                x = center.y - it.y,
+                                y = center.x - it.x
+                            ) * (180f / PI).toFloat()
+                            appliedAngle = (touchAngle + 270f)
+                                .mod(360f)
+                                .toDouble()
+                        }
+
+                        StartAngle.degree_90 -> {
+                            val touchAngle = -atan2(
+                                x = center.y - it.y,
+                                y = center.x - it.x
+                            ) * (180f / PI).toFloat()
+                            appliedAngle = (touchAngle)
+                                .mod(360f)
+                                .toDouble()
+                        }
+
+                        StartAngle.degree_180 -> {
+                            val touchAngle = -atan2(
+                                x = center.y - it.y,
+                                y = center.x - it.x
+                            ) * (180f / PI).toFloat()
+                            appliedAngle = (touchAngle + 90f)
+                                .mod(360f)
+                                .toDouble()
+                        }
+
+                        StartAngle.degree_270 -> {
+                            val touchAngle = -atan2(
+                                x = center.y - it.y,
+                                y = center.x - it.x
+                            ) * (180f / PI).toFloat()
+                            appliedAngle = (touchAngle + 180f)
+                                .mod(360f)
+                                .toDouble()
+                        }
+                    }
+
+
+                    Log.i("touch", "|----------------------|")
+                    Log.i("touch", "Touch angle: $appliedAngle")
+                    Log.i("touch", "|----------------------|")
+
+                    Log.i("touch", "")
+                    Log.i("touch", "")
+                    Log.i("touch", "applied angle: $appliedAngle")
+                    Log.i("touch", "|-------------------|")
+                    Log.i("touch", "")
+
+                    Log.i("TAG51", "last angle: $lastAngle")
+                    Log.i("TAG51", "applied angle: $appliedAngle")
+                    val diff = abs(lastAngle - appliedAngle)
+                    Log.i("TAG45", "diff: $diff")
+                    if (diff > 180) {
+                        Log.i("TAG45", "statement")
+                        Log.i("TAG45", "angle applied: $appliedAngle")
+                        appliedAngle = if (appliedAngle < 180) {
+                            360.0
+                        } else {
+                            0.0
+                        }
+                    }
+                    val progress = appliedAngle / 360.0
+                    oldProgressValue = (maxValue - minValue) * progress
+
+
+                    //Log.i("TAG55","progress: ${progress}")
+                    Log.i("TAG51", "progress: ${progress}")
+                    Log.i("TAG51", "oldProgressValue: ${oldProgressValue}")
+
+                    onProgressChanged(oldProgressValue)
+                    lastAngle = appliedAngle
+
+                }
+
+                else -> return@pointerInteropFilter false
+            }
+
+            return@pointerInteropFilter true
+        }) {
+
+        drawArc(
+            color = progressBarColor,
+            startAngle = when (startAngle) {
+                StartAngle.degree_0 -> 0f
+                StartAngle.degree_90 -> -90f
+                StartAngle.degree_180 -> -180f
+                StartAngle.degree_270 -> -270f
+            },
+            sweepAngle = 360f,
+            useCenter = false,
+            topLeft = center - Offset(radius, radius),
+            size = Size(radius * 2, radius * 2),
+            style = Stroke(
+                width = stroke,
+                cap = cap
+            )
+        )
+
+        drawArc(
+            color = trackColor,
+            startAngle = when (startAngle) {
+                StartAngle.degree_0 -> 0f
+                StartAngle.degree_90 -> -90f
+                StartAngle.degree_180 -> -180f
+                StartAngle.degree_270 -> -270f
+            },
+            sweepAngle = abs(appliedAngle.toFloat()),
+            topLeft = center - Offset(radius, radius),
+            size = Size(radius * 2, radius * 2),
+            useCenter = false,
+            style = Stroke(
+                width = stroke,
+                cap = cap
+            )
+        )
+
+
+        if (showProgressNumb) {
+
+            val offset = when(startAngle) {
+                StartAngle.degree_0 -> Offset(
+                    radius * cos((abs(appliedAngle)) * PI / 180f).toFloat(),
+                    radius * sin((abs(appliedAngle)) * PI / 180f).toFloat()
+                )
+                StartAngle.degree_90 -> Offset(
+                    radius * cos((-90 + abs(appliedAngle)) * PI / 180f).toFloat(),
+                    radius * sin((-90 + abs(appliedAngle)) * PI / 180f).toFloat()
+                )
+                StartAngle.degree_180 -> Offset(
+                    radius * cos((-180 + abs(appliedAngle)) * PI / 180f).toFloat(),
+                    radius * sin((-180 + abs(appliedAngle)) * PI / 180f).toFloat()
+                )
+                StartAngle.degree_270 -> Offset(
+                    radius * cos((-270 + abs(appliedAngle)) * PI / 180f).toFloat(),
+                    radius * sin((-270 + abs(appliedAngle)) * PI / 180f).toFloat()
+                )
+            }
+
+            drawCircle(
+                color = numbOuterColor,
+                radius = stroke,
+                center = center + offset
+            )
+
+            drawCircle(
+                color = numbInnerColor,
+                radius = ((stroke * 2.0) / 3.0).toFloat(),
+                center = center + offset
+            )
+        } else {
+
+            if (oldProgressValue == 0.0) {
+
+                val offset: Pair<Offset,Offset> = when(startAngle) {
+                    StartAngle.degree_0 -> Pair(
+                        Offset(
+                            (radius - 10) * cos((abs(appliedAngle)) * PI / 180f)
+                                .toFloat(),
+                            (radius - 10) * sin((abs(appliedAngle)) * PI / 180f).toFloat()
+                        ),
+                        Offset(
+                            (radius + 10) * cos((abs(appliedAngle)) * PI / 180f)
+                                .toFloat(),
+                            (radius + 10) * sin((abs(appliedAngle)) * PI / 180f).toFloat()
+                        )
+                    )
+                    StartAngle.degree_90 -> Pair(
+                        Offset(
+                            (radius - 10) * cos((-90 + abs(appliedAngle)) * PI / 180f)
+                                .toFloat(),
+                            (radius - 10) * sin((-90 + abs(appliedAngle)) * PI / 180f).toFloat()
+                        ),
+                        Offset(
+                            (radius + 10) * cos((-90 + abs(appliedAngle)) * PI / 180f)
+                                .toFloat(),
+                            (radius + 10) * sin((-90 + abs(appliedAngle)) * PI / 180f).toFloat()
+                        )
+                    )
+                    StartAngle.degree_180 -> Pair(
+                        Offset(
+                            (radius - 10) * cos((-180 + abs(appliedAngle)) * PI / 180f)
+                                .toFloat(),
+                            (radius - 10) * sin((-180 + abs(appliedAngle)) * PI / 180f).toFloat()
+                        ),
+                        Offset(
+                            (radius + 10) * cos((-180 + abs(appliedAngle)) * PI / 180f)
+                                .toFloat(),
+                            (radius + 10) * sin((-180 + abs(appliedAngle)) * PI / 180f).toFloat()
+                        )
+                    )
+
+                    StartAngle.degree_270 -> Pair(
+                        Offset(
+                            (radius - 10) * cos((-270 + abs(appliedAngle)) * PI / 180f)
+                                .toFloat(),
+                            (radius - 10) * sin((-270 + abs(appliedAngle)) * PI / 180f).toFloat()
+                        ),
+                        Offset(
+                            (radius + 10) * cos((-270 + abs(appliedAngle)) * PI / 180f)
+                                .toFloat(),
+                            (radius + 10) * sin((-270 + abs(appliedAngle)) * PI / 180f).toFloat()
+                        )
+                    )
+                }
+
+                drawLine(
+                    color = startPositionIndicatorColor,
+                    strokeWidth = startPositionIndicatorStrokeWidth.toPx(),
+                    start = center + offset.first,
+                    end = center + offset.second
+                )
+            }
+
+        }
+
+        if (showOuterIndicatorLines) {
+            val _width = size.width
+            val _height = size.height
+            val circleThickness = _width / 25f
+            circleCenter = Offset(x = _width / 2f, y = _height / 2f)
+            val outerRadius = radius + stroke / 2f
+            val gap = 15f
+
+            for (value in 0..(maxValue - minValue)) {
+
+                val color = if (value < oldProgressValue) {
+                    outerIndicatorLineColorSelected
+                } else {
+                    outerIndicatorLineColorUnSelected
+                }
+
+                val angleInDegrees = value * 360f / (100 - 0).toFloat()
+                val adjustedAngleInDegrees = when(startAngle) {
+                    StartAngle.degree_0 -> angleInDegrees - 90
+                    StartAngle.degree_90 -> angleInDegrees - 180
+                    StartAngle.degree_180 -> angleInDegrees - 180
+                    StartAngle.degree_270 -> angleInDegrees - 270
+                }
+
+                val angleInRadius = adjustedAngleInDegrees * PI / 180f + PI / 2f
+
+                val yGapAdjustment = cos(x = adjustedAngleInDegrees * PI / 180f) * gap
+                val xGapAdjustment = -sin(x = adjustedAngleInDegrees * PI / 180f) * gap
+
+                val startY =
+                    (outerRadius * sin(angleInRadius) + circleCenter.y + yGapAdjustment).toFloat()
+
+                val start = Offset(
+                    x = (outerRadius * cos(angleInRadius) + circleCenter.x + xGapAdjustment).toFloat(),
+                    y = startY
+                )
+
+                val end = Offset(
+                    x = (outerRadius * cos(angleInRadius) + circleCenter.x + xGapAdjustment).toFloat(),
+                    y = (outerRadius * sin(angleInRadius) + circleThickness + circleCenter.y + yGapAdjustment).toFloat()
+                )
+
+                rotate(
+                    degrees = adjustedAngleInDegrees,
+                    pivot = start
+                ) {
+                    drawLine(
+                        color = color,
+                        start = start,
+                        end = end,
+                        alpha = 0.9f,
+                        strokeWidth = 2.dp.toPx()
+                    )
+                }
+            }
+        }
+
+
+    }
+
+
 }
 
