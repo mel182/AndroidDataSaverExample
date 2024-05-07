@@ -49,6 +49,8 @@ fun ProgressBarCircular(
     cap: StrokeCap = StrokeCap.Round,
     minValue: Int = 0,
     maxValue: Int = 100,
+    showProgressNumb: Boolean,
+    showOuterIndicatorLines: Boolean,
     initialAngle: Double = 0.0,
     onProgressChanged: (progress: Double) -> Unit
 ) {
@@ -79,7 +81,8 @@ fun ProgressBarCircular(
         numbInnerColor = ColorPrimary,
         startPositionIndicatorColor = Color.Green,
         outerIndicatorLineColorUnSelected = Color.Blue.copy(alpha = 0.3f),
-        showProgressNumb = true,
+        showProgressNumb = showProgressNumb,
+        showOuterIndicatorLines = showOuterIndicatorLines,
         outerIndicatorLineColorSelected = Color.Red
     ) {
 
@@ -1695,8 +1698,8 @@ private fun DrawCircularProgressBar(
                 val adjustedAngleInDegrees = when(startAngle) {
                     StartAngle.degree_0 -> angleInDegrees - 90
                     StartAngle.degree_90 -> angleInDegrees - 180
-                    StartAngle.degree_180 -> angleInDegrees - 180
-                    StartAngle.degree_270 -> angleInDegrees - 270
+                    StartAngle.degree_180 -> angleInDegrees - 270
+                    StartAngle.degree_270 -> angleInDegrees
                 }
 
                 val angleInRadius = adjustedAngleInDegrees * PI / 180f + PI / 2f
