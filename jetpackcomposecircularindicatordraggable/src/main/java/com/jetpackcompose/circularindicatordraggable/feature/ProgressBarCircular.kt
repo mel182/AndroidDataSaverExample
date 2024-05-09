@@ -6,7 +6,6 @@ import android.graphics.Paint
 import android.util.Log
 import android.view.MotionEvent
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
@@ -35,7 +34,6 @@ import androidx.compose.ui.unit.sp
 import com.jetpackcompose.circularindicatordraggable.StartAngle
 import kotlin.math.PI
 import kotlin.math.abs
-import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.min
 import kotlin.math.sin
@@ -83,10 +81,6 @@ fun ProgressBarCircular(
     )
 }
 
-fun deltaAngle(x: Float, y: Float): Double {
-    return Math.toDegrees(atan2(y.toDouble(), x.toDouble()))
-}
-
 @Composable
 private fun DrawCircularProgressBar(
     modifier: Modifier = Modifier,
@@ -98,6 +92,7 @@ private fun DrawCircularProgressBar(
     showProgressNumb: Boolean,
     numbOuterColor: Color,
     numbInnerColor: Color,
+    textStyle: androidx.compose.ui.text.TextStyle? = null,
     startPositionIndicatorColor: Color,
     startPositionIndicatorStrokeWidth: Dp = 2.dp,
     showOuterIndicatorLines: Boolean = false,
@@ -133,6 +128,8 @@ private fun DrawCircularProgressBar(
         mutableStateOf("0.0")
     }
 
+    val customTypeFace = textStyle?.asTypeFace()
+
     Canvas(modifier = modifier
         .then(
             if (rotate != 0.0f) {
@@ -156,10 +153,6 @@ private fun DrawCircularProgressBar(
 
                 MotionEvent.ACTION_MOVE -> {
                     Log.i("TAG51", "")
-                    Log.i(
-                        "TAG51",
-                        "delta angle: ${deltaAngle(center.x - it.x, center.y - it.y)}"
-                    )
                     Log.i("TAG34", "")
                     Log.i("TAG34", "|-------------------|")
                     Log.i("TAG34", "center X: ${center.x}")
@@ -206,7 +199,9 @@ private fun DrawCircularProgressBar(
                     Log.i("TAG51", "oldProgressValue: ${oldProgressValue}")
 
                     val percentageValue = (oldProgressValue / 100).toFloat()
-                    val displayedValue = ((maxValue - minValue) * percentageValue).toDouble().round(2)
+                    val displayedValue = ((maxValue - minValue) * percentageValue)
+                        .toDouble()
+                        .round(2)
                     displayedProgressValue = "$displayedValue"
                     onProgressChanged(displayedValue)
                     lastAngle = appliedAngle
@@ -254,7 +249,6 @@ private fun DrawCircularProgressBar(
                 cap = cap
             )
         )
-
 
         if (showProgressNumb) {
 
@@ -356,9 +350,15 @@ private fun DrawCircularProgressBar(
                             circleCenter.x,
                             circleCenter.y + 45.dp.toPx() / 3f,
                             Paint().apply {
-                                textSize = 38.sp.toPx()
+                                customTypeFace?.let {
+                                    typeface =  it
+                                    textSize = textStyle.fontSize.toPx()
+                                    color = textStyle.color.toArgb()
+                                }?:run {
+                                    textSize = 38.sp.toPx()
+                                    color = Color.Black.toArgb()
+                                }
                                 textAlign = Paint.Align.CENTER
-                                color = Color.Black.toArgb()
                                 isFakeBoldText = true
                             }
                         )
@@ -367,12 +367,6 @@ private fun DrawCircularProgressBar(
             }
         }
     }
-}
-
-fun Double.round(decimals: Int): Double {
-    var multiplier = 1.0
-    repeat(decimals) { multiplier *= 10 }
-    return kotlin.math.round(this * multiplier) / multiplier
 }
 
 
