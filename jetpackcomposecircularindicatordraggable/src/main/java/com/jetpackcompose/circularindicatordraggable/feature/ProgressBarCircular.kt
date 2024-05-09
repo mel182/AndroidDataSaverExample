@@ -58,6 +58,9 @@ fun ProgressBarCircular(
     DrawCircularProgressBar(
         modifier = modifier,
         startAngle = startAngle,
+        padding = padding,
+        stroke = stroke,
+        cap = cap,
         progressBarColor = ProgressBarBg,
         trackColor = ProgressBarProgress,
         numbOuterColor = ProgressBarTint,
@@ -71,7 +74,7 @@ fun ProgressBarCircular(
         outerIndicatorLineColorSelected = Color.Red,
         onProgressChanged = {
             val percentageValue = (it/100).toFloat()
-            onProgressChanged((maxValue * percentageValue).toDouble())
+            onProgressChanged(((maxValue - minValue) * percentageValue).toDouble())
         }
     )
 }
