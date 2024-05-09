@@ -1,11 +1,10 @@
 @file:OptIn(ExperimentalComposeUiApi::class)
 
-package com.jetpackcompose.circularindicatordraggable
+package com.jetpackcompose.circularindicatordraggable.feature
 
 import android.util.Log
 import android.view.MotionEvent
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -28,12 +27,12 @@ import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.jetpackcompose.circularindicatordraggable.StartAngle
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.min
-import kotlin.math.roundToInt
 import kotlin.math.sin
 
 val ColorPrimary = Color(0xFF1c2026)
@@ -1461,48 +1460,8 @@ private fun DrawCircularProgressBar(
                     Log.i("TAG34", "center Y: ${center.y}")
                     Log.i("TAG34", "it Y: ${it.y}")
 
-                    when (startAngle) {
-                        StartAngle.degree_0 -> {
-                            val touchAngle = -atan2(
-                                x = center.y - it.y,
-                                y = center.x - it.x
-                            ) * (180f / PI).toFloat()
-                            appliedAngle = (touchAngle + 270f)
-                                .mod(360f)
-                                .toDouble()
-                        }
-
-                        StartAngle.degree_90 -> {
-                            val touchAngle = -atan2(
-                                x = center.y - it.y,
-                                y = center.x - it.x
-                            ) * (180f / PI).toFloat()
-                            appliedAngle = (touchAngle)
-                                .mod(360f)
-                                .toDouble()
-                        }
-
-                        StartAngle.degree_180 -> {
-                            val touchAngle = -atan2(
-                                x = center.y - it.y,
-                                y = center.x - it.x
-                            ) * (180f / PI).toFloat()
-                            appliedAngle = (touchAngle + 90f)
-                                .mod(360f)
-                                .toDouble()
-                        }
-
-                        StartAngle.degree_270 -> {
-                            val touchAngle = -atan2(
-                                x = center.y - it.y,
-                                y = center.x - it.x
-                            ) * (180f / PI).toFloat()
-                            appliedAngle = (touchAngle + 180f)
-                                .mod(360f)
-                                .toDouble()
-                        }
-                    }
-
+                    val rawAppliedAngle by TouchAngleCalculationDelegate(startAngle = startAngle, center = center, motionEvent = it)
+                    appliedAngle = rawAppliedAngle
 
                     Log.i("touch", "|----------------------|")
                     Log.i("touch", "Touch angle: $appliedAngle")
@@ -1585,24 +1544,7 @@ private fun DrawCircularProgressBar(
 
         if (showProgressNumb) {
 
-            val offset = when(startAngle) {
-                StartAngle.degree_0 -> Offset(
-                    radius * cos((abs(appliedAngle)) * PI / 180f).toFloat(),
-                    radius * sin((abs(appliedAngle)) * PI / 180f).toFloat()
-                )
-                StartAngle.degree_90 -> Offset(
-                    radius * cos((-90 + abs(appliedAngle)) * PI / 180f).toFloat(),
-                    radius * sin((-90 + abs(appliedAngle)) * PI / 180f).toFloat()
-                )
-                StartAngle.degree_180 -> Offset(
-                    radius * cos((-180 + abs(appliedAngle)) * PI / 180f).toFloat(),
-                    radius * sin((-180 + abs(appliedAngle)) * PI / 180f).toFloat()
-                )
-                StartAngle.degree_270 -> Offset(
-                    radius * cos((-270 + abs(appliedAngle)) * PI / 180f).toFloat(),
-                    radius * sin((-270 + abs(appliedAngle)) * PI / 180f).toFloat()
-                )
-            }
+            val offset by ProgressNumbOffsetCalculation(startAngle = startAngle, radius = radius, appliedAngle = appliedAngle)
 
             drawCircle(
                 color = numbOuterColor,
@@ -1619,57 +1561,7 @@ private fun DrawCircularProgressBar(
 
             if (oldProgressValue == 0.0) {
 
-                val offset: Pair<Offset,Offset> = when(startAngle) {
-                    StartAngle.degree_0 -> Pair(
-                        Offset(
-                            (radius - 10) * cos((abs(appliedAngle)) * PI / 180f)
-                                .toFloat(),
-                            (radius - 10) * sin((abs(appliedAngle)) * PI / 180f).toFloat()
-                        ),
-                        Offset(
-                            (radius + 10) * cos((abs(appliedAngle)) * PI / 180f)
-                                .toFloat(),
-                            (radius + 10) * sin((abs(appliedAngle)) * PI / 180f).toFloat()
-                        )
-                    )
-                    StartAngle.degree_90 -> Pair(
-                        Offset(
-                            (radius - 10) * cos((-90 + abs(appliedAngle)) * PI / 180f)
-                                .toFloat(),
-                            (radius - 10) * sin((-90 + abs(appliedAngle)) * PI / 180f).toFloat()
-                        ),
-                        Offset(
-                            (radius + 10) * cos((-90 + abs(appliedAngle)) * PI / 180f)
-                                .toFloat(),
-                            (radius + 10) * sin((-90 + abs(appliedAngle)) * PI / 180f).toFloat()
-                        )
-                    )
-                    StartAngle.degree_180 -> Pair(
-                        Offset(
-                            (radius - 10) * cos((-180 + abs(appliedAngle)) * PI / 180f)
-                                .toFloat(),
-                            (radius - 10) * sin((-180 + abs(appliedAngle)) * PI / 180f).toFloat()
-                        ),
-                        Offset(
-                            (radius + 10) * cos((-180 + abs(appliedAngle)) * PI / 180f)
-                                .toFloat(),
-                            (radius + 10) * sin((-180 + abs(appliedAngle)) * PI / 180f).toFloat()
-                        )
-                    )
-
-                    StartAngle.degree_270 -> Pair(
-                        Offset(
-                            (radius - 10) * cos((-270 + abs(appliedAngle)) * PI / 180f)
-                                .toFloat(),
-                            (radius - 10) * sin((-270 + abs(appliedAngle)) * PI / 180f).toFloat()
-                        ),
-                        Offset(
-                            (radius + 10) * cos((-270 + abs(appliedAngle)) * PI / 180f)
-                                .toFloat(),
-                            (radius + 10) * sin((-270 + abs(appliedAngle)) * PI / 180f).toFloat()
-                        )
-                    )
-                }
+                val offset by StartPositionLineCalculation(startAngle = startAngle, radius = radius, appliedAngle = appliedAngle)
 
                 drawLine(
                     color = startPositionIndicatorColor,
@@ -1738,4 +1630,6 @@ private fun DrawCircularProgressBar(
         }
     }
 }
+
+
 
