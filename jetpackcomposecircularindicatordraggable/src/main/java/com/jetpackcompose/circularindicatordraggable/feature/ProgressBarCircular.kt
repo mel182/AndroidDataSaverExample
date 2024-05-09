@@ -52,7 +52,6 @@ fun ProgressBarCircular(
     maxValue: Int = 100,
     showProgressNumb: Boolean,
     showOuterIndicatorLines: Boolean,
-    initialAngle: Double = 0.0,
     onProgressChanged: (progress: Double) -> Unit
 ) {
 
@@ -66,9 +65,14 @@ fun ProgressBarCircular(
         startPositionIndicatorColor = Color.Green,
         outerIndicatorLineColorUnSelected = Color.Blue.copy(alpha = 0.3f),
         showProgressNumb = showProgressNumb,
+        minValue = 0,
+        maxValue = 100,
         showOuterIndicatorLines = showOuterIndicatorLines,
         outerIndicatorLineColorSelected = Color.Red,
-        onProgressChanged = onProgressChanged
+        onProgressChanged = {
+            val percentageValue = (it/100).toFloat()
+            onProgressChanged((maxValue * percentageValue).toDouble())
+        }
     )
 }
 
@@ -93,9 +97,9 @@ private fun DrawCircularProgressBar(
     outerIndicatorLineColorUnSelected: Color,
     outerIndicatorLineColorSelected: Color,
     cap: StrokeCap = StrokeCap.Round,
-    minValue: Int = 0,
+    minValue: Int,
     rotate: Float = 0.0f,
-    maxValue: Int = 100,
+    maxValue: Int,
     initialAngle: Double = 0.0,
     onProgressChanged: (progress: Double) -> Unit
 ) {
@@ -272,7 +276,7 @@ private fun DrawCircularProgressBar(
             val outerRadius = radius + stroke / 2f
             val gap = 15f
 
-            for (value in 0..(maxValue - minValue)) {
+            for (value in 0..(100 - 0)) {
 
                 val color = if (value < oldProgressValue) {
                     outerIndicatorLineColorSelected
