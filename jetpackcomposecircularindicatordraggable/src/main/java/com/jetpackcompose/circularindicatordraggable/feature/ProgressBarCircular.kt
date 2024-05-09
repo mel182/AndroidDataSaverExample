@@ -2,6 +2,7 @@
 
 package com.jetpackcompose.circularindicatordraggable.feature
 
+import android.graphics.Paint
 import android.util.Log
 import android.view.MotionEvent
 import androidx.compose.foundation.Canvas
@@ -22,11 +23,15 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.drawscope.rotate
+import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.jetpackcompose.circularindicatordraggable.StartAngle
 import kotlin.math.PI
 import kotlin.math.abs
@@ -50,6 +55,7 @@ fun ProgressBarCircular(
     cap: StrokeCap = StrokeCap.Round,
     minValue: Int = 0,
     maxValue: Int = 100,
+    valueUnit: String = "",
     showProgressNumb: Boolean,
     showOuterIndicatorLines: Boolean,
     onProgressChanged: (progress: Double) -> Unit
@@ -68,14 +74,12 @@ fun ProgressBarCircular(
         startPositionIndicatorColor = Color.Green,
         outerIndicatorLineColorUnSelected = Color.Blue.copy(alpha = 0.3f),
         showProgressNumb = showProgressNumb,
-        minValue = 0,
-        maxValue = 100,
+        minValue = minValue,
+        maxValue = maxValue,
+        valueUnit = valueUnit,
         showOuterIndicatorLines = showOuterIndicatorLines,
         outerIndicatorLineColorSelected = Color.Red,
-        onProgressChanged = {
-            val percentageValue = (it/100).toFloat()
-            onProgressChanged(((maxValue - minValue) * percentageValue).toDouble())
-        }
+        onProgressChanged = onProgressChanged
     )
 }
 
@@ -103,6 +107,7 @@ private fun DrawCircularProgressBar(
     minValue: Int,
     rotate: Float = 0.0f,
     maxValue: Int,
+    valueUnit: String,
     initialAngle: Double = 0.0,
     onProgressChanged: (progress: Double) -> Unit
 ) {
@@ -123,6 +128,9 @@ private fun DrawCircularProgressBar(
     }
     var oldProgressValue by remember {
         mutableDoubleStateOf(initialAngle)
+    }
+    var displayedProgressValue by remember {
+        mutableStateOf("0.0")
     }
 
     Canvas(modifier = modifier
@@ -159,7 +167,11 @@ private fun DrawCircularProgressBar(
                     Log.i("TAG34", "center Y: ${center.y}")
                     Log.i("TAG34", "it Y: ${it.y}")
 
-                    val rawAppliedAngle by TouchAngleCalculationDelegate(startAngle = startAngle, center = center, motionEvent = it)
+                    val rawAppliedAngle by TouchAngleCalculationDelegate(
+                        startAngle = startAngle,
+                        center = center,
+                        motionEvent = it
+                    )
                     appliedAngle = rawAppliedAngle
 
                     Log.i("touch", "|----------------------|")
@@ -186,14 +198,17 @@ private fun DrawCircularProgressBar(
                         }
                     }
                     val progress = appliedAngle / 360.0
-                    oldProgressValue = (maxValue - minValue) * progress
+                    oldProgressValue = (100 - 0) * progress
 
 
                     //Log.i("TAG55","progress: ${progress}")
                     Log.i("TAG51", "progress: ${progress}")
                     Log.i("TAG51", "oldProgressValue: ${oldProgressValue}")
 
-                    onProgressChanged(oldProgressValue)
+                    val percentageValue = (oldProgressValue / 100).toFloat()
+                    val displayedValue = ((maxValue - minValue) * percentageValue).toDouble().round(2)
+                    displayedProgressValue = "$displayedValue"
+                    onProgressChanged(displayedValue)
                     lastAngle = appliedAngle
 
                 }
@@ -243,7 +258,11 @@ private fun DrawCircularProgressBar(
 
         if (showProgressNumb) {
 
-            val offset by ProgressNumbOffsetCalculation(startAngle = startAngle, radius = radius, appliedAngle = appliedAngle)
+            val offset by ProgressNumbOffsetCalculation(
+                startAngle = startAngle,
+                radius = radius,
+                appliedAngle = appliedAngle
+            )
 
             drawCircle(
                 color = numbOuterColor,
@@ -260,7 +279,11 @@ private fun DrawCircularProgressBar(
 
             if (oldProgressValue == 0.0) {
 
-                val offset by StartPositionLineCalculation(startAngle = startAngle, radius = radius, appliedAngle = appliedAngle)
+                val offset by StartPositionLineCalculation(
+                    startAngle = startAngle,
+                    radius = radius,
+                    appliedAngle = appliedAngle
+                )
 
                 drawLine(
                     color = startPositionIndicatorColor,
@@ -281,14 +304,14 @@ private fun DrawCircularProgressBar(
 
             for (value in 0..(100 - 0)) {
 
-                val color = if (value < oldProgressValue) {
+                val lineColor = if (value < oldProgressValue) {
                     outerIndicatorLineColorSelected
                 } else {
                     outerIndicatorLineColorUnSelected
                 }
 
                 val angleInDegrees = value * 360f / (100 - 0).toFloat()
-                val adjustedAngleInDegrees = when(startAngle) {
+                val adjustedAngleInDegrees = when (startAngle) {
                     StartAngle.degree_0 -> angleInDegrees - 90
                     StartAngle.degree_90 -> angleInDegrees - 180
                     StartAngle.degree_180 -> angleInDegrees - 270
@@ -318,16 +341,38 @@ private fun DrawCircularProgressBar(
                     pivot = start
                 ) {
                     drawLine(
-                        color = color,
+                        color = lineColor,
                         start = start,
                         end = end,
                         alpha = 0.9f,
                         strokeWidth = 2.dp.toPx()
                     )
                 }
+
+                drawContext.canvas.nativeCanvas.apply {
+                    drawIntoCanvas {
+                        drawText(
+                            "$displayedProgressValue $valueUnit",
+                            circleCenter.x,
+                            circleCenter.y + 45.dp.toPx() / 3f,
+                            Paint().apply {
+                                textSize = 38.sp.toPx()
+                                textAlign = Paint.Align.CENTER
+                                color = Color.Black.toArgb()
+                                isFakeBoldText = true
+                            }
+                        )
+                    }
+                }
             }
         }
     }
+}
+
+fun Double.round(decimals: Int): Double {
+    var multiplier = 1.0
+    repeat(decimals) { multiplier *= 10 }
+    return kotlin.math.round(this * multiplier) / multiplier
 }
 
 
