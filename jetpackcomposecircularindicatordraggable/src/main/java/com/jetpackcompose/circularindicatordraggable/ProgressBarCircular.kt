@@ -9,6 +9,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableDoubleStateOf
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -1406,22 +1409,22 @@ private fun DrawCircularProgressBar(
     onProgressChanged: (progress: Double) -> Unit
 ) {
 
-    var width by remember { mutableStateOf(0) }
-    var height by remember { mutableStateOf(0) }
-    var radius by remember { mutableStateOf(0f) }
+    var width by remember { mutableIntStateOf(0) }
+    var height by remember { mutableIntStateOf(0) }
+    var radius by remember { mutableFloatStateOf(0f) }
     var center by remember { mutableStateOf(Offset.Zero) }
 
     var appliedAngle by remember {
-        mutableStateOf(initialAngle)
+        mutableDoubleStateOf(initialAngle)
     }
     var lastAngle by remember {
-        mutableStateOf(0.0)
+        mutableDoubleStateOf(0.0)
     }
     var circleCenter by remember {
         mutableStateOf(Offset.Zero)
     }
     var oldProgressValue by remember {
-        mutableStateOf(initialAngle)
+        mutableDoubleStateOf(initialAngle)
     }
 
     Canvas(modifier = modifier
@@ -1675,14 +1678,13 @@ private fun DrawCircularProgressBar(
                     end = center + offset.second
                 )
             }
-
         }
 
         if (showOuterIndicatorLines) {
-            val _width = size.width
-            val _height = size.height
-            val circleThickness = _width / 25f
-            circleCenter = Offset(x = _width / 2f, y = _height / 2f)
+            val canvasWidth = size.width
+            val canvasHeight = size.height
+            val circleThickness = canvasWidth / 25f
+            circleCenter = Offset(x = canvasWidth / 2f, y = canvasHeight / 2f)
             val outerRadius = radius + stroke / 2f
             val gap = 15f
 
@@ -1734,10 +1736,6 @@ private fun DrawCircularProgressBar(
                 }
             }
         }
-
-
     }
-
-
 }
 
