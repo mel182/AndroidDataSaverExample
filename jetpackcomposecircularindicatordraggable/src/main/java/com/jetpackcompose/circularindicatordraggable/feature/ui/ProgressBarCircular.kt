@@ -2,7 +2,6 @@
 
 package com.jetpackcompose.circularindicatordraggable.feature.ui
 
-import android.graphics.Paint
 import android.view.MotionEvent
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -23,29 +22,25 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
-import androidx.compose.ui.graphics.drawscope.rotate
-import androidx.compose.ui.graphics.nativeCanvas
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.jetpackcompose.circularindicatordraggable.StartAngle
-import com.jetpackcompose.circularindicatordraggable.feature.data.CircularProgressTextStyle
-import com.jetpackcompose.circularindicatordraggable.feature.domain.ProgressNumbOffsetCalculation
-import com.jetpackcompose.circularindicatordraggable.feature.domain.StartPositionLineCalculation
-import com.jetpackcompose.circularindicatordraggable.feature.domain.TouchAngleCalculationDelegate
-import com.jetpackcompose.circularindicatordraggable.feature.domain.asTypeFace
 import com.jetpackcompose.circularindicatordraggable.feature.data.BLANK_STRING
 import com.jetpackcompose.circularindicatordraggable.feature.data.CircularProgressColorScheme
+import com.jetpackcompose.circularindicatordraggable.feature.data.CircularProgressTextStyle
 import com.jetpackcompose.circularindicatordraggable.feature.data.DEFAULT_DOUBLE
+import com.jetpackcompose.circularindicatordraggable.feature.domain.TouchAngleCalculationDelegate
+import com.jetpackcompose.circularindicatordraggable.feature.domain.asTypeFace
+import com.jetpackcompose.circularindicatordraggable.feature.domain.drawOuterIndicatorLines
+import com.jetpackcompose.circularindicatordraggable.feature.domain.drawProgressBar
+import com.jetpackcompose.circularindicatordraggable.feature.domain.drawProgressNumb
+import com.jetpackcompose.circularindicatordraggable.feature.domain.drawProgressTrack
+import com.jetpackcompose.circularindicatordraggable.feature.domain.drawStartPositionIndicatorLine
 import com.jetpackcompose.circularindicatordraggable.feature.domain.round
-import kotlin.math.PI
 import kotlin.math.abs
-import kotlin.math.cos
 import kotlin.math.min
-import kotlin.math.sin
 
 @Composable
 fun ProgressBarCircular(
@@ -110,7 +105,7 @@ private fun DrawCircularProgressBar(
     var lastAngle by remember {
         mutableDoubleStateOf(DEFAULT_DOUBLE)
     }
-    var circleCenter by remember {
+    val circleCenter = remember {
         mutableStateOf(Offset.Zero)
     }
     var oldProgressValue by remember {
@@ -176,16 +171,9 @@ private fun DrawCircularProgressBar(
             return@pointerInteropFilter true
         }) {
 
-        drawArc(
+        drawProgressBar(
             color = colorScheme.progressBarColor,
-            startAngle = when (startAngle) {
-                StartAngle.degree_0 -> 0f
-                StartAngle.degree_90 -> -90f
-                StartAngle.degree_180 -> -180f
-                StartAngle.degree_270 -> -270f
-            },
-            sweepAngle = 360f,
-            useCenter = false,
+            startAngle = startAngle,
             topLeft = center - Offset(radius, radius),
             size = Size(radius * 2, radius * 2),
             style = Stroke(
@@ -194,18 +182,12 @@ private fun DrawCircularProgressBar(
             )
         )
 
-        drawArc(
+        drawProgressTrack(
             color = colorScheme.trackColor,
-            startAngle = when (startAngle) {
-                StartAngle.degree_0 -> 0f
-                StartAngle.degree_90 -> -90f
-                StartAngle.degree_180 -> -180f
-                StartAngle.degree_270 -> -270f
-            },
+            startAngle = startAngle,
             sweepAngle = abs(appliedAngle.toFloat()),
             topLeft = center - Offset(radius, radius),
             size = Size(radius * 2, radius * 2),
-            useCenter = false,
             style = Stroke(
                 width = stroke,
                 cap = cap
@@ -214,114 +196,41 @@ private fun DrawCircularProgressBar(
 
         if (showProgressNumb) {
 
-            val offset by ProgressNumbOffsetCalculation(
+            drawProgressNumb(
+                colorScheme = colorScheme,
                 startAngle = startAngle,
-                radius = radius,
-                appliedAngle = appliedAngle
-            )
-
-            drawCircle(
-                color = colorScheme.numbOuterColor,
-                radius = stroke,
-                center = center + offset
-            )
-
-            drawCircle(
-                color = colorScheme.numbInnerColor,
-                radius = ((stroke * 2.0) / 3.0).toFloat(),
-                center = center + offset
+                center = center,
+                appliedAngle = appliedAngle,
+                stroke = stroke,
+                radius = radius
             )
         } else {
 
             if (oldProgressValue == 0.0) {
 
-                val offset by StartPositionLineCalculation(
+                drawStartPositionIndicatorLine(
+                    colorScheme = colorScheme,
                     startAngle = startAngle,
+                    startPositionIndicatorStrokeWidth = startPositionIndicatorStrokeWidth,
+                    center = center,
                     radius = radius,
                     appliedAngle = appliedAngle
-                )
-
-                drawLine(
-                    color = colorScheme.startPositionIndicatorColor,
-                    strokeWidth = startPositionIndicatorStrokeWidth.toPx(),
-                    start = center + offset.first,
-                    end = center + offset.second
                 )
             }
         }
 
         if (showOuterIndicatorLines) {
-            val canvasWidth = size.width
-            val canvasHeight = size.height
-            val circleThickness = canvasWidth / 25f
-            circleCenter = Offset(x = canvasWidth / 2f, y = canvasHeight / 2f)
-            val outerRadius = radius + stroke / 2f
-            val gap = 15f
-
-            for (value in 0..(100 - 0)) {
-
-                val lineColor = if (value < oldProgressValue) {
-                    colorScheme.outerIndicatorSelectedLineColor
-                } else {
-                    colorScheme.outerIndicatorUnSelectedLineColor
-                }
-
-                val angleInDegrees = value * 360f / (100 - 0).toFloat()
-                val adjustedAngleInDegrees = when (startAngle) {
-                    StartAngle.degree_0 -> angleInDegrees - 90
-                    StartAngle.degree_90 -> angleInDegrees - 180
-                    StartAngle.degree_180 -> angleInDegrees - 270
-                    StartAngle.degree_270 -> angleInDegrees
-                }
-
-                val angleInRadius = adjustedAngleInDegrees * PI / 180f + PI / 2f
-
-                val yGapAdjustment = cos(x = adjustedAngleInDegrees * PI / 180f) * gap
-                val xGapAdjustment = -sin(x = adjustedAngleInDegrees * PI / 180f) * gap
-
-                val startY =
-                    (outerRadius * sin(angleInRadius) + circleCenter.y + yGapAdjustment).toFloat()
-
-                val start = Offset(
-                    x = (outerRadius * cos(angleInRadius) + circleCenter.x + xGapAdjustment).toFloat(),
-                    y = startY
-                )
-
-                val end = Offset(
-                    x = (outerRadius * cos(angleInRadius) + circleCenter.x + xGapAdjustment).toFloat(),
-                    y = (outerRadius * sin(angleInRadius) + circleThickness + circleCenter.y + yGapAdjustment).toFloat()
-                )
-
-                rotate(
-                    degrees = adjustedAngleInDegrees,
-                    pivot = start
-                ) {
-                    drawLine(
-                        color = lineColor,
-                        start = start,
-                        end = end,
-                        alpha = 0.9f,
-                        strokeWidth = 2.dp.toPx()
-                    )
-                }
-
-                drawContext.canvas.nativeCanvas.apply {
-                    drawIntoCanvas {
-                        drawText(
-                            "$displayedProgressValue $valueUnit",
-                            circleCenter.x,
-                            circleCenter.y + 45.dp.toPx() / 3f,
-                            Paint().apply {
-                                typeface =  customTypeFace
-                                textSize =  textStyle.fontSize.toPx()
-                                color = textStyle.color.toArgb()
-                                textAlign = Paint.Align.CENTER
-                                isFakeBoldText = true
-                            }
-                        )
-                    }
-                }
-            }
+            drawOuterIndicatorLines(
+                stroke = stroke,
+                circleCenter = circleCenter,
+                colorScheme = colorScheme,
+                displayText = "$displayedProgressValue $valueUnit",
+                startAngle = startAngle,
+                oldProgressValue = oldProgressValue,
+                textStyle = textStyle,
+                typeFace = customTypeFace,
+                radius = radius
+            )
         }
     }
 }

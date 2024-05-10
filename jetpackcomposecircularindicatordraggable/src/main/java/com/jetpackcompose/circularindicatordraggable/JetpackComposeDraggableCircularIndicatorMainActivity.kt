@@ -41,7 +41,7 @@ class JetpackComposeDraggableCircularIndicatorMainActivity : ComponentActivity()
                             maxValue = 200,
                             valueUnit = "mA",
                             showOuterIndicatorLines = true,
-                            showProgressNumb = true,
+                            showProgressNumb = false,
                             startAngle = StartAngle.degree_90,
                             onProgressChanged = {
 
