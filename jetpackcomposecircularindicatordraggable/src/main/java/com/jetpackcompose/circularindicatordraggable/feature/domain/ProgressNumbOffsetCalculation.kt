@@ -1,7 +1,7 @@
 package com.jetpackcompose.circularindicatordraggable.feature.domain
 
 import androidx.compose.ui.geometry.Offset
-import com.jetpackcompose.circularindicatordraggable.StartAngle
+import com.jetpackcompose.circularindicatordraggable.feature.data.StartAngle
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.cos

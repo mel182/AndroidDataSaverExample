@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.jetpackcompose.circularindicatordraggable.StartAngle
+import com.jetpackcompose.circularindicatordraggable.feature.data.StartAngle
 import com.jetpackcompose.circularindicatordraggable.feature.data.CircularProgressColors
 import kotlin.math.PI
 import kotlin.math.cos

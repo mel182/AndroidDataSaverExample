@@ -1,4 +1,4 @@
-package com.jetpackcompose.circularindicatordraggable
+package com.jetpackcompose.circularindicatordraggable.feature.data
 
 enum class StartAngle {
     degree_0,

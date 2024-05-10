@@ -26,7 +26,7 @@ import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.jetpackcompose.circularindicatordraggable.StartAngle
+import com.jetpackcompose.circularindicatordraggable.feature.data.StartAngle
 import com.jetpackcompose.circularindicatordraggable.feature.data.BLANK_STRING
 import com.jetpackcompose.circularindicatordraggable.feature.data.CircularProgressColorScheme
 import com.jetpackcompose.circularindicatordraggable.feature.data.CircularProgressTextStyle
