@@ -6,6 +6,9 @@ import android.graphics.Paint
 import android.util.Log
 import android.view.MotionEvent
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
@@ -28,6 +31,7 @@ import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -38,15 +42,12 @@ import kotlin.math.cos
 import kotlin.math.min
 import kotlin.math.sin
 
-val ColorPrimary = Color(0xFF1c2026)
-val LightGreen = Color(0xFF8dc387)
-val ProgressBarBg = Color(0xFFFFE9DD)
-val ProgressBarProgress = Color(0xFFE08868)
-val ProgressBarTint = Color(0xFFE1BAAA)
+
 
 @Composable
 fun ProgressBarCircular(
     modifier: Modifier = Modifier,
+    colors: CircularProgressColorScheme = CircularProgressColorScheme(),
     startAngle: StartAngle,
     padding: Float = 50f,
     stroke: Float = 35f,
@@ -64,19 +65,13 @@ fun ProgressBarCircular(
         startAngle = startAngle,
         padding = padding,
         stroke = stroke,
+        colors = colors,
         cap = cap,
-        progressBarColor = ProgressBarBg,
-        trackColor = ProgressBarProgress,
-        numbOuterColor = ProgressBarTint,
-        numbInnerColor = ColorPrimary,
-        startPositionIndicatorColor = Color.Green,
-        outerIndicatorLineColorUnSelected = Color.Blue.copy(alpha = 0.3f),
         showProgressNumb = showProgressNumb,
         minValue = minValue,
         maxValue = maxValue,
         valueUnit = valueUnit,
         showOuterIndicatorLines = showOuterIndicatorLines,
-        outerIndicatorLineColorSelected = Color.Red,
         onProgressChanged = onProgressChanged
     )
 }
@@ -86,18 +81,12 @@ private fun DrawCircularProgressBar(
     modifier: Modifier = Modifier,
     padding: Float = 50f,
     stroke: Float = 35f,
+    colors: CircularProgressColorScheme,
     startAngle: StartAngle,
-    progressBarColor: Color,
-    trackColor: Color,
     showProgressNumb: Boolean,
-    numbOuterColor: Color,
-    numbInnerColor: Color,
-    textStyle: androidx.compose.ui.text.TextStyle? = null,
-    startPositionIndicatorColor: Color,
+    textStyle: TextStyle? = null,
     startPositionIndicatorStrokeWidth: Dp = 2.dp,
     showOuterIndicatorLines: Boolean = false,
-    outerIndicatorLineColorUnSelected: Color,
-    outerIndicatorLineColorSelected: Color,
     cap: StrokeCap = StrokeCap.Round,
     minValue: Int,
     rotate: Float = 0.0f,
@@ -128,9 +117,12 @@ private fun DrawCircularProgressBar(
         mutableStateOf("0.0")
     }
 
+    val darkTheme = isSystemInDarkTheme()
+    val colorScheme = colors.getColorScheme(isSystemInDarkTheme = darkTheme)
     val customTypeFace = textStyle?.asTypeFace()
 
     Canvas(modifier = modifier
+        .background(shape = CircleShape, color = Color.Transparent)
         .then(
             if (rotate != 0.0f) {
                 Modifier.rotate(rotate)
@@ -215,7 +207,7 @@ private fun DrawCircularProgressBar(
         }) {
 
         drawArc(
-            color = progressBarColor,
+            color = colorScheme.progressBarColor,
             startAngle = when (startAngle) {
                 StartAngle.degree_0 -> 0f
                 StartAngle.degree_90 -> -90f
@@ -233,7 +225,7 @@ private fun DrawCircularProgressBar(
         )
 
         drawArc(
-            color = trackColor,
+            color = colorScheme.trackColor,
             startAngle = when (startAngle) {
                 StartAngle.degree_0 -> 0f
                 StartAngle.degree_90 -> -90f
@@ -259,13 +251,13 @@ private fun DrawCircularProgressBar(
             )
 
             drawCircle(
-                color = numbOuterColor,
+                color = colorScheme.numbOuterColor,
                 radius = stroke,
                 center = center + offset
             )
 
             drawCircle(
-                color = numbInnerColor,
+                color = colorScheme.numbInnerColor,
                 radius = ((stroke * 2.0) / 3.0).toFloat(),
                 center = center + offset
             )
@@ -280,7 +272,7 @@ private fun DrawCircularProgressBar(
                 )
 
                 drawLine(
-                    color = startPositionIndicatorColor,
+                    color = colorScheme.startPositionIndicatorColor,
                     strokeWidth = startPositionIndicatorStrokeWidth.toPx(),
                     start = center + offset.first,
                     end = center + offset.second
@@ -299,9 +291,9 @@ private fun DrawCircularProgressBar(
             for (value in 0..(100 - 0)) {
 
                 val lineColor = if (value < oldProgressValue) {
-                    outerIndicatorLineColorSelected
+                    colorScheme.outerIndicatorSelectedLineColor
                 } else {
-                    outerIndicatorLineColorUnSelected
+                    colorScheme.outerIndicatorUnSelectedLineColor
                 }
 
                 val angleInDegrees = value * 360f / (100 - 0).toFloat()
@@ -356,7 +348,7 @@ private fun DrawCircularProgressBar(
                                     color = textStyle.color.toArgb()
                                 }?:run {
                                     textSize = 38.sp.toPx()
-                                    color = Color.Black.toArgb()
+                                    color = if (darkTheme) Color.White.toArgb() else Color.Black.toArgb()
                                 }
                                 textAlign = Paint.Align.CENTER
                                 isFakeBoldText = true
