@@ -3,7 +3,6 @@
 package com.jetpackcompose.circularindicatordraggable.feature
 
 import android.graphics.Paint
-import android.util.Log
 import android.view.MotionEvent
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -133,13 +132,6 @@ private fun DrawCircularProgressBar(
                 MotionEvent.ACTION_UP -> Unit
 
                 MotionEvent.ACTION_MOVE -> {
-                    Log.i("TAG51", "")
-                    Log.i("TAG34", "")
-                    Log.i("TAG34", "|-------------------|")
-                    Log.i("TAG34", "center X: ${center.x}")
-                    Log.i("TAG34", "it X: ${it.x}")
-                    Log.i("TAG34", "center Y: ${center.y}")
-                    Log.i("TAG34", "it Y: ${it.y}")
 
                     val rawAppliedAngle by TouchAngleCalculationDelegate(
                         startAngle = startAngle,
@@ -148,23 +140,8 @@ private fun DrawCircularProgressBar(
                     )
                     appliedAngle = rawAppliedAngle
 
-                    Log.i("touch", "|----------------------|")
-                    Log.i("touch", "Touch angle: $appliedAngle")
-                    Log.i("touch", "|----------------------|")
-
-                    Log.i("touch", "")
-                    Log.i("touch", "")
-                    Log.i("touch", "applied angle: $appliedAngle")
-                    Log.i("touch", "|-------------------|")
-                    Log.i("touch", "")
-
-                    Log.i("TAG51", "last angle: $lastAngle")
-                    Log.i("TAG51", "applied angle: $appliedAngle")
                     val diff = abs(lastAngle - appliedAngle)
-                    Log.i("TAG45", "diff: $diff")
                     if (diff > 180) {
-                        Log.i("TAG45", "statement")
-                        Log.i("TAG45", "angle applied: $appliedAngle")
                         appliedAngle = if (appliedAngle < 180) {
                             360.0
                         } else {
@@ -173,11 +150,6 @@ private fun DrawCircularProgressBar(
                     }
                     val progress = appliedAngle / 360.0
                     oldProgressValue = (100 - 0) * progress
-
-
-                    //Log.i("TAG55","progress: ${progress}")
-                    Log.i("TAG51", "progress: ${progress}")
-                    Log.i("TAG51", "oldProgressValue: ${oldProgressValue}")
 
                     val percentageValue = (oldProgressValue / 100).toFloat()
                     val displayedValue = ((maxValue - minValue) * percentageValue)
