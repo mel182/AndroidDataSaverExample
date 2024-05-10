@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalComposeUiApi::class)
 
-package com.jetpackcompose.circularindicatordraggable.feature
+package com.jetpackcompose.circularindicatordraggable.feature.ui
 
 import android.graphics.Paint
 import android.view.MotionEvent
@@ -32,6 +32,15 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.jetpackcompose.circularindicatordraggable.StartAngle
+import com.jetpackcompose.circularindicatordraggable.feature.data.CircularProgressTextStyle
+import com.jetpackcompose.circularindicatordraggable.feature.domain.ProgressNumbOffsetCalculation
+import com.jetpackcompose.circularindicatordraggable.feature.domain.StartPositionLineCalculation
+import com.jetpackcompose.circularindicatordraggable.feature.domain.TouchAngleCalculationDelegate
+import com.jetpackcompose.circularindicatordraggable.feature.domain.asTypeFace
+import com.jetpackcompose.circularindicatordraggable.feature.data.BLANK_STRING
+import com.jetpackcompose.circularindicatordraggable.feature.data.CircularProgressColorScheme
+import com.jetpackcompose.circularindicatordraggable.feature.data.DEFAULT_DOUBLE
+import com.jetpackcompose.circularindicatordraggable.feature.domain.round
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.cos

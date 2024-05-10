@@ -1,4 +1,4 @@
-package com.jetpackcompose.circularindicatordraggable.feature
+package com.jetpackcompose.circularindicatordraggable.feature.domain
 
 fun Double.round(decimals: Int): Double {
     var multiplier = 1.0

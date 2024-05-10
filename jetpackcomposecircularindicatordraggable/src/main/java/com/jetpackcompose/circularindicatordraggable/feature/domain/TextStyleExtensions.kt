@@ -1,4 +1,4 @@
-package com.jetpackcompose.circularindicatordraggable.feature
+package com.jetpackcompose.circularindicatordraggable.feature.domain
 
 import android.graphics.Typeface
 import androidx.compose.runtime.Composable

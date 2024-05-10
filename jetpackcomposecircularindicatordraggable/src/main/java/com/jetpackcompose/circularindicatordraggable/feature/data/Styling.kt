@@ -1,4 +1,4 @@
-package com.jetpackcompose.circularindicatordraggable.feature
+package com.jetpackcompose.circularindicatordraggable.feature.data
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
