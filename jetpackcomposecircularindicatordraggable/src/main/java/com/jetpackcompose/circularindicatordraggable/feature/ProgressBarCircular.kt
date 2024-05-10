@@ -19,7 +19,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
@@ -31,10 +30,8 @@ import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.jetpackcompose.circularindicatordraggable.StartAngle
 import kotlin.math.PI
 import kotlin.math.abs
@@ -42,19 +39,18 @@ import kotlin.math.cos
 import kotlin.math.min
 import kotlin.math.sin
 
-
-
 @Composable
 fun ProgressBarCircular(
     modifier: Modifier = Modifier,
     colors: CircularProgressColorScheme = CircularProgressColorScheme(),
+    textStyling: CircularProgressTextStyle = CircularProgressTextStyle(),
     startAngle: StartAngle,
     padding: Float = 50f,
     stroke: Float = 35f,
     cap: StrokeCap = StrokeCap.Round,
     minValue: Int = 0,
     maxValue: Int = 100,
-    valueUnit: String = "",
+    valueUnit: String = BLANK_STRING,
     showProgressNumb: Boolean,
     showOuterIndicatorLines: Boolean,
     onProgressChanged: (progress: Double) -> Unit
@@ -66,6 +62,7 @@ fun ProgressBarCircular(
         padding = padding,
         stroke = stroke,
         colors = colors,
+        textStyling = textStyling,
         cap = cap,
         showProgressNumb = showProgressNumb,
         minValue = minValue,
@@ -79,20 +76,18 @@ fun ProgressBarCircular(
 @Composable
 private fun DrawCircularProgressBar(
     modifier: Modifier = Modifier,
-    padding: Float = 50f,
-    stroke: Float = 35f,
+    padding: Float,
+    stroke: Float,
     colors: CircularProgressColorScheme,
+    textStyling: CircularProgressTextStyle,
     startAngle: StartAngle,
     showProgressNumb: Boolean,
-    textStyle: TextStyle? = null,
     startPositionIndicatorStrokeWidth: Dp = 2.dp,
     showOuterIndicatorLines: Boolean = false,
     cap: StrokeCap = StrokeCap.Round,
     minValue: Int,
-    rotate: Float = 0.0f,
     maxValue: Int,
     valueUnit: String,
-    initialAngle: Double = 0.0,
     onProgressChanged: (progress: Double) -> Unit
 ) {
 
@@ -102,34 +97,28 @@ private fun DrawCircularProgressBar(
     var center by remember { mutableStateOf(Offset.Zero) }
 
     var appliedAngle by remember {
-        mutableDoubleStateOf(initialAngle)
+        mutableDoubleStateOf(DEFAULT_DOUBLE)
     }
     var lastAngle by remember {
-        mutableDoubleStateOf(0.0)
+        mutableDoubleStateOf(DEFAULT_DOUBLE)
     }
     var circleCenter by remember {
         mutableStateOf(Offset.Zero)
     }
     var oldProgressValue by remember {
-        mutableDoubleStateOf(initialAngle)
+        mutableDoubleStateOf(DEFAULT_DOUBLE)
     }
     var displayedProgressValue by remember {
-        mutableStateOf("0.0")
+        mutableStateOf("$minValue")
     }
 
     val darkTheme = isSystemInDarkTheme()
     val colorScheme = colors.getColorScheme(isSystemInDarkTheme = darkTheme)
-    val customTypeFace = textStyle?.asTypeFace()
+    val textStyle = textStyling.getTextStyle(isSystemInDarkTheme = darkTheme)
+    val customTypeFace = textStyle.asTypeFace()
 
     Canvas(modifier = modifier
         .background(shape = CircleShape, color = Color.Transparent)
-        .then(
-            if (rotate != 0.0f) {
-                Modifier.rotate(rotate)
-            } else {
-                Modifier
-            }
-        )
         .onGloballyPositioned {
             width = it.size.width
             height = it.size.height
@@ -342,14 +331,9 @@ private fun DrawCircularProgressBar(
                             circleCenter.x,
                             circleCenter.y + 45.dp.toPx() / 3f,
                             Paint().apply {
-                                customTypeFace?.let {
-                                    typeface =  it
-                                    textSize = textStyle.fontSize.toPx()
-                                    color = textStyle.color.toArgb()
-                                }?:run {
-                                    textSize = 38.sp.toPx()
-                                    color = if (darkTheme) Color.White.toArgb() else Color.Black.toArgb()
-                                }
+                                typeface =  customTypeFace
+                                textSize =  textStyle.fontSize.toPx()
+                                color = textStyle.color.toArgb()
                                 textAlign = Paint.Align.CENTER
                                 isFakeBoldText = true
                             }
