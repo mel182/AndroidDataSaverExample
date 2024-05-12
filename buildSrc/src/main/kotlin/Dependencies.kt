@@ -170,6 +170,7 @@ fun DependencyHandler.androidXDependenciesExtended() {
 
 fun DependencyHandler.compose() {
     implementation(Dependencies.activityCompose)
+    implementation(Dependencies.constraintLayoutCompose)
     implementation(Dependencies.composeUI)
     implementation(Dependencies.composeFoundation)
     implementation(Dependencies.composeUIGraphics)
