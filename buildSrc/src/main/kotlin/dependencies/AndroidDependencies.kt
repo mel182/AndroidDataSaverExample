@@ -73,7 +73,7 @@ interface AndroidDependencies {
 
     // Activity compose
     val activityCompose
-        get() = "androidx.activity:activity-compose:1.6.1"
+        get() = "androidx.activity:activity-compose:1.9.0"
 
     // Compose Material Design
     val composeMaterialDesign
