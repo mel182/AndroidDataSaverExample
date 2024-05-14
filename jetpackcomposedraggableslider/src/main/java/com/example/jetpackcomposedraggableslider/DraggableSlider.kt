@@ -1,5 +1,6 @@
 package com.example.jetpackcomposedraggableslider
 
+import android.graphics.Paint
 import android.view.MotionEvent
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -19,8 +20,13 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import kotlin.math.PI
 import kotlin.math.atan2
 import kotlin.math.cos
@@ -51,6 +57,9 @@ fun DraggableSlider(
     var center by remember {
         mutableStateOf(Offset.Zero)
     }
+    var infoCenterCircleRadius by remember {
+        mutableFloatStateOf(0f)
+    }
     var angle by remember {
         mutableFloatStateOf(0f)
     }
@@ -63,9 +72,10 @@ fun DraggableSlider(
 
     val gradient = Brush.horizontalGradient(
         colorStops = arrayOf(
-            0.0f to Color(0xFFD9C7DF),
-            0.4f to Color(0xFF99C4EF),
-            3.0f to Color(0xFFD9C7DF)
+            0.0f to Color(0xFF0F0FEF),
+            0.2f to Color(0xFF0F0FEF),
+            0.4f to Color(0xFFFF832C),
+            3.0f to Color(0xFFFF442C)
         )
     )
 
@@ -89,6 +99,7 @@ fun DraggableSlider(
             height = it.size.height
             center = Offset(width / 2f, height / 2f)
             radius = min(width.toFloat(), height.toFloat()) / 2f - padding - stroke / 2f
+            infoCenterCircleRadius = (radius * 0.70f)
         }
         .pointerInteropFilter {
             val x = it.x
@@ -136,6 +147,64 @@ fun DraggableSlider(
                 cap = cap
             )
         )
+
+        drawCircle(
+            color = Color(0xFF343144),
+            radius = infoCenterCircleRadius,
+            center = center
+        )
+
+        drawContext.canvas.nativeCanvas.apply {
+            drawIntoCanvas {
+                drawText(
+                    "21",
+                    center.x,
+                    center.y - 10.sp.toPx(), // + 45.dp.toPx() / 3f
+                    Paint().apply {
+                        textSize = 28.sp.toPx()
+                        color = Color.White.toArgb()
+                        textAlign = Paint.Align.CENTER
+                        isFakeBoldText = true
+                    }
+                )
+
+                drawText(
+                    "°C",
+                    center.x + 25.dp.toPx(),
+                    center.y - 35.dp.toPx(),
+                    Paint().apply {
+                        textSize = 12.sp.toPx()
+                        color = Color(0xFF9E9EA4).toArgb()
+                        textAlign = Paint.Align.CENTER
+                        isFakeBoldText = false
+                    }
+                )
+
+                drawText(
+                    "Room",
+                    center.x,
+                    center.y + 30.dp.toPx(),
+                    Paint().apply {
+                        textSize = 14.sp.toPx()
+                        color = Color(0xFF9E9EA4).toArgb()
+                        textAlign = Paint.Align.CENTER
+                        isFakeBoldText = false
+                    }
+                )
+
+                drawText(
+                    "Temperature",
+                    center.x,
+                    center.y + 50.dp.toPx(),
+                    Paint().apply {
+                        textSize = 14.sp.toPx()
+                        color = Color(0xFF9E9EA4).toArgb()
+                        textAlign = Paint.Align.CENTER
+                        isFakeBoldText = false
+                    }
+                )
+            }
+        }
 
         drawCircle(
             color = Color.White,

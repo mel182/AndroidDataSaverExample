@@ -111,6 +111,7 @@ fun DrawScope.drawStartPositionIndicatorLine(
     )
 
     drawLine(
+
         color = colorScheme.startPositionIndicatorColor,
         strokeWidth = startPositionIndicatorStrokeWidth.toPx(),
         start = center + offset.first,

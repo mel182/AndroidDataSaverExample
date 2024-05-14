@@ -42,17 +42,18 @@ class JetpackComposeDraggableSliderMainActivity : ComponentActivity() {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(color = Color(0xFF342E37)),
+                        .background(color = Color(0xFF191C1E)),
                     verticalArrangement = Arrangement.Center
                 ) {
 
-                    val viewHeight = (LocalConfiguration.current.screenWidthDp.dp - 90.dp)/2
+                    val viewHeight = (LocalConfiguration.current.screenWidthDp.dp - 90.dp) / 2
 
-                    Log.i("TAG12","view height: $viewHeight")
+                    Log.i("TAG12", "view height: $viewHeight")
 
-                    Box(modifier = Modifier
-                        .fillMaxWidth()
-                        .height(300.dp)
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(300.dp)
                     ) {
                         DraggableSlider(modifier = Modifier
                             .fillMaxWidth()
@@ -65,31 +66,44 @@ class JetpackComposeDraggableSliderMainActivity : ComponentActivity() {
                             }
                         )
 
-                        ConstraintLayout(modifier = Modifier.fillMaxSize().padding(bottom = 140.dp)) {
+                        ConstraintLayout(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(bottom = 140.dp)
+                        ) {
 
                             val (leftText, rightText) = createRefs()
 
                             Text(
-                            text = "16°",
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.width(45.dp).constrainAs(leftText) {
-                                start.linkTo(parent.start)
-                                bottom.linkTo(parent.bottom)
-                                width = Dimension.fillToConstraints
-                            },
-                            color = Color.White)
+                                text = "16°",
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier
+                                    .width(45.dp)
+                                    .constrainAs(leftText) {
+                                        start.linkTo(parent.start)
+                                        bottom.linkTo(parent.bottom)
+                                        width = Dimension.fillToConstraints
+                                    },
+                                color = Color.White
+                            )
 
 
                             Text(
                                 text = "32°",
                                 textAlign = TextAlign.Center,
-                                modifier = Modifier.width(45.dp).constrainAs(rightText) {
-                                    end.linkTo(parent.end)
-                                    bottom.linkTo(parent.bottom)
-                                    width = Dimension.fillToConstraints
-                                },
-                                color = Color.White)
+                                modifier = Modifier
+                                    .width(45.dp)
+                                    .constrainAs(rightText) {
+                                        end.linkTo(parent.end)
+                                        bottom.linkTo(parent.bottom)
+                                        width = Dimension.fillToConstraints
+                                    },
+                                color = Color.White
+                            )
                         }
+
+
+
                     }
 
 
