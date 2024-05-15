@@ -198,6 +198,10 @@ fun DependencyHandler.composeNavigation() {
     implementation(Dependencies.androidComposeNavigation)
 }
 
+fun DependencyHandler.composeAnimation() {
+    implementation(Dependencies.androidComposeAnimation)
+}
+
 fun DependencyHandler.composeThemeAdapter() {
     implementation(Dependencies.composeThemeAdapter)
 }
