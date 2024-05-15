@@ -3,7 +3,6 @@ package com.example.jetpackcomposedraggableslider
 import android.graphics.Paint
 import android.view.MotionEvent
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -97,7 +96,7 @@ fun DraggableSlider(
         displayedTemperatureValue = 16 + ((32-16) * (angle / 180f)).toInt()
     }
 
-    Canvas(modifier = modifier.background(color = Color.Red)
+    Canvas(modifier = modifier
         .onGloballyPositioned {
             width = it.size.width
             height = it.size.height
@@ -163,8 +162,8 @@ fun DraggableSlider(
             drawIntoCanvas {
                 drawText(
                     "16°",
-                    (center.x - radius) - 30.dp.toPx(), // 10.dp.toPx()
-                    center.y + 10.dp.toPx(), // + 45.dp.toPx() / 3f
+                    (center.x - radius) - 35.dp.toPx(),
+                    center.y + 10.dp.toPx(),
                     Paint().apply {
                         textSize = 15.sp.toPx()
                         color = Color.White.toArgb()
@@ -179,8 +178,8 @@ fun DraggableSlider(
             drawIntoCanvas {
                 drawText(
                     "32°",
-                    (center.x + radius) + 30.dp.toPx(), // (radius * 2) + 70.dp.toPx()
-                    center.y + 10.dp.toPx(), // + 45.dp.toPx() / 3f
+                    (center.x + radius) + 35.dp.toPx(),
+                    center.y + 10.dp.toPx(),
                     Paint().apply {
                         textSize = 15.sp.toPx()
                         color = Color.White.toArgb()
@@ -196,7 +195,7 @@ fun DraggableSlider(
                 drawText(
                     "$displayedTemperatureValue",
                     center.x,
-                    center.y - 10.sp.toPx(), // + 45.dp.toPx() / 3f
+                    center.y - 10.sp.toPx(),
                     Paint().apply {
                         textSize = 28.sp.toPx()
                         color = Color.White.toArgb()
