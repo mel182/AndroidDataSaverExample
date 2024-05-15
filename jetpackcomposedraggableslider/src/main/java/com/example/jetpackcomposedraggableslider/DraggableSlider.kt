@@ -1,6 +1,7 @@
 package com.example.jetpackcomposedraggableslider
 
 import android.graphics.Paint
+import android.util.Log
 import android.view.MotionEvent
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -42,7 +43,7 @@ fun DraggableSlider(
     stroke: Float = 50f,
     cap: StrokeCap = StrokeCap.Round,
     touchStroke: Float = 50f,
-    onChange: ((Float) -> Unit)? = null
+    onChange: ((Int) -> Unit)? = null
 ) {
 
     var width by remember {
@@ -69,12 +70,16 @@ fun DraggableSlider(
     var nearTheThumbIndicator by remember {
         mutableStateOf(false)
     }
+    var displayedTemperatureValue by remember {
+        mutableStateOf("16")
+    }
 
     val gradient = Brush.horizontalGradient(
         colorStops = arrayOf(
             0.0f to Color(0xFF0F0FEF),
             0.2f to Color(0xFF0F0FEF),
             0.4f to Color(0xFFFF832C),
+            0.2f to Color(0xFFFF832C),
             3.0f to Color(0xFFFF442C)
         )
     )
@@ -90,15 +95,18 @@ fun DraggableSlider(
         }
 
         appliedAngle = angle
-        onChange?.invoke(angle / 180f)
+
+        val temperatureSetPoint = 16 + ((32-16) * (angle / 180f)).toInt()
+        displayedTemperatureValue = "$temperatureSetPoint"
+        onChange?.invoke(temperatureSetPoint)
     }
 
-    Canvas(modifier = modifier
+    Canvas(modifier = modifier.background(color = Color.Red)
         .onGloballyPositioned {
             width = it.size.width
             height = it.size.height
             center = Offset(width / 2f, height / 2f)
-            radius = min(width.toFloat(), height.toFloat()) / 2f - padding - stroke / 2f
+            radius = (min(width.toFloat(), height.toFloat()) / 2f - padding - stroke / 2f)
             infoCenterCircleRadius = (radius * 0.70f)
         }
         .pointerInteropFilter {
@@ -157,7 +165,39 @@ fun DraggableSlider(
         drawContext.canvas.nativeCanvas.apply {
             drawIntoCanvas {
                 drawText(
-                    "21",
+                    "16°",
+                    (center.x - radius) - 30.dp.toPx(), // 10.dp.toPx()
+                    center.y + 10.dp.toPx(), // + 45.dp.toPx() / 3f
+                    Paint().apply {
+                        textSize = 15.sp.toPx()
+                        color = Color.White.toArgb()
+                        textAlign = Paint.Align.CENTER
+                        isFakeBoldText = true
+                    }
+                )
+            }
+        }
+
+        drawContext.canvas.nativeCanvas.apply {
+            drawIntoCanvas {
+                drawText(
+                    "32°",
+                    (center.x + radius) + 30.dp.toPx(), // (radius * 2) + 70.dp.toPx()
+                    center.y + 10.dp.toPx(), // + 45.dp.toPx() / 3f
+                    Paint().apply {
+                        textSize = 15.sp.toPx()
+                        color = Color.White.toArgb()
+                        textAlign = Paint.Align.CENTER
+                        isFakeBoldText = true
+                    }
+                )
+            }
+        }
+
+        drawContext.canvas.nativeCanvas.apply {
+            drawIntoCanvas {
+                drawText(
+                    displayedTemperatureValue,
                     center.x,
                     center.y - 10.sp.toPx(), // + 45.dp.toPx() / 3f
                     Paint().apply {
