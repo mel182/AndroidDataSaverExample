@@ -1,7 +1,6 @@
 package com.example.jetpackcomposedraggableslider
 
 import android.graphics.Paint
-import android.util.Log
 import android.view.MotionEvent
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -71,7 +70,7 @@ fun DraggableSlider(
         mutableStateOf(false)
     }
     var displayedTemperatureValue by remember {
-        mutableStateOf("16")
+        mutableIntStateOf(16)
     }
 
     val gradient = Brush.horizontalGradient(
@@ -95,10 +94,7 @@ fun DraggableSlider(
         }
 
         appliedAngle = angle
-
-        val temperatureSetPoint = 16 + ((32-16) * (angle / 180f)).toInt()
-        displayedTemperatureValue = "$temperatureSetPoint"
-        onChange?.invoke(temperatureSetPoint)
+        displayedTemperatureValue = 16 + ((32-16) * (angle / 180f)).toInt()
     }
 
     Canvas(modifier = modifier.background(color = Color.Red)
@@ -133,6 +129,7 @@ fun DraggableSlider(
                 }
 
                 MotionEvent.ACTION_UP -> {
+                    onChange?.invoke(displayedTemperatureValue)
                     nearTheThumbIndicator = false
                 }
 
@@ -197,7 +194,7 @@ fun DraggableSlider(
         drawContext.canvas.nativeCanvas.apply {
             drawIntoCanvas {
                 drawText(
-                    displayedTemperatureValue,
+                    "$displayedTemperatureValue",
                     center.x,
                     center.y - 10.sp.toPx(), // + 45.dp.toPx() / 3f
                     Paint().apply {
