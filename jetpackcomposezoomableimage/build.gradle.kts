@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.jetpackcompose.pinchzoongesture"
+    namespace = "com.jetpackcompose.zoomableimage"
     compileSdk = ProjectConfig.compileSdk
 
     defaultConfig {
-        applicationId = "com.jetpackcompose.pinchzoongesture"
+        applicationId = "com.jetpackcompose.zoomableimage"
         minSdk = ProjectConfig.minSdk
         targetSdk = ProjectConfig.targetSdk
         versionCode = 1
@@ -54,5 +54,6 @@ dependencies {
 
     androidComposeMaterial3DefaultDependencies()
     composeBOM()
-
+    kotlinBOM()
+    coilKt()
 }
