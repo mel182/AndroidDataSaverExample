@@ -53,6 +53,7 @@ android {
 dependencies {
 
     androidComposeMaterial3DefaultDependencies()
+    googleMaterialExtendedIcons()
     composeBOM()
     kotlinBOM()
     coilKt()

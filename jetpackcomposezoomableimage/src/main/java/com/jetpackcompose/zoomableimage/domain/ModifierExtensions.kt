@@ -1,4 +1,4 @@
-package com.jetpackcompose.zoomableimage
+package com.jetpackcompose.zoomableimage.domain
 
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.lazy.grid.LazyGridState

@@ -1,4 +1,4 @@
-package com.jetpackcompose.zoomableimage
+package com.jetpackcompose.zoomableimage.domain
 
 fun Set<Int>.addOrRemoveUpTo(
     pointerKey: Int?,

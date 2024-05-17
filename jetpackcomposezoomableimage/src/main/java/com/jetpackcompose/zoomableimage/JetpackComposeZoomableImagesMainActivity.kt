@@ -3,14 +3,10 @@ package com.jetpackcompose.zoomableimage
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import com.jetpackcompose.zoomableimage._ui.ImageList
+import com.jetpackcompose.zoomableimage.data.Photo
 import com.jetpackcompose.zoomableimage.ui.theme.DataSaverExampleAppTheme
 
 class JetpackComposeZoomableImagesMainActivity : ComponentActivity() {
@@ -19,7 +15,10 @@ class JetpackComposeZoomableImagesMainActivity : ComponentActivity() {
         //enableEdgeToEdge()
         setContent {
             DataSaverExampleAppTheme {
-
+                ImageList(photos = listOf(
+                    Photo(id = R.drawable.image_1),
+                    Photo(id = R.drawable.image_2)
+                ), modifier = Modifier.fillMaxSize())
             }
         }
     }

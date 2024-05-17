@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">JetpackComposeZoomableImage</string>
+    <string name="close">Close</string>
 </resources>
