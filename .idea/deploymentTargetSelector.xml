@@ -20,6 +20,9 @@
       <SelectionState runConfigName="JetpackComposeZoomableImagesMainActivity">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
+      <SelectionState runConfigName="jetpackcomposenavigationtypesafeexample">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
     </selectionStates>
   </component>
 </project>

@@ -130,6 +130,10 @@ fun DependencyHandler.kotlinBOM() {
     addPlatform(Dependencies.kotlinBOM)
 }
 
+fun DependencyHandler.kotlinXSerializationJson() {
+    implementation(Dependencies.kotlinXSerializationJson)
+}
+
 fun DependencyHandler.androidXDependenciesExtended() {
     implementation(Dependencies.kotlinVersion)
     implementation(Dependencies.androidxAppCompat)
@@ -406,6 +410,8 @@ interface KotlinXDependencies {
         get() = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
     val kotlinBOM
         get() = "org.jetbrains.kotlin:kotlin-bom:1.8.0"
+    val kotlinXSerializationJson
+        get() = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3"
 }
 
 interface GooglePlayDependencies {
